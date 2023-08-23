@@ -53,6 +53,6 @@ class Manager:
             obj.update(cls.Pak, force)
 
     @classmethod
-    def clean(cls):
+    def initialize(cls):
         cls.Instances.clear()
-        cls.Pak.clean()
+        cls.Pak.initialize()

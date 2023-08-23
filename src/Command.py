@@ -10,6 +10,12 @@ def check_weapon(w, s, c):
             w[i] *= c.restrict_weapon in si.job_weapons
 
 
+def early_slots(w, s, c):
+    for i, si in enumerate(s):
+        if si.is_early:
+            w[i] *= c.allow_early
+
+
 def separate_advanced_commands(w, s, c):
     for i, si in enumerate(s):
         w[i] *= c.is_advanced == si.is_advanced
@@ -83,6 +89,9 @@ class Ability(AbilitySlot):
         self.ability_set = job.JobCommandAbility[index]
         self.ability_name = self.ability_set['AbilityName'].value
         ability_set_obj = Manager.get_instance('AbilitySetData').table.get_row(self.ability_name)
+
+        self.is_early = self.weights[self.ability_name]['is_early']
+        self.allow_early = self.weights[self.ability_name]['allow_early']
     
         self.is_advanced = self.job.ID >= 8
         self.is_ex_ability = False
@@ -106,12 +115,20 @@ class Ability(AbilitySlot):
         # Data needed for generating weights
         # TODO: might need to store some of this in spreadsheet and load
         # e.g. weapon, element, divine, 1-2 slot allowed
-        # Probably best to ignore 1-2 slot allowed for now.
         # Should be able to separate divine and advanced job
         ability_db = Manager.get_instance('AbilityData')
         ability_set_db = Manager.get_instance('AbilitySetData')
         abl_set = ability_set_db.table.get_row(self.ability_name)
-        ability = ability_db.table.get_row(abl_set.BoostLv3) # Lv3 used for divine ability weapon dependency
+
+        ## Make sure an ability is found
+        # Lv3 used for divine ability weapon dependency
+        for k in ['BoostLv3', 'BoostLv2', 'BoostLv1', 'NoBoost']:
+            ability = ability_db.table.get_row(getattr(abl_set, k))
+            if ability:
+                break
+        else:
+            sys.exit('No ability found!?')
+
         self.is_divine_ability = abl_set.IsDivineAbility
         self.depend_weapon = ability.DependWeapon
         self.restrict_weapon = ability.RestrictWeapon # weapon used if physical, otherwise none
@@ -146,6 +163,8 @@ class ExAbility(Ability):
         # Data needed for shuffling
         self.ability_set = pc.AdvancedAbility[index]
         self.ability_name = self.ability_set['AbilityID'].value
+        self.is_early = self.weights[self.ability_name]['is_early']
+        self.allow_early = self.weights[self.ability_name]['allow_early']
         self.is_advanced = False
         self.is_ex_ability = True
         self.is_inventor = False
@@ -206,6 +225,9 @@ class Command(Shuffler):
         self.unused = [True] * len(self.candidates)
         self.prepare()
 
+        # All specific shuffles MUST use weights to enforce constraints
+        self.generate_weights()
+
         # Fill Armsmaster skills
         # Fills a specific slot with a random candidate
         self.random_candidate('ABI_SET_WPM_010', sword_attacks)
@@ -217,7 +239,7 @@ class Command(Shuffler):
 
         # Fill Advanced Magic
         # Chooses a random slot for a specific candidate
-        # Slots must belong to a job with at least 3 vacant slots
+        # along with 2 other slots for relevant magic abilities
         self.random_job_with_magic('ABI_SET_SCH_070') # Advanced Magic
         self.random_job_with_magic('ABI_SET_SCH_090') # Alephan's Wisdom
 
@@ -231,8 +253,7 @@ class Command(Shuffler):
         self.random_candidate('ABI_SET_INV_060', inventor_weights, inventor_check_weapon, ok_if_filled=True)
         self.random_candidate('ABI_SET_INV_070', inventor_weights, inventor_check_weapon, ok_if_filled=True)
 
-        # Finally do everything else
-        self.generate_weights()
+        # Finally shuffle everything else
         self.sampler()
 
         # Confirm done
@@ -242,7 +263,7 @@ class Command(Shuffler):
         self.finish()
 
     def generate_weights(self, *args):
-        super().generate_weights(check_weapon, Command.check_advanced, Command.check_divine, Command.check_ex_ability, *args)
+        super().generate_weights(check_weapon, early_slots, Command.check_advanced, Command.check_divine, Command.check_ex_ability, *args)
 
     def check_done(self):
         assert sum(self.vacant) == 0
@@ -267,79 +288,86 @@ class Command(Shuffler):
             self.unused[c_idx] = False
 
     def random_job_with_magic(self, cand_abil_set_name, *args):
-        idx = list(range(len(self.vacant)))
-        while True:
-            i = random.choices(idx, self.vacant, k=1)[0]
-            slot = self.slots[i]
-            job = slot.job.key
-            slot_index = []
-            for s in self.slots:
-                if s.job.key == job:
-                    if self.vacant[s.slot_index]:
-                        slot_index.append(s.slot_index)
-            if len(slot_index) >= 3:
-                break
-
-        # Pick a slot and fill it with the candidate
-        for c_idx, c in enumerate(self.candidates):
-            if c.ability_name == cand_abil_set_name:
+        # Pick a vacant slot compatible with this candidate
+        for c_idx_1, cand_1 in enumerate(self.candidates):
+            if cand_1.ability_name == cand_abil_set_name:
                 break
         else:
-            sys.exit(f'{cand_abil_set_name} not found in candidates!')
-        assert self.unused[c_idx] == True, c_idx
-        self.unused[c_idx] = False
-        s_idx = random.choices(slot_index, k=1)[0]
-        slot_index.remove(s_idx)
-        slot = self.slots[s_idx]
-        slot.copy(self.candidates[c_idx])
-        assert self.vacant[s_idx] == True, s_idx
-        self.vacant[s_idx] = False
+            sys.exit(f'{cand_abil_set_name} is not a valid candidate name')
 
-        # Filter candidates that do appropriate magic
+
         candidates = []
         for c_idx, ci in enumerate(self.candidates):
             if ci.has_magic_label and self.unused[c_idx]:
                 candidates.append((c_idx, ci))
 
-        # Pick 2 of them and fill those 2 available slots
-        random.shuffle(candidates)
-        c_idx1, cand1 = candidates[0]
-        c_idx2, cand2 = candidates[1]
-        random.shuffle(slot_index)
-        s_idx1 = slot_index[0]
-        s_idx2 = slot_index[1]
+        idx = list(range(len(self.vacant)))
+        weights_1 = [v * w for v, w in zip(self.vacant, self.weights[c_idx_1])]
+        assert sum(weights_1) > 0
+        num_attempts= 0
 
-        assert self.unused[c_idx1] == True, c_idx1
-        assert self.unused[c_idx2] == True, c_idx2
-        assert self.vacant[s_idx1] == True, s_idx1
-        assert self.vacant[s_idx2] == True, s_idx2
+        # Pick 3 slots in the same job along with 3 valid candidates
+        while True:
+            num_attempts += 1
+            s_idx_1 = random.choices(idx, weights_1, k=1)[0]
+            assert self.vacant[s_idx_1] == True
 
-        self.slots[s_idx1].copy(cand1)
-        self.slots[s_idx2].copy(cand2)
-        self.unused[c_idx1] = False
-        self.unused[c_idx2] = False
-        self.vacant[s_idx1] = False
-        self.vacant[s_idx2] = False
+            random.shuffle(candidates)
+            c_idx_2, cand_2 = candidates[0]
+            c_idx_3, cand_3 = candidates[1]
+            w_cand_2 = self.weights[c_idx_2]
+            w_cand_3 = self.weights[c_idx_3]
 
-    def random_vacant_slot(self, cand_abil_set_name, *args):
-        for c_idx, c in enumerate(self.candidates):
-            if c.ability_name == cand_abil_set_name:
-                break
-        else:
-            sys.exit(f"{cand_abil_set_name} is not a valid candidate name")
-        assert self.unused[c_idx] == True, c_idx
-        self.unused[c_idx] = False, c_idx
+            # Identify all slots belonging to job key
+            job_key = self.slots[s_idx_1].job.key
+            weights_job = []
+            for slot, is_vacant in zip(self.slots, self.vacant):
+                if is_vacant:
+                    weights_job.append(job_key == slot.job.key)
+                else:
+                    weights_job.append(False)
+            weights_job[s_idx_1] = False
 
-        candidate = self.candidates[c_idx]
-        weights = [v for v in self.vacant]
-        for f in args:
-            f(weights, self.slots, candidate)
+            # Enforce other constraints (e.g. "early" slots in a job) only for a few attempts.
+            if num_attempts < 10:
+                w = [w2 * wi for w2, wi in zip(w_cand_2, weights_job)]
+            else:
+                w = weights_Job
+            if sum(w) == 0:
+                continue
+            s_idx_2 = random.choices(idx, w, k=1)[0]
+            weights_job[s_idx_2] = False
 
-        idx = list(range(len(self.slots)))
-        s_idx = random.choices(idx, weights, k=1)[0]
-        self.slots[s_idx].copy(candidate)
-        self.vacant[s_idx] = False
+            # Enforce other constraints (e.g. "early" slots in a job) only for a few attempts.
+            if num_attempts < 10:
+                w = [w3 * wi for w3, wi in zip(w_cand_3, weights_job)]
+            else:
+                w = weights_job
+            if sum(w) == 0:
+                continue
+            s_idx_3 = random.choices(idx, w, k=1)[0]
 
+            break
+
+        assert self.vacant[s_idx_1]
+        assert self.vacant[s_idx_2]
+        assert self.vacant[s_idx_3]
+        assert self.unused[c_idx_1]
+        assert self.unused[c_idx_2]
+        assert self.unused[c_idx_3]
+
+        self.vacant[s_idx_1] = False
+        self.vacant[s_idx_2] = False
+        self.vacant[s_idx_3] = False
+        self.unused[c_idx_1] = False
+        self.unused[c_idx_2] = False
+        self.unused[c_idx_3] = False
+
+        self.slots[s_idx_1].copy(cand_1)
+        self.slots[s_idx_2].copy(cand_2)
+        self.slots[s_idx_3].copy(cand_3)
+
+    ### NB: this picks one of all valid, unused candidates to fill a vacant slot
     def random_candidate(self, slot_abil_set_name, *args, ok_if_filled=False):
         # Loop over candidates here.
         # Slot ability_names will get overwritten during shuffling.
@@ -356,8 +384,16 @@ class Command(Shuffler):
             assert self.vacant[s_idx] == True, s_idx
         self.vacant[s_idx] = False
 
+        # Generate weights: all unused candidates allowed for this slot
+        weights = []
+        assert len(self.weights) == len(self.unused)
+        for w, is_unused in zip(self.weights, self.unused):
+            if is_unused:
+                weights.append(w[s_idx])
+            else:
+                weights.append(0)
+
         slot = self.slots[s_idx]
-        weights = [u for u in self.unused]
         for f in args:
             f(weights, self.candidates, slot)
 

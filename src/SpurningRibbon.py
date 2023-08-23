@@ -36,5 +36,3 @@ class SpurningRibbon:
             add_accessory(job.key)
         elif cls.PC in PCNAMESMAP:
             add_accessory(PCNAMESMAP[cls.PC])
-        else:
-            sys.exit(f"spurning_ribbon not setup for {PlayableCharacters.SpurningRibbon}")

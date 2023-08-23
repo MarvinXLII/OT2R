@@ -13,9 +13,9 @@ class Entry:
     def __init__(self, pak):
         self.indexer = pak
         self.offset_entry = self.indexer.tell()
-        self._initialize()
+        self.initialize()
 
-    def _initialize(self):
+    def initialize(self):
         self._is_modded = False
         self._data = None
         self._sha = None
@@ -40,9 +40,6 @@ class Entry:
         assert self.return_size <= self.comp_size
         self.comp_blk_sizes = self.get_comp_blk_sizes()
         self.max_comp_blk_size = min(self.max_comp_blk_size, self.uncomp_size)
-
-    def reset(self):
-        self._initialize()
     
     def get_comp_read_size(self):
         if self.is_encrypted and self.comp_method_idx and self.comp_blk_cnt == 1:
@@ -146,7 +143,7 @@ class Entry:
             assert pak.read_uint32() == self.max_comp_blk_size
             comp_size = 0
             for start, end in offset_blocks:
-                assert pak.tell() == self.offset + start
+                # assert pak.tell() == self.offset + start
                 tmp = pak.read_bytes(end - start)
                 comp_size += len(tmp)
                 self._data += zlib.decompress(tmp)
@@ -180,6 +177,7 @@ class Entry:
         self._data = None
         self._sha_decomp = None
         self._is_modded = False
+        self._extracted = False
 
     @property
     def is_modded(self):
@@ -247,7 +245,7 @@ class Entry:
         if self.comp_method_idx > 0:
             self.max_comp_blk_size = min(0x10000, self.uncomp_size)
             self.calc_max_comp_blk_size = (self.max_comp_blk_size >> 11) << 11 == self.max_comp_blk_size
-            assert self.comp_blk_cnt > 0
+            # assert self.comp_blk_cnt > 0
         else:
             self.calc_max_comp_blk_size = False
             self.comp_blk_cnt = 0
@@ -575,11 +573,16 @@ class Pak(File):
         assert self.index_data.read_int32() == 0
 
         # Filenames
-        self.index_data.seek(self.offset_full_dir)
-        self.entry_dict, self.basename_dict = self.parse_filenames()
+        self.entry_dict = None
+        self.basename_dict = None
 
         # Other
-        self._mod = Mod()
+        self._mod = None
+
+        self.initialize()
+
+    def __eq__(self, other):
+        return self.sha_index == other.sha_index
 
     def __del__(self):
         self.data.close()
@@ -597,18 +600,25 @@ class Pak(File):
             index_data = self.data.read()
         return IndexData(index_data, offset=self.offset_index)
 
-    def clean(self):
+    def initialize(self):
         self._mod = Mod()
+        self.parse_filenames() # Done here rather than __init__ to help with mods
+        self.setup_basenames()
         for entry in self.entry_dict.values():
-            entry.reset()
+            entry.initialize()
+
+    def has_file(self, filename):
+        return filename in self.entry_dict
 
     def parse_filenames(self):
+        self.index_data.seek(self.offset_full_dir)
+
         # Map each encoded area offset to a full filename
         encoded_offset_dict = {}
         while len(encoded_offset_dict) < self.num_files:
-            numDir = self.index_data.read_uint32()
-            if numDir == 0: break
-            for _ in range(numDir):
+            num_dir = self.index_data.read_uint32()
+            if num_dir == 0: break
+            for _ in range(num_dir):
                 directory = self.mountpoint + self.index_data.read_string()
                 num_files = self.index_data.read_uint32()
                 if directory[-2:] == '//':
@@ -633,16 +643,18 @@ class Pak(File):
         assert len(entry_dict) == len(self.encoded_pak_entries)
         assert len(entry_dict) == self.num_files
 
-        # Map basenames to full filenames
-        # Done for convenience when picking files to extract
+        self.entry_dict = entry_dict
+
+    # Map basenames to full filenames
+    # Done for convenience when picking files to extract
+    def setup_basenames(self):
         basename_dict = {}
-        for filename in entry_dict:
+        for filename in self.entry_dict:
             basename = filename.split('/')[-1]
             if basename not in basename_dict:
                 basename_dict[basename] = []
             basename_dict[basename].append(filename)
-
-        return entry_dict, basename_dict
+        self.basename_dict = basename_dict
 
     def parse_pak_entries(self, index_data):
         assert self.index_data.tell() == self.offset_pak_entries
@@ -717,8 +729,8 @@ class Pak(File):
 
 class MainPak(Pak):
     def __init__(self, filename):
-        super().__init__(filename)
         self.patches = []
+        super().__init__(filename)
 
     # At the very least, filenames must belong in the main pak
     def get_full_file_path(self, filename):
@@ -737,23 +749,31 @@ class MainPak(Pak):
         for patch in self.patches[::-1]:
             for filename in patch.entry_dict:
                 data = patch.extract_file(filename)
-                self.update_data(filename, data)
+                if not self.has_file(filename):
+                    self.add_data(filename, patch)
+                else:
+                    self.update_data(filename, data)
 
     def extract_file(self, filename, include_patches=True):
         # Returns a patched file if patches have been applied.
         # Otherwise it will extract a file from the main pak.
         if include_patches:
             return super().extract_file(filename)
-        # Force extraction from the main pak.
+        # Force extraction from the main pak (via `self`).
         # This will overwrite any patches applied.
         filename = self.get_full_file_path(filename)
         self.entry_dict[filename].extract(filename, self)
         return bytearray(self.entry_dict[filename].data)
 
-    def clean(self):
-        super().clean()
+    def add_data(self, filename, patch):
+        patch.extract_file(filename)
+        self.entry_dict[filename] = patch.entry_dict[filename]
+        self._mod.add_entry(filename, self.entry_dict[filename])
+
+    def initialize(self):
+        super().initialize()
         for patch in self.patches:
-            patch.clean()
+            patch.initialize()
 
 
 class IndexData(File):

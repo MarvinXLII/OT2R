@@ -47,6 +47,7 @@ class Group(Slot):
 
 class Bosses(Shuffler):
     shuffle_by_rings = separate_by_ring
+    skip_early_bos = False
     include_mid_game_opt_bos = False
     include_late_game_opt_bos = False
     include_galdera = False
@@ -64,6 +65,10 @@ class Bosses(Shuffler):
                 candidates.append(Group(g))
 
         # Remove bosses as needed for selected options 
+        if self.skip_early_bos:
+            slots = list(filter(lambda g: not g.ring == 1, slots))
+            candidates = list(filter(lambda g: not g.ring == 1, candidates))
+
         if not self.include_mid_game_opt_bos:
             slots = list(filter(lambda g: not (g.boss_type == 'optional' and g.ring == 2), slots))
             candidates = list(filter(lambda g: not (g.boss_type == 'optional' and g.ring == 2), candidates))

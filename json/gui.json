@@ -1,0 +1,594 @@
+{
+    "Randomizer Settings": {
+	Jobs: {
+	    commandSkills: {
+		label: "Shuffle job skills"
+		class: Rando
+		attribute: command
+		builder: Command
+		default: Nothing
+		help: "Shuffles skills among jobs."
+		indent: {
+		    // commandAdvancedSeparate: {
+		    //   label: "Separately shuffle base and advanced jobs"
+		    //   class: Command
+		    //   attribute: check_advanced
+		    //   builder: separate_advanced_commands
+		    //   default: no_weights
+		    //   help: "This shuffles the Armsmaster, Arcanist, Conjurer, and Inventor job skills separately from the 8 main jobs."
+		    // }
+		    // commandDivineSeparate: {
+		    //   label: "Separately shuffle divine skills"
+		    //   class: Command
+		    //   attribute: check_divine
+		    //   builder: separate_divine
+		    //   default: no_weights
+		    //   help: "This ensures each job will only get one Divine Skill."
+		    // }
+		    // commandExAbilitySeparate: {
+		    //   label: "Separately shuffle Ex Abilities"
+		    //   class: Command
+		    //   attribute: check_ex_ability
+		    //   builder: separate_ex_abilities
+		    //   default: no_weights
+		    //   help: "This ensures each job will get two Ex Abilities, and they will remain in the Ex Ability slots."
+		    // }
+		    commandWeaponAttacks: {
+			label: "Shuffle weapons used by physical attack skills"
+			class: Rando
+			attribute: ability_weapons
+			builder: AbilityWeapons
+			default: Nothing
+			help: "Change weapons used by physical attacks, e.g. HP Thief could become a Staff attack rather than a Dagger attack."
+		    }
+		    commandBasicAttackWeapons: {
+			label: "Shuffle weapons PCs/jobs can equip"
+			class: Rando
+			attribute: weapons
+			builder: Weapons
+			default: Nothing
+			help: "Change weapons used by PCs and jobs, e.g. Clerics could equip a Sword and Dagger rather than a Staff. Minor changes are made to some early game enemy shields to ensure they can still be broken.\n\nNB: Jobs don't have animations for all weapons, so expect these to be messed up. Optimizing weapons in settings is often wrong, selecting makeshift weapons."
+		    }
+		}
+	    }
+	    jp_costs: {
+		label: "Random JP costs"
+		class: Rando
+		attribute: jp_costs
+		builder: JPCosts
+		default: Nothing
+		help: "Randomly adjusts JP costs to learn job skills. Costs will always increase with each skill learned."
+	    }
+	    // "Nerf JP costs of advanced jobs": {
+	    // 	class: Rando
+	    // 	attribute: jp_nerf
+	    // 	builder: AdvJPNerf
+	    // 	default: Nothing
+	    // 	help: "Changes JP costs of learning abilities in advanced jobs to those of base jobs."
+	    // }
+	    sp_costs: {
+		label: "Randomly adjust SP costs"
+		class: Rando
+		attribute: sp_costs
+		builder: AbilitySP
+		default: Nothing
+		help: "Randomly adjusts SP costs of job skills by up to 30%."
+	    }
+	    ability_power: {
+		label: "Random adjust skill power"
+		class: Rando
+		attribute: ability_power
+		builder: AbilityPower
+		default: Nothing
+		help: "Randomly adjusts power of all skills by up to 30%."
+	    }
+	    supportSkills: {
+		label: "Shuffle support skills"
+		class: Rando
+		attribute: support
+		builder: Support
+		default: Nothing
+		help: "Shuffles support skills among jobs."
+		indent: {
+		    supportem_firstSlot: {
+			label: "Keep Evasive Maneuvers in first slot"
+			class: Support
+			attribute: em_first
+			builder: evasive_maneuvers_first
+			default: Nothing
+			help: "This ensures that Evasive Maneuvers will end up on a base job and in the first slot. It can be learned after earning just 1 JP."
+		    }
+		    // supportAdvancedSeparate: {
+		    //   label: "Separately shuffle base and advanced jobs"
+		    //   class: Support
+		    //   attribute: check_advanced
+		    //   builder: separate_advanced_support
+		    //   default: no_weights
+		    //   help: "This ensures each job will only get one Divine Skill."
+		    // }
+		}
+	    }
+	    stats: {
+		label: "Shuffle stats"
+		class: Rando
+		attribute: job_stats
+		builder: JobStatsRandom
+		default: Nothing
+		help: "Shuffles each PC base stat and each job bonus stat."
+	    }
+	}
+	Battles: {
+	    battlesStealMoney: {
+		label: "Shuffle leaves from Collect"
+		class: Battles
+		attribute: shuffle_steal_money
+		builder: steal_money
+		default: Nothing
+		help: "Shuffles leaves taken from enemies using the \"Collect\" command. Boss leaves are shuffled separately."
+	    }
+	    battlesStealItems: {
+		label: "Shuffle stealable items"
+		class: Battles
+		attribute: shuffle_steal_item
+		builder: steal_item
+		default: Nothing
+		help: "Shuffles stealable items from enemies. Boss items are shuffled separately."
+	    }
+	    battlesDropItems: {
+		label: "Shuffle dropped items"
+		class: Battles
+		attribute: shuffle_drop_item
+		builder: drop_item
+		default: Nothing
+		help: "Shuffles items dropped by enemies. Boss items are shuffled separately."
+	    }
+	    enemyShields: {
+		label: "Randomize enemy shields"
+		class: Rando
+		attribute: shields
+		builder: Shields
+		default: Nothing
+		help: "Randomize shield weaknesses of most random encounter enemies and main story bosses. Note that some bosses are incompatible with this and hence omitted, and optional bosses have not yet been included."
+	    }
+	    enemy_groups: {
+		label: "Shuffle random encounter groupings"
+		class: Rando
+		attribute: enemy_groups
+		builder: EnemyGroups
+		default: Nothing
+		help: "Shuffles enemy groupings in random encounters. Bosses, (most) events, and NPCs are omitted."
+	    }
+	    battlesBosses: {
+		label: "Shuffle bosses"
+		class: Rando
+		attribute: bosses
+		builder: Bosses
+		default: Nothing
+		help: "Bosses are shuffled separately in groups of early game, mid game, and late game bosses:\n\nEarly game: first chapter bosses\n\nMid game: bosses between first and final chapters\n\nLate game: final chapter bosses plus Creeping Shadow, Arcanette, and the Grotesque Monster"
+		indent: {
+		    battlesBossesSkipEarly: {
+			label: "Omit early bosses"
+			class: Bosses
+			attribute: skip_early_bos
+			builder: True
+			default: False
+			help: "Don't shuffle early bosses."
+		    }
+		    battlesBossesMidAndLate: {
+			label: "Shuffle mid & late game bosses together"
+			class: Bosses
+			attribute: shuffle_by_rings
+			builder: separate_ring_one
+			default: separate_by_ring
+			help: "Shuffles mid game and late game bosses together, rather than separately."
+		    }
+		    battlesBossesOptionalMidGame: {
+			label: "Include mid game optional bosses"
+			class: Bosses
+			attribute: include_mid_game_opt_bos
+			builder: True
+			default: False
+			help: "Includes the following optional bosses as mid game bosses: Auðnvarg, Battle-Worn Shark, Carnivorous Plant, Delsta Devil, Devourer of Dreams, Gigantes, Gken, Ichchadhari the Snake Charmer, Lord of the Sands, Manymaws, Monarch, Ruffian Leader, Scourge of the Sea, and Tyran the Seeker."
+		    }
+		    battlesBossesOptionalLateGame: {
+			label: "Include late game optional bosses"
+			class: Bosses
+			attribute: include_late_game_opt_bos
+			builder: True
+			default: False
+			help: "Includes the following optional bosses as late game bosses: Behemoth, Deep One, Dreadwolf, Heavenwing, Priestess Hinoekagura, and Tyrannodrake."
+		    }
+		    battlesBossesVide: {
+			label: "Include Vide the Wicked"
+			class: Bosses
+			attribute: include_vide
+			builder: True
+			default: False
+			help: "Includes Vide the Wicked as a late game boss.\n\nVide causes softlocks and is omitted."
+		    }
+		    battlesBossesGaldera: {
+			label: "Include Galdera"
+			class: Bosses
+			attribute: include_galdera
+			builder: True
+			default: False
+			help: "Includes both of Galdera's phases as late game bosses."
+		    }
+		}
+	    }
+	    // "Shuffle Bribed Leaves": {
+	    // 	class: Battles
+	    // 	attribute: shuffle_bribe_money
+	    // 	builder: bribe_money
+	    // 	default: Nothing
+	    // 	help: "Shuffles leaves that can be bribed from enemies. Boss bribes are shuffled separately."
+	    // }
+	    
+	    
+	}
+	Items: {
+	    items: {
+		label: "Shuffle items"
+		class: Rando
+		attribute: treasures
+		builder: Treasures
+		default: Nothing
+		help: "Shuffle chest items, hidden items, and items from NPCs. By default, all Knowledge and Valuable items are kept in their original spots."
+		indent: {
+		    itemsinclude_rusty_weapons: {
+			label: "Include rusty weapons"
+			class: Treasures
+			attribute: include_rusty_weapons
+			builder: True
+			default: False
+			help: "Include rusty weapons in the item shuffle, including the Rusty Sword reward from the sidequest."
+		    }
+		    itemsIncludeInventor: {
+			label: "Include parts for the Inventor"
+			class: Treasures
+			attribute: include_inventor_parts
+			builder: True
+			default: False
+			help: "Include Valuable items needed by the inventor: Rainbow Glass Bottle, Mythical Horn, Tin Toy, Scrap Metal, Ancient Cog, and Natural Magnetite."
+		    }
+		    itemsLicenses: {
+			label: "Include job licenses"
+			class: Treasures
+			attribute: include_licenses
+			builder: True
+			default: False
+			help: "Include job licenses in the item shuffle."
+		    }
+		}
+	    }
+	    process_species: {
+		label: "Shuffle items from captures"
+		class: Rando
+		attribute: process_species
+		builder: Process
+		default: Nothing
+		help: "Shuffles jerky, etc. collected when processing captured species."
+	    }
+	}
+	Guilds: {
+	    licenseRequirements: {
+		label: "Shuffle license requirements"
+		class: Guilds
+		attribute: Requirements
+		builder: shuffle_requirements
+		default: Nothing
+		help: "Shuffle requirements for gaining a second or third license, e.g. Hunter licenses could have the Merchant's 100,000 and 300,000 leaves requirements."
+	    }
+	}
+    }
+    "Other Settings": {
+	"Path Actions": {
+	    path_actionsAllure: {
+		label: "Allure 100% success rate"
+		class: PathActions
+		attribute: allure
+		builder: nerf_allure
+		default: Nothing
+		help: "Agnea can Allure NPCs with a 100% success rate."
+	    }
+	    path_actionsAmbush: {
+		label:  "Ambush at level 1"
+		class: PathActions
+		attribute: ambush
+		builder: nerf_ambush
+		default: Nothing
+		help: "Throne can ambush NPCs at any level."
+	    }
+	    path_actionsBefriend: {
+		label: "Befriend with a Healing Grape"
+		class: PathActions
+		attribute: befriend
+		builder: nerf_befriend
+		default: Nothing
+		help: "Ochette can befriend NPCs with just a Healing Grape."
+	    }
+	    path_actionsBribe: {
+		label: "Bribe for 1 leaf"
+		class: PathActions
+		attribute: bribe
+		builder: nerf_bribe
+		default: Nothing
+		help: "Hikari can Bribe information for just 1 leaf."
+	    }
+	    path_actionsChallenge: {
+		label: "Challenge at level 1"
+		class: PathActions
+		attribute: challenge
+		builder: nerf_challenge
+		default: Nothing
+		help: "Hikari can Challenge NPCs at any level."
+	    }
+	    path_actionsEntreat: {
+		label: "Entreat at level 1"
+		class: PathActions
+		attribute: entreat
+		builder: nerf_entreat
+		default: Nothing
+		help: "Agnea can perform Entreat at any level."
+	    }
+	    path_actionsGuide: {
+		label: "Guide at level 1"
+		class: PathActions
+		attribute: guide
+		builder: nerf_guide
+		default: Nothing
+		help: "Temenos can guide NPCs at any level."
+	    }
+	    path_actionsHire: {
+		label: "Hire for 1 leaf"
+		class: PathActions
+		attribute: hire
+		builder: nerf_hire
+		default: Nothing
+		help: "Partitio can hire NPCs for just 1 leaf."
+	    }
+	    path_actionsInquire: {
+		label: "Inquire at level 1"
+		class: PathActions
+		attribute: inquire
+		builder: nerf_inquire
+		default: Nothing
+		help: "Castti can Inquire information at any level."
+	    }
+	    path_actionsPurchase: {
+		label: "Purchase for 1 leaf"
+		class: PathActions
+		attribute: purchase
+		builder: nerf_purchase
+		default: Nothing
+		help: "Partitio can purchase items from NPCs for 1 leaf."
+	    }
+	    path_actionsScrutinize: {
+		label: "Scrutinize 100% success rate"
+		class: PathActions
+		attribute: scrutinize
+		builder: nerf_scrutinize
+		default: Nothing
+		help: "Osvald can Scrutinize with a 100% success rate."
+	    }
+	    path_actionsSoothe: {
+		label: "Soothe with a Healing Grape"
+		class: PathActions
+		attribute: soothe
+		builder: nerf_soothe
+		default: Nothing
+		help: "Castti can soothe NPCs with just a Healing Grape."
+	    }
+	    path_actionsSteal: {
+		label: "Steal 100% success rate"
+		class: PathActions
+		attribute: steal
+		builder: nerf_steal
+		default: Nothing
+		help: "Throne can steal items from NPCs with a 100% success rate."
+	    }
+	}
+	Battles: {
+	    battlesScaleExp: {
+		label: "Scale experience"
+		class: Battles
+		attribute: scale_exp
+		default: 1
+		type: SpinBox
+		min: 0
+		max: 100
+		increment: 1
+		help: "Scales experience gained from each enemy in battle."
+	    }
+	    battlesScaleJP: {
+		label: "Scale JP"
+		class: Battles
+		attribute: scale_jp
+		default: 1
+		type: SpinBox
+		min: 0
+		max: 100
+		increment: 1
+		help: "Scales JP gained from each enemy in battle."
+	    }
+	    battlesScaleLeaves: {
+		label: "Scale leaves"
+		class: Battles
+		attribute: scale_leaves
+		default: 1
+		type: SpinBox
+		min: 0
+		max: 100
+		increment: 1
+		help: "Scales leaves gained from each enemy in battle."
+	    }
+	    battlesScaleEnemyHP: {
+		label: "Scale enemy HP"
+		class: Battles
+		attribute: scale_enemy_hp
+		default: 1
+		type: SpinBox
+		varType: double
+		min: 0.1
+		max: 10
+		increment: 0.1
+		help: "Scales HP of enemies"
+	    }
+	    battlesScaleEnemyATK: {
+		label: "Scale enemy ATK"
+		class: Battles
+		attribute: scale_enemy_atk
+		default: 1
+		type: SpinBox
+		varType: double
+		min: 0.1
+		max: 10
+		increment: 0.1
+		help: "Scales physical attack of enemies"
+	    }
+	    battlesScaleEnemyMATK: {
+		label: "Scale enemy MATK"
+		class: Battles
+		attribute: scale_enemy_matk
+		default: 1
+		type: SpinBox
+		varType: double
+		min: 0.1
+		max: 10
+		increment: 0.1
+		help: "Scales magic attack of enemies"
+	    }
+	    battlesScaleEnemyDEF: {
+		label: "Scale enemy DEF"
+		class: Battles
+		attribute: scale_enemy_def
+		default: 1
+		type: SpinBox
+		varType: double
+		min: 0.1
+		max: 10
+		increment: 0.1
+		help: "Scales physical defense of enemies"
+	    }
+	    battlesScaleEnemyMDEF: {
+		label: "Scale enemy MDEF"
+		class: Battles
+		attribute: scale_enemy_mdef
+		default: 1
+		type: SpinBox
+		varType: double
+		min: 0.1
+		max: 10
+		increment: 0.1
+		help: "Scales magice defense of enemies"
+	    }
+	    battlesScaleEnemyACC: {
+		label: "Scale enemy ACC"
+		class: Battles
+		attribute: scale_enemy_acc
+		default: 1
+		type: SpinBox
+		varType: double
+		min: 0.1
+		max: 10
+		increment: 0.1
+		help: "Scales accuracy of enemies"
+	    }
+	    battlesScaleEnemyEVA: {
+		label: "Scale enemy EVA"
+		class: Battles
+		attribute: scale_enemy_eva
+		default: 1
+		type: SpinBox
+		varType: double
+		min: 0.1
+		max: 10
+		increment: 0.1
+		help: "Scales evasion of enemies"
+	    }
+	    battlesScaleEnemyAGI: {
+		label: "Scale enemy AGI"
+		class: Battles
+		attribute: scale_enemy_agi
+		default: 1
+		type: SpinBox
+		varType: double
+		min: 0.1
+		max: 10
+		increment: 0.1
+		help: "Scales speed of enemies"
+	    }
+	    battlesScaleEnemySP: {
+		label: "Scale Shield Points"
+		class: Battles
+		attribute: scale_enemy_sp
+		default: 1
+		type: SpinBox
+		varType: double
+		min: 0.1
+		max: 10
+		increment: 0.1
+		help: "Scales shield points of enemies"
+	    }
+	    battlesDropRates: {
+		label: "Enemies always drop items"
+		class: Battles
+		attribute: always_drop_item
+		builder: drop_item_rate
+		default: Nothing
+		help: "Enemies always drop items after battle."
+	    }
+	}
+	Miscellaneous: {
+	    spurning_ribbon: {
+		label: "Start with a Spurning Ribbon"
+		class: Rando
+		attribute: spurning_ribbon
+		builder: SpurningRibbon
+		default: Nothing
+		help: "Pick a character who starts with a Spurning Ribbon equipped."
+		type: OptionMenu
+		optionsAttr: PC
+		options: [
+		    'None',
+		    'All',
+		    'PC with EM',
+		    'Agnea',
+		    'Castti',
+		    'Hikari',
+		    'Ochette',
+		    'Osvald',
+		    'Partitio',
+		    'Temenos',
+		    'Throne',
+		]
+	    }
+	    // skip_tutorials: {
+	    // 	label: "Skip tutorial popups"
+	    // 	class: Rando
+	    // 	attribute: skip_tutorials
+	    // 	builder: SkipTutorials
+	    // 	default: Nothing
+	    // 	help: "Skip tutorial popups."
+	    // }
+	    formation_menu: {
+		label: "Formation menu always available"
+		class: InitialEvents
+		attribute: formation_menu
+		builder: formation_menu_on
+		default: Nothing
+		help: "The Formation menu in the main menu will be always be available.\n\nNB: This works by modifying flags at the start of a new game. It will not work on prior saves."
+	    }
+	    protagonist: {
+		label: "Remove protagonist from party"
+		class: InitialEvents
+		attribute: protagonist
+		builder: protagonist_unlocked
+		default: Nothing
+		help: "The protagonist will be unlocked and can be removed from your party before completing their story."
+	    }
+	}
+    }
+    // "Other Mods": {
+    // }
+}

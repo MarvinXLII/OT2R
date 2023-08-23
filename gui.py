@@ -14,6 +14,7 @@ from Utility import get_filename
 from Randomizer import Steam
 
 from Pak import Pak
+from PakMod import PatchPak
 
 MAIN_TITLE = f"Octopath Traveler II Randomizer v{RELEASE}"
 
@@ -56,7 +57,7 @@ class CreateToolTip(object):
 
 
 class Patches:
-    def __init__(self, frame):
+    def __init__(self, frame, patches=None):
         self.left_frame = tk.Frame(frame)
         self.right_frame = tk.Frame(frame)
         frame.columnconfigure(1, weight=3)
@@ -91,6 +92,7 @@ class Patches:
                 self.patches[pos], self.patches[pos-1] = self.patches[pos-1], self.patches[pos]
                 entry = self.listbox.get(pos-1)
                 self.listbox.selection_set(pos-1)
+            self.write_patch_names()
 
         def move_down():
             idxs = self.listbox.curselection()
@@ -113,6 +115,7 @@ class Patches:
                 self.patches[pos], self.patches[pos+1] = self.patches[pos+1], self.patches[pos]
                 entry = self.listbox.get(pos+1)
                 self.listbox.selection_set(pos+1)
+            self.write_patch_names()
 
         def del_patch():
             idxs = self.listbox.curselection()
@@ -130,51 +133,77 @@ class Patches:
                 title[0] = f"{num})"
                 title = ' '.join(title)
                 self.listbox.insert(pos, title)
+            self.write_patch_names()
 
-        self.move_up_button = tk.Button(self.left_frame, text='Up', command=move_up)
-        self.move_down_button = tk.Button(self.left_frame, text='Down', command=move_down)
         self.load_patch = tk.Button(self.left_frame, text='Load Mod', command=self.get_patch)
         self.del_patch = tk.Button(self.left_frame, text='Delete Mod', command=del_patch)
+        self.move_up_button = tk.Button(self.left_frame, text='Up', command=move_up)
+        self.move_down_button = tk.Button(self.left_frame, text='Down', command=move_down)
+        empty = tk.Label(self.left_frame, height=1)
 
-        self.move_up_button.grid(row=0, column=0, sticky='news')
-        self.move_down_button.grid(row=1, column=0, sticky='news')
-        self.load_patch.grid(row=2, column=0, sticky='news')
-        self.del_patch.grid(row=3, column=0, sticky='news')
+        self.load_patch.grid(row=0, column=0, sticky='news')
+        self.del_patch.grid(row=1, column=0, sticky='news')
+        empty.grid(row=2, column=0, sticky='news')
+        self.move_up_button.grid(row=3, column=0, sticky='news')
+        self.move_down_button.grid(row=4, column=0, sticky='news')
+
+        if patches:
+            for filename in patches:
+                self.load_pak(filename)
 
     def get_patch(self):
-        patch = filedialog.askopenfilename()
-        if not patch:
+        filename = filedialog.askopenfilename(filetypes=(("Pak files", "*.pak"), ("All files", "*.*")))
+        if not filename:
             return
 
-        if not os.path.isfile(patch):
+        self.load_pak(filename)
+
+    def load_pak(self, filename):
+        if not os.path.isfile(filename):
             return
+
+        patch = None
 
         try:
-            p = Pak(patch)
+            patch = PatchPak(filename)
         except:
-            print("couldn't load the patch",  patch)
+            pass
+
+        if patch is None:
+            try:
+                patch = Pak(filename)
+            except:
+                print("couldn't load the patch",  filename)
+                return
+
+        if patch not in self.patches:
+            self.patches.append(patch)
+        else:
             return
 
-        self.patches.append(Pak(patch))
-        p = os.path.split(patch)
+        p = os.path.split(filename)
         np = len(self.patches)
         self.listbox.insert(np, f"{np}) {p[-1]}")
-        
-            
+        self.write_patch_names()
+
+    def write_patch_names(self):
+        with open('previous_patches.txt', 'w') as file:
+            for pak in self.patches:
+                file.write(pak.filename + '\n')
 
 
 class GuiApplication:
-    def __init__(self, settings=None, pakfile=None):
+    def __init__(self, settings=None, pakfile=None, patches=None):
         self.master = tk.Tk()
         self.master.geometry('750x650') # width x height
         self.master.title(MAIN_TITLE)
-        self.initialize_gui()
+        self.initialize_gui(patches)
         self.initialize_settings(settings)
         self.initialize_pakfile(pakfile)
         self.master.mainloop()
 
 
-    def initialize_gui(self):
+    def initialize_gui(self, patches):
 
         self.warnings = []
         self.settings = {}
@@ -271,7 +300,9 @@ Octopath_Traveler2-WindowsNoEditor.pak
 
         if 'Other Mods' in tabs:
             other_mods = tabs['Other Mods']
-            self.patch_tab = Patches(other_mods)
+            self.patch_tab = Patches(other_mods, patches)
+        else:
+            self.patch_tab = None
 
         # For warnings/text at the bottom
         self.canvas = tk.Canvas()
@@ -438,10 +469,8 @@ Octopath_Traveler2-WindowsNoEditor.pak
         self.bottom_label('Randomizing....', 'blue', 0)
 
         # Link patches -- list from highest to lowest priority
-        try:
-            self.mod.pak.patches = self.patch_tab.patches
-        except:
-            pass
+        if self.patch_tab:
+            self.mod.add_patches(self.patch_tab.patches)
 
         if randomize(self.mod, settings):
             self.clear_bottom_labels()
@@ -484,9 +513,15 @@ if __name__ == '__main__':
         with open('previous_pak.txt', 'r') as file:
             pakfile = file.readline().rstrip('\n').rstrip('\r')
 
+    patches = []
+    if os.path.isfile('previous_patches.txt'):
+        with open('previous_patches.txt', 'r') as file:
+            for line in file.read().splitlines():
+                patches.append(line)
+
     settings = None
     if settings_file:
         with open(settings_file, 'r') as file:
             settings = hjson.load(file)
 
-    GuiApplication(settings, pakfile)
+    GuiApplication(settings, pakfile, patches)

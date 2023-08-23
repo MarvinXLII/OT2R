@@ -81,7 +81,8 @@ def prevent_weapon_softlocks():
     # Temenos Coerce battles
     enemy_db.ENE_NPC_SIN_10_0400.add_weapon_weakness_to_pc(job_db.temenos)
     # SHOULD have job_db/lychees at this point
-    # enemy_db.ENE_NPC_SIN_20_100.add_weakness_to_pc(job_db.temenos)
+    enemy_db.ENE_NPC_SIN_20_100.add_weakness_to_pc(job_db.temenos)
+    enemy_db.ENE_NPC_COP_ST1_040.add_weakness_to_pc(job_db.temenos)
 
     # Ochette's Ch 1 battle with the Iguana
     enemy_db.ENE_EVE_HUN_ISD_010.add_weapon_weakness_to_pc(job_db.ochette)

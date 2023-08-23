@@ -1,0 +1,1122 @@
+{
+  ABI_SET_WAR_010:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 1
+    allow_early: 1
+  }
+  ABI_SET_WAR_020:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_WAR_030:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_WAR_040:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_WAR_050:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 1
+    allow_early: 1
+  }
+  ABI_SET_WAR_060:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_WAR_070:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_WAR_080:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_WAR_090:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_WAR_100:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_MER_010:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_MER_020:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 1
+    allow_early: 1
+  }
+  ABI_SET_MER_030:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_MER_040:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 1
+    allow_early: 1
+  }
+  ABI_SET_MER_050:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_MER_060:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_MER_070:
+  {
+    is_inventor_valid: 0
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_MER_080:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_MER_090:
+  {
+    is_inventor_valid: 0
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_MER_100:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_SCH_010:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 1
+    skip: 0
+    is_early: 1
+    allow_early: 1
+  }
+  ABI_SET_SCH_011:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 1
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_SCH_012:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 1
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_SCH_020:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 1
+    skip: 0
+    is_early: 1
+    allow_early: 1
+  }
+  ABI_SET_SCH_021:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 1
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_SCH_022:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 1
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_SCH_030:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 1
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_SCH_031:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 1
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_SCH_032:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 1
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_SCH_040:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_SCH_050:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_SCH_060:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_SCH_070:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_SCH_080:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_SCH_090:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_SCH_100:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 1
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_SCH_101:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 1
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_SCH_102:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 1
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_DAN_010:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 1
+    allow_early: 1
+  }
+  ABI_SET_DAN_020:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 1
+    allow_early: 1
+  }
+  ABI_SET_DAN_030:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_DAN_040:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_DAN_050:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_DAN_060:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_DAN_070:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_DAN_080:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_DAN_090:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_DAN_100:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_HUN_010:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 1
+    allow_early: 1
+  }
+  ABI_SET_HUN_020:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 1
+    allow_early: 1
+  }
+  ABI_SET_HUN_030:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_HUN_040:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_HUN_050:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_HUN_060:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_HUN_070:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_HUN_080:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_HUN_090:
+  {
+    is_inventor_valid: 0
+    has_magic_label: 0
+    skip: 1
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_HUN_100:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_THI_010:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 1
+    allow_early: 1
+  }
+  ABI_SET_THI_020:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 1
+    allow_early: 1
+  }
+  ABI_SET_THI_030:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_THI_040:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_THI_050:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_THI_060:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_THI_070:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_THI_080:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_THI_090:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_THI_100:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_CLE_010:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 1
+    skip: 0
+    is_early: 1
+    allow_early: 1
+  }
+  ABI_SET_CLE_011:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 1
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_CLE_012:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 1
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_CLE_020:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 1
+    allow_early: 1
+  }
+  ABI_SET_CLE_030:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 1
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_CLE_031:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 1
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_CLE_032:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 1
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_CLE_040:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_CLE_050:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_CLE_060:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_CLE_061:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_CLE_062:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_CLE_063:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_CLE_070:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 1
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_CLE_071:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 1
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_CLE_072:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 1
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_CLE_080:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 1
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_CLE_081:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 1
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_CLE_082:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 1
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_CLE_090:
+  {
+    is_inventor_valid: 0
+    has_magic_label: 1
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_CLE_091:
+  {
+    is_inventor_valid: 0
+    has_magic_label: 0
+    skip: 1
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_CLE_092:
+  {
+    is_inventor_valid: 0
+    has_magic_label: 0
+    skip: 1
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_CLE_100:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_APO_010:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 1
+    allow_early: 1
+  }
+  ABI_SET_APO_020:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_APO_030:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 1
+    allow_early: 1
+  }
+  ABI_SET_APO_040:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_APO_050:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_APO_060:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_APO_061:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_APO_070:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_APO_080:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_APO_090:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_APO_100:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_WPM_010:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_WPM_020:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_WPM_030:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_WPM_040:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_WPM_050:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_WPM_060:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_WPM_070:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_WPM_080:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_WIZ_010:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 1
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_WIZ_011:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 1
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_WIZ_012:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 1
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_WIZ_020:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 1
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_WIZ_021:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 1
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_WIZ_022:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 1
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_WIZ_030:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 1
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_WIZ_031:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 1
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_WIZ_032:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 1
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_WIZ_040:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_WIZ_050:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_WIZ_060:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_WIZ_070:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 1
+  }
+  ABI_SET_WIZ_080:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_SHA_010:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_SHA_020:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_SHA_030:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_SHA_040:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_SHA_050:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_SHA_060:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_SHA_070:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_SHA_080:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_INV_010:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_INV_020:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_INV_030:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_INV_040:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_INV_050:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_INV_060:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_INV_070:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 0
+    is_early: 0
+    allow_early: 0
+  }
+  ABI_SET_INV_080:
+  {
+    is_inventor_valid: 1
+    has_magic_label: 0
+    skip: 1
+    is_early: 0
+    allow_early: 0
+  }
+}

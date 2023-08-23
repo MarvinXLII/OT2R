@@ -87,7 +87,7 @@ class EnemyGroups(Randomizer):
 
         # Update shields given PCs as needed (ring 1 only)
         for group in self.enemy_group_db:
-            group.update_weakness_to_pcs()
+            group.update_weakness_to_pcs(weapon_only=True)
 
     def generate_weights(self):
         def group_by_level(w, c, s):

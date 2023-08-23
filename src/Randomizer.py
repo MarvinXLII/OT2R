@@ -65,8 +65,11 @@ class Rando:
     def __init__(self, pakfile):
         Manager.Pak = MainPak(pakfile)
 
+    def add_patches(self, patch_list):
+        Manager.Pak.patches = patch_list
+
     def initialize(self, seed):
-        Manager.clean()
+        Manager.initialize()
         Manager.Pak.apply_patches()
 
         self._seed = RNGSeed(seed)
