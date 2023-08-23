@@ -2,6 +2,7 @@ import random
 from Utility import WEAPONS, get_filename
 from Shuffler import Shuffler, Slot, noWeights
 from Assets import Data
+from DataTable import DataTable
 import hjson
 
 def CheckWeapon(w, s, c):
@@ -300,27 +301,27 @@ class Command(Shuffler):
         candidates = []
         for cIdx, ci in enumerate(self.candidates):
             if ci.hasMagicLabel and self.unused[cIdx]:
-                candidates.append(ci)
+                candidates.append((cIdx, ci))
 
         # Pick 2 of them and fill those 2 available slots
         random.shuffle(candidates)
-        cand1 = candidates[0]
-        cand2 = candidates[1]
+        cIdx1, cand1 = candidates[0]
+        cIdx2, cand2 = candidates[1]
         random.shuffle(slotIndex)
         sIdx1 = slotIndex[0]
         sIdx2 = slotIndex[1]
 
-        assert self.unused[cand1.slotIndex] == True, cand1.slotIndex
-        assert self.unused[cand2.slotIndex] == True, cand2.slotIndex
+        assert self.unused[cIdx1] == True, cIdx1
+        assert self.unused[cIdx2] == True, cIdx2
         assert self.vacant[sIdx1] == True, sIdx1
         assert self.vacant[sIdx2] == True, sIdx2
 
         self.slots[sIdx1].copy(cand1)
         self.slots[sIdx2].copy(cand2)
-        self.unused[cand1.slotIndex] == False
-        self.unused[cand2.slotIndex] == False
-        self.vacant[sIdx1] == False
-        self.vacant[sIdx2] == False
+        self.unused[cIdx1] = False
+        self.unused[cIdx2] = False
+        self.vacant[sIdx1] = False
+        self.vacant[sIdx2] = False
 
     def randomVacantSlot(self, candAbilSetName, *args):
         for cIdx, c in enumerate(self.candidates):
@@ -459,3 +460,15 @@ class Command(Shuffler):
         # Does divine ability stuff need to be updated???
         # Is here a good place to do that???
 
+
+        # Update inventor data
+        inventorData = DataTable.getInstance('InventorInventionQuestDB').table
+        inventorAbilities = self.jobDB.table.eINVENTOR.JobCommandAbility
+        inventorData.INVENTION_ITEM_01.LearnAbilitylabel = inventorAbilities[0]['AbilityName'].value
+        inventorData.INVENTION_ITEM_02.LearnAbilitylabel = inventorAbilities[1]['AbilityName'].value
+        inventorData.INVENTION_ITEM_03.LearnAbilitylabel = inventorAbilities[2]['AbilityName'].value
+        inventorData.INVENTION_ITEM_04.LearnAbilitylabel = inventorAbilities[3]['AbilityName'].value
+        inventorData.INVENTION_ITEM_05.LearnAbilitylabel = inventorAbilities[4]['AbilityName'].value
+        inventorData.INVENTION_ITEM_06.LearnAbilitylabel = inventorAbilities[5]['AbilityName'].value
+        inventorData.INVENTION_ITEM_07.LearnAbilitylabel = inventorAbilities[6]['AbilityName'].value
+        # inventorData.INVENTION_ITEM_08.LearnAbilityLabel = .... ### Always kept last; maybe later shuffle within the inventor class

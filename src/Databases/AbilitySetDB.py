@@ -63,9 +63,9 @@ class AbilitySet(Row):
     @property
     def weapon(self):
         if self.boostLevels:
-            if self.boostLevels[0].weapon != self.boostLevels[-1].weapon:
-                print("Weapons differ:", self.boostLevels[0].weapon, self.boostLevels[-1].weapon)
-            return self.boostLevels[0].weapon
+            return self.boostLevels[-1].weapon
+            # if self.boostLevels[0].weapon != self.boostLevels[-1].weapon:
+            #     print("Weapons differ:", self.boostLevels[0].weapon, self.boostLevels[-1].weapon)
 
     @weapon.setter
     def weapon(self, newWeapon):
@@ -112,6 +112,7 @@ class AbilitySet(Row):
     def makeInventor(self):
         self.InventorTurn = random.choices([1, 2, 3], [60, 30, 10], k=1)[0]
         self.MenuType = 'ECOMMAND_MENU_TYPE::eINVENTOR_ITEM'
+        self.spCost = 0
         for ability in self.boostLevels:
             ability.makeInventor()
 
@@ -119,6 +120,7 @@ class AbilitySet(Row):
         self.InventorTurn = 0
         self.MenuType = 'ECOMMAND_MENU_TYPE::eCOMMAND'
         self.spCost = 5 * random.randint(3, 6)  # 15 - 30
+        assert self.spCost > 0
         for ability in self.boostLevels:
             ability.makeNotInventor()
 
@@ -134,25 +136,25 @@ class AbilitySet(Row):
         v  = AbilitySet.weaponToRW[self.vanillaWeapon]
         vu = v.capitalize()
         w = AbilitySet.weaponToRW[self.weapon]
-        wu = self.weapon.capitalize()
+        wu = w.capitalize()
         s = ''
         n = ''
         for x in [' ', 's ', ': ', 's: ']:
-            if lst[0].inString(f'{v}{x}'):
+            if lst[-1].inString(f'{v}{x}'):
                 s = f'{v}{x}'
                 n = f'{w}{x}'
                 break
-            elif lst[0].inString(f'{vu}{x}'):
+            elif lst[-1].inString(f'{vu}{x}'):
                 s = f'{vu}{x}'
                 n = f'{wu}{x}'
                 break
             if x != ' ':
                 continue
-            if lst[0].inString(f'{x}{v}'):
+            if lst[-1].inString(f'{x}{v}'):
                 s = f'{x}{v}'
                 n = f'{x}{w}'
                 break
-            elif lst[0].inString(f'{x}{vu}'):
+            elif lst[-1].inString(f'{x}{vu}'):
                 s = f'{x}{vu}'
                 n = f'{x}{wu}'
                 break
