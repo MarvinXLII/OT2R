@@ -1,0 +1,92 @@
+# -*- mode: python -*-
+
+block_cipher = None
+
+a = Analysis(
+    [
+        'gui.py',
+        'release.py',
+        'src/AbilityPower.py',
+        'src/AbilitySP.py',
+        'src/AbilityWeapons.py',
+        'src/Assets.py',
+        'src/Battles.py',
+        'src/Command.py',
+        'src/Databases/AbilityDB.py',
+        'src/Databases/AbilitySetDB.py',
+        'src/Databases/EnemyDB.py',
+        'src/Databases/EnemyGroupDB.py',
+        'src/Databases/InvadeData.py',
+        'src/Databases/ItemDB.py',
+        'src/Databases/JobDB.py',
+        'src/Databases/NPCBattleDB.py',
+        'src/Databases/NPCDB.py',
+        'src/Databases/NPCHearDB.py',
+        'src/Databases/NPCLeadDB.py',
+        'src/Databases/NPCShopDB.py',
+        'src/Databases/ObjectDB.py',
+        'src/Databases/PCDB.py',
+        'src/Databases/ShopDB.py',
+        'src/Databases/SupportDB.py',
+        # 'src/Databases/__init__.py',
+        'src/DataTable.py',
+        'src/EnemyGroups.py',
+        'src/Guilds.py',
+        'src/Image.py',
+        'src/JobStats.py',
+        'src/JP.py',
+        'src/Nothing.py',
+        'src/Pak.py',
+        'src/PathActions.py',
+        'src/ProcessedSpecies.py',
+        'src/Randomizer.py',
+        'src/Shields.py',
+        'src/Shuffler.py',
+        'src/Softlocks.py',
+        'src/Spoilers.py',
+        'src/SpurningRibbon.py',
+        'src/Support.py',
+        'src/Testing.py',
+        'src/Text.py',
+        'src/Treasures.py',
+        'src/Utility.py',
+        'src/Weapons.py',
+    ],
+    pathex=[],
+    binaries=[],
+    datas=[
+        ('json/*.json', 'json'),
+        ('image/*.bin', 'image'),
+    ],
+    hiddenimports=[],
+    hookspath=[],
+    runtime_hooks=[],
+    excludes=[],
+    win_no_prefer_redirects=False,
+    win_private_assemblies=False,
+    cipher=block_cipher,
+    noarchive=False
+)
+
+pyz = PYZ(
+    a.pure,
+    a.zipped_data,
+    cipher=block_cipher,
+    name='mybuild'
+)
+
+exe = EXE(
+    pyz,
+    a.scripts,
+    a.binaries,
+    a.zipfiles,
+    a.datas,
+    [],
+    name='OT2R.exe',
+    debug=False,
+    bootloader_ignore_signals=False,
+    strip=True,
+    upx=True,
+    runtime_tmpdir=None,
+    console=False
+)

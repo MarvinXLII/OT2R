@@ -1,0 +1,14 @@
+*.pak
+*.txt
+*~
+*.pyc
+__pycache__
+Paks*
+Octopath*
+data_*.csv
+seed_*
+*.json
+*#
+build
+dist
+mybuild
