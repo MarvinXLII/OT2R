@@ -1,20 +1,47 @@
-from Assets import Data
-from DataTable import DataTable, Row
+from DataTable import Table, Row
+from Manager import Manager
 from Utility import get_filename
 import hjson
 
-class Shop(Row):
-    placed = hjson.load(open(get_filename('json/placedShop.json'), 'r'))
+class ShopRow(Row):
+    data = hjson.load(open(get_filename('json/npcShopPlaces.json'), 'r', encoding='utf-8'))
 
     def __init__(self, *args):
         super().__init__(*args)
         self.vanilla = self.item
         self.isNPC = 'NPCBUY' in self.key
-        self.isPlaced = Shop.placed[self.key]
 
     @property
     def item(self):
-        return self.itemDB.getName(self.ItemLabel)
+        itemDB = Manager.getInstance('ItemDB').table
+        name = itemDB.getName(self.ItemLabel)
+        if name is None:
+            return 'None'
+        return name
+
+    @property
+    def isValid(self):
+        return self.data[self.key]['valid']
+
+    @property
+    def isAlwaysAccessible(self):
+        return self.data[self.key]['alwaysAccessible']
+
+    @property
+    def fromNPC(self):
+        return self.data[self.key]['npc']
+
+    @property
+    def region(self):
+        return self.data[self.key]['region']
+
+    @property
+    def location(self):
+        return self.data[self.key]['location']
+
+    @property
+    def ring(self):
+        return self.data[self.key]['ring']
 
     @property
     def dontShuffle(self):
@@ -38,15 +65,13 @@ class Shop(Row):
         ]
 
 
-class ShopDB(DataTable):
-    Row = Shop
-
-    def __init__(self):
-        super().__init__('PurchaseItemTable.uasset')
+class ShopTable(Table):
+    def __init__(self, data, rowClass):
+        super().__init__(data, rowClass)
 
         self.shops = {}
-        for row in self.table:
-            if row.isPlaced:
+        for row in self:
+            if row.isValid:
                 key = row.key
                 s = '_'.join(key.split('_')[:-1]) # remove inventory slot
                 if s not in self.shops:

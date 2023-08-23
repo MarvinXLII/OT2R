@@ -1,12 +1,12 @@
 import random
-from Assets import Data
+from Manager import Manager
 
 class AbilitySP:
     def __init__(self):
-        self.abilitySetDB = Data.getInstance('AbilitySetData')
+        self.abilitySetTable = Manager.getInstance('AbilitySetData').table
 
     def run(self):
-        for abilSet in self.abilitySetDB.jobAbilitySets:
+        for abilSet in self.abilitySetTable.jobAbilitySets:
             if abilSet.doesCostSP:
                 cost = abilSet.spCost
                 change = round(0.5 + 0.3*cost*random.random())

@@ -1,9 +1,9 @@
-from Assets import Data
-from DataTable import DataTable, Table, Row
+from Manager import Manager
+from DataTable import Table, Row
 import random
 import sys
 
-class AbilitySet(Row):
+class AbilitySetRow(Row):
     weaponToRW = {
         'sword': 'sword',
         'dagger': 'dagger',
@@ -13,20 +13,21 @@ class AbilitySet(Row):
         'rod': 'staff'
     }
 
-    # def __init__(self, abilitySet):
     def __init__(self, *args):
         super().__init__(*args)
-        gameText = Data.getInstance('GameTextEN')
-        self.abilityDB = Data.getInstance('AbilityData')
+
+        abilityDB = Manager.getInstance('AbilityData').table
+        textDB = Manager.getInstance('GameTextEN').table
+        
         self.boostLevels = []
         for b in [self.NoBoost, self.BoostLv1, self.BoostLv2, self.BoostLv3]:
-            ab = self.abilityDB.table.getRow(b)
+            ab = abilityDB.getRow(b)
             if ab:
                 self.boostLevels.append(ab)
         self.vanillaWeapon = self.weapon
         self.usesWeapon = self.vanillaWeapon != ''
-        self.detail = [gameText.table.getRow(b.Detail) for b in self.boostLevels]
-        self.displayName = [gameText.table.getRow(b.DisplayName) for b in self.boostLevels]
+        self.detail = [textDB.getRow(b.Detail) for b in self.boostLevels]
+        self.displayName = [textDB.getRow(b.DisplayName) for b in self.boostLevels]
 
     @property
     def name(self):
@@ -64,8 +65,6 @@ class AbilitySet(Row):
     def weapon(self):
         if self.boostLevels:
             return self.boostLevels[-1].weapon
-            # if self.boostLevels[0].weapon != self.boostLevels[-1].weapon:
-            #     print("Weapons differ:", self.boostLevels[0].weapon, self.boostLevels[-1].weapon)
 
     @weapon.setter
     def weapon(self, newWeapon):
@@ -110,6 +109,7 @@ class AbilitySet(Row):
         self.RestrictWeaponLabel = 'None'
 
     def makeInventor(self):
+        # TODO: make formula/json file for inventorTurns; random choices 1-3 can be too small
         self.InventorTurn = random.choices([1, 2, 3], [60, 30, 10], k=1)[0]
         self.MenuType = 'ECOMMAND_MENU_TYPE::eINVENTOR_ITEM'
         self.spCost = 0
@@ -133,9 +133,9 @@ class AbilitySet(Row):
     def _updateText(self, lst):
         if self.vanillaWeapon == self.weapon:
             return '', ''
-        v  = AbilitySet.weaponToRW[self.vanillaWeapon]
+        v  = self.weaponToRW[self.vanillaWeapon]
         vu = v.capitalize()
-        w = AbilitySet.weaponToRW[self.weapon]
+        w = self.weaponToRW[self.weapon]
         wu = w.capitalize()
         s = ''
         n = ''
@@ -164,23 +164,26 @@ class AbilitySet(Row):
             n = f'{wu}'
 
         if not s:
-            # print('Nothing to replace in ')
-            # print('    ', lst[0].TextDB)
-            # print('    ', v, ' <-- ', w)
             return
 
         if s == n:
             return
+
         for l in lst:
             l.replaceSubstring(s, n)
 
+        if 'axe' in n:
+            for l in lst:
+                l.replaceSubstring('a axe', 'an axe')
 
-class AbilitySetDB(DataTable):
-    Row = AbilitySet
-    def __init__(self):
-        super().__init__('AbilitySetData.uasset')
-        jobDB = Data.getInstance('JobData')
-        pcDB = Data.getInstance('PlayableCharacterDB')
+
+class AbilitySetTable(Table):
+
+    def __init__(self, data, rowClass):
+        super().__init__(data, rowClass)
+
+        jobDB = Manager.getInstance('JobData')
+        pcDB = Manager.getInstance('PlayableCharacterDB')
 
         # List of all ability sets on jobs (and pc for advanced abilities)
         # Need both for power scaling.
@@ -191,13 +194,13 @@ class AbilitySetDB(DataTable):
         for job in jobDB.table:
             if job.ID >= 12: break
             for abilSet in job.JobCommandAbility:
-                # row = self.table.getRow(abilSet['AbilityName'].value)
-                row = getattr(self.table, abilSet['AbilityName'].value)
+                # row = self.getRow(abilSet['AbilityName'].value)
+                row = getattr(self, abilSet['AbilityName'].value)
                 self.jobAbilitySets.append(row)
 
         for pc in pcDB.table:
             if pc.Id > 8: break
             for abilSet in pc.AdvancedAbility:
-                # row = self.table.getRow(abilSet['AbilityID'].value)
-                row = getattr(self.table, abilSet['AbilityID'].value)
+                # row = self.getRow(abilSet['AbilityID'].value)
+                row = getattr(self, abilSet['AbilityID'].value)
                 self.jobAbilitySets.append(row)

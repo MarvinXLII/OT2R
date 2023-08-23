@@ -26,6 +26,7 @@ class Shuffler:
         self.generateWeights()
         self.sampler()
         self.checkDone()
+        self.finalize()
         self.finish()
 
     def generateWeights(self, *func):
@@ -64,6 +65,10 @@ class Shuffler:
             sIdx = random.choices(idx, swv, k=1)[0]
             self.slots[sIdx].copy(candidate)
             self.vacant[sIdx] = False
+
+    # Some shufflers might require some finishing touches
+    def finalize(self):
+        pass
 
     def finish(self):
         for slot in self.slots:

@@ -1,13 +1,14 @@
 import random
 from Nothing import Nothing
-from Assets import Data
+from Manager import Manager
+
 
 def shuffler(enemies, *attributes):
     stuff = []
     stuffBosses = []
     mainEnemies = []
     bossEnemies = []
-    for enemy in enemies.table:
+    for enemy in enemies:
         if 'TEST' in enemy.key:
             continue
 
@@ -47,9 +48,8 @@ def stealMoney(enemies):
 def bribeMoney(enemies):
     shuffler(enemies, 'BribeGuard', 'BribeMoney')
 
-
 def dropItemRate(enemies):
-    for enemy in enemies.table:
+    for enemy in enemies:
         enemy.DropProbability = 100
 
 
@@ -72,7 +72,7 @@ class Battles:
     shuffleBribeMoney = Nothing
     
     def __init__(self):
-        self.enemyDB = Data.getInstance('EnemyDB')
+        self.enemyDB = Manager.getInstance('EnemyDB').table
 
     def run(self):
         # Non-random stuff
@@ -86,15 +86,25 @@ class Battles:
         Battles.shuffleBribeMoney(self.enemyDB)
 
     def _scale(self):
-        for enemy in self.enemyDB.table:
+        for enemy in self.enemyDB:
             enemy.Exp = int(Battles.scaleExp * enemy.Exp)
             enemy.JobPoint = int(Battles.scaleJP * enemy.JobPoint)
             enemy.Money = int(Battles.scaleLeaves * enemy.Money)
-            enemy.Param['HP'] = int(Battles.scaleEnemyHP * enemy.Param['HP'])
-            enemy.Param['ATK'] = int(Battles.scaleEnemyATK * enemy.Param['ATK'])
-            enemy.Param['MATK'] = int(Battles.scaleEnemyMATK * enemy.Param['MATK'])
-            enemy.Param['DEF'] = int(Battles.scaleEnemyDEF * enemy.Param['DEF'])
-            enemy.Param['MDEF'] = int(Battles.scaleEnemyMDEF * enemy.Param['MDEF'])
-            enemy.Param['ACC'] = int(Battles.scaleEnemyACC * enemy.Param['ACC'])
-            enemy.Param['EVA'] = int(Battles.scaleEnemyEVA * enemy.Param['EVA'])
-            enemy.Param['AGI'] = int(Battles.scaleEnemyAGI * enemy.Param['AGI'])
+            if enemy.dontStrengthen: # Make sure mandatory battles with weak PCs are still beatable
+                enemy.Param['HP'] = int(min(Battles.scaleEnemyHP, 1) * enemy.Param['HP'])
+                enemy.Param['ATK'] = int(min(Battles.scaleEnemyATK, 1) * enemy.Param['ATK'])
+                enemy.Param['MATK'] = int(min(Battles.scaleEnemyMATK, 1) * enemy.Param['MATK'])
+                enemy.Param['DEF'] = int(min(Battles.scaleEnemyDEF, 1) * enemy.Param['DEF'])
+                enemy.Param['MDEF'] = int(min(Battles.scaleEnemyMDEF, 1) * enemy.Param['MDEF'])
+                enemy.Param['ACC'] = int(min(Battles.scaleEnemyACC, 1) * enemy.Param['ACC'])
+                enemy.Param['EVA'] = int(min(Battles.scaleEnemyEVA, 1) * enemy.Param['EVA'])
+                enemy.Param['AGI'] = int(min(Battles.scaleEnemyAGI, 1) * enemy.Param['AGI'])
+            else:
+                enemy.Param['HP'] = int(Battles.scaleEnemyHP * enemy.Param['HP'])
+                enemy.Param['ATK'] = int(Battles.scaleEnemyATK * enemy.Param['ATK'])
+                enemy.Param['MATK'] = int(Battles.scaleEnemyMATK * enemy.Param['MATK'])
+                enemy.Param['DEF'] = int(Battles.scaleEnemyDEF * enemy.Param['DEF'])
+                enemy.Param['MDEF'] = int(Battles.scaleEnemyMDEF * enemy.Param['MDEF'])
+                enemy.Param['ACC'] = int(Battles.scaleEnemyACC * enemy.Param['ACC'])
+                enemy.Param['EVA'] = int(Battles.scaleEnemyEVA * enemy.Param['EVA'])
+                enemy.Param['AGI'] = int(Battles.scaleEnemyAGI * enemy.Param['AGI'])

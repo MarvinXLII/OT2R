@@ -1,15 +1,16 @@
 import random
-from Assets import Data 
+from Manager import Manager
+ 
 
 class JobStatsFair:
     def __init__(self):
-        self.jobDB = Data.getInstance('JobData')
-        self.pcDB = Data.getInstance('PlayableCharacterDB')
+        self.jobTable = Manager.getInstance('JobData').table
+        self.pcTable = Manager.getInstance('PlayableCharacterDB').table
 
-        jobKeys = self.jobDB.baseJobKeys + self.jobDB.advJobKeys
-        self.baseJobStats = [self.jobDB.table.getRow(jKey) for jKey in self.jobDB.baseJobKeys]
-        self.advJobStats = [self.jobDB.table.getRow(jKey) for jKey in self.jobDB.advJobKeys]
-        self.pcStats = [self.pcDB.table.getRow(pKey) for pKey in self.jobDB.baseJobKeys]
+        jobKeys = self.jobTable.baseJobKeys + self.jobTable.advJobKeys
+        self.baseJobStats = [self.jobTable.getRow(jKey) for jKey in self.jobTable.baseJobKeys]
+        self.advJobStats = [self.jobTable.getRow(jKey) for jKey in self.jobTable.advJobKeys]
+        self.pcStats = [self.pcTable.getRow(pKey) for pKey in self.jobTable.baseJobKeys]
 
     def run(self):
         self._shuffle(self.baseJobStats)

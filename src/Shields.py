@@ -1,11 +1,12 @@
 import random
 from Nothing import Nothing
-from Assets import Data
+from Manager import Manager
+
 
 class Shields:
     
     def __init__(self):
-        self.enemyDB = Data.getInstance('EnemyDB')
+        self.enemyDB = Manager.getInstance('EnemyDB')
 
     def run(self):
         for enemy in self.enemyDB.table:
@@ -174,6 +175,3 @@ class Shields:
             shields = enemy.shields
             random.shuffle(shields)
             enemy.shields = shields
-
-
-            enemy.addWeaknessToPC()

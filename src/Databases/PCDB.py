@@ -1,10 +1,11 @@
-from Assets import Data
-from DataTable import DataTable, Row
+from DataTable import Table, Row
+from Manager import Manager
 from Utility import JOBMAP, BASEJOBS, ADVJOBS
 
-class PC(Row):
+class PCRow(Row):
     @property
     def name(self):
+        textDB = Manager.getInstance('GameTextEN').table
         return self.textDB.getText(self.DisplayName)
 
     @property
@@ -24,11 +25,9 @@ class PC(Row):
         return self.AdvancedAbility[1]['AbilityID'].value
 
 
-class PCDB(DataTable):
-    Row = PC
-
-    def __init__(self):
-        super().__init__('PlayableCharacterDB.uasset')
+class PCTable(Table):
+    def __init__(self, data, rowClass):
+        super().__init__(data, rowClass)
 
         self.equipKeys = ['Sword', 'Lance', 'Dagger', 'Axe', 'Bow', 'Rod']
         self.baseJobKeys = list(BASEJOBS.keys())
@@ -42,55 +41,59 @@ class PCDB(DataTable):
                     self.firstEquipmentCandidates[eKey].append(e)
 
     def getFirstEquipment(self, jKey, eKey):
-        row = self.table.getRow(jKey)
+        row = self.getRow(jKey)
         return row.FirstEquipment[eKey]
 
     def setFirstEquipment(self, jKey, eKey, equipment):
-        row = self.table.getRow(jKey)
+        row = self.getRow(jKey)
         row.FirstEquipment[eKey] = equipment
 
     def clearFirstEquipment(self):
         for jKey in self.baseJobKeys:
-            row = self.table.getRow(jKey)
-            for eKey in row.FirstEquipment:
-                self.setFirstEquipment(jKey, eKey, 'None')
+            row = self.getRow(jKey)
+            row.FirstEquipment['Sword'] = 'None'
+            row.FirstEquipment['Lance'] = 'None'
+            row.FirstEquipment['Dagger'] = 'None'
+            row.FirstEquipment['Axe'] = 'None'
+            row.FirstEquipment['Bow'] = 'None'
+            row.FirstEquipment['Rod'] = 'None'
 
     def getMainWeapon(self, jKey):
-        row = self.table.getRow(jKey)
+        row = self.getRow(jKey)
         return row.MainWeapon
 
     def setMainWeapon(self, jKey, weapon):
-        row = self.table.getRow(jKey)
+        row = self.getRow(jKey)
         row.MainWeapon = weapon
 
     @property
     def agnea(self):
-        return self.table.getRow('eDANCER')
+        return self.getRow('eDANCER')
 
     @property
     def castti(self):
-        return self.table.getRow('eALCHEMIST')
+        return self.getRow('eALCHEMIST')
 
     @property
     def hikari(self):
-        return self.table.getRow('eFENCER')
+        return self.getRow('eFENCER')
 
     @property
     def partitio(self):
-        return self.table.getRow('eMERCHANT')
+        return self.getRow('eMERCHANT')
 
     @property
     def ochette(self):
-        return self.table.getRow('eHUNTER')
+        return self.getRow('eHUNTER')
 
     @property
     def osvald(self):
-        return self.table.getRow('ePROFESSOR')
+        return self.getRow('ePROFESSOR')
 
     @property
     def temenos(self):
-        return self.table.getRow('ePRIEST')
+        return self.getRow('ePRIEST')
 
     @property
     def throne(self):
-        return self.table.getRow('eTHIEF')
+        return self.getRow('eTHIEF')

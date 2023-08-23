@@ -1,17 +1,16 @@
-from .PCDB import PCDB
-from .JobDB import JobDB
-from .SupportDB import SupportDB
-from .ItemDB import ItemDB
-from .ObjectDB import ObjectDB
-from .ShopDB import ShopDB
-from .EnemyDB import EnemyDB
-from .EnemyGroupDB import EnemyGroupDB
-from .AbilityDB import AbilityDB
-from .AbilitySetDB import AbilitySetDB
-from .NPCShopDB import NPCShopDB
-from .NPCDB import NPCDB
-from .InvadeData import InvadeDB
-from .NPCHearDB import NPCHearData
-from .NPCLeadDB import NPCLeadData
-from .NPCBattleDB import NPCBattleData
-from .GuildDB import GuildDB
+from .TextDB import TextTable, TextRow
+from .ItemDB import ItemTable, ItemRow
+from .EnemyDB import EnemyTable, EnemyRow
+from .NPCShopDB import NPCShopTable
+from .PCDB import PCTable, PCRow
+from .JobDB import JobTable, JobRow
+from .SupportDB import SupportRow
+from .AbilityDB import AbilityTable, AbilityRow
+from .ObjectDB import ObjectTable, ObjectRow
+from .ShopDB import ShopTable, ShopRow
+from .NPCDB import NPCRow
+from .EnemyGroupDB import EnemyGroupTable, EnemyGroupRow
+from .AbilitySetDB import AbilitySetTable, AbilitySetRow
+from .InvadeData import InvadeRow
+from .GuildDB import GuildTable, GuildRow
+from .ReminiscenceSettings import ReminiscenceTable, ReminiscenceRow

@@ -4,9 +4,10 @@ import random
 from dataclasses import dataclass
 import sys
 sys.path.append('src')
+from Manager import Manager
 from Pak import Pak, MainPak
-from Assets import Data
-from Text import GameText, TalkData
+from DataTable import Row
+# from Text import GameText, TalkData
 from Nothing import Nothing
 from Image import TitleSteam
 from Spoilers import *
@@ -18,7 +19,10 @@ from DataTable import Row
 from SpurningRibbon import SpurningRibbon
 from Guilds import Guilds
 from Softlocks import *
-from Testing import Testing
+# from Testing import Testing
+from Databases import *
+from SkipTutorials import *
+from Events import InitialEvents
 
 @dataclass
 class RNGSeed:
@@ -45,22 +49,23 @@ class Rando:
     processSpecies = Nothing
     abilityWeapons = Nothing
     shields = Nothing
-    battles = Battles  # All settings are set directly to this classes attributes
+    battles = Battles
     guilds = Guilds
     enemyGroups = Nothing
     pathActions = PathActions
     spurningRibbon = Nothing
+    skipTutorials = Nothing
+    initialEvents = InitialEvents
 
     # QOL
     jpNerf = Nothing
 
     def __init__(self, pakFile):
-        self.pak = MainPak(pakFile)
-        Data.pak = self.pak
+        Manager.Pak = MainPak(pakFile)
 
     def initialize(self, seed):
-        Data.clean()
-        self.pak.applyPatches()
+        Manager.clean()
+        Manager.Pak.applyPatches()
 
         self._seed = RNGSeed(seed)
         self.outPath = f"seed_{seed}"
@@ -70,25 +75,28 @@ class Rando:
         # Title
         self.titleImage = self.title()
 
-        # Load datatables -- all stored in Data.Instances
-        GameText()
-        ItemDB()
-        EnemyDB()
-        NPCHearData()
-        NPCLeadData()
-        NPCBattleData()
-        NPCShopDB()
-        PCDB()
-        JobDB()
-        SupportDB()
-        AbilityDB()
-        ObjectDB()
-        ShopDB()
-        NPCDB()
-        EnemyGroupDB()
-        AbilitySetDB()
-        InvadeDB()
-        GuildDB()
+        # Load datatables -- all stored in Manager.Instances
+        # TODO: remove Row class attributes, rewrite tables/rows just to use Manager.getInstance as needed
+        Manager.getTable('GameTextEN', table=TextTable, row=TextRow)
+        Manager.getTable('ItemDB', table=ItemTable, row=ItemRow)
+        Manager.getTable('PurchaseItemTable', table=ShopTable, row=ShopRow)
+        Manager.getTable('NPCPurchaseData', table=NPCShopTable)
+        Manager.getTable('AbilityData', table=AbilityTable, row=AbilityRow)
+        Manager.getTable('EnemyDB', table=EnemyTable, row=EnemyRow)
+        Manager.getTable('EnemyGroupData', table=EnemyGroupTable, row=EnemyGroupRow)
+        Manager.getTable('NPCHearData')
+        Manager.getTable('NPCLeadData')
+        Manager.getTable('NPCBattleData')
+        Manager.getTable('PlayableCharacterDB', table=PCTable, row=PCRow)
+        Manager.getTable('JobData', table=JobTable, row=JobRow)
+        Manager.getTable('SupportAbilityData', row=SupportRow)
+        Manager.getTable('ObjectData', table=ObjectTable, row=ObjectRow)
+        Manager.getTable('NPCData', row=NPCRow)
+        Manager.getTable('AbilitySetData', table=AbilitySetTable, row=AbilitySetRow) # Has some dependency on Manager!
+        Manager.getTable('InvadeData', row=InvadeRow)
+        Manager.getTable('GuildData', table=GuildTable, row=GuildRow)
+        Manager.getTable('ReminiscenceSetting', table=ReminiscenceTable, row=ReminiscenceRow)
+        Manager.getTable('LinerShipRoute')
 
         # Spoiler logs
         self.spoilerJobs = SpoilerJobs(self.outPath)
@@ -122,8 +130,8 @@ class Rando:
         self._randomize(Rando.jobStats)
         self._randomize(Rando.treasures)
         self._randomize(Rando.processSpecies)
-        self._randomize(Rando.battles)
         self._randomize(Rando.enemyGroups)
+        self._randomize(Rando.battles) # Keep enemy stat scaling after groups!
 
         # Default stuff
         self.titleImage.updateTitle()
@@ -131,13 +139,15 @@ class Rando:
     def qualityOfLife(self):
         self._run(Rando.spurningRibbon) # Make sure this is done AFTER support shuffling
         self._run(Rando.pathActions)
+        self._run(Rando.skipTutorials)
+        self._run(Rando.initialEvents)
 
         # Softlock stuff, main for exp/money scaling
         if Battles.scaleLeaves == 0:
             preventMoneySoftlocks()
         if Battles.scaleExp == 0:
             preventExpSoftlocks()
-        if Rando.weapons != Nothing or Rando.shields:
+        if Rando.weapons != Nothing or Rando.shields != Nothing:
             preventWeaponSoftlocks()
 
         # Testing stuff -- must be done last
@@ -154,8 +164,8 @@ class Rando:
         self.spoilerItems.npc()
 
         # Build the patch
-        Data.updateAll()
-        Data.pak.buildPak(fileName)
+        Manager.updateAll()
+        Manager.Pak.buildPak(fileName)
 
 
 class Steam(Rando):

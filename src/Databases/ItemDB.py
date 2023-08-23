@@ -1,23 +1,19 @@
-from Assets import Data
-from DataTable import DataTable, Row
+from DataTable import Table, Row
+from Manager import Manager
 
-class Item(Row):
+class ItemRow(Row):
     def __init__(self, *args):
         super().__init__(*args)
         self.vanilla = self.name
 
     @property
     def name(self):
-        return self.textDB.getText(self.ItemNameID)
+        textDB = Manager.getInstance('GameTextEN').table
+        return textDB.getText(self.ItemNameID)
     
 
-class ItemDB(DataTable):
-    Row = Item
-
-    def __init__(self):
-        super().__init__('ItemDB.uasset')
-
+class ItemTable(Table):
     def getName(self, key):
-        row = self.table.getRow(key)
+        row = self.getRow(key)
         if row:
             return row.name

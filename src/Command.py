@@ -1,8 +1,7 @@
 import random
 from Utility import WEAPONS, get_filename
 from Shuffler import Shuffler, Slot, noWeights
-from Assets import Data
-from DataTable import DataTable
+from Manager import Manager
 import hjson
 
 def CheckWeapon(w, s, c):
@@ -69,7 +68,7 @@ def staffAttacks(w, c, s):
 
 
 class AbilitySlot(Slot):
-    weights = hjson.load(open(get_filename('json/weightsAbilitySet.json'), 'r'))
+    weights = hjson.load(open(get_filename('json/weightsAbilitySet.json'), 'r', encoding='utf-8'))
 
 
 # TODO: Clean this up!!!
@@ -83,7 +82,7 @@ class Ability(AbilitySlot):
         # Data needed for shuffling
         self.abilitySet = job.JobCommandAbility[index]
         self.abilityName = self.abilitySet['AbilityName'].value
-        abilitySetObj = Data.getInstance('AbilitySetData').table.getRow(self.abilityName)
+        abilitySetObj = Manager.getInstance('AbilitySetData').table.getRow(self.abilityName)
     
         self.isAdvanced = self.job.ID >= 8
         self.isExAbility = False
@@ -109,10 +108,10 @@ class Ability(AbilitySlot):
         # e.g. weapon, element, divine, 1-2 slot allowed
         # Probably best to ignore 1-2 slot allowed for now.
         # Should be able to separate divine and advanced job
-        abilityDB = Data.getInstance('AbilityData')
-        abilitySetDB = Data.getInstance('AbilitySetData')
+        abilityDB = Manager.getInstance('AbilityData')
+        abilitySetDB = Manager.getInstance('AbilitySetData')
         ablSet = abilitySetDB.table.getRow(self.abilityName)
-        ability = abilityDB.table.getRow(ablSet.NoBoost)
+        ability = abilityDB.table.getRow(ablSet.BoostLv3) # Lv3 used for divine ability weapon dependency
         self.isDivineAbility = ablSet.IsDivineAbility
         self.dependWeapon = ability.DependWeapon
         self.restrictWeapon = ability.RestrictWeapon # weapon used if physical, otherwise none
@@ -168,18 +167,17 @@ class Command(Shuffler):
     CheckExAbility = noWeights
     
     def __init__(self):
-        self.jobDB = Data.getInstance('JobData')
-        self.pcDB = Data.getInstance('PlayableCharacterDB')
-        self.gameText = Data.getInstance('GameTextEN')
-        self.abilitySetDB = Data.getInstance('AbilitySetData')
-        self.abilityDB = Data.getInstance('AbilityData')
+        self.jobTable = Manager.getInstance('JobData').table
+        self.pcTable = Manager.getInstance('PlayableCharacterDB').table
+        self.gameTextTable = Manager.getInstance('GameTextEN').table
+        self.abilitySetTable = Manager.getInstance('AbilitySetData').table
 
         self.slots = []
         self.candidates = []
 
         # Main 8 abilities from the jobs
         jobMap = {}
-        for job in self.jobDB.table:
+        for job in self.jobTable:
             if job.ID >= 12: break
             jobMap[job.key] = job
             for index, abilitySet in enumerate(job.JobCommandAbility):
@@ -189,7 +187,7 @@ class Command(Shuffler):
                 self.candidates.append(candidate)
 
         # Ex Abilities
-        for pc in self.pcDB.table:
+        for pc in self.pcTable:
             if pc.Id > 8: break
             for index, abilitySet in enumerate(pc.AdvancedAbility):
                 job = jobMap[pc.FirstJob.split('::')[1]]
@@ -370,14 +368,14 @@ class Command(Shuffler):
 
     def prepare(self):
         for slot in self.slots:
-            abilSet = self.abilitySetDB.table.getRow(slot.abilityName)
+            abilSet = self.abilitySetTable.getRow(slot.abilityName)
             if slot.isInventor:
                 abilSet.makeNotInventor()
                 if abilSet.SuperMagicLabel != 'None':
-                    a = self.abilitySetDB.table.getRow(abilSet.SuperMagicLabel)
+                    a = self.abilitySetTable.getRow(abilSet.SuperMagicLabel)
                     a.makeNotInventor()
                 if abilSet.HyperMagicLabel != 'None':
-                    a = self.abilitySetDB.table.getRow(abilSet.HyperMagicLabel)
+                    a = self.abilitySetTable.getRow(abilSet.HyperMagicLabel)
                     a.makeNotInventor()
 
             elif slot.isArmsMaster:
@@ -393,15 +391,15 @@ class Command(Shuffler):
 
     def finish(self):
         for slot in self.slots:
-            abilSet = self.abilitySetDB.table.getRow(slot.abilityName)
+            abilSet = self.abilitySetTable.getRow(slot.abilityName)
 
             if slot.isInventor:
                 abilSet.makeInventor()
                 if abilSet.SuperMagicLabel != 'None':
-                    a = self.abilitySetDB.table.getRow(abilSet.SuperMagicLabel)
+                    a = self.abilitySetTable.getRow(abilSet.SuperMagicLabel)
                     a.makeInventor()
                 if abilSet.HyperMagicLabel != 'None':
-                    a = self.abilitySetDB.table.getRow(abilSet.HyperMagicLabel)
+                    a = self.abilitySetTable.getRow(abilSet.HyperMagicLabel)
                     a.makeInventor()
 
             elif slot.isArmsMaster:
@@ -412,63 +410,63 @@ class Command(Shuffler):
 
         # Update text for Ex Abilities
         def getNames(pc):
-            es1 = self.abilitySetDB.table.getRow(pc.exSkillOne).name
-            es2 = self.abilitySetDB.table.getRow(pc.exSkillTwo).name
+            es1 = self.abilitySetTable.getRow(pc.exSkillOne).name
+            es2 = self.abilitySetTable.getRow(pc.exSkillTwo).name
             return es2, es1
 
         # Tested and correct!
-        es1, es2 = getNames(self.pcDB.hikari)
-        self.gameText.replaceSubstring('ED_KEN_ADVANCEABILITY_0010', 'Ultimate Stance', es1)
-        self.gameText.replaceSubstring('ED_KEN_ADVANCEABILITY_0020', 'Shinjumonjigiri', es2)
+        es1, es2 = getNames(self.pcTable.hikari)
+        self.gameTextTable.replaceSubstring('ED_KEN_ADVANCEABILITY_0010', 'Ultimate Stance', es1)
+        self.gameTextTable.replaceSubstring('ED_KEN_ADVANCEABILITY_0020', 'Shinjumonjigiri', es2)
 
         # Tested and fixed!
-        es2, es1 = getNames(self.pcDB.ochette)
+        es2, es1 = getNames(self.pcTable.ochette)
         assert es2 == 'Provoke Beasts'
-        self.gameText.replaceSubstring('ED_KAR_ADVANCEABILITY_0010', 'Indomitable Beast', es1)
-        self.gameText.replaceSubstring('ED_KAR_ADVANCEABILITY_0020', 'Provoke Beasts', es2)
+        self.gameTextTable.replaceSubstring('ED_KAR_ADVANCEABILITY_0010', 'Indomitable Beast', es1)
+        self.gameTextTable.replaceSubstring('ED_KAR_ADVANCEABILITY_0020', 'Provoke Beasts', es2)
 
         # Tested and correct!
-        es1, es2 = getNames(self.pcDB.castti)
-        self.gameText.replaceSubstring('ED_KUS_ADVANCEABILITY_0010', 'Drastic Measures', es1)
-        self.gameText.replaceSubstring('ED_KUS_ADVANCEABILITY_0020', 'Remedy', es2)
+        es1, es2 = getNames(self.pcTable.castti)
+        self.gameTextTable.replaceSubstring('ED_KUS_ADVANCEABILITY_0010', 'Drastic Measures', es1)
+        self.gameTextTable.replaceSubstring('ED_KUS_ADVANCEABILITY_0020', 'Remedy', es2)
 
         # Tested and correct!
-        es1, es2 = getNames(self.pcDB.partitio)
-        self.gameText.replaceSubstring('ED_SHO_ADVANCEABILITY_0010', 'Negotiate Schedule', es1)
-        self.gameText.replaceSubstring('ED_SHO_ADVANCEABILITY_0020', 'Share SP', es2)
+        es1, es2 = getNames(self.pcTable.partitio)
+        self.gameTextTable.replaceSubstring('ED_SHO_ADVANCEABILITY_0010', 'Negotiate Schedule', es1)
+        self.gameTextTable.replaceSubstring('ED_SHO_ADVANCEABILITY_0020', 'Share SP', es2)
 
         # Tested and fixed!
-        es2, es1 = getNames(self.pcDB.temenos)
-        self.gameText.replaceSubstring('ED_SIN_ADVANCEABILITY_0010', 'Prayer for Plenty', es1)
-        self.gameText.replaceSubstring('ED_SIN_ADVANCEABILITY_0020', 'Heavenly Shine', es2)
+        es2, es1 = getNames(self.pcTable.temenos)
+        self.gameTextTable.replaceSubstring('ED_SIN_ADVANCEABILITY_0010', 'Prayer for Plenty', es1)
+        self.gameTextTable.replaceSubstring('ED_SIN_ADVANCEABILITY_0020', 'Heavenly Shine', es2)
 
         # Tested and fixed!
-        es2, es1 = getNames(self.pcDB.osvald)
-        self.gameText.replaceSubstring('ED_GAK_ADVANCEABILITY_0010', 'Teach', es1)
-        # self.gameText.replaceSubstring('ED_GAK_ADVANCEABILITY_0020', '', '') ## TEXT IS BLANK????
+        es2, es1 = getNames(self.pcTable.osvald)
+        self.gameTextTable.replaceSubstring('ED_GAK_ADVANCEABILITY_0010', 'Teach', es1)
+        # self.gameTextTable.replaceSubstring('ED_GAK_ADVANCEABILITY_0020', '', '') ## TEXT IS BLANK????
 
         # Tested and fixed!
-        es2, es1 = getNames(self.pcDB.throne)
-        self.gameText.replaceSubstring('ED_TOU_ADVANCEABILITY_0010', 'Veil of Darkness', es1)
-        self.gameText.replaceSubstring('ED_TOU_ADVANCEABILITY_0020', 'Disguise', es2)
+        es2, es1 = getNames(self.pcTable.throne)
+        self.gameTextTable.replaceSubstring('ED_TOU_ADVANCEABILITY_0010', 'Veil of Darkness', es1)
+        self.gameTextTable.replaceSubstring('ED_TOU_ADVANCEABILITY_0020', 'Disguise', es2)
 
         # Tested and fixed!
-        es2, es1 = getNames(self.pcDB.agnea)
-        self.gameText.replaceSubstring('ED_ODO_ADVANCEABILITY_0010', 'Windy Refrain', es1)
-        # self.gameText.replaceSubstring('ED_ODO_ADVANCEABILITY_0020', '', '') ## TEXT IS BLANK??? -- Learned in battle and works without modding!
+        es2, es1 = getNames(self.pcTable.agnea)
+        self.gameTextTable.replaceSubstring('ED_ODO_ADVANCEABILITY_0010', 'Windy Refrain', es1)
+        # self.gameTextTable.replaceSubstring('ED_ODO_ADVANCEABILITY_0020', '', '') ## TEXT IS BLANK??? -- Learned in battle and works without modding!
 
         # Does divine ability stuff need to be updated???
         # Is here a good place to do that???
 
 
         # Update inventor data
-        inventorData = DataTable.getInstance('InventorInventionQuestDB').table
-        inventorAbilities = self.jobDB.table.eINVENTOR.JobCommandAbility
-        inventorData.INVENTION_ITEM_01.LearnAbilitylabel = inventorAbilities[0]['AbilityName'].value
-        inventorData.INVENTION_ITEM_02.LearnAbilitylabel = inventorAbilities[1]['AbilityName'].value
-        inventorData.INVENTION_ITEM_03.LearnAbilitylabel = inventorAbilities[2]['AbilityName'].value
-        inventorData.INVENTION_ITEM_04.LearnAbilitylabel = inventorAbilities[3]['AbilityName'].value
-        inventorData.INVENTION_ITEM_05.LearnAbilitylabel = inventorAbilities[4]['AbilityName'].value
-        inventorData.INVENTION_ITEM_06.LearnAbilitylabel = inventorAbilities[5]['AbilityName'].value
-        inventorData.INVENTION_ITEM_07.LearnAbilitylabel = inventorAbilities[6]['AbilityName'].value
-        # inventorData.INVENTION_ITEM_08.LearnAbilityLabel = .... ### Always kept last; maybe later shuffle within the inventor class
+        inventorQuestTable = Manager.getTable('InventorInventionQuestDB')
+        inventorAbilities = self.jobTable.eINVENTOR.JobCommandAbility
+        inventorQuestTable.INVENTION_ITEM_01.LearnAbilitylabel = inventorAbilities[0]['AbilityName'].value
+        inventorQuestTable.INVENTION_ITEM_02.LearnAbilitylabel = inventorAbilities[1]['AbilityName'].value
+        inventorQuestTable.INVENTION_ITEM_03.LearnAbilitylabel = inventorAbilities[2]['AbilityName'].value
+        inventorQuestTable.INVENTION_ITEM_04.LearnAbilitylabel = inventorAbilities[3]['AbilityName'].value
+        inventorQuestTable.INVENTION_ITEM_05.LearnAbilitylabel = inventorAbilities[4]['AbilityName'].value
+        inventorQuestTable.INVENTION_ITEM_06.LearnAbilitylabel = inventorAbilities[5]['AbilityName'].value
+        inventorQuestTable.INVENTION_ITEM_07.LearnAbilitylabel = inventorAbilities[6]['AbilityName'].value
+        # inventorQuestTable.INVENTION_ITEM_08.LearnAbilityLabel = .... ### Always kept last; maybe later shuffle within the inventor class

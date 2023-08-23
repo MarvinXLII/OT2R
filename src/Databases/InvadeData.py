@@ -1,7 +1,7 @@
-from Assets import Data
-from DataTable import DataTable, Row
+from DataTable import Row
+from Manager import Manager
 
-class Species(Row):
+class InvadeRow(Row):
     def __init__(self, *args):
         super().__init__(*args)
         self.vanilla = self.processedItem
@@ -9,24 +9,14 @@ class Species(Row):
     @property
     def processedItem(self):
         if self.EnableProcess:
+            itemDB = Manager.getInstance('ItemDB').table
+            item = itemDB.getName(self.ProcessedItem)
             num = self.ProcessNumID
-            item = self.itemDB.getName(self.ProcessedItem)
             if num > 1:
                 return f"{item} x{num}"
             return item
 
     @property
     def name(self):
-        return self.textDB.getText(self.DisplayName)
-    
-
-class InvadeDB(DataTable):
-    Row = Species
-
-    def __init__(self):
-        super().__init__('InvadeData.uasset')
-
-    def getName(self, key):
-        row = self.table.getRow(key)
-        if row:
-            return row.name
+        textDB = Manager.getInstance('GameTextEN').table
+        return textDB.getText(self.DisplayName)

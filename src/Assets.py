@@ -999,22 +999,21 @@ class UAsset(File):
         assert len(uasset) == size
         return uasset
 
-    # TODO: account for changes in size of old and new entries
-    def replaceIndices(self, newIndices):
-
-        # First, clear out the indices to be overwritten and store the keys to be used
-        keyDict = {}
-        for default, new in newIndices.items():
-            keyDict[default] = self.getIndex(default)
-            assert keyDict[default] < 0xFFFFFFFF
-            del self.indexName[default]
-
-        # Add all the new indices
-        for default, new in newIndices.items():
-            idx = keyDict[default]
-            id = UAsset.indexId[new]
-            self.indexName[new] = idx
-            self.index[idx] = Index(idx, new, id)
+    # This is for the rare case that an index must be replaced.
+    # It is possible for the new index to exist already, and that's ok.
+    # The old index still must be deleted and the new index must replace it.
+    def replaceIndex(self, old, new):
+        i = self.getIndex(old)
+        if new not in UAsset.indexId:
+            n = new.split('_')
+            v = n.pop()
+            assert v.isnumeric()
+            new = '_'.join(n)
+            assert new in UAsset.indexId
+        self.index[i] = Index(i, new, UAsset.indexId[new])
+        del self.indexName[old]
+        # assert new not in self.indexName
+        self.indexName[new] = i
 
     def getName(self, value):
         name = self.index[value & 0xffffffff].string
@@ -1091,21 +1090,15 @@ class UAsset(File):
         self.indexName[name2] = idx1
 
 
-# NB: This is written specifically for the files used.
-class Data:
-    pak = None
-    Instances = {}
+class DataAsset:
+    def __init__(self, pak, basename, includePatches=True):
+        print(f'Loading data from {basename}')
+        uexp = pak.extractFile(f'{basename}.uexp', includePatches)
+        uasset = pak.extractFile(f'{basename}.uasset', includePatches)
+        self.initialize(basename, uasset, uexp)
 
-    def __init__(self, filename, includePatches=True):
-        self.filename = filename
-        if '.umap' in self.filename:
-            self.filename_uexp = self.filename.replace('umap', 'uexp')
-        elif '.uasset' in self.filename:
-            self.filename_uexp = self.filename.replace('uasset', 'uexp')
-        # Load data
-        print(f'Loading data from {filename}')
-        uexp = Data.pak.extractFile(self.filename_uexp, includePatches)
-        uasset = Data.pak.extractFile(self.filename, includePatches)
+    def initialize(self, basename, uasset, uexp):
+        self.basename = basename
         self.uexp = File(uexp)
         self.uasset = UAsset(uasset, self.uexp.size)
         # Store none index
@@ -1113,11 +1106,6 @@ class Data:
         # Organize/"parse" uexp data
         self.setSwitcher()
         self.parseUExp()
-
-        # Store object to simplify rebuilding later
-        basename = self.filename.split('.')[0]
-        assert basename not in Data.Instances
-        Data.Instances[basename] = self
 
     def setSwitcher(self):
         self.switcher = {  # REPLACE WITH MATCH IN py3.10????
@@ -1208,36 +1196,51 @@ class Data:
         data += self.uexp.getInt64(self.none)
         return data
 
-    def update(self, force=False):
+    def update(self, pak, force=False):
         # Build data
         uasset, uexp = self.build()
         self.uasset.setData(uasset)
         self.uexp.setData(uexp)
         # Patch pak
-        Data.pak.updateData(self.filename, uasset, force=force)
-        Data.pak.updateData(self.filename_uexp, uexp, force=force)
+        pak.updateData(f'{self.basename}.uasset', uasset, force=force)
+        pak.updateData(f'{self.basename}.uexp', uexp, force=force)
 
-    @classmethod
-    def updateAll(cls, force=False):
-        for key, obj in cls.Instances.items():
-            print('Updating', key)
-            obj.update(force)
 
-    @classmethod
-    def getInstance(cls, basename):
-        if basename not in cls.Instances:
-            try:
-                cls(f"{basename}.umap")
-            except:
-                pass
-            try:
-                cls(f"{basename}.uasset")
-            except:
-                pass
-            assert basename in cls.Instances, f"{basename} cannot be loaded!"
-        return cls.Instances[basename]
+# The ONLY difference between this and its parent is the extension umap rather than uasset.
+class DataMap(DataAsset):
+    def __init__(self, pak, basename, includePatches=True):
+        print(f'Loading data from {basename}')
+        uexp = pak.extractFile(f'{basename}.uexp', includePatches)
+        umap = pak.extractFile(f'{basename}.umap', includePatches)
+        self.initialize(basename, umap, uexp)
 
-    @classmethod
-    def clean(cls):
-        cls.Instances.clear()
-        cls.pak.clean()
+    def update(self, pak, force=False):
+        # Build data
+        uasset, uexp = self.build()
+        self.uasset.setData(uasset)
+        self.uexp.setData(uexp)
+        # Patch pak
+        pak.updateData(f'{self.basename}.umap', uasset, force=force)
+        pak.updateData(f'{self.basename}.uexp', uexp, force=force)
+
+
+# AssetOnly --> parse asset only
+# It still allows for editing asset and export files.
+class DataAssetOnly:
+    def __init__(self, pak, basename, includePatches=True):
+        self.basename = basename
+        self.uexp = pak.extractFile(f'{basename}.uexp', includePatches)
+        uasset = pak.extractFile(f'{basename}.uasset', includePatches)
+        self.uasset = UAsset(uasset, len(self.uexp))
+
+    def patchInt32(self, addr, value):
+        self.uexp[addr:addr+4] = value.to_bytes(4, byteorder='little')
+
+    def patchInt64(self, addr, value):
+        self.uexp[addr:addr+8] = value.to_bytes(8, byteorder='little')
+
+    def update(self, pak, force=False):
+        uasset = self.uasset.build(len(self.uexp))
+        self.uasset.setData(uasset)
+        pak.updateData(f'{self.basename}.uasset', uasset, force=force)
+        pak.updateData(f'{self.basename}.uexp', self.uexp, force=force)

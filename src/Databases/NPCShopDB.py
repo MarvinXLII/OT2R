@@ -1,9 +1,7 @@
-from Assets import Data
-from DataTable import DataTable
+from DataTable import Table
 
-class NPCShopDB(DataTable):
-    def __init__(self):
-        super().__init__('NPCPurchaseData.uasset')
-
+class NPCShopTable(Table):
     def getNPCShop(self, key):
-        return self.table.getRow(key)
+        row = self.getRow(key)
+        if row:
+            return row

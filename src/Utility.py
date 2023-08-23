@@ -29,7 +29,7 @@ BASEJOBS = {
 }
 
 ADVJOBS = {
-    'eWEAPON_MASTER': 'Weapon Master',
+    'eWEAPON_MASTER': 'Armsmaster',
     'eWIZARD': 'Wizard',
     'eSHAMAN': 'Shaman',
     'eINVENTOR': 'Inventor',

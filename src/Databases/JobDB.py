@@ -1,17 +1,18 @@
-from Assets import Data
-from DataTable import DataTable, Row
+from DataTable import Table, Row
 from Utility import JOBMAP, BASEJOBS, ADVJOBS, PCNAMESMAP
+from Manager import Manager
 
-class Job(Row):
+class JobRow(Row):
     weaponList = ['Sword', 'Lance', 'Dagger', 'Axe', 'Bow', 'Rod']
 
     @property
     def name(self):
-        return self.textDB.getText(self.DisplayName)
+        textDB = Manager.getInstance('GameTextEN').table
+        return textDB.getText(self.DisplayName)
 
     @property
     def equippableWeapons(self):
-        return [Job.weaponList[i] for i, a in enumerate(self.ProperEquipment[:6]) if a]
+        return [self.weaponList[i] for i, a in enumerate(self.ProperEquipment[:6]) if a]
 
     @property # List of ability sets
     def commandAbilities(self):
@@ -26,80 +27,87 @@ class Job(Row):
         return 'ABI_SCH_SUP_01' in self.supportAbilities
 
     def strengths(self):
-        abilitySetData = DataTable.getInstance('AbilitySetData').table
+        abilitySetTable = Manager.getInstance('AbilitySetData').table
         weapons = self.ProperEquipment[:6]
         assert sum(weapons) < 6
         magic = [False] * 6
         for command in self.JobCommandAbility[:7]: # Skip divine ability
             key = command['AbilityName'].value
-            mIdx = abilitySetData.getRow(key).magic
+            ability = abilitySetTable.getRow(key)
+            if ability is None: continue
+            mIdx = ability.magic
             if mIdx >= 0:
                 magic[mIdx] = True
         return weapons + magic
 
+    def __lt__(self, other):
+        return self.key < other.key
 
-class JobDB(DataTable):
-    Row = Job
 
-    def __init__(self):
-        super().__init__('JobData.uasset')
+class JobTable(Table):
+    def __init__(self, data, rowClass):
+        super().__init__(data, rowClass)
         self.baseJobKeys = list(BASEJOBS.keys())
         self.advJobKeys = list(ADVJOBS.keys())
 
     def clearProperEquipmentWeapons(self):
         for jKey in self.baseJobKeys:
-            row = self.table.getRow(jKey)
+            row = self.getRow(jKey)
+            row.ProperEquipment[:6] = [False] * 6
+        for jKey in self.advJobKeys:
+            if jKey == 'eWEAPON_MASTER': continue
+            row = self.getRow(jKey)
             row.ProperEquipment[:6] = [False] * 6
 
     def getProperEquipment(self, jKey):
-        row = self.table.getRow(jKey)
+        row = self.getRow(jKey)
         return row.ProperEquipment
 
     def getParameterRevision(self, jKey):
-        row = self.table.getRow(jKey)
+        row = self.getRow(jKey)
         return row.ParameterRevision
 
     def getSupportAbilities(self, jKey):
-        row = self.table.getRow(jKey)
+        row = self.getRow(jKey)
         return row.JobSupportAbility
 
     def getCommandAbilities(self, jKey):
-        row = self.table.getRow(jKey)
+        row = self.getRow(jKey)
         return row.JobCommandAbility
 
     def getPCWeapons(self, pc):
         key = PCNAMESMAP[pc]
-        row = self.table.getRow(key)
+        row = self.getRow(key)
         return row.ProperEquipment[:6]
 
     @property
     def agnea(self):
-        return self.table.getRow('eDANCER')
+        return self.getRow('eDANCER')
 
     @property
     def castti(self):
-        return self.table.getRow('eALCHEMIST')
+        return self.getRow('eALCHEMIST')
 
     @property
     def hikari(self):
-        return self.table.getRow('eFENCER')
+        return self.getRow('eFENCER')
 
     @property
     def partitio(self):
-        return self.table.getRow('eMERCHANT')
+        return self.getRow('eMERCHANT')
 
     @property
     def ochette(self):
-        return self.table.getRow('eHUNTER')
+        return self.getRow('eHUNTER')
 
     @property
     def osvald(self):
-        return self.table.getRow('ePROFESSOR')
+        return self.getRow('ePROFESSOR')
 
     @property
     def temenos(self):
-        return self.table.getRow('ePRIEST')
+        return self.getRow('ePRIEST')
 
     @property
     def throne(self):
-        return self.table.getRow('eTHIEF')
+        return self.getRow('eTHIEF')

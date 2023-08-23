@@ -1,8 +1,8 @@
-from Assets import Data
-from DataTable import DataTable, Table, Row
+from DataTable import Table, Row
+from Manager import Manager
 
 
-class Ability(Row):
+class AbilityRow(Row):
     def __init__(self, *args):
         super().__init__(*args)
         self.vanillaAbilityRatio = self.AbilityRatio
@@ -10,7 +10,8 @@ class Ability(Row):
 
     @property
     def name(self):
-        return self.textDB.getText(self.DisplayName)
+        textDB = Manager.getInstance('GameTextEN').table
+        return textDB.getText(self.DisplayName)
 
     @property
     def weapon(self):
@@ -49,29 +50,24 @@ class Ability(Row):
         self.CostType = 'EABILITY_COST_TYPE::eMP'
 
 
-class AbilityDB(DataTable):
-    Row = Ability
-
-    def __init__(self):
-        super().__init__('AbilityData.uasset')
-
+class AbilityTable(Table):
     def getAbilityName(self, aKey):
-        row = self.table.getRow(aKey)
+        row = self.getRow(aKey)
         if row:
             return row.name
 
     def getAbilityWeapon(self, aKey):
-        row = self.table.getRow(aKey)
+        row = self.getRow(aKey)
         if row:
             return row.weapon
 
     def getAbilitySP(self, aKey):
-        row = self.table.getRow(aKey)
+        row = self.getRow(aKey)
         if row:
             return row.CostValue
 
     def getAbilityRatioChange(self, aKey):
-        row = self.table.getRow(aKey)
+        row = self.getRow(aKey)
         if row and (row.isAttack or row.isHeal):
             vanilla = row.vanillaAbilityRatio
             ratio = row.AbilityRatio

@@ -3,6 +3,7 @@ from tkinter import ttk, filedialog, Listbox
 from release import RELEASE
 import hjson
 import random
+import traceback
 import os
 import sys
 sys.path.append('src')
@@ -27,7 +28,6 @@ from Shields import Shields
 from Battles import *
 from EnemyGroups import *
 from PathActions import *
-from Testing import Testing
 from Nothing import Nothing
 from Shuffler import noWeights
 from SpurningRibbon import SpurningRibbon
@@ -35,6 +35,8 @@ from Guilds import Guilds, shuffleRequirements
 from Command import separateAdvancedCommands, separateDivine, separateExAbilities
 from Support import separateAdvancedSupport, evasiveManeuversFirst
 from Treasures import separateChapter
+from Events import InitialEvents, formationMenuOn
+from SkipTutorials import SkipTutorials
 
 MAIN_TITLE = f"Octopath Traveler II Randomizer v{RELEASE}"
 
@@ -187,7 +189,7 @@ class Patches:
 class GuiApplication:
     def __init__(self, settings=None, pakFile=None):
         self.master = tk.Tk()
-        self.master.geometry('730x580') # width x height
+        self.master.geometry('730x630') # width x height
         self.master.title(MAIN_TITLE)
         self.initialize_gui()
         self.initialize_settings(settings)
@@ -522,6 +524,7 @@ def randomize(mod, seed, settings):
         mod.dump(settings)
         return True
     except:
+        traceback.print_exc()
         mod.failed()
         return False
 

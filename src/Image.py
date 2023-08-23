@@ -1,23 +1,27 @@
-from Assets import Data
+from Manager import Manager
+from Assets import DataAsset
 from Utility import get_filename, File
 import bsdiff4
 
 
-class Image(Data):
+class Image(DataAsset):
+    def __init__(self, filename, includePatches=True):
+        self.data = Manager.getAsset(filename, includePatches=False)
+        
     @property
-    def data(self):
-        return self.uasset.exports[1].uexp2
+    def image(self):
+        return self.data.uasset.exports[1].uexp2
 
-    @data.setter
-    def data(self, data):
-        self.uasset.exports[1].uexp2 = data
+    @image.setter
+    def image(self, image):
+        self.data.uasset.exports[1].uexp2 = image
 
 
 class TitleSteam(Image):
     def __init__(self):
-        super().__init__('UiTX_Title_LogoAdd_x3.uasset', includePatches=False)
+        super().__init__('UiTX_Title_LogoAdd_x3', includePatches=False)
 
-        fdata = File(self.data)
+        fdata = File(self.image)
         fdata.seek(0x44)
         self.imageSize = fdata.readUInt32()
 
@@ -32,9 +36,9 @@ class TitleSteam(Image):
         start = -24 - self.imageSize
         end = -24
 
-        vanilla = bytes(self.data[start:end])
+        vanilla = bytes(self.image[start:end])
         mod = bsdiff4.patch(vanilla, patch)
 
-        data = bytearray(self.data)
-        data[start:end] = mod
-        self.data = data
+        image = bytearray(self.image)
+        image[start:end] = mod
+        self.image = image

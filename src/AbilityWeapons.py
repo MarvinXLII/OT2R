@@ -1,13 +1,9 @@
 import random
-from Assets import Data
+from Manager import Manager
 
 class AbilityWeapons:
     def __init__(self):
-        self.jobDB = Data.getInstance('JobData')
-        self.abilityDB = Data.getInstance('AbilityData')
-        self.abilitySetDB = Data.getInstance('AbilitySetData')
-        self.gameText = Data.getInstance('GameTextEN')
-
+        self.abilitySetTable = Manager.getInstance('AbilitySetData').table
         self.abilities = None
         self.bins = None
 
@@ -20,7 +16,7 @@ class AbilityWeapons:
     # Generate a list of abilities using weapons
     def _filterAbilities(self):
         self.abilities = []
-        for abilSet in self.abilitySetDB.jobAbilitySets:
+        for abilSet in self.abilitySetTable.jobAbilitySets:
             if abilSet.usesWeapon:
                 self.abilities.append(abilSet)
 

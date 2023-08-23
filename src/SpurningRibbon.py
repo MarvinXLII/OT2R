@@ -1,7 +1,7 @@
 import random
 from Utility import WEAPONS, PCNAMESMAP
 from Shuffler import Shuffler, Slot, noWeights
-from Assets import Data
+from Manager import Manager
 import sys
 
 class SpurningRibbon:
@@ -9,20 +9,20 @@ class SpurningRibbon:
 
     @classmethod
     def run(cls):
-        pcDB = Data.getInstance('PlayableCharacterDB')
+        pcTable = Manager.getInstance('PlayableCharacterDB').table
         def addAccessory(pcKey):
-            pc = pcDB.table.getRow(pcKey)
+            pc = pcTable.getRow(pcKey)
             pc.FirstEquipment['Accessory_00'] = 'ITM_EQP_ACS_031'
 
         if cls.PC == 'All':
             for pcKey in PCNAMESMAP.values():
                 addAccessory(pcKey)
             # Set sell price to 1 so people won't abuse it
-            itemDB = Data.getInstance('ItemDB')
-            itemDB.table.ITM_EQP_ACS_031.SellPrice = 1
+            itemTable = Manager.getInstance('ItemDB').table
+            itemTable.ITM_EQP_ACS_031.SellPrice = 1
         elif cls.PC == 'PC with EM':
-            jobDB = Data.getInstance('JobData')
-            for row in jobDB.table:
+            jobTable = Manager.getInstance('JobData').table
+            for row in jobTable:
                 if row.hasEvasiveManeuvers:
                     addAccessory(row.key)
                     break
@@ -32,4 +32,3 @@ class SpurningRibbon:
             addAccessory(PCNAMESMAP[cls.PC])
         else:
             sys.exit(f"spurningRibbon not setup for {PlayableCharacters.SpurningRibbon}")
-

@@ -1,4 +1,4 @@
-from Assets import Data
+from Manager import Manager
 import os
 import sys
 import hjson
@@ -11,13 +11,8 @@ import hjson
 class SpoilerItems:
     def __init__(self, outPath):
         self.outPath = outPath
-        self.gameText = Data.getInstance('GameTextEN')
-        self.itemData = Data.getInstance('ItemDB')
-        self.objectData = Data.getInstance('ObjectData')
-        self.npcData = Data.getInstance('NPCData')
-        self.shopDB = Data.getInstance('PurchaseItemTable')
-        with open(get_filename('json/treasure.json'), 'r', encoding='utf-8') as file:
-            self.locations = hjson.load(file)
+        self.objectData = Manager.getInstance('ObjectData').table
+        self.shopDB = Manager.getInstance('PurchaseItemTable').table
 
     def chests(self):
         outfile = os.path.join(self.outPath, 'spoiler_chests.txt')
@@ -29,26 +24,41 @@ class SpoilerItems:
             maxLength = max(maxLength, len(chest.vanilla))
             maxLength = max(maxLength, len(chest.item))
         maxLength += 5
-        
+
+        data = {}
         for chest in chests:
-            if not chest.isPlaced:
-                continue
-            if chest.key not in self.locations:
-                loc = "UNKNOWN LOCATION"
-            else:
-                loc = self.locations[chest.key]
-            if chest.vanilla == '':
-                assert chest.item == ''
-                continue
-            v = chest.vanilla.rjust(maxLength, ' ')
-            i = chest.item.ljust(maxLength, ' ')
-            if chest.item != chest.vanilla:
-                # print(chest.key, loc, v, ' <-- ', i)
-                print(loc, v, ' <-- ', i)
-            else:
-                # print(chest.key, loc, v)
-                print(loc, v)
-        
+            reg = chest.region
+            loc = chest.location
+            if not reg in data:
+                data[reg] = {}
+            if not loc in data[reg]:
+                data[reg][loc] = []
+            data[reg][loc].append(chest)
+
+        regions = sorted(data.keys())
+        for reg in regions:
+            print('='*(len(reg)+2))
+            print('', reg)
+            print('='*(len(reg)+2))
+            print('')
+            locations = sorted(data[reg].keys())
+            for loc in locations:
+                data[reg][loc].sort(key=lambda x: x.vanilla)
+                print(' '*3, loc)
+                print('')
+                for chest in data[reg][loc]:
+                    v = chest.vanilla.rjust(maxLength, ' ')
+                    if chest.vanilla == chest.item:
+                        # print(' '*6, v, chest.key)
+                        print(' '*6, v)
+                    else:
+                        # print(' '*6, v, ' <-- ', chest.item, chest.key)
+                        print(' '*6, v, ' <-- ', chest.item)
+                print('')
+                print('')
+            print('')
+            print('')
+
         sys.stdout = sys.__stdout__
 
     def hidden(self):
@@ -56,83 +66,112 @@ class SpoilerItems:
         sys.stdout = open(outfile, 'w', encoding='utf-8')
 
         hidden = self.objectData.getHidden()
-        maxLength = 0
+        maxVanillaLength = 0
+        maxNPCLength = 0
         for h in hidden:
-            maxLength = max(maxLength, len(h.vanilla))
-            maxLength = max(maxLength, len(h.item))
-        maxLength += 5
-        
-        for h in hidden:
-            if not h.isPlaced:
-                continue
-            if h.key not in self.locations:
-                loc = "UNKNOWN LOCATION"
-            else:
-                loc = self.locations[h.key]
-            if h.vanilla == '':
-                assert h.item == ''
-                continue
-            if h.vanilla == 'None':
-                assert h.item == 'None'
-                continue
-            v = h.vanilla.rjust(maxLength, ' ')
-            i = h.item.ljust(maxLength, ' ')
-            if h.item != h.vanilla:
-                # print(h.key, loc, v, ' <-- ', i)
-                print(loc, v, ' <-- ', i)
-            else:
-                # print(h.key, loc, v)
-                print(loc, v)
+            maxVanillaLength = max(maxVanillaLength, len(h.vanilla))
+            maxVanillaLength = max(maxVanillaLength, len(h.item))
+            maxNPCLength = max(maxNPCLength, len(h.fromNPC))
+        maxVanillaLength += 5
+
+        data = {}
+        for hi in hidden:
+            reg = hi.region
+            loc = hi.location
+            if not reg in data:
+                data[reg] = {}
+            if not loc in data[reg]:
+                data[reg][loc] = []
+            data[reg][loc].append(hi)
+
+        regions = sorted(data.keys())
+        for reg in regions:
+            print('='*(len(reg)+2))
+            print('', reg)
+            print('='*(len(reg)+2))
+            print('')
+            locations = sorted(data[reg].keys())
+            for loc in locations:
+                data[reg][loc].sort(key=lambda x: x.fromNPC)
+                print(' '*3, loc)
+                print('')
+                for hi in data[reg][loc]:
+                    v = hi.vanilla.rjust(maxVanillaLength, ' ')
+                    n = hi.fromNPC.ljust(maxNPCLength, ' ')
+                    if hi.vanilla == hi.item:
+                        # print(' '*6, n, v, hi.key)
+                        print(' '*6, n, v)
+                    else:
+                        # print(' '*6, n, v, ' <-- ', hi.item, hi.key)
+                        print(' '*6, n, v, ' <-- ', hi.item)
+                print('')
+                print('')
+            print('')
+            print('')
         
         sys.stdout = sys.__stdout__
 
     def npc(self):
-        myShopData = hjson.load(open(get_filename('json/myNPCShopData.json'), 'r', encoding='utf-8'))
-        shopData = hjson.load(open(get_filename('json/orgNPCShopData.json'), 'r', encoding='utf-8'))
         outfile = os.path.join(self.outPath, 'spoiler_npc_items.txt')
         sys.stdout = open(outfile, 'w', encoding='utf-8')
-        locations = sorted(list(myShopData.keys()) + list(shopData.keys()))
-        for loc in locations:
-            try:
-                shops = myShopData[loc]
-            except:
-                shops = shopData[loc]
-            shopsToPrint = []
-            for npc in shops:
-                if npc['shop']:
-                    shopsToPrint.append(npc)
-            if shopsToPrint:
-                print(loc)
+
+        print("Inaccuracies are likely due to NPCs relocating for events.")
+        print("")
+        print("Key items like Licenses should never be missable, but they might end up")
+        print("on NPCs only accessible late in the game.")
+        print("")
+        print("For example, they won't be held by NPCs Osvald can only Mug in his Chapter 1,")
+        print("but they can be held by NPCs only accessible at Frigid Isle after Osvald's")
+        print("story is completed.") 
+        print("")
+        print("")
+        print("")
+
+
+        shops = self.shopDB.shops
+        data = {}
+        for shop in self.shopDB.shops.values():
+            reg = shop[0].region
+            loc = shop[0].location
+            if not reg in data:
+                data[reg] = {}
+            if not loc in data[reg]:
+                data[reg][loc] = []
+            data[reg][loc].append(shop)
+
+        maxLength = 0
+        for shop in self.shopDB.shops.values():
+            for si in shop:
+                maxLength = max(maxLength, len(si.vanilla))
+                maxLength = max(maxLength, len(si.item))
+        maxLength += 5
+
+        regions = sorted(data.keys())
+        for reg in regions:
+            print('='*(len(reg)+2))
+            print('', reg)
+            print('='*(len(reg)+2))
+            print('')
+            locations = sorted(data[reg].keys())
+            for loc in locations:
+                data[reg][loc].sort(key=lambda x: x[0].fromNPC)
+                print(' '*3, loc)
+                print(' '*3, '-'*len(loc))
                 print('')
-                for shop in shopsToPrint:
-                    if shop['placed']:
-                        print('  ', shop['name'])
-                    else:
-                        print('  ', shop['name'], '  (might not exist in game)')
-                    for inv in shop['shop']:
-                        row = self.shopDB.table.getRow(inv)
-                        if row is None: continue
-                        if row.vanilla != row.item:
-                            # print('      ', row.key, row.FCPrice, row.vanilla, ' <-- ', row.item)
-                            print('      ', row.FCPrice, row.vanilla, ' <-- ', row.item)
+                for shop in data[reg][loc]:
+                    print(' '*6, shop[0].fromNPC)
+                    for si in shop:
+                        v = si.vanilla.rjust(maxLength, ' ')
+                        if si.vanilla == si.item:
+                            # print(' '*6, v, si.key)
+                            print(' '*6, v)
                         else:
-                            # print('      ', row.key, row.FCPrice, row.vanilla)
-                            print('      ', row.FCPrice, row.vanilla)
+                            # print(' '*6, v, ' <-- ', si.item, si.key)
+                            print(' '*6, v, ' <-- ', si.item)
                     print('')
                 print('')
-
-        
-        for npc in self.npcData.table:
-            print(npc.name)
-            for i in npc.inventory:
-                vItem = i.vanilla
-                sItem = i.item
-                if sItem == vItem:
-                    # print('  ', i.key, i.FCPrice, i.vanilla)
-                    print('  ', i.FCPrice, i.vanilla)
-                else:
-                    # print('  ', i.key, i.FCPrice, i.vanilla, ' <-- ', i.item)
-                    print('  ', i.FCPrice, i.vanilla, ' <-- ', i.item)
+                print('')
+            print('')
             print('')
 
         sys.stdout = sys.__stdout__
@@ -141,11 +180,10 @@ class SpoilerItems:
 class SpoilerJobs:
     def __init__(self, outPath):
         self.outPath = outPath
-        self.gameText = Data.getInstance('GameTextEN')
-        self.jobData = Data.getInstance('JobData')
-        self.pcData = Data.getInstance('PlayableCharacterDB')
-        self.abilityData = Data.getInstance('AbilityData')
-        self.supportData = Data.getInstance('SupportAbilityData')
+        self.jobData = Manager.getInstance('JobData').table
+        self.pcData = Manager.getInstance('PlayableCharacterDB').table
+        self.abilityData = Manager.getInstance('AbilityData').table
+        self.supportData = Manager.getInstance('SupportAbilityData').table
 
         self.jobKeys = [
             'eFENCER', 'eHUNTER', 'eALCHEMIST', 'eMERCHANT',
@@ -156,6 +194,19 @@ class SpoilerJobs:
             'eWEAPON_MASTER', 'eWIZARD', 'eSHAMAN', 'eINVENTOR',
         ]
 
+        self.sortedBaseJobs = []
+        self.sortedAdvJobs = []
+        for key in self.jobKeys:
+            self.sortedBaseJobs.append(self.jobData.getRow(key))
+        for key in self.advJobKeys:
+            self.sortedAdvJobs.append(self.jobData.getRow(key))
+        self.sortedBaseJobs.sort(key=lambda x: x.name)
+        self.sortedAdvJobs.sort(key=lambda x: x.name)
+
+        self.sortedPCs = []
+        for jKey in self.pcData.baseJobKeys:
+            self.sortedPCs.append(self.pcData.getRow(jKey))
+        self.sortedPCs.sort(key=lambda x: x.jobName)
 
     def stats(self):
         outfile = os.path.join(self.outPath, 'spoiler_job_stats.txt')
@@ -167,20 +218,19 @@ class SpoilerJobs:
         def printStatNames():
             statList = list(STATLIST)
             statList.remove('BP')
-            statList.remove('SP')
+            statList.remove('MP')
             statList.remove('POT')
             strings = [adjust(s) for s in statList]
             print(' '*18, *strings)
             print('')
-        
+
         print('============')
         print(' Base Stats ')
         print('============')
         print('')
         print('')
         printStatNames()
-        for jKey in self.pcData.baseJobKeys:
-            pc = self.pcData.table.getRow(jKey)
+        for pc in self.sortedPCs:
             values = [adjust(f"{v}%") for v in pc.ParameterRevision.values()]
             values = values[:2] + values[5:]
             name = pc.jobName.ljust(14, ' ')
@@ -194,12 +244,11 @@ class SpoilerJobs:
         print('')
         print('')
         printStatNames()
-        jobKeys = self.jobData.baseJobKeys + self.jobData.advJobKeys
-        for jKey in jobKeys:
-            job = self.jobData.table.getRow(jKey)
+        for i, job in enumerate(self.sortedBaseJobs + self.sortedAdvJobs):
             values = [adjust(f"{v-100}%") for v in job.ParameterRevision.values()]
             values = values[:2] + values[5:]
             name = job.name.ljust(14, ' ')
+            if i == 8: print('')
             print('   ', name, *values)
         sys.stdout = sys.__stdout__
 
@@ -211,13 +260,11 @@ class SpoilerJobs:
         print('================')
         print('')
         print('')
-        jobKeys = self.jobData.baseJobKeys + self.jobData.advJobKeys
-        for jKey in jobKeys:
-            job = self.jobData.table.getRow(jKey)
+        for job in self.sortedBaseJobs + self.sortedAdvJobs:
             name = job.name.ljust(14, ' ')
             print(' '*3, name)
             for ability in job.supportAbilities:
-                abilityName = self.supportData.getSupportAbilityName(ability)
+                abilityName = self.supportData.getRow(ability).name
                 print(' '*6, abilityName)
             print('')
         sys.stdout = sys.__stdout__
@@ -225,7 +272,7 @@ class SpoilerJobs:
     def supportEMJob(self):
         outfile = os.path.join(self.outPath, 'spoiler_job_with_EM.txt')
         sys.stdout = open(outfile, 'w', encoding='utf-8')
-        for job in self.jobData.table:
+        for job in self.jobData:
             if job.hasEvasiveManeuvers:
                 print(job.name, 'has Evasive Maneuvers')
         sys.stdout = sys.__stdout__
@@ -240,13 +287,13 @@ class SpoilerJobs:
         print('')
         jobKeys = self.jobData.baseJobKeys + self.jobData.advJobKeys
         pcMap = {}
-        for pc in self.pcData.table:
+        for pc in self.pcData:
             if pc.Id > 8: break
             k = pc.FirstJob.split('::')[1]
             pcMap[k] = pc
-        for index, jKey in enumerate(jobKeys):
+        for index, job in enumerate(self.sortedBaseJobs + self.sortedAdvJobs):
+            jKey = job.key
             commands = self.jobData.getCommandAbilities(jKey)
-            job = self.jobData.table.getRow(jKey)
             name = job.name
             print(' '*3, name)
             print(' '*3, '-'*len(name))
@@ -256,6 +303,10 @@ class SpoilerJobs:
                 ability = abilitySet.replace('_SET', '') + '_04'
                 name = self.abilityData.getAbilityName(ability)
                 weapon = self.abilityData.getAbilityWeapon(ability)
+                if weapon == 'rod':
+                    weapon = 'staff'
+                if weapon == 'lance':
+                    weapon = 'polearm'
                 sp = self.abilityData.getAbilitySP(ability)
                 ratioChange = self.abilityData.getAbilityRatioChange(ability)
                 if ratioChange is None:
@@ -273,6 +324,10 @@ class SpoilerJobs:
                 ability = abilitySet['AbilityID'].value.replace('_SET', '') + '_01'
                 name = self.abilityData.getAbilityName(ability)
                 weapon = self.abilityData.getAbilityWeapon(ability)
+                if weapon == 'rod':
+                    weapon = 'staff'
+                if weapon == 'lance':
+                    weapon = 'polearm'
                 sp = self.abilityData.getAbilitySP(ability)
                 ratioChange = self.abilityData.getAbilityRatioChange(ability)
                 if ratioChange is None:
@@ -282,5 +337,5 @@ class SpoilerJobs:
                 print(' '*6, name.ljust(33, ' '), weapon.rjust(10, ' '), str(sp).rjust(5, ' '), ratioChange.rjust(15, ' '))
             print('')
             print('')
-        
+
         sys.stdout = sys.__stdout__

@@ -1,6 +1,9 @@
-from Assets import Data
+from Assets import DataAsset
 
 class Row:
+    textDB = None
+    itemDB = None
+
     def __init__(self, key, data):
         self._key = key
         self._data = data
@@ -27,26 +30,6 @@ class Row:
 
     def __dict__(self):
         return {k: getattr(self, k) for k in self.keys}
-
-    @property
-    def textDB(self):
-        return Data.getInstance('GameTextEN')
-
-    @property
-    def itemDB(self):
-        return Data.getInstance('ItemDB')
-
-    @property
-    def enemyDB(self):
-        return Data.getInstance('EnemyDB')
-
-    @property
-    def shopDB(self):
-        return Data.getInstance('PurchaseItemTable')
-
-    @property
-    def npcShopDB(self):
-        return Data.getInstance('NPCPurchaseData')
 
 
 class RowSplit(Row):
@@ -93,19 +76,13 @@ class Table:
             row.update()
         
 
-class DataTable(Data):
-    Table = Table
-    Row = Row
-
-    def __init__(self, filename):
-        super().__init__(filename)
-        self.table = self.getDataTable()
-
-    def getDataTable(self):
+class DataTable(DataAsset):
+    def __init__(self, pak, basename, tableClass, rowClass):
+        super().__init__(pak, basename)
         assert self.uasset.n_exports == 1
         assert self.uasset.exports[1].structure == 'DataTable'
-        return self.Table(self.uasset.exports[1].uexp2.data, self.Row)
+        self.table = tableClass(self.uasset.exports[1].uexp2.data, rowClass)
 
-    def update(self, force=False):
+    def update(self, pak, force=False):
         self.table.update()
-        super().update(force)
+        super().update(pak, force)

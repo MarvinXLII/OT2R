@@ -1,9 +1,10 @@
 import random
-from Assets import Data
+from Manager import Manager
+
 
 class Process:
     def __init__(self):
-        self.invadeDB = Data.getInstance('InvadeData')
+        self.invadeDB = Manager.getInstance('InvadeData')
         self.species = []
         for species in self.invadeDB.table:
             if species.ID == 5001: # Skip iguana, Ochette Ch 1

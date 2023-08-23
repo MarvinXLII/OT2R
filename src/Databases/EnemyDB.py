@@ -1,11 +1,27 @@
-from Assets import Data
-from DataTable import DataTable, Table, RowSplit
+from DataTable import Table, RowSplit
 import random
+from Manager import Manager
 
-class Enemy(RowSplit):
+class EnemyRow(RowSplit):
+    def __init__(self, key, data):
+        super().__init__(key, data)
+        self.groups = set()
+
+    @property
+    def dontStrengthen(self):
+        return self.groups.intersection([
+            'ENG_NPC_GAK_10_020', # Osvald Ch. 1 battle
+            'ENG_NPC_KEN_40_010', # Jin Mei in Hikari's Ch. 4 flashback
+            'ENG_EVE_HUN_C01_010', # King Iguana, Ochette Ch. 1
+            'ENG_NPC_HAN_C01_070', # Villager, Ochette Ch. 1
+            'ENG_NPC_SIN_10_0400', # Temenos Ch. 1 (techically could grind for this, but...)
+            'ENG_EVE_THI_C01_010', # Throne Ch. 1 first battle
+        ])
+
     @property
     def name(self):
-        return self.textDB.getText(self.DisplayNameID)
+        textDB = Manager.getInstance('GameTextEN').table
+        return textDB.getText(self.DisplayNameID)
 
     @property
     def isBoss(self):
@@ -70,19 +86,32 @@ class Enemy(RowSplit):
     def addWeaknessToPC(self, *pcs):
         shields = self.shields
         self.shields = self._addWeakness(shields, *pcs)
-        
+
     def addWeaponWeaknessToPC(self, *pcs):
-        shields = self.weaponShields
-        self.weaponShields = self._addWeakness(shields, *pcs)
+        # Make sure enemy has a weapon weakness
+        # It's possible for an enemy to be only weak to magic!
+        if self.weaponShields.count('EATTRIBUTE_RESIST::eWEAK') == 0:
+            self.weaponShields, self.magicShields = self.magicShields, self.weaponShields
+        self.weaponShields = self._addWeakness(self.weaponShields, *pcs)
+
+    def updateWeaknessToPCs(self, weaponOnly=False):
+        pcs = set()
+        enemyGroupTable = Manager.getInstance('EnemyGroupData').table
+        for groupName in sorted(self.groups):
+            group = enemyGroupTable.getRow(groupName)
+            if group is None: continue
+            if group.pcRegion is None: continue
+            if group.ring > 1: continue
+            pcs.add(group.pcRegion)
+        pcList = sorted(pcs)
+        if weaponOnly:
+            self.addWeaponWeaknessToPC(*pcList)
+        else:
+            self.addWeaknessToPC(*pcList)
 
 
-class EnemyDB(DataTable):
-    Row = Enemy
-
-    def __init__(self):
-        super().__init__('EnemyDB.uasset')
-
+class EnemyTable(Table):
     def getName(self, eKey):
-        row = self.table.getRow(eKey)
+        row = self.getRow(eKey)
         if row:
             return row.name

@@ -1,19 +1,21 @@
 import random
-from Assets import Data
-from DataTable import DataTable
+from Manager import Manager
 
 # The main thing is to shuffle weapon arrays for each job.
 # Afterwards, each playable character's main weapon and initial weapons can be set.
 class Weapons:
     def __init__(self):
         # PC for main weapon, first weapons
-        self.pcDB = Data.getInstance('PlayableCharacterDB')
+        self.pcTable = Manager.getInstance('PlayableCharacterDB').table
         # JobDB for weapons array
-        self.jobDB = Data.getInstance('JobData')
-        self.jobKeys = [
+        self.jobTable = Manager.getInstance('JobData').table
+        self.baseKeys = [
             'eFENCER', 'eHUNTER', 'eALCHEMIST', 'eMERCHANT',
             'ePRIEST', 'ePROFESSOR', 'eTHIEF', 'eDANCER',
-            # omitting advanced jobs....
+        ]
+        self.advKeys = [
+            # advanced jobs (except armsmaster)
+            'eSHAMAN', 'eINVENTOR', 'eWIZARD',
         ]
         self.mapToIdx = {
             "EWEAPON_CATEGORY::eSWORD": 0,  # sword
@@ -33,19 +35,20 @@ class Weapons:
         self._patchAnimations()
 
     def _shuffleWeapons(self):
-        candidates = list(self.mapToIdx.values()) * 2
+        candidates = list(self.mapToIdx.values()) * 3
         random.shuffle(candidates)
 
-        self.jobDB.clearProperEquipmentWeapons()
+        self.jobTable.clearProperEquipmentWeapons()
 
-        # TODO: add advanced jobs; presumably keep all 6 weapons on the Armsmaster
-        random.shuffle(self.jobKeys) # Ensure a random set of 4 PCs get 2 weapons
-        for i, jKey in enumerate(self.jobKeys):
-            array = self.jobDB.getProperEquipment(jKey)
+        jobKeys = self.baseKeys + self.advKeys
+        random.shuffle(jobKeys)
+        for i, jKey in enumerate(jobKeys):
+            array = self.jobTable.getProperEquipment(jKey)
             idx = candidates.pop()
             array[idx] = True
-            # Four PCs get a second weapon
-            if i < 4:
+            # 7 jobs get a second weapon
+            # 4 jobs stuck with one weapon
+            if i < 7:
                 j = 0
                 while array[candidates[j]]:
                     j += 1
@@ -54,29 +57,29 @@ class Weapons:
         assert not candidates
 
     def _setMainWeapon(self):
-        for jKey in self.jobKeys:
-            weapons = self.jobDB.getProperEquipment(jKey)[:6]
+        for jKey in self.baseKeys:
+            weapons = self.jobTable.getProperEquipment(jKey)[:6]
             i = random.choices(range(6), weapons, k=1)[0]
-            self.pcDB.setMainWeapon(jKey, self.mapToWeapon[i])
+            self.pcTable.setMainWeapon(jKey, self.mapToWeapon[i])
 
     def _setInitialWeapons(self):
-        self.pcDB.clearFirstEquipment()
-        for jKey in self.jobKeys:
-            weaponArray = self.jobDB.getProperEquipment(jKey)[:6]
-            for eKey, w in zip(self.pcDB.equipKeys, weaponArray):
+        self.pcTable.clearFirstEquipment()
+        for jKey in self.baseKeys:
+            weaponArray = self.jobTable.getProperEquipment(jKey)[:6]
+            for eKey, w in zip(self.pcTable.equipKeys, weaponArray):
                 if w:
-                    weapon = random.sample(self.pcDB.firstEquipmentCandidates[eKey], 1)[0]
-                    self.pcDB.setFirstEquipment(jKey, eKey, weapon)
+                    weapon = random.sample(self.pcTable.firstEquipmentCandidates[eKey], 1)[0]
+                    self.pcTable.setFirstEquipment(jKey, eKey, weapon)
 
     def _setPCAbilities(self):
-        abilSetDB = Data.getInstance('AbilitySetData').table
+        abilSetDB = Manager.getInstance('AbilitySetData').table
 
         def updateWeaponAndText(abilSet, job):
             abilSet.weapon = random.sample(job.equippableWeapons, 1)[0]
             abilSet.updateDetail()
             abilSet.updateDisplay()
 
-        hikari = self.jobDB.hikari
+        hikari = self.jobTable.hikari
         updateWeaponAndText(abilSetDB.ABI_SET_WAR_210, hikari)
         updateWeaponAndText(abilSetDB.ABI_SET_WAR_211, hikari)
         updateWeaponAndText(abilSetDB.ABI_SET_WAR_220, hikari)
@@ -86,7 +89,7 @@ class Weapons:
 
     # Not perfect, but at least it's better than nothing
     def _patchAnimations(self):
-        flipbooks = DataTable.getInstance('CharactersFlipbookDB').table
+        flipbooks = Manager.getTable('CharactersFlipbookDB')
         pcs = {
             'KenJ0XX_Mle': 0, # Hikari -- Sword
             'KusJ0XX_Fml': 3, # Castti -- Axe

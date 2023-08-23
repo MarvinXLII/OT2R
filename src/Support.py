@@ -1,6 +1,6 @@
 import random
 from Shuffler import Shuffler, Slot, noWeights
-from Assets import Data
+from Manager import Manager
 from Nothing import Nothing
 
 
@@ -58,7 +58,7 @@ class Support(Shuffler):
     EMFirst = Nothing
 
     def __init__(self):
-        self.jobDB = Data.getInstance('JobData')
+        self.jobDB = Manager.getInstance('JobData')
 
         self.slots = []
         self.candidates = []

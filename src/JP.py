@@ -1,9 +1,9 @@
 import random
-from Assets import Data
+from Manager import Manager
 
 class AdvJPNerf:
     def __init__(self):
-        self.jobDB = Data.getInstance('JobData')
+        self.jobDB = Manager.getInstance('JobData')
 
     def run(self):
         for jKey in self.jobDB.advJobKeys:
@@ -13,7 +13,7 @@ class AdvJPNerf:
 
 class JPCosts:
     def __init__(self):
-        self.jobDB = Data.getInstance('JobData')
+        self.jobDB = Manager.getInstance('JobData')
 
     def run(self):
         for row in self.jobDB.table:
