@@ -5,5 +5,5 @@ from Manager import Manager
 class SupportRow(Row):
     @property
     def name(self):
-        textDB = Manager.getInstance('GameTextEN').table
-        return textDB.getText(self.DisplayName)
+        text_db = Manager.get_instance('GameTextEN').table
+        return text_db.get_text(self.DisplayName)

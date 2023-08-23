@@ -9,7 +9,7 @@ class Manager:
     Instances = {}
 
     @classmethod
-    def _getInstance(cls, basename, obj, *args, **kwargs):
+    def _get_instance(cls, basename, obj, *args, **kwargs):
         if basename not in cls.Instances:
             cls.Instances[basename] = obj(cls.Pak, basename, *args, **kwargs)
         inst = cls.Instances[basename]
@@ -18,36 +18,36 @@ class Manager:
 
     # Use this if type checking doesn't matter
     @classmethod
-    def getInstance(cls, basename):
+    def get_instance(cls, basename):
         assert basename in cls.Instances, f'{basename} has not yet been extracted!'
         return cls.Instances[basename]
 
     @classmethod
-    def getData(cls, basename):
-        return cls._getInstance(basename, DataFile)
+    def get_data(cls, basename):
+        return cls._get_instance(basename, DataFile)
 
     @classmethod
-    def getJson(cls, basename):
-        return cls._getInstance(basename, DataJson)
+    def get_json(cls, basename):
+        return cls._get_instance(basename, DataJson)
 
     @classmethod
-    def getAsset(cls, basename, includePatches=True):
-        return cls._getInstance(basename, DataAsset, includePatches=includePatches)
+    def get_asset(cls, basename, include_patches=True):
+        return cls._get_instance(basename, DataAsset, include_patches=include_patches)
 
     @classmethod
-    def getAssetOnly(cls, basename, includePatches=True):
-        return cls._getInstance(basename, DataAssetOnly, includePatches=includePatches)
+    def get_asset_only(cls, basename, include_patches=True):
+        return cls._get_instance(basename, DataAssetOnly, include_patches=include_patches)
 
     @classmethod
-    def getMap(cls, basename, includePatches=True):
-        return cls._getInstance(basename, DataMap, includePatches=includePatches)
+    def get_map(cls, basename, include_patches=True):
+        return cls._get_instance(basename, DataMap, include_patches=include_patches)
 
     @classmethod
-    def getTable(cls, basename, table=Table, row=Row):
-        return cls._getInstance(basename, DataTable, table, row).table
+    def get_table(cls, basename, table=Table, row=Row):
+        return cls._get_instance(basename, DataTable, table, row).table
 
     @classmethod
-    def updateAll(cls, force=False):
+    def update_all(cls, force=False):
         for key, obj in cls.Instances.items():
             print('Updating', key)
             obj.update(cls.Pak, force)

@@ -7,24 +7,24 @@ class GuildRow(Row):
 
     @property
     def license(self):
-        itemDB = Manager.getInstance('ItemDB').table
-        return itemDB.getName(self.LicenseItem)
+        item_db = Manager.get_instance('ItemDB').table
+        return item_db.get_name(self.LicenseItem)
         
 
 class GuildTable(Table):
-    def __init__(self, data, rowClass):
-        super().__init__(data, rowClass)
+    def __init__(self, data, row_class):
+        super().__init__(data, row_class)
 
         # Map job name to guild row
         # Important for guilds that require mastered jobs
         # as they check that the last skill is learned
-        self.guildMap = {
-            'eFENCER': self.getRow('GUILD_000'),
-            'eHUNTER': self.getRow('GUILD_001'),
-            'eALCHEMIST': self.getRow('GUILD_002'),
-            'eMERCHANT': self.getRow('GUILD_003'),
-            'ePRIEST': self.getRow('GUILD_004'),
-            'ePROFESSOR': self.getRow('GUILD_005'),
-            'eTHIEF': self.getRow('GUILD_006'),
-            'eDANCER': self.getRow('GUILD_007'),
+        self.guild_map = {
+            'eFENCER': self.get_row('GUILD_000'),
+            'eHUNTER': self.get_row('GUILD_001'),
+            'eALCHEMIST': self.get_row('GUILD_002'),
+            'eMERCHANT': self.get_row('GUILD_003'),
+            'ePRIEST': self.get_row('GUILD_004'),
+            'ePROFESSOR': self.get_row('GUILD_005'),
+            'eTHIEF': self.get_row('GUILD_006'),
+            'eDANCER': self.get_row('GUILD_007'),
         }

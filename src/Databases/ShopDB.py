@@ -9,26 +9,26 @@ class ShopRow(Row):
     def __init__(self, *args):
         super().__init__(*args)
         self.vanilla = self.item
-        self.isNPC = 'NPCBUY' in self.key
+        self.is_npc = 'NPCBUY' in self.key
 
     @property
     def item(self):
-        itemDB = Manager.getInstance('ItemDB').table
-        name = itemDB.getName(self.ItemLabel)
+        item_db = Manager.get_instance('ItemDB').table
+        name = item_db.get_name(self.ItemLabel)
         if name is None:
             return 'None'
         return name
 
     @property
-    def isValid(self):
+    def is_valid(self):
         return self.data[self.key]['valid']
 
     @property
-    def isAlwaysAccessible(self):
-        return self.data[self.key]['alwaysAccessible']
+    def is_always_accessible(self):
+        return self.data[self.key]['always_accessible']
 
     @property
-    def fromNPC(self):
+    def from_npc(self):
         return self.data[self.key]['npc']
 
     @property
@@ -44,7 +44,7 @@ class ShopRow(Row):
         return self.data[self.key]['ring']
 
     @property
-    def dontShuffle(self):
+    def dont_shuffle(self):
         return self.key in [
             # Partitio Ch 1; expensive items could cause softlocks
             # during this scene or even later in the chapter if
@@ -66,19 +66,19 @@ class ShopRow(Row):
 
 
 class ShopTable(Table):
-    def __init__(self, data, rowClass):
-        super().__init__(data, rowClass)
+    def __init__(self, data, row_class):
+        super().__init__(data, row_class)
 
         self.shops = {}
         for row in self:
-            if row.isValid:
+            if row.is_valid:
                 key = row.key
                 s = '_'.join(key.split('_')[:-1]) # remove inventory slot
                 if s not in self.shops:
                     self.shops[s] = []
                 self.shops[s].append(row)
 
-    def getShopInventory(self, key):
+    def get_shop_inventory(self, key):
         if key and key != 'None':
             if key in self.shops:
                 return self.shops[key]

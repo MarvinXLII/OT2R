@@ -4,9 +4,9 @@ from Manager import Manager
 
 class Process:
     def __init__(self):
-        self.invadeDB = Manager.getInstance('InvadeData')
+        self.invade_db = Manager.get_instance('InvadeData')
         self.species = []
-        for species in self.invadeDB.table:
+        for species in self.invade_db.table:
             if species.ID == 5001: # Skip iguana, Ochette Ch 1
                 continue
             if species.ID == 5013: # Skip Buttermeep, Ochette Ch 2, Tera's Route

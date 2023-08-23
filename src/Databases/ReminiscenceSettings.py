@@ -2,7 +2,7 @@ from DataTable import Table, Row
 
 
 class ReminiscenceRow(Row):
-    def addToBackpack(self, item, num):
+    def add_to_backpack(self, item, num):
         for i, f in enumerate(self.FirstBackpackItemLabel):
             if f == 'None':
                 break
@@ -12,7 +12,7 @@ class ReminiscenceRow(Row):
         self.FirstBackpackItemLabel[i] = item
         self.FirstBackpackItemNum[i] = num
 
-    def removeFromBackpack(self, item):
+    def remove_from_backpack(self, item):
         for i, f in enumerate(self.FirstBackpackItemLabel):
             if f == item:
                 break
@@ -31,32 +31,32 @@ class ReminiscenceRow(Row):
 class ReminiscenceTable(Table):
     @property
     def agnea(self):
-        return self.getRow('DANCER_PROLOGUE')
+        return self.get_row('DANCER_PROLOGUE')
 
     @property
     def castti(self):
-        return self.getRow('ALCHEMIST_PROLOGUE')
+        return self.get_row('ALCHEMIST_PROLOGUE')
 
     @property
     def hikari(self):
-        return self.getRow('FENCER_PROLOGUE')
+        return self.get_row('FENCER_PROLOGUE')
 
     @property
     def partitio(self):
-        return self.getRow('MERCHANT_PROLOGUE')
+        return self.get_row('MERCHANT_PROLOGUE')
 
     @property
     def ochette(self):
-        return self.getRow('HUNTER_PROLOGUE')
+        return self.get_row('HUNTER_PROLOGUE')
 
     @property
     def osvald(self):
-        return self.getRow('PROFESSOR_PROLOGUE')
+        return self.get_row('PROFESSOR_PROLOGUE')
 
     @property
     def temenos(self):
-        return self.getRow('PRIEST_PROLOGUE')
+        return self.get_row('PRIEST_PROLOGUE')
 
     @property
     def throne(self):
-        return self.getRow('THIEF_PROLOGUE')
+        return self.get_row('THIEF_PROLOGUE')

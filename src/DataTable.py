@@ -1,9 +1,6 @@
 from Assets import DataAsset
 
 class Row:
-    textDB = None
-    itemDB = None
-
     def __init__(self, key, data):
         self._key = key
         self._data = data
@@ -52,13 +49,13 @@ class RowSplit(Row):
 
 
 class Table:
-    def __init__(self, data, rowClass):
+    def __init__(self, data, row_class):
         self._data = data
         for k, v in data.items():
             assert not hasattr(self, k)
-            setattr(self, k, rowClass(k, v))
+            setattr(self, k, row_class(k, v))
 
-    def getRow(self, key):
+    def get_row(self, key):
         if hasattr(self, key):
             return getattr(self, key)
 
@@ -77,11 +74,11 @@ class Table:
         
 
 class DataTable(DataAsset):
-    def __init__(self, pak, basename, tableClass, rowClass):
+    def __init__(self, pak, basename, table_class, row_class):
         super().__init__(pak, basename)
         assert self.uasset.n_exports == 1
         assert self.uasset.exports[1].structure == 'DataTable'
-        self.table = tableClass(self.uasset.exports[1].uexp2.data, rowClass)
+        self.table = table_class(self.uasset.exports[1].uexp2.data, row_class)
 
     def update(self, pak, force=False):
         self.table.update()

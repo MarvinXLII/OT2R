@@ -5,13 +5,13 @@ from Manager import Manager
 class AbilityRow(Row):
     def __init__(self, *args):
         super().__init__(*args)
-        self.vanillaAbilityRatio = self.AbilityRatio
-        self.costSP = self.CostType == 'EABILITY_COST_TYPE::eMP'
+        self.vanilla_ability_ratio = self.AbilityRatio
+        self.cost_sp = self.CostType == 'EABILITY_COST_TYPE::eMP'
 
     @property
     def name(self):
-        textDB = Manager.getInstance('GameTextEN').table
-        return textDB.getText(self.DisplayName)
+        text_db = Manager.get_instance('GameTextEN').table
+        return text_db.get_text(self.DisplayName)
 
     @property
     def weapon(self):
@@ -26,49 +26,49 @@ class AbilityRow(Row):
         self.RestrictWeapon = f'{b}::e{w.upper()}'
 
     @property
-    def isPhysical(self):
+    def is_physical(self):
         return self.AbilityType == 'EABILITY_TYPE::ePHYSICS' or self.AbilityType == 'EABILITY_TYPE::eSCATTER'
 
     @property
-    def isMagic(self):
+    def is_magic(self):
         return self.AbilityType == 'EABILITY_TYPE::eMAGIC'
 
     @property
-    def isHeal(self):
+    def is_heal(self):
         return self.AbilityType == 'EABILITY_TYPE::eHP_RECOVERY' or self.AbilityType == 'EABILITY_TYPE::eREVIVE'
 
     @property
-    def isAttack(self):
-        return self.isPhysical or self.isMagic
+    def is_attack(self):
+        return self.is_physical or self.is_magic
 
     # Cost value set in AbilitySetDB
-    def makeInventor(self):
+    def make_inventor(self):
         self.CostType = 'EABILITY_COST_TYPE::eINVENTOR'
 
     # Cost value set in AbilitySetDB
-    def makeNotInventor(self):
+    def make_not_inventor(self):
         self.CostType = 'EABILITY_COST_TYPE::eMP'
 
 
 class AbilityTable(Table):
-    def getAbilityName(self, aKey):
-        row = self.getRow(aKey)
+    def get_ability_name(self, aKey):
+        row = self.get_row(aKey)
         if row:
             return row.name
 
-    def getAbilityWeapon(self, aKey):
-        row = self.getRow(aKey)
+    def get_ability_weapon(self, aKey):
+        row = self.get_row(aKey)
         if row:
             return row.weapon
 
-    def getAbilitySP(self, aKey):
-        row = self.getRow(aKey)
+    def get_ability_sp(self, aKey):
+        row = self.get_row(aKey)
         if row:
             return row.CostValue
 
-    def getAbilityRatioChange(self, aKey):
-        row = self.getRow(aKey)
-        if row and (row.isAttack or row.isHeal):
-            vanilla = row.vanillaAbilityRatio
+    def get_ability_ratio_change(self, aKey):
+        row = self.get_row(aKey)
+        if row and (row.is_attack or row.is_heal):
+            vanilla = row.vanilla_ability_ratio
             ratio = row.AbilityRatio
             return 100.0 * (ratio - vanilla) / vanilla

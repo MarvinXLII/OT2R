@@ -6,18 +6,18 @@ from Manager import Manager
 class Weapons:
     def __init__(self):
         # PC for main weapon, first weapons
-        self.pcTable = Manager.getInstance('PlayableCharacterDB').table
+        self.pc_db = Manager.get_instance('PlayableCharacterDB').table
         # JobDB for weapons array
-        self.jobTable = Manager.getInstance('JobData').table
-        self.baseKeys = [
+        self.job_db = Manager.get_instance('JobData').table
+        self.base_keys = [
             'eFENCER', 'eHUNTER', 'eALCHEMIST', 'eMERCHANT',
             'ePRIEST', 'ePROFESSOR', 'eTHIEF', 'eDANCER',
         ]
-        self.advKeys = [
+        self.adv_keys = [
             # advanced jobs (except armsmaster)
             'eSHAMAN', 'eINVENTOR', 'eWIZARD',
         ]
-        self.mapToIdx = {
+        self.map_to_idx = {
             "EWEAPON_CATEGORY::eSWORD": 0,  # sword
             "EWEAPON_CATEGORY::eLANCE": 1,  # polearms
             "EWEAPON_CATEGORY::eDAGGER": 2, # dagger
@@ -25,25 +25,25 @@ class Weapons:
             "EWEAPON_CATEGORY::eBOW": 4,    # bows
             "EWEAPON_CATEGORY::eROD": 5,    # staffs
         }
-        self.mapToWeapon = list(self.mapToIdx.keys())
+        self.map_to_weapon = list(self.map_to_idx.keys())
 
     def run(self):
-        self._shuffleWeapons()
-        self._setMainWeapon()
-        self._setInitialWeapons()
-        self._setPCAbilities()
-        self._patchAnimations()
+        self._shuffle_weapons()
+        self._set_main_weapon()
+        self._set_initial_weapons()
+        self._set_pc_abilities()
+        self._patch_animations()
 
-    def _shuffleWeapons(self):
-        candidates = list(self.mapToIdx.values()) * 3
+    def _shuffle_weapons(self):
+        candidates = list(self.map_to_idx.values()) * 3
         random.shuffle(candidates)
 
-        self.jobTable.clearProperEquipmentWeapons()
+        self.job_db.clear_proper_equipment_weapons()
 
-        jobKeys = self.baseKeys + self.advKeys
-        random.shuffle(jobKeys)
-        for i, jKey in enumerate(jobKeys):
-            array = self.jobTable.getProperEquipment(jKey)
+        job_keys = self.base_keys + self.adv_keys
+        random.shuffle(job_keys)
+        for i, key in enumerate(job_keys):
+            array = self.job_db.get_proper_equipment(key)
             idx = candidates.pop()
             array[idx] = True
             # 7 jobs get a second weapon
@@ -56,40 +56,40 @@ class Weapons:
                 array[idx] = True
         assert not candidates
 
-    def _setMainWeapon(self):
-        for jKey in self.baseKeys:
-            weapons = self.jobTable.getProperEquipment(jKey)[:6]
+    def _set_main_weapon(self):
+        for key in self.base_keys:
+            weapons = self.job_db.get_proper_equipment(key)[:6]
             i = random.choices(range(6), weapons, k=1)[0]
-            self.pcTable.setMainWeapon(jKey, self.mapToWeapon[i])
+            self.pc_db.set_main_weapon(key, self.map_to_weapon[i])
 
-    def _setInitialWeapons(self):
-        self.pcTable.clearFirstEquipment()
-        for jKey in self.baseKeys:
-            weaponArray = self.jobTable.getProperEquipment(jKey)[:6]
-            for eKey, w in zip(self.pcTable.equipKeys, weaponArray):
+    def _set_initial_weapons(self):
+        self.pc_db.clear_first_equipment()
+        for j_key in self.base_keys:
+            weapon_array = self.job_db.get_proper_equipment(j_key)[:6]
+            for e_key, w in zip(self.pc_db.equip_keys, weapon_array):
                 if w:
-                    weapon = random.sample(self.pcTable.firstEquipmentCandidates[eKey], 1)[0]
-                    self.pcTable.setFirstEquipment(jKey, eKey, weapon)
+                    weapon = random.sample(self.pc_db.first_equipment_candidates[e_key], 1)[0]
+                    self.pc_db.set_first_equipment(j_key, e_key, weapon)
 
-    def _setPCAbilities(self):
-        abilSetDB = Manager.getInstance('AbilitySetData').table
+    def _set_pc_abilities(self):
+        abil_set_db = Manager.get_instance('AbilitySetData').table
 
-        def updateWeaponAndText(abilSet, job):
-            abilSet.weapon = random.sample(job.equippableWeapons, 1)[0]
-            abilSet.updateDetail()
-            abilSet.updateDisplay()
+        def update_weapon_and_text(abil_set, job):
+            abil_set.weapon = random.sample(job.equippable_weapons, 1)[0]
+            abil_set.update_detail()
+            abil_set.update_display()
 
-        hikari = self.jobTable.hikari
-        updateWeaponAndText(abilSetDB.ABI_SET_WAR_210, hikari)
-        updateWeaponAndText(abilSetDB.ABI_SET_WAR_211, hikari)
-        updateWeaponAndText(abilSetDB.ABI_SET_WAR_220, hikari)
-        updateWeaponAndText(abilSetDB.ABI_SET_WAR_221, hikari)
-        # updateWeaponAndText(abilSetDB.ABI_SET_WAR_230, hikari) # Still operate without update
-        # updateWeaponAndText(abilSetDB.ABI_SET_WAR_231, hikari)
+        hikari = self.job_db.hikari
+        update_weapon_and_text(abil_set_db.ABI_SET_WAR_210, hikari)
+        update_weapon_and_text(abil_set_db.ABI_SET_WAR_211, hikari)
+        update_weapon_and_text(abil_set_db.ABI_SET_WAR_220, hikari)
+        update_weapon_and_text(abil_set_db.ABI_SET_WAR_221, hikari)
+        # update_weapon_and_text(abil_set_db.ABI_SET_WAR_230, hikari) # Still operate without update
+        # update_weapon_and_text(abil_set_db.ABI_SET_WAR_231, hikari)
 
     # Not perfect, but at least it's better than nothing
-    def _patchAnimations(self):
-        flipbooks = Manager.getTable('CharactersFlipbookDB')
+    def _patch_animations(self):
+        flipbooks = Manager.get_table('CharactersFlipbookDB')
         pcs = {
             'KenJ0XX_Mle': 0, # Hikari -- Sword
             'KusJ0XX_Fml': 3, # Castti -- Axe
@@ -112,7 +112,7 @@ class Weapons:
             for i in range(0, 13):
                 j = str(i).rjust(2, '0')
                 f = pc.replace('XX', j)
-                row = flipbooks.getRow(f)
+                row = flipbooks.get_row(f)
                 if row is None: continue
                 for k, x in enumerate(row.FlipbookNames):
                     if x == 'None':

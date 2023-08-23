@@ -1,7 +1,7 @@
 from DataTable import Table
 
 class NPCShopTable(Table):
-    def getNPCShop(self, key):
-        row = self.getRow(key)
+    def get_npc_shop(self, key):
+        row = self.get_row(key)
         if row:
             return row

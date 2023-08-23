@@ -8,12 +8,12 @@ class ItemRow(Row):
 
     @property
     def name(self):
-        textDB = Manager.getInstance('GameTextEN').table
-        return textDB.getText(self.ItemNameID)
+        text_db = Manager.get_instance('GameTextEN').table
+        return text_db.get_text(self.ItemNameID)
     
 
 class ItemTable(Table):
-    def getName(self, key):
-        row = self.getRow(key)
+    def get_name(self, key):
+        row = self.get_row(key)
         if row:
             return row.name

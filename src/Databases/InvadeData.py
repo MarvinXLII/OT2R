@@ -4,13 +4,13 @@ from Manager import Manager
 class InvadeRow(Row):
     def __init__(self, *args):
         super().__init__(*args)
-        self.vanilla = self.processedItem
+        self.vanilla = self.processed_item
 
     @property
-    def processedItem(self):
+    def processed_item(self):
         if self.EnableProcess:
-            itemDB = Manager.getInstance('ItemDB').table
-            item = itemDB.getName(self.ProcessedItem)
+            item_db = Manager.get_instance('ItemDB').table
+            item = item_db.get_name(self.ProcessedItem)
             num = self.ProcessNumID
             if num > 1:
                 return f"{item} x{num}"
@@ -18,5 +18,5 @@ class InvadeRow(Row):
 
     @property
     def name(self):
-        textDB = Manager.getInstance('GameTextEN').table
-        return textDB.getText(self.DisplayName)
+        text_db = Manager.get_instance('GameTextEN').table
+        return text_db.get_text(self.DisplayName)

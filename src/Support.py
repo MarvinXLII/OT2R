@@ -1,33 +1,33 @@
 import random
-from Shuffler import Shuffler, Slot, noWeights
+from Shuffler import Shuffler, Slot, no_weights
 from Manager import Manager
 from Nothing import Nothing
 
 
-def separateAdvancedSupport(w, s, c):
+def separate_advanced_support(w, s, c):
     for i, si in enumerate(s):
-        w[i] *= c.isAdvanced == si.isAdvanced
+        w[i] *= c.is_advanced == si.is_advanced
 
 
-def evasiveManeuversFirst(jobsMap, jobDB):
-    indexWithEM = -1
-    slotWithEM = None
-    for jobID, support in jobsMap.items():
+def evasive_maneuvers_first(jobs_map, job_db):
+    index_with_em = -1
+    slot_with_em = None
+    for job_id, support in jobs_map.items():
         for i, s in enumerate(support):
-            if s.isEvasiveManeuvers:
-                slotWithEM = s
-                indexWithEM = jobID
+            if s.is_evasive_maneuvers:
+                slot_with_em = s
+                index_with_em = job_id
                 break
-    assert indexWithEM >= 0
-    assert slotWithEM
+    assert index_with_em >= 0
+    assert slot_with_em
     
     # If it's in a base job, just move it to the front
-    if indexWithEM < 8:
-        first = jobsMap[indexWithEM][0]
+    if index_with_em < 8:
+        first = jobs_map[index_with_em][0]
     else:
-        newIndexWithEM = random.randint(0, 7)
-        first = jobsMap[newIndexWithEM][0]
-    slotWithEM.ability['AbilityName'], first.ability['AbilityName'] = first.ability['AbilityName'], slotWithEM.ability['AbilityName']
+        new_index_with_em = random.randint(0, 7)
+        first = jobs_map[new_index_with_em][0]
+    slot_with_em.ability['AbilityName'], first.ability['AbilityName'] = first.ability['AbilityName'], slot_with_em.ability['AbilityName']
 
     # Update job data so it gets EM as early as possible
     first.job.JPCost[2] = 1
@@ -39,10 +39,10 @@ class Ability(Slot):
         self.job = job
         self.index = index
         self.ability = job.JobSupportAbility[index]
-        self.isAdvanced = job.ID >= 8
+        self.is_advanced = job.ID >= 8
 
     @property
-    def isEvasiveManeuvers(self):
+    def is_evasive_maneuvers(self):
         return self.ability['AbilityName'].value == 'ABI_SCH_SUP_01'
 
     def copy(self, other):
@@ -54,31 +54,31 @@ class Ability(Slot):
 
 
 class Support(Shuffler):
-    CheckAdvanced = noWeights
-    EMFirst = Nothing
+    check_advanced = no_weights
+    em_first = Nothing
 
     def __init__(self):
-        self.jobDB = Manager.getInstance('JobData')
+        self.job_db = Manager.get_instance('JobData')
 
         self.slots = []
         self.candidates = []
-        self.jobMap = {}
-        for job in self.jobDB.table:
+        self.job_map = {}
+        for job in self.job_db.table:
             if job.ID >= 12: continue
             for index, _ in enumerate(job.JobSupportAbility):
                 slot = Ability(index, job)
                 candidate = Ability(index, job)
                 self.slots.append(slot)
                 self.candidates.append(candidate)
-                if slot.job.ID not in self.jobMap:
-                    self.jobMap[slot.job.ID] = []
-                self.jobMap[slot.job.ID].append(slot)
+                if slot.job.ID not in self.job_map:
+                    self.job_map[slot.job.ID] = []
+                self.job_map[slot.job.ID].append(slot)
 
     def finish(self):
         # Patch everything first
         super().finish()
         # Update for EM if necessary
-        Support.EMFirst(self.jobMap, self.jobDB)
+        Support.em_first(self.job_map, self.job_db)
 
-    def generateWeights(self):
-        super().generateWeights(Support.CheckAdvanced)
+    def generate_weights(self):
+        super().generate_weights(Support.check_advanced)

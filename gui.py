@@ -6,38 +6,14 @@ import random
 import traceback
 import os
 import sys
+
+from builder import builder_setup
+
 sys.path.append('src')
 from Utility import get_filename
-from Randomizer import Steam, Rando
+from Randomizer import Steam
 
 from Pak import Pak
-
-# builders
-from Shuffler import Shuffler, noWeights
-from JP import JPCosts, AdvJPNerf
-from Weapons import Weapons
-from Support import Support
-from Command import Command
-from AbilityWeapons import AbilityWeapons
-from AbilitySP import AbilitySP
-from AbilityPower import AbilityPower
-from JobStats import JobStatsFair, JobStatsRandom
-from Treasures import Treasures
-from ProcessedSpecies import Process
-from Shields import Shields
-from Battles import *
-from EnemyGroups import *
-from PathActions import *
-from Bosses import *
-from Nothing import Nothing
-from Shuffler import noWeights
-from SpurningRibbon import SpurningRibbon
-from Guilds import Guilds, shuffleRequirements
-from Command import separateAdvancedCommands, separateDivine, separateExAbilities
-from Support import separateAdvancedSupport, evasiveManeuversFirst
-from Treasures import separateChapter
-from Events import InitialEvents, formationMenuOn, protagonistUnlocked
-from SkipTutorials import SkipTutorials
 
 MAIN_TITLE = f"Octopath Traveler II Randomizer v{RELEASE}"
 
@@ -81,64 +57,64 @@ class CreateToolTip(object):
 
 class Patches:
     def __init__(self, frame):
-        self.leftFrame = tk.Frame(frame)
-        self.rightFrame = tk.Frame(frame) 
+        self.left_frame = tk.Frame(frame)
+        self.right_frame = tk.Frame(frame)
         frame.columnconfigure(1, weight=3)
 
-        self.scrollbar = tk.Scrollbar(self.rightFrame, orient='vertical')
-        self.leftFrame.grid(row=0, column=0, padx=10, pady=10, sticky='news')
-        self.rightFrame.grid(row=0, column=1, padx=10, pady=10, sticky='news')
+        self.scrollbar = tk.Scrollbar(self.right_frame, orient='vertical')
+        self.left_frame.grid(row=0, column=0, padx=10, pady=10, sticky='news')
+        self.right_frame.grid(row=0, column=1, padx=10, pady=10, sticky='news')
         self.patches = []
 
-        self.listbox = Listbox(self.rightFrame, yscrollcommand=self.scrollbar.set)
+        self.listbox = Listbox(self.right_frame, yscrollcommand=self.scrollbar.set)
         self.scrollbar.pack(side='right', fill='y')
         self.listbox.pack(fill='both', expand=True)
 
-        def moveUp():
+        def move_up():
             idxs = self.listbox.curselection()
             if not idxs:
                 return
             for pos in idxs:
                 if pos == 0:
                     continue
-                entrycurr = self.listbox.get(pos)
-                entryother = self.listbox.get(pos-1)
-                titlecurr = entrycurr.title().split(' ')
-                titleother = entryother.title().split(' ')
-                titlecurr[0], titleother[0] = titleother[0], titlecurr[0]
-                titlecurr = ' '.join(titlecurr)
-                titleother = ' '.join(titleother)
+                entry_curr = self.listbox.get(pos)
+                entry_other = self.listbox.get(pos-1)
+                title_curr = entry_curr.title().split(' ')
+                title_other = entry_other.title().split(' ')
+                title_curr[0], title_other[0] = title_other[0], title_curr[0]
+                title_curr = ' '.join(title_curr)
+                title_other = ' '.join(title_other)
                 self.listbox.delete(pos-1)
                 self.listbox.delete(pos-1)
-                self.listbox.insert(pos-1, titleother)
-                self.listbox.insert(pos-1, titlecurr)
+                self.listbox.insert(pos-1, title_other)
+                self.listbox.insert(pos-1, title_curr)
                 self.patches[pos], self.patches[pos-1] = self.patches[pos-1], self.patches[pos]
                 entry = self.listbox.get(pos-1)
                 self.listbox.selection_set(pos-1)
 
-        def moveDown():
+        def move_down():
             idxs = self.listbox.curselection()
             if not idxs:
                 return
             for pos in idxs:
                 if pos+1 == len(self.patches):
                     continue
-                entrycurr = self.listbox.get(pos)
-                entryother = self.listbox.get(pos+1)
-                titlecurr = entrycurr.title().split(' ')
-                titleother = entryother.title().split(' ')
-                titlecurr[0], titleother[0] = titleother[0], titlecurr[0]
-                titlecurr = ' '.join(titlecurr)
-                titleother = ' '.join(titleother)
+                entry_curr = self.listbox.get(pos)
+                entry_other = self.listbox.get(pos+1)
+                title_curr = entry_curr.title().split(' ')
+                title_other = entry_other.title().split(' ')
+                title_curr[0], title_other[0] = title_other[0], title_curr[0]
+                title_curr = ' '.join(title_curr)
+                title_other = ' '.join(title_other)
                 self.listbox.delete(pos)
                 self.listbox.delete(pos)
-                self.listbox.insert(pos, titlecurr)
-                self.listbox.insert(pos, titleother)
+                self.listbox.insert(pos, title_curr)
+                self.listbox.insert(pos, title_other)
                 self.patches[pos], self.patches[pos+1] = self.patches[pos+1], self.patches[pos]
                 entry = self.listbox.get(pos+1)
                 self.listbox.selection_set(pos+1)
 
-        def delPatch():
+        def del_patch():
             idxs = self.listbox.curselection()
             if not idxs:
                 return
@@ -155,17 +131,17 @@ class Patches:
                 title = ' '.join(title)
                 self.listbox.insert(pos, title)
 
-        self.moveUpButton = tk.Button(self.leftFrame, text='Up', command=moveUp)
-        self.moveDownButton = tk.Button(self.leftFrame, text='Down', command=moveDown)
-        self.loadPatch = tk.Button(self.leftFrame, text='Load Mod', command=self.getPatch)
-        self.delPatch = tk.Button(self.leftFrame, text='Delete Mod', command=delPatch)
+        self.move_up_button = tk.Button(self.left_frame, text='Up', command=move_up)
+        self.move_down_button = tk.Button(self.left_frame, text='Down', command=move_down)
+        self.load_patch = tk.Button(self.left_frame, text='Load Mod', command=self.get_patch)
+        self.del_patch = tk.Button(self.left_frame, text='Delete Mod', command=del_patch)
 
-        self.moveUpButton.grid(row=0, column=0, sticky='news')
-        self.moveDownButton.grid(row=1, column=0, sticky='news')
-        self.loadPatch.grid(row=2, column=0, sticky='news')
-        self.delPatch.grid(row=3, column=0, sticky='news')
+        self.move_up_button.grid(row=0, column=0, sticky='news')
+        self.move_down_button.grid(row=1, column=0, sticky='news')
+        self.load_patch.grid(row=2, column=0, sticky='news')
+        self.del_patch.grid(row=3, column=0, sticky='news')
 
-    def getPatch(self):
+    def get_patch(self):
         patch = filedialog.askopenfilename()
         if not patch:
             return
@@ -188,13 +164,13 @@ class Patches:
 
 
 class GuiApplication:
-    def __init__(self, settings=None, pakFile=None):
+    def __init__(self, settings=None, pakfile=None):
         self.master = tk.Tk()
         self.master.geometry('750x650') # width x height
         self.master.title(MAIN_TITLE)
         self.initialize_gui()
         self.initialize_settings(settings)
-        self.initialize_pakFile(pakFile)
+        self.initialize_pakfile(pakfile)
         self.master.mainloop()
 
 
@@ -203,11 +179,11 @@ class GuiApplication:
         self.warnings = []
         self.settings = {}
         self.settings['release'] = tk.StringVar()
-        self.pakFile = tk.StringVar()
+        self.pakfile = tk.StringVar()
         self.mod = None
 
         with open(get_filename('json/gui.json'), 'r') as file:
-            self.jsonFile = hjson.loads(file.read())
+            self.json_file = hjson.loads(file.read())
 
         #####################
         # PAKS FOLDER STUFF #
@@ -218,17 +194,17 @@ class GuiApplication:
         lf.grid(row=0, columnspan=2, sticky='nsew', padx=5, pady=5, ipadx=5, ipady=5)
 
         # Path to paks
-        self.pakFile.set('')
+        self.pakfile.set('')
 
-        pakFilename = tk.Entry(lf, textvariable=self.pakFile, width=75, state='readonly')
-        pakFilename.grid(row=0, column=0, columnspan=2, padx=(10,0), pady=3)
+        pak_filename = tk.Entry(lf, textvariable=self.pakfile, width=75, state='readonly')
+        pak_filename.grid(row=0, column=0, columnspan=2, padx=(10,0), pady=3)
 
-        pakLabel = tk.Label(lf)#, text='Pak file')
-        pakLabel.grid(row=1, column=0, sticky='w', padx=5, pady=2)
+        pak_label = tk.Label(lf)#, text='Pak file')
+        pak_label.grid(row=1, column=0, sticky='w', padx=5, pady=2)
 
-        pakButton = tk.Button(lf, text='Browse ...', command=self.getPakFile, width=20) # needs command..
-        pakButton.grid(row=1, column=1, sticky='e', padx=5, pady=2)
-        self.buildToolTip(pakButton,
+        pak_button = tk.Button(lf, text='Browse ...', command=self.get_pakfile, width=20) # needs command..
+        pak_button.grid(row=1, column=1, sticky='e', padx=5, pady=2)
+        self.build_tool_tip(pak_button,
                           """
 Input the game's pak file:\n
 Octopath_Traveler2-WindowsNoEditor.pak
@@ -242,34 +218,32 @@ Octopath_Traveler2-WindowsNoEditor.pak
         lf = tk.LabelFrame(self.master, text="Seed", font=labelfonts)
         lf.grid(row=0, column=2, columnspan=2, sticky='nsew', padx=5, pady=5, ipadx=5, ipady=5)
         self.settings['seed'] = tk.IntVar()
-        self.randomSeed()
+        self.random_seed()
 
         box = tk.Spinbox(lf, from_=0, to=1e8, width=9, textvariable=self.settings['seed'])
         box.grid(row=2, column=0, sticky='e', padx=60)
 
-        seedBtn = tk.Button(lf, text='Random Seed', command=self.randomSeed, width=12, height=1)
-        seedBtn.grid(row=3, column=0, columnspan=1, sticky='we', padx=30, ipadx=30)
+        seed_btn = tk.Button(lf, text='Random Seed', command=self.random_seed, width=12, height=1)
+        seed_btn.grid(row=3, column=0, columnspan=1, sticky='we', padx=30, ipadx=30)
 
-        self.randomizeBtn = tk.Button(lf, text='Randomize', command=self.randomize, height=1)
-        self.randomizeBtn.grid(row=4, column=0, columnspan=1, sticky='we', padx=30, ipadx=30)
+        self.randomize_btn = tk.Button(lf, text='Randomize', command=self.randomize, height=1)
+        self.randomize_btn.grid(row=4, column=0, columnspan=1, sticky='we', padx=30, ipadx=30)
 
         ############
         # SETTINGS #
         ############
 
         # Tabs setup
-        tabControl = ttk.Notebook(self.master)
-        tabs = {name: ttk.Frame(tabControl) for name in self.jsonFile}
+        tab_control = ttk.Notebook(self.master)
+        tabs = {name: ttk.Frame(tab_control) for name in self.json_file}
         for name, tab in tabs.items():
-            tabControl.add(tab, text=name)
-        tabControl.grid(row=2, column=0, columnspan=20, sticky='news')
+            tab_control.add(tab, text=name)
+        tab_control.grid(row=2, column=0, columnspan=20, sticky='news')
 
         # options
-        self.buttonData = [] # (variable, button, command, children)
-        self.spinboxData = []
-        self.optionData = []
-        for tabName, tab in tabs.items():
-            fields = self.jsonFile[tabName]
+        self.button_data = [] # (variable, button, command, children)
+        for tab_name, tab in tabs.items():
+            fields = self.json_file[tab_name]
             col = 0
             for i, (key, value) in enumerate(fields.items()):
                 row = i // 2
@@ -278,45 +252,45 @@ Octopath_Traveler2-WindowsNoEditor.pak
                 lf.grid(row=row, column=col, padx=10, pady=5, ipadx=12, ipady=5, sticky='news')
 
                 row = 0
-                for sKey, stuff in value.items():
+                for s_key, stuff in value.items():
                     if 'type' in stuff and stuff['type'] == 'SpinBox':
-                        self.addBox(lf, row, sKey, stuff)
+                        self.add_box(lf, row, s_key, stuff)
                         row += 1
                     elif 'type' in stuff and stuff['type'] == 'OptionMenu':
-                        self.addOptions(lf, row, sKey, stuff, offset=10)
+                        self.add_options(lf, row, s_key, stuff, offset=10)
                         row += 1
                     else:
-                        button = self.addButton(lf, row, 0, sKey, stuff, offset=10)
+                        button = self.add_button(lf, row, 0, s_key, stuff, offset=10)
                         row += 1
                         if 'indent' in stuff:
-                            _, _, _, children = self.buttonData[-1]
-                            for mKey, moreStuff in stuff['indent'].items():
-                                b = self.addButton(lf, row, 0, mKey, moreStuff, offset=30, state=tk.DISABLED)
+                            _, _, _, children = self.button_data[-1]
+                            for m_key, more_stuff in stuff['indent'].items():
+                                b = self.add_button(lf, row, 0, m_key, more_stuff, offset=30, state=tk.DISABLED)
                                 children.append(b)
                                 row += 1
 
         if 'Other Mods' in tabs:
-            otherMods = tabs['Other Mods']
-            self.patchTab = Patches(otherMods)
+            other_mods = tabs['Other Mods']
+            self.patch_tab = Patches(other_mods)
 
         # For warnings/text at the bottom
         self.canvas = tk.Canvas()
         self.canvas.grid(row=6, column=0, columnspan=20, pady=10)
 
-    def addButton(self, frame, row, col, key, stuff, offset=0, state=tk.NORMAL):
+    def add_button(self, frame, row, col, key, stuff, offset=0, state=tk.NORMAL):
         text = stuff['label']
         children = []
         variable = tk.BooleanVar()
-        command = self.makeTogglerBuilder(variable, stuff)
+        command = self.make_toggler(variable, stuff)
         button = ttk.Checkbutton(frame, text=text, variable=variable, command=command, state=state)
         button.grid(row=row, column=col, padx=offset, sticky='w')
-        self.buttonData.append((variable, button, command, children))
-        self.buildToolTip(button, stuff)
+        self.button_data.append((variable, button, command, children))
+        self.build_tool_tip(button, stuff)
         assert key not in self.settings
         self.settings[key] = variable
         return button
 
-    def addBox(self, frame, row, key, stuff):
+    def add_box(self, frame, row, key, stuff):
         text = stuff['label']
         ttk.Label(frame, text=text).grid(row=row, column=0, padx=10, sticky='w')
         if 'varType' in stuff:
@@ -327,30 +301,26 @@ Octopath_Traveler2-WindowsNoEditor.pak
         else:
             variable = tk.IntVar()
         variable.set(stuff['default'])
-        command = self.makeBoxBuilder(variable, stuff)
-        box = tk.Spinbox(frame, from_=stuff['min'], to=stuff['max'], increment=stuff['increment'], textvariable=variable, width=4, state='readonly', command=command)
+        box = tk.Spinbox(frame, from_=stuff['min'], to=stuff['max'], increment=stuff['increment'], textvariable=variable, width=4, state='readonly')
         box.grid(row=row, column=1, sticky='w')
-        self.spinboxData.append((variable, command))
         assert key not in self.settings
         self.settings[key] = variable
 
-    def addOptions(self, frame, row, key, stuff, offset=0):
+    def add_options(self, frame, row, key, stuff, offset=0):
         text = stuff['label']
         ttk.Label(frame, text=text).grid(row=row, column=0, padx=offset, sticky='w')
         options = stuff['options']
         assert options[0] == 'None'
         variable = tk.StringVar()
         variable.set('None')
-        command = self.makeOptionBuilder(variable, stuff)
-        box = tk.OptionMenu(frame, variable, *stuff['options'], command=command)
+        box = tk.OptionMenu(frame, variable, *stuff['options'])
         box.config(width=10)
         box.grid(row=row, column=1, sticky='e')
-        self.optionData.append((variable, command))
         assert key not in self.settings
         self.settings[key] = variable
 
-    def getButtonData(self, variable=None, button=None, command=None):
-        for v, b, c, d in self.buttonData:
+    def get_button_data(self, variable=None, button=None, command=None):
+        for v, b, c, d in self.button_data:
             if variable and variable == v:
                 break
             if button and button == b:
@@ -358,94 +328,62 @@ Octopath_Traveler2-WindowsNoEditor.pak
             if command and command == c:
                 break
         else:
-            sys.exit("Variable not stored in buttonData!")
+            sys.exit("Variable not stored in button_data!")
         return v, b, c, d
 
-    def makeTogglerBuilder(self, variable, stuff):
+    def make_toggler(self, variable, stuff):
         def f():
-            _, _, _, children = self.getButtonData(variable)
-            c = eval(stuff['class'])
-            a = stuff['attribute']
-            assert hasattr(c, a), f"{c}, {a}"
+            _, _, _, children = self.get_button_data(variable)
             if variable.get():
-                b = eval(stuff['builder'])
-                assert b is not None
-                setattr(c, a, b)
                 for btn in children:
                     btn.config(state=tk.NORMAL)
             else:
-                b = eval(stuff['default'])
-                assert b is not None
-                setattr(c, a, b)
                 for btn in children:
-                    var, _, com, _ = self.getButtonData(button=btn)
+                    var, _, com, _ = self.get_button_data(button=btn)
                     btn.config(state=tk.DISABLED)
                     var.set(False)
                     com()
         return f
 
-    def makeBoxBuilder(self, variable, stuff):
-        def f():
-            c = eval(stuff['class'])
-            a = stuff['attribute']
-            setattr(c, a, variable.get())
-        return f
+    def get_pakfile(self):
+        pakfile = filedialog.askopenfilename(filetypes=(("Pak files", "*.pak"), ("All files", "*.*")))
+        if pakfile:
+            self.load_pak_file(pakfile)
 
-    def makeOptionBuilder(self, variable, stuff):
-        def f(*args):
-            assert len(args) <= 1
-            c = eval(stuff['class'])
-            b = eval(stuff['builder'])
-            d = eval(stuff['default'])
-            a = stuff['attribute']
-            oa = stuff['optionsAttr']
-            v = variable.get()
-            if v == 'None':
-                setattr(c, a, d)
-            else:
-                setattr(c, a, b)
-            setattr(b, oa, v)
-        return f
-
-    def getPakFile(self):
-        pakFile = filedialog.askopenfilename(filetypes=(("Pak files", "*.pak"), ("All files", "*.*")))
-        if pakFile:
-            self.loadPakFile(pakFile)
-
-    def loadPakFile(self, pakFile):
-        self.clearBottomLabels()
-        if not os.path.isfile(pakFile):
+    def load_pak_file(self, pakfile):
+        self.clear_bottom_labels()
+        if not os.path.isfile(pakfile):
             return False
 
-        self.bottomLabel('Loading Pak....', 'blue', 0)
-        with open(pakFile, 'rb') as file:
+        self.bottom_label('Loading Pak....', 'blue', 0)
+        with open(pakfile, 'rb') as file:
             file.seek(-0xb4, 2)
             sha = int.from_bytes(file.read(20), byteorder='big')
 
         if sha == 0x224cb63a1cb9b939ab3c0102b113909dcfd05bae:
             try:
-                self.mod = Steam(pakFile)
+                self.mod = Steam(pakfile)
             except:
-                self.pakFile.set('')
-                self.clearBottomLabels()
-                self.bottomLabel('Error parsing the Steam release pak file.', 'red', 0)
+                self.pakfile.set('')
+                self.clear_bottom_labels()
+                self.bottom_label('Error parsing the Steam release pak file.', 'red', 0)
                 return False
 
         else:
             self.mod = None
-            self.pakFile.set('')
-            self.clearBottomLabels()
-            self.bottomLabel('This pak file is incompatible with the randomizer.','red',0)
+            self.pakfile.set('')
+            self.clear_bottom_labels()
+            self.bottom_label('This pak file is incompatible with the randomizer.','red',0)
             return False
 
-        self.bottomLabel('Done', 'blue', 1)
-        self.pakFile.set(pakFile)
-        with open('previousPak.txt', 'w') as file:
-            file.write(pakFile)
+        self.bottom_label('Done', 'blue', 1)
+        self.pakfile.set(pakfile)
+        with open('previous_pak.txt', 'w') as file:
+            file.write(pakfile)
 
         return True
 
-    def buildToolTip(self, button, field, wraplength=200):
+    def build_tool_tip(self, button, field, wraplength=200):
         if isinstance(field, str):
             CreateToolTip(button, field, wraplength, dx=25, dy=35)
         if isinstance(field, dict):
@@ -462,64 +400,61 @@ Octopath_Traveler2-WindowsNoEditor.pak
             if key not in self.settings:
                 continue
             self.settings[key].set(value)
-        for _, _, command, _ in self.buttonData:
-            command()
-        for _, command in self.spinboxData:
-            command()
-        for _, command in self.optionData:
+        for _, _, command, _ in self.button_data:
             command()
 
-    def initialize_pakFile(self, pakFile):
-        if pakFile:
-            loaded = self.loadPakFile(pakFile)
+    def initialize_pakfile(self, pakfile):
+        if pakfile:
+            loaded = self.load_pak_file(pakfile)
             if not loaded:
-                self.clearBottomLabels()
+                self.clear_bottom_labels()
 
-    def bottomLabel(self, text, fg, row):
+    def bottom_label(self, text, fg, row):
         L = tk.Label(self.canvas, text=text, fg=fg)
         L.grid(row=row, columnspan=20)
         self.warnings.append(L)
         self.master.update()
 
-    def clearBottomLabels(self):
+    def clear_bottom_labels(self):
         while self.warnings != []:
             warning = self.warnings.pop()
             warning.destroy()
         self.master.update()
         
-    def randomSeed(self):
+    def random_seed(self):
         self.settings['seed'].set(random.randint(0, 99999999))
 
     def randomize(self):
-        if self.pakFile.get() == '':
-            self.clearBottomLabels()
-            self.bottomLabel('Must load an appropriate pak file.', 'red', 0)
+        if self.pakfile.get() == '':
+            self.clear_bottom_labels()
+            self.bottom_label('Must load an appropriate pak file.', 'red', 0)
             return
 
         settings = { key: value.get() for key, value in self.settings.items() }
         with open('settings.json', 'w') as file:
             hjson.dump(settings, file)
 
-        self.clearBottomLabels()
-        self.bottomLabel('Randomizing....', 'blue', 0)
+        self.clear_bottom_labels()
+        self.bottom_label('Randomizing....', 'blue', 0)
 
         # Link patches -- list from highest to lowest priority
         try:
-            self.mod.pak.patches = self.patchTab.patches
+            self.mod.pak.patches = self.patch_tab.patches
         except:
             pass
 
-        if randomize(self.mod, settings['seed'], settings):
-            self.clearBottomLabels()
-            self.bottomLabel('Randomizing...done! Good luck!', 'blue', 0)
+        if randomize(self.mod, settings):
+            self.clear_bottom_labels()
+            self.bottom_label('Randomizing...done! Good luck!', 'blue', 0)
         else:
-            self.clearBottomLabels()
-            self.bottomLabel('Randomizing failed.', 'red', 0)
+            self.clear_bottom_labels()
+            self.bottom_label('Randomizing failed.', 'red', 0)
 
 
-def randomize(mod, seed, settings):
+def randomize(mod, settings):
     try:
-        mod.initialize(seed)
+        builder_setup(settings)
+        mod.initialize(settings['seed'])
         mod.randomize()
         mod.qualityOfLife() # keep this AFTER randomizing
         mod.dump(settings)
@@ -531,27 +466,27 @@ def randomize(mod, seed, settings):
 
 
 if __name__ == '__main__':
-    settingsFile = None
+    settings_file = None
     if len(sys.argv) > 2:
         print('Usage: python gui.py <settings.json>')
     elif len(sys.argv) == 2:
-        settingsFile = sys.argv[1]
+        settings_file = sys.argv[1]
     else:
         if os.path.isfile('settings.json'):
-            settingsFile = 'settings.json'
+            settings_file = 'settings.json'
 
-    exePath = os.path.dirname(sys.argv[0])
-    if exePath:
-        os.chdir(exePath)
+    exe_path = os.path.dirname(sys.argv[0])
+    if exe_path:
+        os.chdir(exe_path)
 
-    pakFile = None
-    if os.path.isfile('previousPak.txt'):
-        with open('previousPak.txt', 'r') as file:
-            pakFile = file.readline().rstrip('\n').rstrip('\r')
+    pakfile = None
+    if os.path.isfile('previous_pak.txt'):
+        with open('previous_pak.txt', 'r') as file:
+            pakfile = file.readline().rstrip('\n').rstrip('\r')
 
     settings = None
-    if settingsFile:
-        with open(settingsFile, 'r') as file:
+    if settings_file:
+        with open(settings_file, 'r') as file:
             settings = hjson.load(file)
 
-    GuiApplication(settings, pakFile)
+    GuiApplication(settings, pakfile)

@@ -1,17 +1,17 @@
 import random
 import sys
 from copy import deepcopy
-from Shuffler import Shuffler, Slot, noWeights
+from Shuffler import Shuffler, Slot, no_weights
 from Manager import Manager
 
 
-def separateByRing(w, s, c):
+def separate_by_ring(w, s, c):
     for i, si in enumerate(s):
         w[i] *= si.ring == c.ring
 
 
 # Keep chapter 1 bosses separate
-def separateRingOne(w, s, c):
+def separate_ring_one(w, s, c):
     if c.ring == 1:
         for i, si in enumerate(s):
             w[i] *= si.ring == 1
@@ -21,68 +21,68 @@ def separateRingOne(w, s, c):
 
 
 class Group(Slot):
-    def __init__(self, enemyGroup):
-        self.enemyGroup = enemyGroup
+    def __init__(self, enemy_group):
+        self.enemy_group = enemy_group
 
         # Data to be copied/patched
-        for key in self.enemyGroup.keys:
-            assert hasattr(self.enemyGroup, key)
-            v = getattr(self.enemyGroup, key)
+        for key in self.enemy_group.keys:
+            assert hasattr(self.enemy_group, key)
+            v = getattr(self.enemy_group, key)
             setattr(self, key, v)
 
-        self.bossType = enemyGroup.bossType
-        self.ring = enemyGroup.ring
+        self.boss_type = enemy_group.boss_type
+        self.ring = enemy_group.ring
 
     def copy(self, other):
-        for key in self.enemyGroup.keys:
+        for key in self.enemy_group.keys:
             v = getattr(other, key)
             setattr(self, key, v)
-        self.enemyGroup.randoBoss = other.enemyGroup.vanillaBoss
+        self.enemy_group.rando_boss = other.enemy_group.vanilla_boss
 
     def patch(self):
-        for key in self.enemyGroup.keys:
+        for key in self.enemy_group.keys:
             v = getattr(self, key)
-            setattr(self.enemyGroup, key, v)
+            setattr(self.enemy_group, key, v)
 
 
 class Bosses(Shuffler):
-    ShuffleByRings = separateByRing
-    IncludeMidGameOptBos = False
-    IncludeLateGameOptBos = False
-    IncludeGaldera = False
-    IncludeVide = False
+    shuffle_by_rings = separate_by_ring
+    include_mid_game_opt_bos = False
+    include_late_game_opt_bos = False
+    include_galdera = False
+    include_vide = False
 
     def __init__(self):
-        self.enemyGroupDB = Manager.getInstance('EnemyGroupData').table
+        self.enemy_group_db = Manager.get_instance('EnemyGroupData').table
         slots = []
         candidates = []
 
         # Construct all bosses
-        for g in self.enemyGroupDB:
-            if g.vanillaBoss:
+        for g in self.enemy_group_db:
+            if g.vanilla_boss:
                 slots.append(Group(g))
                 candidates.append(Group(g))
 
         # Remove bosses as needed for selected options 
-        if not self.IncludeMidGameOptBos:
-            slots = list(filter(lambda g: not (g.bossType == 'optional' and g.ring == 2), slots))
-            candidates = list(filter(lambda g: not (g.bossType == 'optional' and g.ring == 2), candidates))
+        if not self.include_mid_game_opt_bos:
+            slots = list(filter(lambda g: not (g.boss_type == 'optional' and g.ring == 2), slots))
+            candidates = list(filter(lambda g: not (g.boss_type == 'optional' and g.ring == 2), candidates))
 
-        if not self.IncludeLateGameOptBos:
-            slots = list(filter(lambda g: not (g.bossType == 'optional' and g.ring == 3), slots))
-            candidates = list(filter(lambda g: not (g.bossType == 'optional' and g.ring == 3), candidates))
+        if not self.include_late_game_opt_bos:
+            slots = list(filter(lambda g: not (g.boss_type == 'optional' and g.ring == 3), slots))
+            candidates = list(filter(lambda g: not (g.boss_type == 'optional' and g.ring == 3), candidates))
 
-        if not self.IncludeGaldera:
-            slots = list(filter(lambda g: g.bossType != 'galdera', slots))
-            candidates = list(filter(lambda g: g.bossType != 'galdera', candidates))
+        if not self.include_galdera:
+            slots = list(filter(lambda g: g.boss_type != 'galdera', slots))
+            candidates = list(filter(lambda g: g.boss_type != 'galdera', candidates))
 
-        if not self.IncludeVide:
-            slots = list(filter(lambda g: g.bossType != 'videwicked', slots))
-            candidates = list(filter(lambda g: g.bossType != 'videwicked', candidates))
+        if not self.include_vide:
+            slots = list(filter(lambda g: g.boss_type != 'videwicked', slots))
+            candidates = list(filter(lambda g: g.boss_type != 'videwicked', candidates))
 
         # Always omit Vide due to softlock
-        slots = list(filter(lambda g: g.bossType != 'vide', slots))
-        candidates = list(filter(lambda g: g.bossType != 'vide', candidates))
+        slots = list(filter(lambda g: g.boss_type != 'vide', slots))
+        candidates = list(filter(lambda g: g.boss_type != 'vide', candidates))
 
         self.slots = slots
         self.candidates = candidates
@@ -90,8 +90,8 @@ class Bosses(Shuffler):
         self.vacant = None
         self.weights = None
 
-    def generateWeights(self):
-        super().generateWeights(Bosses.ShuffleByRings)
+    def generate_weights(self):
+        super().generate_weights(Bosses.shuffle_by_rings)
 
     def finalize(self):
 
@@ -99,58 +99,58 @@ class Bosses(Shuffler):
         #### HOLD_OUT modding ####
         ##########################
 
-        aiBP = [
-            Manager.getAssetOnly('BattleAI_Bos_Mer_C01_010'),
-            Manager.getAssetOnly('BattleAI_Bos_Cle_C01_010'),
-            Manager.getAssetOnly('BattleAI_Bos_Hun_C01_010'),
-            Manager.getAssetOnly('BattleAI_Bos_War_C01_020'),
-            Manager.getAssetOnly('BattleAI_Bos_Sch_C01_010'),
+        ai_bp = [
+            Manager.get_asset_only('BattleAI_Bos_Mer_C01_010'),
+            Manager.get_asset_only('BattleAI_Bos_Cle_C01_010'),
+            Manager.get_asset_only('BattleAI_Bos_Hun_C01_010'),
+            Manager.get_asset_only('BattleAI_Bos_War_C01_020'),
+            Manager.get_asset_only('BattleAI_Bos_Sch_C01_010'),
         ]
 
         # Modify "disease" keeping bosses alive through the first in battle cutscene.
         # This seems to work for most bosses.
-        diseaseTable = Manager.getInstance('DiseaseData').table
-        diseaseTable.HOLD_OUT.EnableTurnCount = True
+        disease_db = Manager.get_instance('DiseaseData').table
+        disease_db.HOLD_OUT.EnableTurnCount = True
 
         # Setup target to be found in uexp
         zero = int.to_bytes(0, 4, byteorder='little')
-        negOne = int.to_bytes(-1, 4, byteorder='little', signed=True)
+        neg_one = int.to_bytes(-1, 4, byteorder='little', signed=True)
         com1d = bytes([0x1d])
         com21 = bytes([0x21])
-        target = com1d + zero + com1d + negOne
+        target = com1d + zero + com1d + neg_one
 
         # Changes a -1 to 0. Not sure what goes on for 0 HOLD_OUT's.
         # Positive numbers seems to correspond to the number of times
         # the boss get's is kept alive with 1 HP rather than killed.
-        for k, bp in enumerate(aiBP):
-            hoVal = bp.uasset.getIndex('HOLD_OUT').to_bytes(8, byteorder='little')
-            addr = bp.uexp.index(hoVal + target)
-            bp.patchInt32(addr+14, 0)
+        for k, bp in enumerate(ai_bp):
+            ho_val = bp.uasset.get_index('HOLD_OUT').to_bytes(8, byteorder='little')
+            addr = bp.uexp.index(ho_val + target)
+            bp.patch_int32(addr+14, 0)
 
         ###################################
         ### Capturing Ochette's Bosses ####
         ###################################
 
-        enemyDB = Manager.getInstance('EnemyDB').table
+        enemy_db = Manager.get_instance('EnemyDB').table
 
         #### Turn off Tera
-        tera = enemyDB.ENE_BOS_HUN_C02_010
+        tera = enemy_db.ENE_BOS_HUN_C02_010
         tera.TameEnable = False
         tera.LegendTameMonster = False
 
         #### Turn off Glacis
-        glacis = enemyDB.ENE_BOS_HUN_C02_020
+        glacis = enemy_db.ENE_BOS_HUN_C02_020
         glacis.TameEnable = False
         glacis.LegendTameMonster = False
 
 
         ### Update rando bosses
-        def getEnemyWithMaxHP(slot):
+        def get_enemy_with_max_hp(slot):
             # Make sure to get the enemy with the most HP
             boss = None
             hp = 0
             for e in slot.EnemyID:
-                enemy = enemyDB.getRow(e)
+                enemy = enemy_db.get_row(e)
                 if enemy:
                     if enemy.Param['HP'] > hp:
                         boss = enemy
@@ -158,22 +158,22 @@ class Bosses(Shuffler):
             assert boss, 'no boss found!?'
             return boss
 
-        def getGroup(groupName):
+        def get_group(group_name):
             for s in self.slots:
-                if s.enemyGroup.key == groupName:
+                if s.enemy_group.key == group_name:
                     return s
             else:
-                sys.exit(f'group {groupName} not found!')
+                sys.exit(f'group {group_name} not found!')
         
-        teraGroup = getGroup('ENG_BOS_HUN_C02_010')
-        boss = getEnemyWithMaxHP(teraGroup)
+        tera_group = get_group('ENG_BOS_HUN_C02_010')
+        boss = get_enemy_with_max_hp(tera_group)
         boss.TameEnable = True
         boss.LegendTameMonster = True
         boss.InvadeMonsterID = tera.InvadeMonsterID
         boss.DefaultTameRate = tera.DefaultTameRate
 
-        glacisGroup = getGroup('ENG_BOS_HUN_C02_020')
-        boss = getEnemyWithMaxHP(glacisGroup)
+        glacis_group = get_group('ENG_BOS_HUN_C02_020')
+        boss = get_enemy_with_max_hp(glacis_group)
         boss.TameEnable = True
         boss.LegendTameMonster = True
         boss.InvadeMonsterID = glacis.InvadeMonsterID
@@ -184,16 +184,16 @@ class Bosses(Shuffler):
         ############################################
 
         # Seems to work for both bosses
-        hunBosA = Manager.getAsset('ENG_BOS_HUN_C03_010_A')
-        export = hunBosA.getUexp2Obj(16)
-        export.assertBoolOn(0x2a)
-        export.toggleBoolOff(0x2a)
+        hun_bos_A = Manager.get_asset('ENG_BOS_HUN_C03_010_A')
+        export = hun_bos_A.get_uexp_obj_2(16)
+        export.assert_bool_on(0x2a)
+        export.toggle_bool_off(0x2a)
 
         # Included just in case
-        hunBosB = Manager.getAsset('ENG_BOS_HUN_C03_010_B')
-        export = hunBosB.getUexp2Obj(14)
-        export.assertBoolOn(0x2a)
-        export.toggleBoolOff(0x2a)
+        hun_bos_B = Manager.get_asset('ENG_BOS_HUN_C03_010_B')
+        export = hun_bos_B.get_uexp_obj_2(14)
+        export.assert_bool_on(0x2a)
+        export.toggle_bool_off(0x2a)
 
         ############################
         #### Learning Ex Skills ####
@@ -210,126 +210,126 @@ class Bosses(Shuffler):
             'DAN': (8, 1), # Agnea
         }
 
-        def getPCJob(boss):
+        def get_pc_job(boss):
             for s in self.slots:
-                if s.enemyGroup.randoBoss == boss:
+                if s.enemy_group.rando_boss == boss:
                     break
             else:
                 sys.exit(f'Boss {boss} not found!')
 
             for j in abil.keys():
-                if j in s.enemyGroup.key:
+                if j in s.enemy_group.key:
                     return j
 
             return None
             
         # Add text for their Ex Skills
-        gameTextTable = Manager.getInstance('GameTextEN').table
-        abilitySetTable = Manager.getInstance('AbilitySetData').table
-        pcTable = Manager.getInstance('PlayableCharacterDB').table
+        game_text_db = Manager.get_instance('GameTextEN').table
+        ability_set_db = Manager.get_instance('AbilitySetData').table
+        pc_db = Manager.get_instance('PlayableCharacterDB').table
 
-        def getNames(pc):
-            es1 = abilitySetTable.getRow(pc.exSkillOne).name
-            es2 = abilitySetTable.getRow(pc.exSkillTwo).name
+        def get_names(pc):
+            es1 = ability_set_db.get_row(pc.ex_skill_one).name
+            es2 = ability_set_db.get_row(pc.ex_skill_two).name
             return es2, es1
 
         # Osvald
-        job = getPCJob('Professor Harvey')
+        job = get_pc_job('Professor Harvey')
         if job in abil:
-            pcSch, skillSch = abil['SCH']
-            pcJob, skillJob = abil[job]
+            pc_sch, skill_sch = abil['SCH']
+            pc_job, skill_job = abil[job]
 
             # Boss
-            bosOSV = Manager.getAsset('ENG_BOS_SCH_C05_010_A')
+            bos_osv = Manager.get_asset('ENG_BOS_SCH_C05_010_A')
 
-            se1 = bosOSV.getUexp2Obj(16)
-            se1.assertUInt8(pcSch, addr=0x22)
-            se1.patchUInt8(pcJob, addr=0x22)
-            se1.assertUInt32(skillSch, addr=0x24)
-            se1.patchUInt32(skillJob, addr=0x24)
+            se1 = bos_osv.get_uexp_obj_2(16)
+            se1.assert_uint8(pc_sch, addr=0x22)
+            se1.patch_uint8(pc_job, addr=0x22)
+            se1.assert_uint32(skill_sch, addr=0x24)
+            se1.patch_uint32(skill_job, addr=0x24)
 
-            se2 = bosOSV.getUexp2Obj(17)
-            se2.assertUInt8(pcSch, addr=0x2b)
-            se2.patchUInt8(pcJob, addr=0x2b)
-            se2.assertUInt32(skillSch, addr=0x2d)
-            se2.patchUInt32(skillJob, addr=0x2d)
+            se2 = bos_osv.get_uexp_obj_2(17)
+            se2.assert_uint8(pc_sch, addr=0x2b)
+            se2.patch_uint8(pc_job, addr=0x2b)
+            se2.assert_uint32(skill_sch, addr=0x2d)
+            se2.patch_uint32(skill_job, addr=0x2d)
 
         if job != 'SCH': # If boss isn't in it's vanilla storyline
-            pcSch, skillSch = abil['SCH']
+            pc_sch, skill_sch = abil['SCH']
 
             # Story end event
-            jsonRef = Manager.getJson('MS_KAR_30_2500') # Ochette's end event
-            osvJson = Manager.getJson('MS_GAK_50_1300') # Osvald's end event
+            json_ref = Manager.get_json('MS_KAR_30_2500') # Ochette's end event
+            osv_json = Manager.get_json('MS_GAK_50_1300') # Osvald's end event
 
-            ref = deepcopy(jsonRef.jsonList[-3:-1])
-            ref[0].target = pcSch
-            ref[0].opt[0] = str(skillSch)
+            ref = deepcopy(json_ref.json_list[-3:-1])
+            ref[0].target = pc_sch
+            ref[0].opt[0] = str(skill_sch)
             ref[1].text = "ED_GAK_ADVANCEABILITY_0020"
-            osvJson.insertCommand(ref[0], 161)
-            osvJson.insertCommand(ref[1], 162)
+            osv_json.insert_command(ref[0], 161)
+            osv_json.insert_command(ref[1], 162)
 
             # Text
-            es2, _ = getNames(pcTable.osvald)
-            gameTextTable.ED_GAK_ADVANCEABILITY_0020._data['Text'].string1 = 'GameTextEN'
-            gameTextTable.ED_GAK_ADVANCEABILITY_0020._data['Text'].string2 = 'ED_GAK_ADVANCEABILITY_0020'
-            gameTextTable.ED_GAK_ADVANCEABILITY_0020.setText(f'Osvald learned the EX skill "{es2}"')
+            es2, _ = get_names(pc_db.osvald)
+            game_text_db.ED_GAK_ADVANCEABILITY_0020._data['Text'].string_1 = 'GameTextEN'
+            game_text_db.ED_GAK_ADVANCEABILITY_0020._data['Text'].string_2 = 'ED_GAK_ADVANCEABILITY_0020'
+            game_text_db.ED_GAK_ADVANCEABILITY_0020.set_text(f'Osvald learned the EX skill "{es2}"')
 
 
         # Agnea
-        job = getPCJob('Dolcinaea the Star')
+        job = get_pc_job('Dolcinaea the Star')
         if job in abil:
-            pcDan, skillDan = abil['DAN']
-            pcJob, skillJob = abil[job]
+            pc_dan, skill_dan = abil['DAN']
+            pc_job, skill_job = abil[job]
 
             # Boss
-            bosAGN = Manager.getAsset('ENG_BOS_DAN_C05_020')
+            bos_agn = Manager.get_asset('ENG_BOS_DAN_C05_020')
 
-            se1 = bosAGN.getUexp2Obj(17)
-            se1.assertUInt8(pcDan, addr=0x22)
-            se1.patchUInt8(pcJob, addr=0x22)
-            se1.assertUInt32(skillDan, addr=0x24)
-            se1.patchUInt32(skillJob, addr=0x24)
+            se1 = bos_agn.get_uexp_obj_2(17)
+            se1.assert_uint8(pc_dan, addr=0x22)
+            se1.patch_uint8(pc_job, addr=0x22)
+            se1.assert_uint32(skill_dan, addr=0x24)
+            se1.patch_uint32(skill_job, addr=0x24)
 
-            se2 = bosAGN.getUexp2Obj(18)
-            se2.assertUInt8(pcDan, addr=0x2b)
-            se2.patchUInt8(pcJob, addr=0x2b)
-            se2.assertUInt32(skillDan, addr=0x2d)
-            se2.patchUInt32(skillJob, addr=0x2d)
+            se2 = bos_agn.get_uexp_obj_2(18)
+            se2.assert_uint8(pc_dan, addr=0x2b)
+            se2.patch_uint8(pc_job, addr=0x2b)
+            se2.assert_uint32(skill_dan, addr=0x2d)
+            se2.patch_uint32(skill_job, addr=0x2d)
 
         if job != 'DAN': # If boss isn't in it's vanilla storyline
-            pcDan, skillDan = abil['DAN']
+            pc_dan, skill_dan = abil['DAN']
 
             # Story end event
-            jsonRef = Manager.getJson('MS_KAR_30_2500') # Ochette's end event
-            agnJson = Manager.getJson('MS_ODO_50_2000') # Agnea's end event
+            json_ref = Manager.get_json('MS_KAR_30_2500') # Ochette's end event
+            agn_json = Manager.get_json('MS_ODO_50_2000') # Agnea's end event
 
-            ref = deepcopy(jsonRef.jsonList[-3:-1])
-            ref[0].target = pcDan
-            ref[0].opt[0] = str(skillDan)
+            ref = deepcopy(json_ref.json_list[-3:-1])
+            ref[0].target = pc_dan
+            ref[0].opt[0] = str(skill_dan)
             ref[1].text = "ED_ODO_ADVANCEABILITY_0020"
-            agnJson.insertCommand(ref[0], 139)
-            agnJson.insertCommand(ref[1], 139)
+            agn_json.insert_command(ref[0], 139)
+            agn_json.insert_command(ref[1], 139)
 
             # Text
-            es2, _ = getNames(pcTable.agnea)
-            gameTextTable.ED_ODO_ADVANCEABILITY_0020._data['Text'].string1 = 'GameTextEN'
-            gameTextTable.ED_ODO_ADVANCEABILITY_0020._data['Text'].string2 = 'ED_ODO_ADVANCEABILITY_0020'
-            gameTextTable.ED_ODO_ADVANCEABILITY_0020.setText(f'Agnea learned the EX skill "{es2}"')
+            es2, _ = get_names(pc_db.agnea)
+            game_text_db.ED_ODO_ADVANCEABILITY_0020._data['Text'].string_1 = 'GameTextEN'
+            game_text_db.ED_ODO_ADVANCEABILITY_0020._data['Text'].string_2 = 'ED_ODO_ADVANCEABILITY_0020'
+            game_text_db.ED_ODO_ADVANCEABILITY_0020.set_text(f'Agnea learned the EX skill "{es2}"')
 
 
         ###########################
         #### Keep LT Guages On ####
         ###########################
 
-        def keepOn(filename, flag):
-            f = Manager.getJson(filename)
-            f.toggleFlagOn(flag)
+        def keep_on(filename, flag):
+            f = Manager.get_json(filename)
+            f.toggle_flag_on(flag)
 
-        keepOn('MS_KEN_10_0100', 30)
-        keepOn('MS_KAR_10_0200', 31)
-        keepOn('MS_KUS_10_0100', 32)
-        keepOn('MS_SHO_10_0100', 33)
-        keepOn('MS_SIN_10_0100', 34)
-        keepOn('MS_GAK_10_0100', 35)
-        keepOn('MS_TOU_10_0100', 36)
-        keepOn('MS_ODO_10_0100', 37)
+        keep_on('MS_KEN_10_0100', 30)
+        keep_on('MS_KAR_10_0200', 31)
+        keep_on('MS_KUS_10_0100', 32)
+        keep_on('MS_SHO_10_0100', 33)
+        keep_on('MS_SIN_10_0100', 34)
+        keep_on('MS_GAK_10_0100', 35)
+        keep_on('MS_TOU_10_0100', 36)
+        keep_on('MS_ODO_10_0100', 37)

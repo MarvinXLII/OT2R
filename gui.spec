@@ -6,6 +6,7 @@ a = Analysis(
     [
         'gui.py',
         'release.py',
+        'builder.py',
         'src/Assets.py',
         'src/Command.py',
         'src/DataJson.py',

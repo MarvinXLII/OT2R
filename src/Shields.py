@@ -6,14 +6,14 @@ from Manager import Manager
 class Shields:
     
     def __init__(self):
-        self.enemyDB = Manager.getInstance('EnemyDB')
+        self.enemy_db = Manager.get_instance('EnemyDB')
 
     def run(self):
-        for enemy in self.enemyDB.table:
+        for enemy in self.enemy_db.table:
 
             # Skip all bosses for now
             # add back individually when testing
-            if enemy.isBoss:
+            if enemy.is_boss:
                 if enemy.key in [
                         # Temenos
                         'ENE_BOS_CLE_C01_010', # Ch 1

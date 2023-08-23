@@ -5,8 +5,8 @@ import bsdiff4
 
 
 class Image(DataAsset):
-    def __init__(self, filename, includePatches=True):
-        self.data = Manager.getAsset(filename, includePatches=False)
+    def __init__(self, filename, include_patches=True):
+        self.data = Manager.get_asset(filename, include_patches=False)
         
     @property
     def image(self):
@@ -19,11 +19,11 @@ class Image(DataAsset):
 
 class TitleSteam(Image):
     def __init__(self):
-        super().__init__('UiTX_Title_LogoAdd_x3', includePatches=False)
+        super().__init__('UiTX_Title_LogoAdd_x3', include_patches=False)
 
         fdata = File(self.image)
         fdata.seek(0x44)
-        self.imageSize = fdata.readUInt32()
+        self.image_size = fdata.read_uint32()
 
     def _loadPatch(self):
         with open(get_filename('image/UiTX_Title_LogoAdd_x3.bin'), 'rb') as file:
@@ -33,7 +33,7 @@ class TitleSteam(Image):
     def updateTitle(self):
         patch = self._loadPatch()
 
-        start = -24 - self.imageSize
+        start = -24 - self.image_size
         end = -24
 
         vanilla = bytes(self.image[start:end])

@@ -3,40 +3,40 @@ from Nothing import Nothing
 from Manager import Manager
 
 
-def nerf(x, attribute, value, includeZero=False):
+def nerf(x, attribute, value, include_zero=False):
     for xi in x.table:
-        defaultValue = getattr(xi, attribute)
-        if includeZero or defaultValue != 0:
+        default_value = getattr(xi, attribute)
+        if include_zero or default_value != 0:
             setattr(xi, attribute, value)
 
-def nerfEntreat(shops):
+def nerf_entreat(shops):
     nerf(shops, 'ProperBeg', 1)
 
-def nerfSteal(shops):
-    nerf(shops, 'ProperSteal', -15, includeZero=True)
+def nerf_steal(shops):
+    nerf(shops, 'ProperSteal', -15, include_zero=True)
 
-def nerfPurchase(shops):
+def nerf_purchase(shops):
     nerf(shops, 'FCPrice', 1)
 
-def nerfInquire(hear):
+def nerf_inquire(hear):
     nerf(hear, 'HearNeedLevel', 1)
     
-def nerfBribe(hear):
+def nerf_bribe(hear):
     nerf(hear, 'BriberyBuyPrice', 1)
     
-def nerfScrutinize(hear):
+def nerf_scrutinize(hear):
     nerf(hear, 'SearchBaseProbability', 100.0)
 
-def nerfAllure(lead):
+def nerf_allure(lead):
     nerf(lead, 'LureBaseProbability', 100.0)
 
-def nerfHire(lead):
+def nerf_hire(lead):
     nerf(lead, 'HirePrice', 1)
     
-def nerfGuide(lead):
+def nerf_guide(lead):
     nerf(lead, 'LeadNeedLevel', 1)
 
-def nerfBefriend(lead):
+def nerf_befriend(lead):
     for npc in lead.table:
         assert len(npc.PlacateNeedItems) == 1
         if npc.PlacateNeedItems[0]['ItemNum'].value > 0:
@@ -45,13 +45,13 @@ def nerfBefriend(lead):
             npc.PlacateNeedItems[0]['ItemLabel'].value = 'ITM_CSM_0010'
             npc.PlacateNeedItems[0]['ItemNum'].value = 1
 
-def nerfChallenge(battle):
+def nerf_challenge(battle):
     nerf(battle, 'BattleNeedLevel', 1)
 
-def nerfAmbush(battle):
+def nerf_ambush(battle):
     nerf(battle, 'AssassinateNeedLevel', 1)
     
-def nerfSoothe(battle):
+def nerf_soothe(battle):
     for i, npc in enumerate(battle.table):
         if npc.DoseItemNum > 0:
             # Castti Ch 1 -- Lychanthe Antipyretic
@@ -80,22 +80,22 @@ class PathActions:
     soothe = Nothing
 
     def __init__(self):
-        self.shopDB = Manager.getInstance('PurchaseItemTable')
-        self.hearDB = Manager.getInstance('NPCHearData')
-        self.leadDB = Manager.getInstance('NPCLeadData')
-        self.battleDB = Manager.getInstance('NPCBattleData')
+        self.shop_db = Manager.get_instance('PurchaseItemTable')
+        self.hear_db = Manager.get_instance('NPCHearData')
+        self.lead_db = Manager.get_instance('NPCLeadData')
+        self.battle_db = Manager.get_instance('NPCBattleData')
 
     def run(self):
-        PathActions.entreat(self.shopDB) # Agnea
-        PathActions.steal(self.shopDB) # Throne
-        PathActions.purchase(self.shopDB) # Partitio
-        PathActions.inquire(self.hearDB) # Castti
-        PathActions.bribe(self.hearDB) # Hikari
-        PathActions.scrutinize(self.hearDB) # Osvald
-        PathActions.allure(self.leadDB) # Agnea
-        PathActions.hire(self.leadDB) # Partitio
-        PathActions.guide(self.leadDB) # Temenos
-        PathActions.befriend(self.leadDB) # Ochette
-        PathActions.challenge(self.battleDB) # Hikari
-        PathActions.ambush(self.battleDB) # Throne
-        PathActions.soothe(self.battleDB) # Castti
+        PathActions.entreat(self.shop_db) # Agnea
+        PathActions.steal(self.shop_db) # Throne
+        PathActions.purchase(self.shop_db) # Partitio
+        PathActions.inquire(self.hear_db) # Castti
+        PathActions.bribe(self.hear_db) # Hikari
+        PathActions.scrutinize(self.hear_db) # Osvald
+        PathActions.allure(self.lead_db) # Agnea
+        PathActions.hire(self.lead_db) # Partitio
+        PathActions.guide(self.lead_db) # Temenos
+        PathActions.befriend(self.lead_db) # Ochette
+        PathActions.challenge(self.battle_db) # Hikari
+        PathActions.ambush(self.battle_db) # Throne
+        PathActions.soothe(self.battle_db) # Castti

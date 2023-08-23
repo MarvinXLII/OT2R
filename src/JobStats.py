@@ -4,18 +4,17 @@ from Manager import Manager
 
 class JobStatsFair:
     def __init__(self):
-        self.jobTable = Manager.getInstance('JobData').table
-        self.pcTable = Manager.getInstance('PlayableCharacterDB').table
+        self.job_db = Manager.get_instance('JobData').table
+        self.pc_db = Manager.get_instance('PlayableCharacterDB').table
 
-        jobKeys = self.jobTable.baseJobKeys + self.jobTable.advJobKeys
-        self.baseJobStats = [self.jobTable.getRow(jKey) for jKey in self.jobTable.baseJobKeys]
-        self.advJobStats = [self.jobTable.getRow(jKey) for jKey in self.jobTable.advJobKeys]
-        self.pcStats = [self.pcTable.getRow(pKey) for pKey in self.jobTable.baseJobKeys]
+        self.base_job_stats = [self.job_db.get_row(key) for key in self.job_db.base_job_keys]
+        self.adv_job_stats = [self.job_db.get_row(key) for key in self.job_db.adv_job_keys]
+        self.pc_stats = [self.pc_db.get_row(key) for key in self.job_db.base_job_keys]
 
     def run(self):
-        self._shuffle(self.baseJobStats)
-        self._shuffle(self.advJobStats)
-        self._shuffle(self.pcStats)
+        self._shuffle(self.base_job_stats)
+        self._shuffle(self.adv_job_stats)
+        self._shuffle(self.pc_stats)
 
     def _shuffle(self, stats):
         for i, si in enumerate(stats):
@@ -26,12 +25,12 @@ class JobStatsFair:
 
 class JobStatsRandom(JobStatsFair):
     def run(self):
-        self._shuffle(self.baseJobStats + self.advJobStats)
-        self._shuffle(self.pcStats)
+        self._shuffle(self.base_job_stats + self.adv_job_stats)
+        self._shuffle(self.pc_stats)
 
-    def _shuffleStats(self, stats):
-        keys = list(stats[0].keys())
-        for k in keys:
-            for i, si in enumerate(stats):
-                sj = random.choice(stats[i:])
-                si.parameterRevision[k], sj.parameterRevision[k] = si.parameterRevision[k], sj.parameterRevision[k]
+    # def _shuffle(self, stats):
+    #     keys = list(stats[0].ParameterRevision.keys())
+    #     for k in keys:
+    #         for i, si in enumerate(stats):
+    #             sj = random.choice(stats[i:])
+    #             si.ParameterRevision[k], sj.ParameterRevision[k] = si.ParameterRevision[k], sj.ParameterRevision[k]

@@ -6,9 +6,9 @@ class ShopListRow(Row):
 
     def __init__(self, *args):
         super().__init__(*args)
-        self.isPrologue = 'Prologue' in self.key
+        self.is_prologue = 'Prologue' in self.key
 
-    def removeWeapons(self):
+    def remove_weapons(self):
         s = set(self.LabelList).difference([
             'NPC_KEN_PrologueSHOP_03', # Lance  --> make Sword
             'NPC_SHO_PrologueSHOP_03', # Lance
@@ -20,11 +20,11 @@ class ShopListRow(Row):
         ])
         self.LabelList = sorted(s)
 
-    def addPrologueShopWeapons(self, weapons):
-        if not self.isPrologue:
+    def add_prologue_shop_weapons(self, weapons):
+        if not self.is_prologue:
             sys.exit(f'{self.key} is not a prologue shop!')
 
-        self.removeWeapons()
+        self.remove_weapons()
         for weapon in weapons:
             if weapon == 'Sword':
                 self.LabelList.append('NPC_KEN_PrologueSHOP_03')
@@ -41,54 +41,54 @@ class ShopListRow(Row):
             else:
                 sys.exit(f'weapon {weapon} not setup for adding to prologue shops!')
 
-    def addFireSoulstone(self):
+    def add_fire_soulstone(self):
         self.LabelList.append('NPC_Fld_Cty_1_2_TALK_0900_N000_01')
 
-    def addIceSoulstone(self):
+    def add_ice_soulstone(self):
         self.LabelList.append('NPC_Fld_Cty_1_2_TALK_0900_N000_03')
 
-    def addThunderSoulstone(self):
+    def add_thunder_soulstone(self):
         self.LabelList.append('NPC_Fld_Cty_1_2_TALK_0900_N000_05')
 
-    def addWindSoulstone(self):
+    def add_wind_soulstone(self):
         self.LabelList.append('NPC_Fld_Cty_1_2_TALK_0900_N000_07')
 
-    def addLightSoulstone(self):
+    def add_light_soulstone(self):
         self.LabelList.append('NPC_Fld_Cty_1_2_TALK_0900_N000_09')
 
-    def addDarkSoulstone(self):
+    def add_dark_soulstone(self):
         self.LabelList.append('NPC_Fld_Cty_1_2_TALK_0900_N000_11')
 
 
 class ShopListTable(Table):
     @property
-    def prologueAgnea(self):
+    def prologue_agnea(self):
         return self.NPC_ODO_PrologueSHOP
 
     @property
-    def prologueCastti(self):
+    def prologue_castti(self):
         return self.NPC_KUS_PrologueSHOP
 
     @property
-    def prologueHikari(self):
+    def prologue_hikari(self):
         return self.NPC_KEN_PrologueSHOP
 
     @property
-    def prologueOchette(self):
+    def prologue_ochette(self):
         return self.NPC_KAR_PrologueSHOP
 
     @property
-    def prologueOsvald(self):
+    def prologue_osvald(self):
         return self.NPC_GAK_PrologueSHOP
 
     @property
-    def prologuePartitio(self):
+    def prologue_partitio(self):
         return self.NPC_SHO_PrologueSHOP
 
     @property
-    def prologueTemenos(self):
+    def prologue_temenos(self):
         return self.NPC_SIN_PrologueSHOP
 
     @property
-    def prologueThrone(self):
+    def prologue_throne(self):
         return self.NPC_TOU_PrologueSHOP

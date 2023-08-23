@@ -5,52 +5,52 @@ from Utility import JOBMAP, BASEJOBS, ADVJOBS
 class PCRow(Row):
     @property
     def name(self):
-        textDB = Manager.getInstance('GameTextEN').table
-        return self.textDB.getText(self.DisplayName)
+        text_db = Manager.get_instance('GameTextEN').table
+        return self.text_db.get_text(self.DisplayName)
 
     @property
-    def jobName(self):
+    def job_name(self):
         return JOBMAP[self.key]
 
     @property
-    def textMainWeapon(self):
+    def text_main_weapon(self):
         return self.MainWeapon.split('::e')[1].lower()
 
     @property
-    def exSkillOne(self):
+    def ex_skill_one(self):
         return self.AdvancedAbility[0]['AbilityID'].value
 
     @property
-    def exSkillTwo(self):
+    def ex_skill_two(self):
         return self.AdvancedAbility[1]['AbilityID'].value
 
 
 class PCTable(Table):
-    def __init__(self, data, rowClass):
-        super().__init__(data, rowClass)
+    def __init__(self, data, row_class):
+        super().__init__(data, row_class)
 
-        self.equipKeys = ['Sword', 'Lance', 'Dagger', 'Axe', 'Bow', 'Rod']
-        self.baseJobKeys = list(BASEJOBS.keys())
-        self.advJobKeys = list(ADVJOBS.keys())
+        self.equip_keys = ['Sword', 'Lance', 'Dagger', 'Axe', 'Bow', 'Rod']
+        self.base_job_keys = list(BASEJOBS.keys())
+        self.adv_job_keys = list(ADVJOBS.keys())
 
-        self.firstEquipmentCandidates = {eKey:[] for eKey in self.equipKeys}
-        for jKey in self.baseJobKeys:
-            for eKey in self.equipKeys:
-                e = self.getFirstEquipment(jKey, eKey)
+        self.first_equipment_candidates = {e_key:[] for e_key in self.equip_keys}
+        for j_key in self.base_job_keys:
+            for e_key in self.equip_keys:
+                e = self.get_first_equipment(j_key, e_key)
                 if e != 'None':
-                    self.firstEquipmentCandidates[eKey].append(e)
+                    self.first_equipment_candidates[e_key].append(e)
 
-    def getFirstEquipment(self, jKey, eKey):
-        row = self.getRow(jKey)
-        return row.FirstEquipment[eKey]
+    def get_first_equipment(self, j_key, e_key):
+        row = self.get_row(j_key)
+        return row.FirstEquipment[e_key]
 
-    def setFirstEquipment(self, jKey, eKey, equipment):
-        row = self.getRow(jKey)
-        row.FirstEquipment[eKey] = equipment
+    def set_first_equipment(self, j_key, e_key, equipment):
+        row = self.get_row(j_key)
+        row.FirstEquipment[e_key] = equipment
 
-    def clearFirstEquipment(self):
-        for jKey in self.baseJobKeys:
-            row = self.getRow(jKey)
+    def clear_first_equipment(self):
+        for j_key in self.base_job_keys:
+            row = self.get_row(j_key)
             row.FirstEquipment['Sword'] = 'None'
             row.FirstEquipment['Lance'] = 'None'
             row.FirstEquipment['Dagger'] = 'None'
@@ -58,42 +58,42 @@ class PCTable(Table):
             row.FirstEquipment['Bow'] = 'None'
             row.FirstEquipment['Rod'] = 'None'
 
-    def getMainWeapon(self, jKey):
-        row = self.getRow(jKey)
+    def get_main_weapon(self, j_key):
+        row = self.get_row(j_key)
         return row.MainWeapon
 
-    def setMainWeapon(self, jKey, weapon):
-        row = self.getRow(jKey)
+    def set_main_weapon(self, j_key, weapon):
+        row = self.get_row(j_key)
         row.MainWeapon = weapon
 
     @property
     def agnea(self):
-        return self.getRow('eDANCER')
+        return self.get_row('eDANCER')
 
     @property
     def castti(self):
-        return self.getRow('eALCHEMIST')
+        return self.get_row('eALCHEMIST')
 
     @property
     def hikari(self):
-        return self.getRow('eFENCER')
+        return self.get_row('eFENCER')
 
     @property
     def partitio(self):
-        return self.getRow('eMERCHANT')
+        return self.get_row('eMERCHANT')
 
     @property
     def ochette(self):
-        return self.getRow('eHUNTER')
+        return self.get_row('eHUNTER')
 
     @property
     def osvald(self):
-        return self.getRow('ePROFESSOR')
+        return self.get_row('ePROFESSOR')
 
     @property
     def temenos(self):
-        return self.getRow('ePRIEST')
+        return self.get_row('ePRIEST')
 
     @property
     def throne(self):
-        return self.getRow('eTHIEF')
+        return self.get_row('eTHIEF')

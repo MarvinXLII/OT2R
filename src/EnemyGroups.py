@@ -1,7 +1,7 @@
 import random
 from Nothing import Nothing
 from Manager import Manager
-from Shuffler import Randomizer, Slot, noWeights
+from Shuffler import Randomizer, Slot, no_weights
 from copy import deepcopy
 from Utility import get_filename
 
@@ -29,13 +29,13 @@ class Entry:
 
 class EnemyGroups(Randomizer):
     def __init__(self):
-        self.enemyGroupTable = Manager.getInstance('EnemyGroupData').table
-        self.enemyTable = Manager.getInstance('EnemyDB').table
+        self.enemy_group_db = Manager.get_instance('EnemyGroupData').table
+        self.enemy_db = Manager.get_instance('EnemyDB').table
 
         entries = set()
-        for group in self.enemyGroupTable:
+        for group in self.enemy_group_db:
             # Only doing random encounters, at least for now
-            if group.isRandomEncounter:
+            if group.is_random_encounter:
                 # Make sure the group isn't empty
                 if not group.enemies:
                     continue
@@ -43,7 +43,7 @@ class EnemyGroups(Randomizer):
                 # Add to the candidates
                 for e in group.EnemyID:
                     if e == 'None': continue
-                    enemy = self.enemyTable.getRow(e)
+                    enemy = self.enemy_db.get_row(e)
                     assert enemy.DisplayRank == 0
                     c = Entry(enemy)
                     entries.add(c)
@@ -52,45 +52,45 @@ class EnemyGroups(Randomizer):
         self.slots = [deepcopy(c) for c in self.candidates]
 
     def run(self):
-        self.generateWeights()
-        self.generateMap()
+        self.generate_weights()
+        self.generate_map()
         self.finish()
-        self.updateShields()
+        self.update_shields()
 
-    def generateMap(self):
-        self.enemyMap = {}
+    def generate_map(self):
+        self.enemy_map = {}
         unused = [c.include for c in self.candidates]
         idx = list(range(len(self.candidates)))
-        for cWeights, slot in zip(self.weights, self.slots):
+        for c_weights, slot in zip(self.weights, self.slots):
             if slot.include:
-                w = [c*u for c, u in zip(cWeights, unused)]
+                w = [c*u for c, u in zip(c_weights, unused)]
                 i = random.choices(idx, w, k=1)[0]
                 candidate = self.candidates[i]
-                self.enemyMap[slot.enemy] = candidate.enemy
+                self.enemy_map[slot.enemy] = candidate.enemy
                 unused[i] = False
 
         # Quick test to ensure buttermeep stays in the same place
         # Keep for now, but remove later after tons of testing
-        for k, v in self.enemyMap.items():
+        for k, v in self.enemy_map.items():
             assert k != 'ENE_EVE_SUB_OTR_010'
             assert v != 'ENE_EVE_SUB_OTR_010'
 
     def finish(self):
-        for group in self.enemyGroupTable:
+        for group in self.enemy_group_db:
             for i, enemy in enumerate(group.EnemyID):
-                if enemy in self.enemyMap:
-                    group.EnemyID[i] = self.enemyMap[enemy]
+                if enemy in self.enemy_map:
+                    group.EnemyID[i] = self.enemy_map[enemy]
 
-    def updateShields(self):
+    def update_shields(self):
         # Update sets of groups each enemy belongs to
-        self.enemyGroupTable.updateGroupSets()
+        self.enemy_group_db.update_group_sets()
 
         # Update shields given PCs as needed (ring 1 only)
-        for group in self.enemyGroupTable:
-            group.updateWeaknessToPCs()
+        for group in self.enemy_group_db:
+            group.update_weakness_to_pcs()
 
-    def generateWeights(self):
-        def groupByLevel(w, c, s):
+    def generate_weights(self):
+        def group_by_level(w, c, s):
             # Bin by level
             # 0 - 5
             # 6 - 10
@@ -121,8 +121,8 @@ class EnemyGroups(Randomizer):
                 for i, ci in enumerate(c):
                     w[i] *= ci.level > 40
 
-        def groupBySize(w, c, s):
+        def group_by_size(w, c, s):
             for i, ci in enumerate(c):
                 w[i] *= s.size == ci.size
             
-        super().generateWeights(groupByLevel, groupBySize)
+        super().generate_weights(group_by_level, group_by_size)

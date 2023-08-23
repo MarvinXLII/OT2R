@@ -11,51 +11,51 @@ class JsonCommand:
 class DataJson:
     def __init__(self, pak, filename):
         self.filename = filename
-        jsonDict = eval(pak.extractFile(filename))
-        self.jsonList = []
+        json_dict = eval(pak.extract_file(filename))
+        self.json_list = []
         self.flags = {}
-        for command in jsonDict.values():
+        for command in json_dict.values():
             jc = JsonCommand(command)
-            self.addCommand(jc)
+            self.add_command(jc)
 
-    def addCommand(self, jCommand, index=None):
-        self.jsonList.append(jCommand)
-        self.addFlag(jCommand)
+    def add_command(self, command, index=None):
+        self.json_list.append(command)
+        self.add_flag(command)
 
-    def insertCommand(self, jCommand, index):
-        self.jsonList.insert(index, jCommand)
-        self.addFlag(jCommand)
+    def insert_command(self, command, index):
+        self.json_list.insert(index, command)
+        self.add_flag(command)
 
-    def addFlag(self, jCommand):
-        if jCommand.cmd == 70:
-            if jCommand.target not in self.flags:
-                self.flags[jCommand.target]  = []
-            self.flags[jCommand.target].append(jCommand)
+    def add_flag(self, command):
+        if command.cmd == 70:
+            if command.target not in self.flags:
+                self.flags[command.target]  = []
+            self.flags[command.target].append(command)
 
-    def toggleFlagOff(self, flag):
+    def toggle_flag_off(self, flag):
         for command in self.flags[flag]:
             assert len(command.opt) == 1
             assert command.opt[0] == '1'
             command.opt[0] = '0'
 
-    def toggleFlagOn(self, flag):
+    def toggle_flag_on(self, flag):
         for command in self.flags[flag]:
             assert len(command.opt) == 1
             assert command.opt[0] == '0'
             command.opt[0] = '1'
 
-    def changeFlag(self, old, new):
+    def change_flag(self, old, new):
         if old in self.flags:
             for command in self.flags[old]:
                 command.target = new
 
     def update(self, pak, force=False):
-        jsonDict = {str(k): v.__dict__ for k, v in enumerate(self.jsonList)}
-        b = bytearray(json.dumps(jsonDict).encode('ascii'))
+        json_dict = {str(k): v.__dict__ for k, v in enumerate(self.json_list)}
+        b = bytearray(json.dumps(json_dict).encode('ascii'))
         b = b.replace(b'" "', b'--TEMP--') # commands can have " " as arguments
         b = b.replace(b' ', b'')
         b = b.replace(b'}', b'}\r\n')
         b = b.replace(b'--TEMP--', b'" "')
         assert b[0] == ord('{')
         b = b'{\r\n' + b[1:]
-        pak.updateData(self.filename, b, force=force)
+        pak.update_data(self.filename, b, force=force)

@@ -2,7 +2,7 @@ import random
 
 
 # Default function for weight calculations
-def noWeights(*args):
+def no_weights(*args):
     pass
 
     
@@ -23,13 +23,13 @@ class Shuffler:
 
     def run(self):
         self.vacant = [True] * len(self.slots)
-        self.generateWeights()
+        self.generate_weights()
         self.sampler()
-        self.checkDone()
+        self.check_done()
         self.finalize()
         self.finish()
 
-    def generateWeights(self, *func):
+    def generate_weights(self, *func):
         self.weights = []
         weightDict = {} # Significantly less memory intensive
         for ci, candidate in enumerate(self.candidates):
@@ -41,7 +41,7 @@ class Shuffler:
                 weightDict[bw] = bw
             self.weights.append(weightDict[bw])
 
-    def checkDone(self):
+    def check_done(self):
         assert sum(self.vacant) == 0
 
     # Only works since len(slots) == len(candidates). It literally
@@ -59,12 +59,12 @@ class Shuffler:
         swc.sort(key=lambda x: sum(x[0]))
 
         idx = list(range(len(self.slots)))
-        for slotWeights, candidate in swc:
-            swv = [s * v for s, v in zip(slotWeights, self.vacant)]
+        for slot_weights, candidate in swc:
+            swv = [s * v for s, v in zip(slot_weights, self.vacant)]
             assert sum(swv) > 0
-            sIdx = random.choices(idx, swv, k=1)[0]
-            self.slots[sIdx].copy(candidate)
-            self.vacant[sIdx] = False
+            s_idx = random.choices(idx, swv, k=1)[0]
+            self.slots[s_idx].copy(candidate)
+            self.vacant[s_idx] = False
 
     # Some shufflers might require some finishing touches
     def finalize(self):
@@ -80,25 +80,25 @@ class Shuffler:
 class Randomizer(Shuffler):
 
     def run(self):
-        self.generateWeights()
+        self.generate_weights()
         self.sampler()
         self.finish()
 
     def sampler(self):
         idx = list(range(len(self.candidates)))
         for candidateWeights, slot in zip(self.weights, self.slots):
-            cIdx = random.choices(idx, candidateWeights, k=1)[0]
-            candidate = self.candidates[cIdx]
+            c_idx = random.choices(idx, candidateWeights, k=1)[0]
+            candidate = self.candidates[c_idx]
             slot.copy(candidate)
 
-    def generateWeights(self, *func):
+    def generate_weights(self, *func):
         self.weights = []
-        weightDict = {} # Significantly less memory intensive
+        weight_dict = {} # Significantly less memory intensive
         for si, slot in enumerate(self.slots):
             w = [True] * len(self.candidates)
             for f in func:
                 f(w, self.candidates, slot)
             bw = bytes(w)
-            if bw not in weightDict:
-                weightDict[bw] = bw
-            self.weights.append(weightDict[bw])
+            if bw not in weight_dict:
+                weight_dict[bw] = bw
+            self.weights.append(weight_dict[bw])

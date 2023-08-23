@@ -8,7 +8,7 @@ class EnemyRow(RowSplit):
         self.groups = set()
 
     @property
-    def dontStrengthen(self):
+    def dont_strengthen(self):
         return self.groups.intersection([
             'ENG_NPC_GAK_10_020', # Osvald Ch. 1 battle
             'ENG_NPC_KEN_40_010', # Jin Mei in Hikari's Ch. 4 flashback
@@ -20,98 +20,98 @@ class EnemyRow(RowSplit):
 
     @property
     def name(self):
-        textDB = Manager.getInstance('GameTextEN').table
-        return textDB.getText(self.DisplayNameID)
+        text_db = Manager.get_instance('GameTextEN').table
+        return text_db.get_text(self.DisplayNameID)
 
     @property
-    def isBoss(self):
+    def is_boss(self):
         return '_BOS_' in self.key
 
     @property
     def shields(self):
-        return self.weaponShields + self.magicShields
+        return self.weapon_shields + self.magic_shields
 
     @shields.setter
     def shields(self, shields):
         assert len(shields) == 12
-        self.weaponShields = shields[:6]
-        self.magicShields = shields[6:]
+        self.weapon_shields = shields[:6]
+        self.magic_shields = shields[6:]
 
     @property
-    def weaponShields(self):
+    def weapon_shields(self):
         return self.WeaponResist[:6]
 
-    @weaponShields.setter
-    def weaponShields(self, shields):
+    @weapon_shields.setter
+    def weapon_shields(self, shields):
         assert len(shields) == 6
         self.WeaponResist[:6] = shields
 
     @property
-    def magicShields(self):
+    def magic_shields(self):
         return self.AttributeResist[1:]
 
-    @magicShields.setter
-    def magicShields(self, shields):
+    @magic_shields.setter
+    def magic_shields(self, shields):
         assert len(shields) == 6
         self.AttributeResist[1:] = shields
 
-    def _addWeakness(self, shields, *pcs):
-        canBeRemoved = [s == 'EATTRIBUTE_RESIST::eWEAK' for s in shields]
-        def getCanBeAdded(pc):
-            canBeAdded = [False]*len(shields)
+    def _add_weakness(self, shields, *pcs):
+        can_be_removed = [s == 'EATTRIBUTE_RESIST::eWEAK' for s in shields]
+        def get_can_be_added(pc):
+            can_be_added = [False]*len(shields)
             for i, s in enumerate(pc.strengths()):
                 if i == len(shields):
                     break
                 if s and shields[i] == 'EATTRIBUTE_RESIST::eWEAK':
                     return [] # Don't add anything if enemy is already weak to a PC's weapon/magic
-                if s and not canBeRemoved[i]:
-                    canBeAdded[i] = True
-            return canBeAdded
+                if s and not can_be_removed[i]:
+                    can_be_added[i] = True
+            return can_be_added
 
         idx = range(len(shields))
         for pc in pcs:
-            if sum(canBeRemoved) == 0:
+            if sum(can_be_removed) == 0:
                 break
-            canBeAdded = getCanBeAdded(pc)
-            if sum(canBeAdded):
-                r = random.choices(idx, canBeRemoved, k=1)[0]
-                a = random.choices(idx, canBeAdded, k=1)[0]
+            can_be_added = get_can_be_added(pc)
+            if sum(can_be_added):
+                r = random.choices(idx, can_be_removed, k=1)[0]
+                a = random.choices(idx, can_be_added, k=1)[0]
                 assert shields[r] == 'EATTRIBUTE_RESIST::eWEAK'
                 shields[r] = 'EATTRIBUTE_RESIST::eNONE'
                 shields[a] = 'EATTRIBUTE_RESIST::eWEAK'
-                canBeRemoved[r] = False
+                can_be_removed[r] = False
 
         return shields
 
-    def addWeaknessToPC(self, *pcs):
+    def add_weakness_to_pc(self, *pcs):
         shields = self.shields
-        self.shields = self._addWeakness(shields, *pcs)
+        self.shields = self._add_weakness(shields, *pcs)
 
-    def addWeaponWeaknessToPC(self, *pcs):
+    def add_weapon_weakness_to_pc(self, *pcs):
         # Make sure enemy has a weapon weakness
         # It's possible for an enemy to be only weak to magic!
-        if self.weaponShields.count('EATTRIBUTE_RESIST::eWEAK') == 0:
-            self.weaponShields, self.magicShields = self.magicShields, self.weaponShields
-        self.weaponShields = self._addWeakness(self.weaponShields, *pcs)
+        if self.weapon_shields.count('EATTRIBUTE_RESIST::eWEAK') == 0:
+            self.weapon_shields, self.magic_shields = self.magic_shields, self.weapon_shields
+        self.weapon_shields = self._add_weakness(self.weapon_shields, *pcs)
 
-    def updateWeaknessToPCs(self, weaponOnly=False):
+    def update_weakness_to_pcs(self, weapon_only=False):
         pcs = set()
-        enemyGroupTable = Manager.getInstance('EnemyGroupData').table
-        for groupName in sorted(self.groups):
-            group = enemyGroupTable.getRow(groupName)
+        enemy_group_db = Manager.get_instance('EnemyGroupData').table
+        for group_name in sorted(self.groups):
+            group = enemy_group_db.get_row(group_name)
             if group is None: continue
-            if group.pcRegion is None: continue
+            if group.pc_region is None: continue
             if group.ring > 1: continue
-            pcs.add(group.pcRegion)
-        pcList = sorted(pcs)
-        if weaponOnly:
-            self.addWeaponWeaknessToPC(*pcList)
+            pcs.add(group.pc_region)
+        pc_list = sorted(pcs)
+        if weapon_only:
+            self.add_weapon_weakness_to_pc(*pc_list)
         else:
-            self.addWeaknessToPC(*pcList)
+            self.add_weakness_to_pc(*pc_list)
 
 
 class EnemyTable(Table):
-    def getName(self, eKey):
-        row = self.getRow(eKey)
+    def get_name(self, key):
+        row = self.get_row(key)
         if row:
             return row.name

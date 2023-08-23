@@ -11,23 +11,23 @@ class ObjectRow(Row):
         self.vanilla = self.item
 
     @property
-    def isChest(self):
+    def is_chest(self):
         return self.ObjectType in [1, 2, 6, 7]
 
     @property
-    def isHidden(self):
+    def is_hidden(self):
         return self.ObjectType in [4, 5]
 
     @property
-    def isValid(self):
+    def is_valid(self):
         return self.data[self.key]['valid']
 
     @property
-    def isAlwaysAccessible(self):
-        return self.data[self.key]['alwaysAccessible']
+    def is_always_accessible(self):
+        return self.data[self.key]['always_accessible']
 
     @property
-    def fromNPC(self):
+    def from_npc(self):
         return self.data[self.key]['npc']
 
     @property
@@ -51,8 +51,8 @@ class ObjectRow(Row):
             assert self.HaveItemCnt > 0
             return f"{self.HaveItemCnt} leaves"
 
-        itemDB = Manager.getInstance('ItemDB').table
-        name = itemDB.getName(self.HaveItemLabel)
+        item_db = Manager.get_instance('ItemDB').table
+        name = item_db.get_name(self.HaveItemLabel)
         if name == 'None':
             assert self.HaveItemCnt == 0
             return 'None'
@@ -66,11 +66,11 @@ class ObjectRow(Row):
         
 
 class ObjectTable(Table):
-    def getChests(self):
-        return [row for row in self if row.isChest and row.isValid]
+    def get_chests(self):
+        return [row for row in self if row.is_chest and row.is_valid]
 
-    def getHidden(self):
-        return [row for row in self if row.isHidden and row.isValid]
+    def get_hidden(self):
+        return [row for row in self if row.is_hidden and row.is_valid]
 
-    def getTBD(self): # Not sure what object type 8 is; seem to be random items
+    def get_tbd(self): # Not sure what object type 8 is; seem to be random items
         return [row for row in self if row.ObjectType == 8]
