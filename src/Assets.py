@@ -350,7 +350,8 @@ class StructProperty(Byte):
         self.none = uasset.getIndex('None')
         self.callbackBuild = callbackBuild
         self.dataType = 'StructProperty'
-        self.structSize = file.readInt64()
+        self.structSize = file.readInt32()
+        self.structNum = file.readInt32()
         self.structType = uasset.getName(file.readInt64())
         file.data.seek(17, 1)
         # self.structData = file.data.read(self.size)
@@ -401,8 +402,9 @@ class StructProperty(Byte):
                 self.value = file.readBytes(self.structSize)
 
     def build(self, uasset):
+        tmp = self.getInt32(self.structSize)
+        tmp += self.getInt32(self.structNum)
         if self.structType == 'Vector':
-            tmp = self.getInt64(self.structSize)
             tmp += self.getInt64(uasset.getIndex(self.structType))
             tmp += bytearray([0]*17)
             tmp += self.getFloat(self.value['x'])
@@ -410,7 +412,6 @@ class StructProperty(Byte):
             tmp += self.getFloat(self.value['z'])
             return tmp
         elif self.structType == 'IntVector':
-            tmp = self.getInt64(self.structSize)
             tmp += self.getInt64(uasset.getIndex(self.structType))
             tmp += bytearray([0]*17)
             tmp += self.getInt32(self.value['x'])
@@ -418,21 +419,18 @@ class StructProperty(Byte):
             tmp += self.getInt32(self.value['z'])
             return tmp
         elif self.structType == 'IntPoint':
-            tmp = self.getInt64(self.structSize)
             tmp += self.getInt64(uasset.getIndex(self.structType))
             tmp += bytearray([0]*17)
             tmp += self.getInt32(self.value['x'])
             tmp += self.getInt32(self.value['y'])
             return tmp
         elif self.structType == 'Vector2D':
-            tmp = self.getInt64(self.structSize)
             tmp += self.getInt64(uasset.getIndex(self.structType))
             tmp += bytearray([0]*17)
             tmp += self.getInt32(self.value['x'])
             tmp += self.getInt32(self.value['y'])
             return tmp
         elif self.structType == 'LinearColor':
-            tmp = self.getInt64(self.structSize)
             tmp += self.getInt64(uasset.getIndex(self.structType))
             tmp += bytearray([0]*17)
             tmp += self.getFloat(self.value['r'])
@@ -441,19 +439,16 @@ class StructProperty(Byte):
             tmp += self.getFloat(self.value['a'])
             return tmp
         elif self.structType == 'Guid':
-            tmp = self.getInt64(self.structSize)
             tmp += self.getInt64(uasset.getIndex(self.structType))
             tmp += bytearray([0]*17)
             tmp += self.value['guid']
             return tmp
         elif self.structType == 'SoftClassPath':
-            tmp = self.getInt64(self.structSize)
             tmp += self.getInt64(uasset.getIndex(self.structType))
             tmp += bytearray([0]*17)
             tmp += self.value['scp']
             return tmp
         elif self.structType == 'Rotator':
-            tmp = self.getInt64(self.structSize)
             tmp += self.getInt64(uasset.getIndex(self.structType))
             tmp += bytearray([0]*17)
             tmp += self.getFloat(self.value['rx'])
@@ -461,7 +456,6 @@ class StructProperty(Byte):
             tmp += self.getFloat(self.value['rz'])
             return tmp
         elif not self.structureWorks:
-            tmp = self.getInt64(self.structSize)
             tmp += self.getInt64(uasset.getIndex(self.structType))
             tmp += bytearray([0]*17)
             tmp += self.value
@@ -470,6 +464,7 @@ class StructProperty(Byte):
         for k, v in self.value.items():
             self._value[k].value = v
 
+        assert self.structNum == 0
         none = uasset.getIndex('None')
         tmp2 = self.callbackBuild(self._value)
         tmp = self.getInt64(len(tmp2))
@@ -751,7 +746,8 @@ class Chunk_EXPORTS(Byte):
         uexp = bytearray()
         if self.uexp1 is not None:
             for key, value in self.uexp1.items():
-                uexp += self.getUInt64(self.uasset.getIndex(key))
+                k = key.split('__')[0]
+                uexp += self.getUInt64(self.uasset.getIndex(k))
                 uexp += self.getUInt64(self.uasset.getIndex(value.dataType))
                 uexp += value.build(self.uasset)
         uexp += self.getUInt64(self.uasset.getIndex('None'))
@@ -784,6 +780,135 @@ class Chunk_IMPORTS(File):
 
     def __repr__(self):
         return f"  {self.p1}\n  {self.p2}\n  {self.p3}\n  {self.p4}\n"
+
+
+# This is similar to my File reader, but designed to work with data as bytearray types
+# so bytes can be modded.
+class UnparsedExport(Byte):
+    def __init__(self, export):
+        self.addr = 0
+        self.data = bytearray(export.uexp2) # Convert from bytes to bytearray for modding
+        export.uexp2 = self.data # Won't need to update this array manually
+
+    def build(self):
+        return self.data
+
+    def __len__(self):
+        return len(self.data)
+
+    def readInt(self, size, signed, addr):
+        if addr is not None:
+            self.addr = addr
+        assert self.addr+size < len(self.data)
+        value = int.from_bytes(self.data[self.addr:self.addr+size], byteorder='little', signed=signed)
+        self.addr += size
+        return value
+
+    def readUInt8(self, addr=None):
+        return self.readInt(1, False, addr)
+
+    def readUInt16(self, addr=None):
+        return self.readInt(2, False, addr)
+
+    def readUInt32(self, addr=None):
+        return self.readInt(4, False, addr)
+
+    def readUInt64(self, addr=None):
+        return self.readInt(8, False, addr)
+
+    def assertUInt8(self, value, addr=None):
+        v = self.readUInt8(addr)
+        assert value == v, f"wrong value; actually {hex(v)}"
+
+    def assertUInt16(self, value, addr=None):
+        v = self.readUInt16(addr)
+        assert value == v, f"wrong value; actually {hex(v)}"
+
+    def assertUInt32(self, value, addr=None):
+        v = self.readUInt32(addr)
+        assert value == v, f"wrong value; actually {hex(v)}"
+
+    def assertUInt64(self, value, addr=None):
+        v = self.readUInt64(addr)
+        assert value == v, f"wrong value; actually {hex(v)}"
+
+    def patch(self, b, addr):
+        if addr is not None:
+            self.addr = addr
+        s = len(b)
+        self.data[self.addr:self.addr+s] = b
+        self.addr += s
+
+    def patchUInt8(self, value, addr=None):
+        b = self.getUInt8(value)
+        self.patch(b, addr)
+
+    def patchUInt16(self, value, addr=None):
+        b = self.getUInt16(value)
+        self.patch(b, addr)
+
+    def patchUInt32(self, value, addr=None):
+        b = self.getUInt32(value)
+        self.patch(b, addr)
+
+    def patchUInt64(self, value, addr=None):
+        b = self.getUInt64(value)
+        self.patch(b, addr)
+
+    def printAddr(self, v, f):
+        print('Value', v, f'({hex(v)})', 'at:')
+        b = f(v)
+        i = 0
+        while True:
+            try:
+                i += self.data[i:].index(b)
+            except:
+                break
+            print('  ', hex(i))
+            i += 1
+
+    def printAddrUInt8(self, value):
+        self.printAddr(value, self.getUInt8)
+
+    def printAddrUInt16(self, value):
+        self.printAddr(value, self.getUInt16)
+
+    def printAddrUInt32(self, value):
+        self.printAddr(value, self.getUInt32)
+
+    def printAddrUInt64(self, value):
+        self.printAddr(value, self.getUInt64)
+
+    def printAddrBoolOn(self):
+        self.printAddrUInt8(0x27)
+
+    def printAddrBoolOff(self):
+        self.printAddrUInt8(0x28)
+
+    def assertBoolOn(self, addr=None):
+        self.assertUInt8(0x27, addr)
+
+    def assertBoolOff(self, addr=None):
+        self.assertUInt8(0x28, addr)
+
+    def toggleBoolOn(self, addr):
+        vanilla = self.readUInt8(addr)
+        assert vanilla in [0x27, 0x28]
+        self.patchUInt8(0x27, addr)
+
+    def toggleBoolOff(self, addr):
+        vanilla = self.readUInt8(addr)
+        assert vanilla in [0x27, 0x28], list(map(hex, vanilla))
+        self.patchUInt8(0x28, addr)
+
+    def patchIntConst(self, addr, orig, value):
+        self.assertUInt8(0x1d, addr)
+        self.assertUInt32(orig, addr+1)
+        self.patchUInt32(value, addr+1)
+
+    def readIntConst(self, addr):
+        self.assertUInt8(0x1d, addr)
+        return self.readUInt32(addr+1)
 
 
 @dataclass
@@ -1162,6 +1287,9 @@ class DataAsset:
     def getUExp1Obj(self, idx):
         return self.uasset.exports[idx].uexp1
 
+    def getUexp2Obj(self, idx):
+        return UnparsedExport(self.uasset.exports[idx])
+
     def build(self):
 
         # Build uexp, storing all offsets and sizes for the start of each chunk
@@ -1181,8 +1309,18 @@ class DataAsset:
         nextValue = self.uexp.readUInt64()
         while nextValue != self.none:
             key = self.uasset.getName(nextValue)
+            assert '__' not in key
             prop = self.uasset.getName(self.uexp.readUInt64())
             assert prop in self.switcher, f"{prop} not in switcher: {hex(self.uexp.tell())}"
+            #### VERY CRUDE fix for repeated keys in the same entry
+            #### A better solution would be to read size (int32) and num (int32) out here
+            #### before switcher, rather than size (int64) in the props and only correctly
+            #### reading size/num in structProperty
+            if key in dic:
+                i = 1
+                while f'{key}__{i}' in dic:
+                    i += 1
+                key = f'{key}__{i}'
             dic[key] = self.switcher[prop]()
             nextValue = self.uexp.readUInt64()
         return dic
@@ -1232,6 +1370,9 @@ class DataAssetOnly:
         self.uexp = pak.extractFile(f'{basename}.uexp', includePatches)
         uasset = pak.extractFile(f'{basename}.uasset', includePatches)
         self.uasset = UAsset(uasset, len(self.uexp))
+
+    def patchInt8(self, addr, value):
+        self.uexp[addr] = value
 
     def patchInt32(self, addr, value):
         self.uexp[addr:addr+4] = value.to_bytes(4, byteorder='little')

@@ -19,6 +19,7 @@ from DataTable import Row
 from SpurningRibbon import SpurningRibbon
 from Guilds import Guilds
 from Softlocks import *
+from Bosses import *
 # from Testing import Testing
 from Databases import *
 from SkipTutorials import *
@@ -51,6 +52,7 @@ class Rando:
     shields = Nothing
     battles = Battles
     guilds = Guilds
+    bosses = Bosses
     enemyGroups = Nothing
     pathActions = PathActions
     spurningRibbon = Nothing
@@ -97,10 +99,13 @@ class Rando:
         Manager.getTable('GuildData', table=GuildTable, row=GuildRow)
         Manager.getTable('ReminiscenceSetting', table=ReminiscenceTable, row=ReminiscenceRow)
         Manager.getTable('LinerShipRoute')
+        Manager.getTable('DiseaseData')
+        Manager.getTable('ShopList', table=ShopListTable, row=ShopListRow)
 
         # Spoiler logs
         self.spoilerJobs = SpoilerJobs(self.outPath)
         self.spoilerItems = SpoilerItems(self.outPath)
+        self.spoilerBosses = SpoilerBosses(self.outPath)
 
     def failed(self):
         print(f"Randomizer failed! Removing directory {self.outPath}.")
@@ -132,6 +137,7 @@ class Rando:
         self._randomize(Rando.processSpecies)
         self._randomize(Rando.enemyGroups)
         self._randomize(Rando.battles) # Keep enemy stat scaling after groups!
+        self._randomize(Rando.bosses)
 
         # Default stuff
         self.titleImage.updateTitle()
@@ -142,13 +148,22 @@ class Rando:
         self._run(Rando.skipTutorials)
         self._run(Rando.initialEvents)
 
-        # Softlock stuff, main for exp/money scaling
+        # Softlock stuff
         if Battles.scaleLeaves == 0:
             preventMoneySoftlocks()
         if Battles.scaleExp == 0:
             preventExpSoftlocks()
-        if Rando.weapons != Nothing or Rando.shields != Nothing:
+        # Ensures enemies from early battles are breakable, primarily boss and event battles
+        if Rando.weapons != Nothing or Rando.shields != Nothing or Rando.bosses != Nothing:
             preventWeaponSoftlocks()
+        # Some bosses can be (nearly) unbeatable without some nerfing
+        # Others are a joke thanks to an ally
+        if Rando.bosses != Nothing:
+            preventOverpoweredEarlyBosses()
+            prologueShopsAddStones()
+        # Ensure at least minor equippable weapons improvements exist in shops
+        if Rando.weapons != Nothing:
+            prologueShopsUpdateWeapons()
 
         # Testing stuff -- must be done last
         self._run(Rando.testing)
@@ -162,6 +177,7 @@ class Rando:
         self.spoilerItems.chests()
         self.spoilerItems.hidden()
         self.spoilerItems.npc()
+        self.spoilerBosses.bosses()
 
         # Build the patch
         Manager.updateAll()

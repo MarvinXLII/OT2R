@@ -308,17 +308,23 @@ class Treasures(Shuffler):
         candidates.append(ItemSideQuest())
 
         # Guild/Licenses
+        self.proofOfConjurer = None
         if self.IncludeLicenses:
             for guild in self.guildTable:
                 if guild.LicenseItem != 'None':
                     slots.append(ItemGuild(guild))
                     candidates.append(ItemGuild(guild))
+
             slots.append(ItemGuildAdv('ITM_EQP_JOB_0009', 'SYS_WIZ_GUILD_0000'))
             candidates.append(ItemGuildAdv('ITM_EQP_JOB_0009', 'SYS_WIZ_GUILD_0000'))
+
             slots.append(ItemGuildAdv('ITM_EQP_JOB_0010', 'SYS_SHA_GUILD_0100'))
             candidates.append(ItemGuildAdv('ITM_EQP_JOB_0010', 'SYS_SHA_GUILD_0100'))
+            self.proofOfConjurer = slots[-1] # Will need to edit multiple files later
+
             slots.append(ItemGuildAdv('ITM_EQP_JOB_0011', 'SYS_INV_GUILD_0010'))
             candidates.append(ItemGuildAdv('ITM_EQP_JOB_0011', 'SYS_INV_GUILD_0010'))
+
             slots.append(ItemArmsmaster())
             candidates.append(ItemArmsmaster())
 
@@ -362,6 +368,14 @@ class Treasures(Shuffler):
         for slot in self.slots:
             if slot.itemHasLittleValue and slot.alwaysAccessible:
                 candidates.append(slot)
+
+        #### TODO:
+        # add check to see if a license ended up in a guild
+        # in that case, don't add 2 extra licenses anywhere!
+        #
+        # if the license ended up not at a guild
+        # don't let any of the two additional slots be at a guild!
+        # e.g. filter out guild slots in the loop above!
 
         slots = random.sample(candidates, 16)
         slots[0].itemLabel = 'ITM_EQP_JOB_0000' # Merchant
@@ -424,6 +438,13 @@ class Treasures(Shuffler):
         reminiscence.temenos.addToBackpack('ITM_TRE_INV_02', 1)
         reminiscence.throne.addToBackpack('ITM_TRE_INV_01', 1)
         reminiscence.throne.addToBackpack('ITM_TRE_INV_02', 1)
+
+        ##### Update all event files that give the Proof of Conjurer
+        if self.proofOfConjurer:
+            guild = ItemGuildAdv('ITM_EQP_JOB_0010', 'SC_SS_TDesert31_0400_1000')
+            guild.itemLabel = self.proofOfConjurer.itemLabel
+            guild.patch()
+
 
     def finalize(self):
         if self.IncludeLicenses:

@@ -28,6 +28,7 @@ from Shields import Shields
 from Battles import *
 from EnemyGroups import *
 from PathActions import *
+from Bosses import *
 from Nothing import Nothing
 from Shuffler import noWeights
 from SpurningRibbon import SpurningRibbon
@@ -35,7 +36,7 @@ from Guilds import Guilds, shuffleRequirements
 from Command import separateAdvancedCommands, separateDivine, separateExAbilities
 from Support import separateAdvancedSupport, evasiveManeuversFirst
 from Treasures import separateChapter
-from Events import InitialEvents, formationMenuOn
+from Events import InitialEvents, formationMenuOn, protagonistUnlocked
 from SkipTutorials import SkipTutorials
 
 MAIN_TITLE = f"Octopath Traveler II Randomizer v{RELEASE}"
@@ -189,7 +190,7 @@ class Patches:
 class GuiApplication:
     def __init__(self, settings=None, pakFile=None):
         self.master = tk.Tk()
-        self.master.geometry('730x630') # width x height
+        self.master.geometry('750x650') # width x height
         self.master.title(MAIN_TITLE)
         self.initialize_gui()
         self.initialize_settings(settings)
@@ -274,7 +275,7 @@ Octopath_Traveler2-WindowsNoEditor.pak
                 row = i // 2
                 col = i % 2
                 lf = tk.LabelFrame(tab, text=key, font=labelfonts)
-                lf.grid(row=row, column=col, padx=10, pady=5, ipadx=30, ipady=5, sticky='news')
+                lf.grid(row=row, column=col, padx=10, pady=5, ipadx=12, ipady=5, sticky='news')
 
                 row = 0
                 for sKey, stuff in value.items():
@@ -407,7 +408,7 @@ Octopath_Traveler2-WindowsNoEditor.pak
         return f
 
     def getPakFile(self):
-        pakFile = filedialog.askopenfilename()
+        pakFile = filedialog.askopenfilename(filetypes=(("Pak files", "*.pak"), ("All files", "*.*")))
         if pakFile:
             self.loadPakFile(pakFile)
 

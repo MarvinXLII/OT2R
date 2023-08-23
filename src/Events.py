@@ -9,8 +9,21 @@ def formationMenuOn(events):
     gameTextTable.ADD_PARTY_DIALOG.replaceSubstring('at the tavern', 'in the main menu')
     gameTextTable.BREAK_PARTY_DIALOG.replaceSubstring('at the tavern', 'in the main menu')
 
+
+def protagonistUnlocked():
+    # Allow first character to be removed from party
+    widget = Manager.getData('ListCharacterWidget.uexp')
+    widget.patchInt32(0x14072, 1045) # CanGetOutOfMainMember: remove protagonist
+    widget.patchInt32(0x1a744, 165) # CanGetOutOfMainMember_1stSelect: swap lead with idle party member
+
+    # Remove the lock icons on the protagonist (and lead character when a new PC joins the party)
+    panel = Manager.getAssetOnly('PartyCharacterPanel')
+    panel.patchInt8(0x45e0, 2)
+
+
 class InitialEvents:
     formationMenu = Nothing
+    protagonist = Nothing
 
     def __init__(self):
         self.events = [
@@ -25,10 +38,5 @@ class InitialEvents:
         ]
 
     def run(self):
-        self.protaganist()
         InitialEvents.formationMenu(self.events)
-
-    def protaganist(self):
-        widget = Manager.getData('ListCharacterWidget.uexp')
-        widget.patchInt32(0x14072, 0x415)
-        
+        InitialEvents.protagonist()

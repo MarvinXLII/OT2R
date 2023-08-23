@@ -14,3 +14,4 @@ from .AbilitySetDB import AbilitySetTable, AbilitySetRow
 from .InvadeData import InvadeRow
 from .GuildDB import GuildTable, GuildRow
 from .ReminiscenceSettings import ReminiscenceTable, ReminiscenceRow
+from .ShopList import ShopListRow, ShopListTable

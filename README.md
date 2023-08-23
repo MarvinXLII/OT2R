@@ -16,6 +16,7 @@ See the executable for full descriptions of each option. Options include:
 * Shuffle jerky produced from captures
 * Randomize enemy shields\*\*
 * Shuffle enemies from random encounters
+* Shuffle bosses
 * Shuffle stealable items from enemies
 * Shuffle items dropped by enemies
 * Shuffle requirements for getting licenses from guilds

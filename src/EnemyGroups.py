@@ -3,7 +3,6 @@ from Nothing import Nothing
 from Manager import Manager
 from Shuffler import Randomizer, Slot, noWeights
 from copy import deepcopy
-import hjson
 from Utility import get_filename
 
 
@@ -62,7 +61,7 @@ class EnemyGroups(Randomizer):
         self.enemyMap = {}
         unused = [c.include for c in self.candidates]
         idx = list(range(len(self.candidates)))
-        for i, (cWeights, slot) in enumerate(zip(self.weights, self.slots)):
+        for cWeights, slot in zip(self.weights, self.slots):
             if slot.include:
                 w = [c*u for c, u in zip(cWeights, unused)]
                 i = random.choices(idx, w, k=1)[0]

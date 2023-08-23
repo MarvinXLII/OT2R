@@ -339,3 +339,142 @@ class SpoilerJobs:
             print('')
 
         sys.stdout = sys.__stdout__
+
+
+class SpoilerBosses:
+    def __init__(self, outPath):
+        self.outPath = outPath
+        self.enemyGroups = Manager.getInstance('EnemyGroupData').table
+
+    def bosses(self):
+        outfile = os.path.join(self.outPath, 'spoiler_bosses.txt')
+        sys.stdout = open(outfile, 'w', encoding='utf-8')
+
+        maxLength = 0
+        for group in self.enemyGroups:
+            if group.vanillaBoss:
+                maxLength = max(maxLength, len(group.vanillaBoss))
+                maxLength = max(maxLength, len(group.randoBoss))
+        maxLength += 5
+
+        print('===================')
+        print(' Main Story Bosses ')
+        print('===================')
+        print('')
+        print('')
+
+        groups = {
+            'Agnea': [
+                'ENG_BOS_DAN_C01_010',
+                'ENG_BOS_DAN_C02_010',
+                'ENG_BOS_DAN_C04_010',
+                'ENG_BOS_DAN_C05_010',
+                'ENG_BOS_DAN_C05_020',
+            ],
+            'Castti': [
+                'ENG_BOS_APO_C01_010',
+                'ENG_BOS_APO_C02_010',
+                'ENG_BOS_APO_C02_020',
+                'ENG_BOS_APO_C05_010',
+            ],
+            'Hikari': [
+                'ENG_BOS_WAR_C01_010',
+                'ENG_BOS_WAR_C02_010',
+                'ENG_BOS_WAR_C04_010',
+                'ENG_BOS_WAR_C05_010',
+                'ENG_BOS_WAR_C05_020',
+                'ENG_BOS_WAR_C05_030',
+            ],
+            'Partitio': [
+                'ENG_BOS_MER_C01_010',
+                'ENG_BOS_MER_C02_010',
+                'ENG_BOS_MER_C03_010',
+                'ENG_BOS_MER_C05_010',
+            ],
+            'Temenos': [
+                'ENG_BOS_CLE_C01_010',
+                'ENG_BOS_CLE_C02_010',
+                'ENG_BOS_CLE_C03_010',
+                'ENG_BOS_CLE_C05_010',
+            ],
+            'Osvald': [
+                'ENG_BOS_SCH_C01_010',
+                'ENG_BOS_SCH_C03_010',
+                'ENG_BOS_SCH_C04_010',
+                'ENG_BOS_SCH_C05_010',
+            ],
+            'Ochette': [
+                'ENG_BOS_HUN_C01_010',
+                'ENG_BOS_HUN_C02_010',
+                'ENG_BOS_HUN_C02_020',
+                'ENG_BOS_HUN_C05_010',
+                'ENG_BOS_HUN_C05_020',
+            ],
+            'Throne': [
+                'ENG_BOS_THI_C01_010',
+                'ENG_BOS_THI_C02_010',
+                'ENG_BOS_THI_C03_010',
+                'ENG_BOS_THI_C03_020',
+                'ENG_BOS_THI_C05_010',
+            ],
+            'Crossovers': [
+                'ENG_EVE_APO_THI_010',
+                'ENG_EVE_APO_THI_020',
+            ],
+            'Extra': [
+                'ENG_BOS_LST_C02_020',
+                'ENG_EVE_LST_EXT_010',
+                'ENG_BOS_LST_C03_060',
+                'ENG_BOS_LST_C03_070',
+            ],
+        }
+
+        for k, v in groups.items():
+            print('  ', k)
+            for vi in v:
+                g = getattr(self.enemyGroups, vi)
+                vb = g.vanillaBoss.rjust(maxLength, ' ')
+                b = g.randoBoss.ljust(maxLength, ' ')
+                if g.vanillaBoss == g.randoBoss:
+                    print('    ', vb)
+                else:
+                    print('    ', vb, '<--', b)
+            print('')
+
+        print('')
+        print('=================')
+        print(' Optional Bosses ')
+        print('=================')
+        print('')
+        print('')
+
+        groups = {
+            'Mid game': [],
+            'Late game': [],
+            'Galdera': [],
+        }
+
+        for g in self.enemyGroups:
+            if g.bossType == 'optional':
+                if g.ring == 2:
+                    groups['Mid game'].append(g)
+                elif g.ring == 3:
+                    groups['Late game'].append(g)
+            if g.bossType == 'galdera':
+                groups['Galdera'].append(g)
+
+        groups['Mid game'].sort(key=lambda x: x.vanillaBoss)
+        groups['Late game'].sort(key=lambda x: x.vanillaBoss)
+
+        for k, v in groups.items():
+            print('  ', k)
+            for g in v:
+                vb = g.vanillaBoss.rjust(maxLength, ' ')
+                b = g.randoBoss.ljust(maxLength, ' ')
+                if g.vanillaBoss == g.randoBoss:
+                    print('    ', vb)
+                else:
+                    print('    ', vb, '<--', b)
+            print('')
+
+        sys.stdout = sys.__stdout__

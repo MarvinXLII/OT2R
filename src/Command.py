@@ -443,7 +443,7 @@ class Command(Shuffler):
         # Tested and fixed!
         es2, es1 = getNames(self.pcTable.osvald)
         self.gameTextTable.replaceSubstring('ED_GAK_ADVANCEABILITY_0010', 'Teach', es1)
-        # self.gameTextTable.replaceSubstring('ED_GAK_ADVANCEABILITY_0020', '', '') ## TEXT IS BLANK????
+        # self.gameTextTable.replaceSubstring('ED_GAK_ADVANCEABILITY_0020', 'One True Magic', es2)
 
         # Tested and fixed!
         es2, es1 = getNames(self.pcTable.throne)
@@ -453,7 +453,7 @@ class Command(Shuffler):
         # Tested and fixed!
         es2, es1 = getNames(self.pcTable.agnea)
         self.gameTextTable.replaceSubstring('ED_ODO_ADVANCEABILITY_0010', 'Windy Refrain', es1)
-        # self.gameTextTable.replaceSubstring('ED_ODO_ADVANCEABILITY_0020', '', '') ## TEXT IS BLANK??? -- Learned in battle and works without modding!
+        # self.gameTextTable.replaceSubstring('ED_ODO_ADVANCEABILITY_0020', 'Song of Hope', es2)
 
         # Does divine ability stuff need to be updated???
         # Is here a good place to do that???

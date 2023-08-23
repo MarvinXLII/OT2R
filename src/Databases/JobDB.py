@@ -82,32 +82,64 @@ class JobTable(Table):
 
     @property
     def agnea(self):
-        return self.getRow('eDANCER')
+        return self.eDANCER
 
     @property
     def castti(self):
-        return self.getRow('eALCHEMIST')
+        return self.eALCHEMIST
 
     @property
     def hikari(self):
-        return self.getRow('eFENCER')
+        return self.eFENCER
 
     @property
     def partitio(self):
-        return self.getRow('eMERCHANT')
+        return self.eMERCHANT
 
     @property
     def ochette(self):
-        return self.getRow('eHUNTER')
+        return self.eHUNTER
 
     @property
     def osvald(self):
-        return self.getRow('ePROFESSOR')
+        return self.ePROFESSOR
 
     @property
     def temenos(self):
-        return self.getRow('ePRIEST')
+        return self.ePRIEST
 
     @property
     def throne(self):
-        return self.getRow('eTHIEF')
+        return self.eTHIEF
+
+    @property
+    def hikariFlashback(self):
+        return self.eGUEST_JOB_008
+
+    @property
+    def crick(self):
+        return self.eGUEST_JOB_003
+
+    @property
+    def gus(self):
+        return self.eGUEST_JOB_004
+
+    @property
+    def emerald(self):
+        return self.eGUEST_JOB_005
+
+    @property
+    def ritsu(self):
+        return self.eGUEST_JOB_000
+
+    @property
+    def raiMei(self):
+        return self.eGUEST_JOB_001
+
+    @property
+    def pirro(self):
+        return self.eGUEST_JOB_006
+
+    @property
+    def scaracci(self):
+        return self.eGUEST_JOB_007
