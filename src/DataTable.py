@@ -1,11 +1,17 @@
 from Assets import DataAsset
+from copy import deepcopy
 
 class Row:
     def __init__(self, key, data):
         self._key = key
         self._data = data
-        for k, v in data.items():
+        for k, v in self._data.items():
             assert not hasattr(self, k), k
+            setattr(self, k, v.value)
+
+    def data_to_attr(self):
+        for k in self.keys:
+            v = self._data[k]
             setattr(self, k, v.value)
 
     @property
@@ -27,6 +33,22 @@ class Row:
 
     def __dict__(self):
         return {k: getattr(self, k) for k in self.keys}
+
+    def __copy__(self):
+        cls = self.__class__
+        result = cls.__new__(cls)
+        result.__dict__.update(self.__dict__)
+        return result
+
+    def __deepcopy__(self, memo):
+        cls = self.__class__
+        result = cls.__new__(cls)
+        memo[id(self)] = result
+        for k, v in self.__dict__().items():
+            setattr(result, k, deepcopy(v, memo))
+        setattr(result, '_key', deepcopy(self._key, memo))
+        setattr(result, '_data', deepcopy(self._data, memo))
+        return result
 
 
 class RowSplit(Row):
@@ -50,10 +72,11 @@ class RowSplit(Row):
 
 class Table:
     def __init__(self, data, row_class):
+        self._row_class = row_class
         self._data = data
         for k, v in data.items():
             assert not hasattr(self, k)
-            setattr(self, k, row_class(k, v))
+            setattr(self, k, self._row_class(k, v))
 
     def get_row(self, key):
         if hasattr(self, key):
@@ -71,6 +94,12 @@ class Table:
         for k in self._data.keys():
             row = getattr(self, k)
             row.update()
+
+    def duplicate_data(self, key, new_key):
+        if new_key not in self._data:
+            self._data[new_key] = None
+        self._data[new_key] = deepcopy(self._data[key])
+        setattr(self, new_key, self._row_class(new_key, self._data[new_key]))
         
 
 class DataTable(DataAsset):

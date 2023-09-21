@@ -188,7 +188,7 @@
 			attribute: include_mid_game_opt_bos
 			builder: True
 			default: False
-			help: "Includes the following optional bosses as mid game bosses: Auðnvarg, Battle-Worn Shark, Carnivorous Plant, Delsta Devil, Devourer of Dreams, Gigantes, Gken, Ichchadhari the Snake Charmer, Lord of the Sands, Manymaws, Monarch, Ruffian Leader, Scourge of the Sea, and Tyran the Seeker."
+			help: "Includes the following optional bosses as mid game bosses: Audnvarg, Battle-Worn Shark, Carnivorous Plant, Delsta Devil, Devourer of Dreams, Gigantes, Gken, Ichchadhari the Snake Charmer, Lord of the Sands, Manymaws, Monarch, Ruffian Leader, Scourge of the Sea, and Tyran the Seeker."
 		    }
 		    battlesBossesOptionalLateGame: {
 			label: "Include late game optional bosses"
@@ -241,7 +241,7 @@
 			attribute: include_rusty_weapons
 			builder: True
 			default: False
-			help: "Include rusty weapons in the item shuffle, including the Rusty Sword reward from the sidequest."
+			help: "Include rusty weapons in the item shuffle, including the Rusty Sword reward from the sidequest.\n\nThis option will be ignored if the Events & Key Items options Guilds and/or Spawn Guilds are on as they affect the logic."
 		    }
 		    itemsIncludeInventor: {
 			label: "Include parts for the Inventor"
@@ -249,7 +249,7 @@
 			attribute: include_inventor_parts
 			builder: True
 			default: False
-			help: "Include Valuable items needed by the inventor: Rainbow Glass Bottle, Mythical Horn, Tin Toy, Scrap Metal, Ancient Cog, and Natural Magnetite."
+			help: "Include valuable items needed by the inventor: Rainbow Glass Bottle, Mythical Horn, Tin Toy, Scrap Metal, Ancient Cog, and Natural Magnetite.\n\nThis option will be ignored if the Events & Key Items options Guilds and/or Spawn Guilds are on as they affect the logic."
 		    }
 		    itemsLicenses: {
 			label: "Include job licenses"
@@ -278,6 +278,144 @@
 		builder: shuffle_requirements
 		default: Nothing
 		help: "Shuffle requirements for gaining a second or third license, e.g. Hunter licenses could have the Merchant's 100,000 and 300,000 leaves requirements."
+	    }
+	}
+    }
+    "Events & Key Items": {
+	"Events & Key Items": {
+	    events_story: {
+		label: "Main story chapters"
+		class: EventsAndItems
+		attribute: include_main_story
+		builder: True
+		default: False
+		help: "Unlocking main story chapters, the Scent of Commerce, Crossed Paths, and extinguished Sacred Flames will be included in your item pool. Finishing each of these may give you new items from your item pool."
+	    }
+	    events_galdera: {
+		label: "Galdera Sidequests"
+		class: EventsAndItems
+		attribute: include_galdera
+		builder: True
+		default: False
+		depend: events_story
+		help: "Completing sidequests The Traveler's Bag, Producuring Peculiar Tomes, From the Far Reaches of Hell, and A Gate Between Worlds may give you new items from your item pool."
+	    }
+	    events_pcs: {
+		label: "PCs"
+		class: EventsAndItems
+		attribute: include_pcs
+		builder: True
+		default: False
+		depend: events_story
+		help: "PCs will be included in the item pool. They will no longer be recruitable in their original locations."
+	    }
+	    events_guilds: {
+		label: "Guilds"
+		class: EventsAndItems
+		attribute: include_guilds
+		builder: True
+		default: False
+		depend: events_story
+		help: "Guild masters may give you an item from your item pool in addition to the license."
+	    }
+	    events_ex_abil: {
+		label: "EX Skills"
+		class: EventsAndItems
+		attribute: include_ex_abil
+		builder: True
+		default: False
+		depend: events_story
+		help: "Include EX Skills from altars and finishing final chapters in your item pool. You can also find shuffled items at altars and by finishing final chapters. (Osvald and Agnea will still learn their second skills in their final battles, but you may still stumble upon them elsewhere.)"
+	    }
+	    events_guard: {
+		label: "Montwise Pass Guard"
+		class: EventsAndItems
+		attribute: include_guard
+		builder: True
+		default: False
+		depend: events_story
+		help: "Passing the guard will be included in your item pool. The guard will be made unbeatable."
+	    }
+	    events_assassins: {
+		label: "Hire Assassins"
+		class: EventsAndItems
+		attribute: include_assassins
+		builder: True
+		default: False
+		depend: events_story
+		help: "Foreign Assassins in Hired Help will be included in your item pool. Beating the assassins will unlock a random item from your item pool."
+	    }
+	}
+	"Spawns": {
+	    events_ships: {
+		label: "Ships"
+		class: EventsAndItems
+		attribute: include_ships_spawn
+		builder: True
+		default: False
+		depend: events_story
+		help: "New events spawning boat NPCs at the anchorages will be included in your item pool. (The Grand Terry is omitted in this option. It is included in the main story option.)"
+	    }
+	    events_guilds_spawn: {
+		label: "Guilds"
+		class: EventsAndItems
+		attribute: include_guild_spawn
+		builder: True
+		default: False
+		depend: events_story
+		help: "New events that spawn guild masters will be included in your item pool."
+	    }
+	    events_altars_spawn: {
+		label: "Altars"
+		class: EventsAndItems
+		attribute: include_altar_spawn
+		builder: True
+		default: False
+		depend: events_story
+		help: "New events that spawn altars will be included in your item pool. (Altars will still be visible, they just won't do anything until you unlock them with the appropriate new item.)"
+	    }
+	    events_assassins_spawn: {
+		label: "Assassins"
+		class: EventsAndItems
+		attribute: include_assassins_spawn
+		builder: True
+		default: False
+		depend: events_story
+		help: "A new event that spawns the assassins will be included in your item pool."
+	    }
+	}
+	"PCs": {
+	    // events_start_pc: {
+	    // 	label: "Starting PC"
+	    // 	class: EventsAndItems
+	    // 	attribute: start_pc
+	    // 	// builder: EventsAndItems
+	    // 	// default: 'Random'
+	    // 	help: "Pick a PC to start with. Only one PC will be guaranteed to be beatable."
+	    // 	type: OptionMenu
+	    // 	optionsAttr: start_PC
+	    // 	options: [
+	    // 	    'Random',
+	    // 	    'Agnea',
+	    // 	    'Castti',
+	    // 	    'Hikari',
+	    // 	    'Ochette',
+	    // 	    'Osvald',
+	    // 	    'Partitio',
+	    // 	    'Temenos',
+	    // 	    'Throne',
+	    // 	]
+	    // }
+	    events_number_pcs: {
+		label: "Starting number of PCs"
+		class: EventsAndItems
+		attribute: num_start_pc
+		default: 1
+		type: SpinBox
+		min: 1
+		max: 8
+		increment: 1
+		help: "Pick the number of PCs to start with. Any PC other than the first will be recruited right after completing Chapter 1 of your main protagonist."
 	    }
 	}
     }

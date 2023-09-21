@@ -4,6 +4,7 @@ import sys
 import ast
 import struct
 from dataclasses import dataclass
+from copy import deepcopy
 
 
 class FloatProperty(Byte):
@@ -261,7 +262,6 @@ class MapProperty(Byte):
     def __init__(self, file, uasset, callback_load, callback_build):
         # self.none = uasset.get_index('None')
         self.callback_build = callback_build
-        self.uasset = uasset
         self.data_type = 'MapProperty'
         self.size = file.read_uint64()
         self.prop = uasset.get_name(file.read_uint64())
@@ -317,9 +317,9 @@ class MapProperty(Byte):
                 sys.exit()
 
         tmp = bytearray([])
-        tmp += self.uasset.get_uint64(len(tmp_2))
-        tmp += self.uasset.get_uint64(uasset.get_index(self.prop))
-        tmp += self.uasset.get_uint64(uasset.get_index(self.prop_2))
+        tmp += uasset.get_uint64(len(tmp_2))
+        tmp += uasset.get_uint64(uasset.get_index(self.prop))
+        tmp += uasset.get_uint64(uasset.get_index(self.prop_2))
         tmp += bytearray([0])
         return tmp + tmp_2
 
@@ -343,6 +343,18 @@ class MapProperty(Byte):
     def get(self):
         return 'MapProperty get not yet written!'
 
+    def __deepcopy__(self, memo):
+        cls = self.__class__
+        obj = cls.__new__(cls)
+        memo[id(self)] = obj
+        for k, v in self.__dict__.items():
+            if k == 'callback_build':
+                v = dict()
+            setattr(obj, k, deepcopy(v, memo))
+            pass
+        obj.callback_build = self.__dict__['callback_build']
+        return obj
+    
 # MonsterDataAsset: Include a bunch of floats I won't need to modify.
 # Just lost struct as a bytearray
 class StructProperty(Byte):
@@ -487,6 +499,18 @@ class StructProperty(Byte):
         #     return f"{{'rx': {self._value['rx']}, 'ry': {self._value['ry']}, 'rz': {self._value['rz']}}}"
         return str(self.value)
 
+    def __deepcopy__(self, memo):
+        cls = self.__class__
+        obj = cls.__new__(cls)
+        memo[id(self)] = obj
+        for k, v in self.__dict__.items():
+            if k == 'callback_build':
+                v = dict()
+            setattr(obj, k, deepcopy(v, memo))
+            pass
+        obj.callback_build = self.__dict__['callback_build']
+        return obj
+    
 class TextProperty(Byte):
     def __init__(self, file):
         self.data_type = 'TextProperty'
@@ -648,6 +672,17 @@ class ArrayProperty(Byte):
     def __repr__(self):
         return str(self.value)
 
+    def __deepcopy__(self, memo):
+        cls = self.__class__
+        obj = cls.__new__(cls)
+        memo[id(self)] = obj
+        for k, v in self.__dict__.items():
+            if k == 'callback_build':
+                v = dict()
+            setattr(obj, k, deepcopy(v, memo))
+            pass
+        obj.callback_build = self.__dict__['callback_build']
+        return obj
 
 
 class DataTableStruct(Byte):
@@ -666,13 +701,15 @@ class DataTableStruct(Byte):
     def build(self):
         uexp = bytearray()
         uexp += self.get_uint32(0)
-        uexp += self.get_uint32(self.number)
+        uexp += self.get_uint32(len(self.data))
         none = self.get_uint64(self.uasset.get_index('None'))
         for i, (key, value) in enumerate(self.data.items()):
             uexp += self.get_uint64(self.uasset.get_index(key))
             for k, v in value.items():
                 uexp += self.get_uint64(self.uasset.get_index(k))
                 uexp += self.get_uint64(self.uasset.get_index(v.data_type))
+                if (key == 'ITM_TRE_END_2B_0010_100') and (k == 'DetailTextID'):
+                    print('here')
                 uexp += v.build(self.uasset)
             uexp += none
         return uexp
@@ -866,6 +903,12 @@ class UnparsedExport(Byte):
             print('  ', hex(i))
             i += 1
 
+    def print_byte_const(self, value):
+        print('Print byte const', value, f'({hex(value)})')
+        value <<= 8
+        value += 0x24
+        self.print_addr(value, self.get_uint16)
+
     def print_addr_uint8(self, value):
         self.print_addr(value, self.get_uint8)
 
@@ -908,6 +951,15 @@ class UnparsedExport(Byte):
     def read_int_const(self, addr):
         self.assert_uint8(0x1d, addr)
         return self.read_uint32(addr+1)
+
+    def patch_byte_const(self, addr, orig, value):
+        self.assert_uint8(0x24, addr)
+        self.assert_uint8(orig, addr+1)
+        self.patch_uint8(value, addr+1)
+
+    def read_byte_const(self, addr):
+        self.assert_uint8(0x24, addr)
+        return self.read_uint8(addr+1)
 
 
 @dataclass

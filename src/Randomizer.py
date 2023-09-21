@@ -24,6 +24,7 @@ from Bosses import *
 from Databases import *
 from SkipTutorials import *
 from Events import InitialEvents
+from EventsAndItems import EventsAndItems
 
 @dataclass
 class RNGSeed:
@@ -114,18 +115,21 @@ class Rando:
         print(f"Randomizer failed! Removing directory {self.out_path}.")
         shutil.rmtree(self.out_path)
 
-    def _run(self, obj):
-        obj().run()
+    def _run(self, obj, *args):
+        obj(*args).run()
 
-    def _randomize(self, obj):
+    def _randomize(self, obj, *args):
         self._seed.set_seed()
-        self._run(obj)
+        self._run(obj, *args)
 
     def randomize(self):
+        if EventsAndItems.any_on():
+            self._randomize(EventsAndItems, self.out_path)
+
         self._run(Rando.jp_nerf) # Must be done before randomizing JP costs
         self._randomize(Rando.jp_costs)
 
-        # Order matters for these PC & command dependent options
+        # # Order matters for these PC & command dependent options
         self._randomize(Rando.ability_weapons)
         self._randomize(Rando.weapons)
         self._randomize(Rando.command) # after weapons & ability_weapons!
@@ -151,6 +155,7 @@ class Rando:
         self._run(Rando.path_actions)
         self._run(Rando.skip_tutorials)
         self._run(Rando.initial_events)
+        Battles().scale_stats()
 
         # Softlock stuff
         if Battles.scale_leaves == 0:
@@ -173,6 +178,7 @@ class Rando:
         self._run(Rando.testing)
 
     def dump(self, filename):
+
         # Spoilers
         self.spoiler_jobs.stats()
         self.spoiler_jobs.support()
@@ -184,7 +190,8 @@ class Rando:
         self.spoiler_bosses.bosses()
 
         # Build the patch
-        Manager.update_all()
+        Manager.update_all(force=False)
+        # Manager.update_all(force=True)
         Manager.Pak.build_pak(filename)
 
 

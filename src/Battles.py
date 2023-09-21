@@ -76,12 +76,13 @@ class Battles:
     def __init__(self):
         self.enemy_db = Manager.get_instance('EnemyDB').table
 
-    def run(self):
+    def scale_stats(self):
         # Non-random stuff
         self._scale()
         self._scale_sp_in_bp()
         Battles.always_drop_item(self.enemy_db)
 
+    def run(self):
         # Randomized stuff
         Battles.shuffle_drop_item(self.enemy_db)
         Battles.shuffle_steal_item(self.enemy_db)

@@ -1,5 +1,5 @@
 from DataFile import DataFile
-from DataJson import DataJson
+from DataJson import DataJson, DataJsonFile
 from Assets import DataAsset, DataAssetOnly, DataMap
 from DataTable import DataTable, Table, Row
 
@@ -29,6 +29,10 @@ class Manager:
     @classmethod
     def get_json(cls, basename):
         return cls._get_instance(basename, DataJson)
+
+    @classmethod
+    def get_json_data(cls, basename, data):
+        return cls._get_instance(basename, DataJsonFile, data)
 
     @classmethod
     def get_asset(cls, basename, include_patches=True):

@@ -1,6 +1,7 @@
 import random
 from Shuffler import Shuffler, Slot, no_weights
 from Manager import Manager
+from EventsAndItems import EventsAndItems
 
 
 def check_money(w, s, c):
@@ -330,7 +331,7 @@ class Treasures(Shuffler):
 
         # Might be cleaner to turn these items on if necessary
         # i.e. skips are True by default and set to False if needed
-        if not self.include_rusty_weapons:
+        if not self.include_rusty_weapons or EventsAndItems.include_guilds or EventsAndItems.include_guild_spawn:
             counter = 0
             for s, c in zip(slots, candidates):
                 if s.is_rusty and not s.skip:
@@ -339,7 +340,7 @@ class Treasures(Shuffler):
                     counter += 1
             assert counter == 6
 
-        if not self.include_inventor_parts:
+        if not self.include_inventor_parts or EventsAndItems.include_guilds or EventsAndItems.include_guild_spawn:
             counter = 0
             for s, c in zip(slots, candidates):
                 if s.is_inventor_item and not s.skip:

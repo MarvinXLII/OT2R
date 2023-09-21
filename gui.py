@@ -271,6 +271,7 @@ Octopath_Traveler2-WindowsNoEditor.pak
 
         # options
         self.button_data = [] # (variable, button, command, children)
+        self.leaders = {}
         for tab_name, tab in tabs.items():
             fields = self.json_file[tab_name]
             col = 0
@@ -297,12 +298,13 @@ Octopath_Traveler2-WindowsNoEditor.pak
                                 b = self.add_button(lf, row, 0, m_key, more_stuff, offset=30, state=tk.DISABLED)
                                 children.append(b)
                                 row += 1
+                        if 'depend' in stuff:
+                            button.config(state=tk.DISABLED)
+                            self.leaders[stuff['depend']].append(button)
 
         if 'Other Mods' in tabs:
             other_mods = tabs['Other Mods']
             self.patch_tab = Patches(other_mods, patches)
-        else:
-            self.patch_tab = None
 
         # For warnings/text at the bottom
         self.canvas = tk.Canvas()
@@ -319,6 +321,8 @@ Octopath_Traveler2-WindowsNoEditor.pak
         self.build_tool_tip(button, stuff)
         assert key not in self.settings
         self.settings[key] = variable
+        assert key not in self.leaders
+        self.leaders[key] = children
         return button
 
     def add_box(self, frame, row, key, stuff):
@@ -341,9 +345,9 @@ Octopath_Traveler2-WindowsNoEditor.pak
         text = stuff['label']
         ttk.Label(frame, text=text).grid(row=row, column=0, padx=offset, sticky='w')
         options = stuff['options']
-        assert options[0] == 'None'
+        # assert options[0] == 'None'
         variable = tk.StringVar()
-        variable.set('None')
+        variable.set(options[0])
         box = tk.OptionMenu(frame, variable, *stuff['options'])
         box.config(width=10)
         box.grid(row=row, column=1, sticky='e')
@@ -419,7 +423,7 @@ Octopath_Traveler2-WindowsNoEditor.pak
             CreateToolTip(button, field, wraplength, dx=25, dy=35)
         if isinstance(field, dict):
             if 'help' in field:
-                CreateToolTip(button, field['help'])
+                CreateToolTip(button, field['help'].encode('utf-8'))
 
     def initialize_settings(self, settings):
         self.settings['release'].set(RELEASE)
@@ -469,8 +473,7 @@ Octopath_Traveler2-WindowsNoEditor.pak
         self.bottom_label('Randomizing....', 'blue', 0)
 
         # Link patches -- list from highest to lowest priority
-        if self.patch_tab:
-            self.mod.add_patches(self.patch_tab.patches)
+        # self.mod.add_patches(self.patch_tab.patches)
 
         if randomize(self.mod, settings):
             self.clear_bottom_labels()

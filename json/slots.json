@@ -1,0 +1,1463 @@
+{
+  finish_soc_grand_terry:
+  [
+    {
+      filename: MS_SHO_EX1_0400
+      insert:
+      [
+        11
+      ]
+      remove: []
+      description: Finish Scent of Commerce: Tropu'hopu Route
+    }
+  ]
+  finish_soc_manuscript:
+  [
+    {
+      filename: MS_SHO_EX3_0600
+      insert:
+      [
+        17
+      ]
+      remove:
+      [
+        10
+        11
+        14
+        17
+      ]
+      description: Finish Scent of Commerce: Sai Route
+    }
+  ]
+  finish_soc_gramophone:
+  [
+    {
+      filename: MS_SHO_EX2_0500
+      insert:
+      [
+        29
+      ]
+      remove:
+      [
+        12
+        13
+        22
+        23
+        24
+        29
+      ]
+      description: Finish Scent of Commerce: Winterbloom Route
+    }
+  ]
+  finish_altar_war:
+  [
+    {
+      filename: SHRINE_KEN_0100
+      insert:
+      [
+        10
+      ]
+      remove:
+      [
+        10
+        11
+        18
+      ]
+      description: Warrior Altar
+    }
+  ]
+  finish_altar_hun:
+  [
+    {
+      filename: SHRINE_KAR_0100
+      insert:
+      [
+        10
+      ]
+      remove:
+      [
+        10
+        11
+        18
+      ]
+      description: Hunter Altar
+    }
+  ]
+  finish_altar_apo:
+  [
+    {
+      filename: SHRINE_KUS_0100
+      insert:
+      [
+        10
+      ]
+      remove:
+      [
+        10
+        11
+        18
+      ]
+      description: Apothecary Altar
+    }
+  ]
+  finish_altar_mer:
+  [
+    {
+      filename: SHRINE_SHO_0100
+      insert:
+      [
+        10
+      ]
+      remove:
+      [
+        10
+        11
+        18
+      ]
+      description: Merchant Altar
+    }
+  ]
+  finish_altar_cle:
+  [
+    {
+      filename: SHRINE_SIN_0100
+      insert:
+      [
+        10
+      ]
+      remove:
+      [
+        10
+        11
+        18
+      ]
+      description: Cleric Altar
+    }
+  ]
+  finish_altar_sch:
+  [
+    {
+      filename: SHRINE_GAK_0100
+      insert:
+      [
+        10
+      ]
+      remove:
+      [
+        10
+        11
+        18
+      ]
+      description: Scholar Altar
+    }
+  ]
+  finish_altar_thi:
+  [
+    {
+      filename: SHRINE_TOU_0100
+      insert:
+      [
+        10
+      ]
+      remove:
+      [
+        10
+        11
+        18
+      ]
+      description: Thief Altar
+    }
+  ]
+  finish_altar_dan:
+  [
+    {
+      filename: SHRINE_ODO_0100
+      insert:
+      [
+        10
+      ]
+      remove:
+      [
+        10
+        11
+        18
+      ]
+      description: Dancer Altar
+    }
+  ]
+  finish_guild_war:
+  [
+    {
+      filename: SYS_WAR_GUILD_0030
+      insert:
+      [
+        -2
+      ]
+      remove: []
+      description: Warrior Guild
+    }
+  ]
+  finish_guild_hun:
+  [
+    {
+      filename: SYS_HUN_GUILD_0030
+      insert:
+      [
+        -2
+      ]
+      remove: []
+      description: Hunter Guild
+    }
+  ]
+  finish_guild_apo:
+  [
+    {
+      filename: SYS_APO_GUILD_0030
+      insert:
+      [
+        -2
+      ]
+      remove: []
+      description: Apothecary Guild
+    }
+  ]
+  finish_guild_mer:
+  [
+    {
+      filename: SYS_MER_GUILD_0030
+      insert:
+      [
+        -2
+      ]
+      remove: []
+      description: Merchant Guild
+    }
+  ]
+  finish_guild_cle:
+  [
+    {
+      filename: SYS_CLE_GUILD_0030
+      insert:
+      [
+        -2
+      ]
+      remove: []
+      description: Cleric Guild
+    }
+  ]
+  finish_guild_sch:
+  [
+    {
+      filename: SYS_SCH_GUILD_0030
+      insert:
+      [
+        -2
+      ]
+      remove: []
+      description: Scholar Guild
+    }
+  ]
+  finish_guild_thi:
+  [
+    {
+      filename: SYS_THI_GUILD_0030
+      insert:
+      [
+        -2
+      ]
+      remove: []
+      description: Thief Guild
+    }
+  ]
+  finish_guild_dan:
+  [
+    {
+      filename: SYS_DAN_GUILD_0030
+      insert:
+      [
+        -2
+      ]
+      remove: []
+      description: Dancer Guild
+    }
+  ]
+  finish_guild_arc:
+  [
+    {
+      filename: SYS_WIZ_GUILD_0000
+      insert:
+      [
+        -2
+      ]
+      remove: []
+      description: Arcanist Guild
+    }
+  ]
+  finish_chapter_1:
+  [
+    {
+      filename: MS_KEN_10_2000
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Chapter 1
+    }
+    {
+      filename: MS_KEN_00_0400
+      insert:
+      [
+        68
+        59
+        7
+      ]
+      remove: []
+      description: Finish Chapter 1
+    }
+    {
+      filename: MS_KAR_10_2000
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Chapter 1
+    }
+    {
+      filename: MS_KAR_00_0300
+      insert:
+      [
+        59
+        53
+        7
+      ]
+      remove: []
+      description: Finish Chapter 1
+    }
+    {
+      filename: MS_KUS_10_1700
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Chapter 1
+    }
+    {
+      filename: MS_KUS_00_0300
+      insert:
+      [
+        69
+        61
+        7
+      ]
+      remove: []
+      description: Finish Chapter 1
+    }
+    {
+      filename: MS_SHO_10_1800
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Chapter 1
+    }
+    {
+      filename: MS_SHO_00_0300
+      insert:
+      [
+        56
+        50
+        8
+      ]
+      remove: []
+      description: Finish Chapter 1
+    }
+    {
+      filename: MS_SIN_10_1500
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Chapter 1
+    }
+    {
+      filename: MS_SIN_00_0400
+      insert:
+      [
+        65
+        57
+        7
+      ]
+      remove: []
+      description: Finish Chapter 1
+    }
+    {
+      filename: MS_GAK_20_0800
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Chapter 1
+    }
+    {
+      filename: MS_GAK_00_0300
+      insert:
+      [
+        62
+        55
+        7
+      ]
+      remove: []
+      description: Finish Chapter 1
+    }
+    {
+      filename: MS_TOU_10_2000
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Chapter 1
+    }
+    {
+      filename: MS_TOU_00_0400
+      insert:
+      [
+        54
+        47
+        8
+      ]
+      remove: []
+      description: Finish Chapter 1
+    }
+    {
+      filename: MS_ODO_10_1900
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Chapter 1
+    }
+    {
+      filename: MS_ODO_00_0300
+      insert:
+      [
+        52
+        47
+        7
+      ]
+      remove: []
+      description: Finish Chapter 1
+    }
+  ]
+  finish_chapter_hikari_2:
+  [
+    {
+      filename: MS_KEN_20_2200
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Hikari Chapter 2
+    }
+  ]
+  finish_chapter_hikari_3:
+  [
+    {
+      filename: MS_KEN_30_1200
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Hikari Chapter 3
+    }
+  ]
+  finish_chapter_hikari_4:
+  [
+    {
+      filename: MS_KEN_40_1800
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Hikari Chapter 4
+    }
+  ]
+  finish_chapter_hikari_5:
+  [
+    {
+      filename: MS_KEN_50_2000
+      insert:
+      [
+        -1
+      ]
+      remove:
+      [
+        27
+        153
+        154
+      ]
+      description: Finish Hikari Chapter 5
+    }
+  ]
+  finish_chapter_ochette_2a:
+  [
+    {
+      filename: MS_KAR_2A_0600
+      insert:
+      [
+        -1
+      ]
+      remove:
+      [
+        107
+      ]
+      description: Finish Ochette Chapter 2: Cateracta's Route
+    }
+    {
+      filename: MS_KAR_2M_01A0
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Ochette Chapter 2: Cateracta's Route
+    }
+  ]
+  finish_chapter_ochette_2b:
+  [
+    {
+      filename: MS_KAR_2B_0900
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Ochette Chapter 2: Tera's Route
+    }
+    {
+      filename: MS_KAR_2M_01B0
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Ochette Chapter 2: Tera's Route
+    }
+  ]
+  finish_chapter_ochette_2c:
+  [
+    {
+      filename: MS_KAR_2C_1200
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Ochette Chapter 2: Glacis's Route
+    }
+    {
+      filename: MS_KAR_2M_01C0
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Ochette Chapter 2: Glacis's Route
+    }
+  ]
+  finish_chapter_ochette_3:
+  [
+    {
+      filename: MS_KAR_30_2500
+      insert:
+      [
+        -1
+      ]
+      remove:
+      [
+        20
+        139
+        140
+      ]
+      description: Finish Ochette Chapter 3
+    }
+  ]
+  finish_chapter_castti_2a:
+  [
+    {
+      filename: MS_KUS_2A_1800
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Castti Chapter 2: Sai
+    }
+    {
+      filename: MS_KUS_2M_01A0
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Castti Chapter 2: Sai
+    }
+  ]
+  finish_chapter_castti_2b:
+  [
+    {
+      filename: MS_KUS_2B_1800
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Castti Chapter 2: Winterbloom Route
+    }
+    {
+      filename: MS_KUS_2M_01B0
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Castti Chapter 2: Winterbloom Route
+    }
+  ]
+  finish_chapter_castti_3:
+  [
+    {
+      filename: MS_KUS_30_1800
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Castti Chapter 3
+    }
+  ]
+  finish_chapter_castti_4:
+  [
+    {
+      filename: MS_KUS_40_1200
+      insert:
+      [
+        -1
+      ]
+      remove:
+      [
+        20
+        136
+        137
+      ]
+      description: Finish Castti Chapter 4
+    }
+  ]
+  finish_chapter_partitio_2:
+  [
+    {
+      filename: MS_SHO_20_1100
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Partitio Chapter 2
+    }
+  ]
+  finish_chapter_partitio_3:
+  [
+    {
+      filename: MS_SHO_30_1300
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Partitio Chapter 3
+    }
+  ]
+  finish_chapter_partitio_4:
+  [
+    {
+      filename: MS_SHO_40_1800
+      insert:
+      [
+        -1
+      ]
+      remove:
+      [
+        17
+        133
+        134
+      ]
+      description: Finish Partitio Chapter 4
+    }
+  ]
+  finish_chapter_temenos_2:
+  [
+    {
+      filename: MS_SIN_20_1800
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Temenos Chapter 2
+    }
+  ]
+  finish_chapter_temenos_3a:
+  [
+    {
+      filename: MS_SIN_3A_1600
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Temenos Chapter 3: Stormhail Route
+    }
+    {
+      filename: MS_SIN_3M_01A0
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Temenos Chapter 3: Stormhail Route
+    }
+  ]
+  finish_chapter_temenos_3b:
+  [
+    {
+      filename: MS_SIN_3B_13A0
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Temenos Chapter 3: Crackridge Route
+    }
+    {
+      filename: MS_SIN_3M_01B0
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Temenos Chapter 3: Crackridge Route
+    }
+  ]
+  finish_chapter_temenos_4:
+  [
+    {
+      filename: MS_SIN_40_1200
+      insert:
+      [
+        -1
+      ]
+      remove:
+      [
+        20
+        150
+        151
+      ]
+      description: Finish Temenos Chapter 4
+    }
+  ]
+  finish_chapter_osvald_3:
+  [
+    {
+      filename: MS_GAK_30_0800
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Osvald Chapter 3
+    }
+  ]
+  finish_chapter_osvald_4:
+  [
+    {
+      filename: MS_GAK_40_1000
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Osvald Chapter 4
+    }
+  ]
+  finish_chapter_osvald_5:
+  [
+    {
+      filename: MS_GAK_50_1300
+      insert:
+      [
+        -1
+      ]
+      remove:
+      [
+        28
+      ]
+      description: Finish Osvald Chapter 5
+    }
+  ]
+  finish_chapter_throne_2a:
+  [
+    {
+      filename: MS_TOU_2A_0900
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Throne Chapter 2: Mother's Route
+    }
+  ]
+  finish_chapter_throne_2b:
+  [
+    {
+      filename: MS_TOU_2B_1000
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Throne Chapter 2: Father's Route
+    }
+  ]
+  finish_chapter_throne_3a:
+  [
+    {
+      filename: MS_TOU_3A_1100
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Throne Chapter 3: Mother's Route
+    }
+    {
+      filename: MS_TOU_3M_01A0
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Throne Chapter 3: Mother's Route
+    }
+  ]
+  finish_chapter_throne_3b:
+  [
+    {
+      filename: MS_TOU_3B_1100
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Throne Chapter 3: Father's Route
+    }
+    {
+      filename: MS_TOU_3M_01B0
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Throne Chapter 3: Father's Route
+    }
+  ]
+  finish_chapter_throne_4:
+  [
+    {
+      filename: MS_TOU_40_1210
+      insert:
+      [
+        -1
+      ]
+      remove:
+      [
+        130
+        131
+      ]
+      description: Finish Throne Chapter 4
+    }
+  ]
+  finish_chapter_agnea_2:
+  [
+    {
+      filename: MS_ODO_20_1600
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Agnea Chapter 2
+    }
+  ]
+  finish_chapter_agnea_3:
+  [
+    {
+      filename: MS_ODO_30_0800
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Agnea Chapter 3
+    }
+  ]
+  finish_chapter_agnea_4:
+  [
+    {
+      filename: MS_ODO_40_1700
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Agnea Chapter 4
+    }
+  ]
+  finish_chapter_agnea_5:
+  [
+    {
+      filename: MS_ODO_50_2000
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Agnea Chapter 5
+    }
+  ]
+  finish_cop_oc_1:
+  [
+    {
+      filename: MS_COP_KK1_0700
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Crossed Path Apothecary & Hunter 1
+    }
+  ]
+  finish_cop_oc_2:
+  [
+    {
+      filename: MS_COP_KK2_0800
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Crossed Path Apothecary & Hunter 2
+    }
+  ]
+  finish_cop_tt_1:
+  [
+    {
+      filename: MS_COP_ST1_0700
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Crossed Path Cleric & Thief 1
+    }
+  ]
+  finish_cop_tt_2:
+  [
+    {
+      filename: MS_COP_ST2_0700
+      insert:
+      [
+        -1
+      ]
+      remove:
+      [
+        10
+        11
+        15
+      ]
+      description: Finish Crossed Path Cleric & Thief 2
+    }
+  ]
+  finish_cop_ah_1:
+  [
+    {
+      filename: MS_COP_OK1_0600
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Crossed Path Dancer & Warrior 1
+    }
+  ]
+  finish_cop_ah_2:
+  [
+    {
+      filename: MS_COP_OK2_0800
+      insert:
+      [
+        -1
+      ]
+      remove:
+      [
+        14
+      ]
+      description: Finish Crossed Path Dancer & Warrior 2
+    }
+  ]
+  finish_cop_op_1:
+  [
+    {
+      filename: MS_COP_GS1_0500
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Crossed Path Scholar & Merchant 1
+    }
+  ]
+  finish_cop_op_2:
+  [
+    {
+      filename: MS_COP_GS2_1100
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Finish Crossed Path Scholar & Merchant 2
+    }
+  ]
+  finish_flame_grotto:
+  [
+    {
+      filename: MS_END_2D_0300
+      insert:
+      [
+        50
+        41
+        36
+        31
+      ]
+      remove: []
+      description: Reignite Sacred Flame: Tranquil Grotto
+    }
+  ]
+  finish_flame_tomb:
+  [
+    {
+      filename: MS_END_2C_0300
+      insert:
+      [
+        39
+        30
+        25
+        20
+      ]
+      remove: []
+      description: Reignite Sacred Flame: Tomb of the Wardenbeasts
+    }
+  ]
+  finish_flame_church:
+  [
+    {
+      filename: MS_END_2A_0300
+      insert:
+      [
+        37
+        28
+        23
+        18
+      ]
+      remove: []
+      description: Reignite Sacred Flame: Flamechurch
+    }
+  ]
+  finish_flame_ruins:
+  [
+    {
+      filename: MS_END_2B_0300
+      insert:
+      [
+        40
+        31
+        26
+        21
+      ]
+      remove: []
+      description: Reignite Sacred Flame: Fellsun Ruins
+    }
+  ]
+  finish_bag_thief:
+  [
+    {
+      filename: SC_FD11_Tutorial_0310
+      insert:
+      [
+        -1
+      ]
+      remove:
+      [
+        -2
+        -3
+      ]
+      description: Fight Al's Bag's Thief
+    }
+    {
+      filename: SC_FI12_Tutorial_0310
+      insert:
+      [
+        -1
+      ]
+      remove:
+      [
+        -2
+        -3
+      ]
+      description: Fight Al's Bag's Thief
+    }
+    {
+      filename: SC_FSe13_Tutorial_0310
+      insert:
+      [
+        -1
+      ]
+      remove:
+      [
+        -2
+        -3
+      ]
+      description: Fight Al's Bag's Thief
+    }
+    {
+      filename: SC_FI13_Tutorial_0310
+      insert:
+      [
+        -1
+      ]
+      remove:
+      [
+        -2
+        -3
+      ]
+      description: Fight Al's Bag's Thief
+    }
+    {
+      filename: SC_FW13_Tutorial_0310
+      insert:
+      [
+        -1
+      ]
+      remove:
+      [
+        -2
+        -3
+      ]
+      description: Fight Al's Bag's Thief
+    }
+    {
+      filename: SC_FM12_Tutorial_0310
+      insert:
+      [
+        -1
+      ]
+      remove:
+      [
+        -2
+        -3
+      ]
+      description: Fight Al's Bag's Thief
+    }
+    {
+      filename: SC_FSn12_Tutorial_0310
+      insert:
+      [
+        -1
+      ]
+      remove:
+      [
+        -2
+        -3
+      ]
+      description: Fight Al's Bag's Thief
+    }
+    {
+      filename: SC_FC13_Tutorial_0310
+      insert:
+      [
+        -1
+      ]
+      remove:
+      [
+        -2
+        -3
+      ]
+      description: Fight Al's Bag's Thief
+    }
+    {
+      filename: SC_FF13_Tutorial_0310
+      insert:
+      [
+        -1
+      ]
+      remove:
+      [
+        -2
+        -3
+      ]
+      description: Fight Al's Bag's Thief
+    }
+  ]
+  finish_the_travelers_bag:
+  [
+    {
+      filename: SC_FD11_Tutorial_0400
+      insert:
+      [
+        47
+        54
+      ]
+      remove: []
+      description: Finish Sidequest: The Traveler's Bag
+    }
+    {
+      filename: SC_FI12_Tutorial_0400
+      insert:
+      [
+        47
+        54
+      ]
+      remove: []
+      description: Finish Sidequest: The Traveler's Bag
+    }
+    {
+      filename: SC_FSe13_Tutorial_0400
+      insert:
+      [
+        48
+        55
+      ]
+      remove: []
+      description: Finish Sidequest: The Traveler's Bag
+    }
+    {
+      filename: SC_FI13_Tutorial_0400
+      insert:
+      [
+        49
+        56
+      ]
+      remove: []
+      description: Finish Sidequest: The Traveler's Bag
+    }
+    {
+      filename: SC_FW13_Tutorial_0400
+      insert:
+      [
+        47
+        54
+      ]
+      remove: []
+      description: Finish Sidequest: The Traveler's Bag
+    }
+    {
+      filename: SC_FM12_Tutorial_0400
+      insert:
+      [
+        47
+        54
+      ]
+      remove: []
+      description: Finish Sidequest: The Traveler's Bag
+    }
+    {
+      filename: SC_FSn12_Tutorial_0400
+      insert:
+      [
+        47
+        54
+      ]
+      remove: []
+      description: Finish Sidequest: The Traveler's Bag
+    }
+    {
+      filename: SC_FC13_Tutorial_0400
+      insert:
+      [
+        49
+        56
+      ]
+      remove: []
+      description: Finish Sidequest: The Traveler's Bag
+    }
+    {
+      filename: SC_FF13_Tutorial_0400
+      insert:
+      [
+        49
+        56
+      ]
+      remove: []
+      description: Finish Sidequest: The Traveler's Bag
+    }
+  ]
+  finish_procuring_peculiar_tomes:
+  [
+    {
+      filename: SC_SS_TMount21_0200_0200
+      insert:
+      [
+        79
+        73
+      ]
+      remove: []
+      description: Finish Sidequest: Procuring Pecurliar Tomes
+    }
+  ]
+  finish_from_the_far_reaches_of_hell:
+  [
+    {
+      filename: SC_SS_TMount21_0400_0200
+      insert:
+      [
+        94
+        88
+      ]
+      remove: []
+      description: Finish Sidequest: From the Far Reaches of Hell
+    }
+  ]
+  finish_a_gate_between_worlds:
+  [
+    {
+      filename: SS_GAL_10_0600
+      insert:
+      [
+        -2
+      ]
+      remove: []
+      description: Finish Sidequest: A Gate Between Worlds
+    }
+  ]
+  finish_guild_con:
+  [
+    {
+      filename: SC_SS_TDesert31_0400_1000
+      insert:
+      [
+        -2
+      ]
+      remove:
+      [
+        14
+        15
+        36
+      ]
+      description: Beat Priestess Hinoekagura
+    }
+  ]
+  finish_guild_arm:
+  [
+    {
+      filename: SYS_WPM_GUILD_0000
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Bring 1 rusty weapon to the Blacksmith
+    }
+    {
+      filename: SYS_WPM_GUILD_0010
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Bring 1 rusty weapon to the Blacksmith
+    }
+  ]
+  finish_guild_inv:
+  [
+    {
+      filename: SYS_INV_GUILD_0C10
+      insert:
+      [
+        68
+      ]
+      remove: []
+      description: Bring 1 set of items to the Inventor
+    }
+    {
+      filename: SYS_INV_GUILD_0D10
+      insert:
+      [
+        67
+      ]
+      remove: []
+      description: Bring 1 set of items to the Inventor
+    }
+    {
+      filename: SYS_INV_GUILD_0E10
+      insert:
+      [
+        68
+      ]
+      remove: []
+      description: Bring 1 set of items to the Inventor
+    }
+    {
+      filename: SYS_INV_GUILD_0F10
+      insert:
+      [
+        70
+      ]
+      remove: []
+      description: Bring 1 set of items to the Inventor
+    }
+    {
+      filename: SYS_INV_GUILD_0G10
+      insert:
+      [
+        70
+      ]
+      remove: []
+      description: Bring 1 set of items to the Inventor
+    }
+  ]
+  finish_foreign_assassin:
+  [
+    {
+      filename: FEV_Fld_Mnt_3_2_0100_0200
+      insert:
+      [
+        -1
+      ]
+      remove:
+      [
+        19
+      ]
+      description: Beat the Foreign Assassins
+    }
+  ]
+}

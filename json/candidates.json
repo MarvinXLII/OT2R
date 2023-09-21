@@ -1,0 +1,869 @@
+{
+  unlock_beasting_bay_ship:
+  {
+    flag: 60001
+    other_flags: []
+    display: true
+    name: Unlock Beasting Bay Ship
+    description: Spawns boat NPC at Beasting Bay: Anchorage
+    item_key: ITM_TRE_END_2B_0010_60001
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60001
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60001
+  }
+  unlock_new_delsta_ship:
+  {
+    flag: 60002
+    other_flags: []
+    display: true
+    name: Unlock New Delsta Ship
+    description: Spawns boat NPC at New Delsta Harbor: Anchorage
+    item_key: ITM_TRE_END_2B_0010_60002
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60002
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60002
+  }
+  unlock_crackridge_ship:
+  {
+    flag: 60003
+    other_flags: []
+    display: true
+    name: Unlock Crackridge Ship
+    description: Spawns boat NPC at Crackridge Harbor: Anchorage
+    item_key: ITM_TRE_END_2B_0010_60003
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60003
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60003
+  }
+  unlock_canalbrine_ship:
+  {
+    flag: 60004
+    other_flags: []
+    display: true
+    name: Unlock Canalbrine Ship
+    description: Spawns boat NPC at Canalbrine: Anchorage
+    item_key: ITM_TRE_END_2B_0010_60004
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60004
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60004
+  }
+  unlock_guild_war:
+  {
+    flag: 60006
+    other_flags: []
+    display: true
+    name: Unlock Warrior Guild
+    description: Spawns the Warrior Guild leader
+    item_key: ITM_TRE_END_2B_0010_60006
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60006
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60006
+  }
+  unlock_guild_hun:
+  {
+    flag: 60007
+    other_flags: []
+    display: true
+    name: Unlock Hunter Guild
+    description: Spawns the Hunter Guild leader
+    item_key: ITM_TRE_END_2B_0010_60007
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60007
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60007
+  }
+  unlock_guild_apo:
+  {
+    flag: 60008
+    other_flags: []
+    display: true
+    name: Unlock Apothecary Guild
+    description: Spawns the Apothecary Guild leader
+    item_key: ITM_TRE_END_2B_0010_60008
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60008
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60008
+  }
+  unlock_guild_mer:
+  {
+    flag: 60009
+    other_flags: []
+    display: true
+    name: Unlock Merchant Guild
+    description: Spawns the Merchant Guild leader
+    item_key: ITM_TRE_END_2B_0010_60009
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60009
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60009
+  }
+  unlock_guild_cle:
+  {
+    flag: 60010
+    other_flags: []
+    display: true
+    name: Unlock Cleric Guild
+    description: Spawns the Cleric Guild leader
+    item_key: ITM_TRE_END_2B_0010_60010
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60010
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60010
+  }
+  unlock_guild_sch:
+  {
+    flag: 60011
+    other_flags: []
+    display: true
+    name: Unlock Scholar Guild
+    description: Spawns the Scholar Guild leader
+    item_key: ITM_TRE_END_2B_0010_60011
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60011
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60011
+  }
+  unlock_guild_thi:
+  {
+    flag: 60012
+    other_flags: []
+    display: true
+    name: Unlock Thief Guild
+    description: Spawns the Thief Guild leader
+    item_key: ITM_TRE_END_2B_0010_60012
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60012
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60012
+  }
+  unlock_guild_dan:
+  {
+    flag: 60013
+    other_flags: []
+    display: true
+    name: Unlock Dancer Guild
+    description: Spawns the Dancer Guild leader
+    item_key: ITM_TRE_END_2B_0010_60013
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60013
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60013
+  }
+  unlock_altar_war:
+  {
+    flag: 60014
+    other_flags: []
+    display: true
+    name: Unlock Warrior Altar
+    description: Spawns the Warrior Altar
+    item_key: ITM_TRE_END_2B_0010_60014
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60014
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60014
+  }
+  unlock_altar_hun:
+  {
+    flag: 60015
+    other_flags: []
+    display: true
+    name: Unlock Hunter Altar
+    description: Spawns the Hunter Altar
+    item_key: ITM_TRE_END_2B_0010_60015
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60015
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60015
+  }
+  unlock_altar_apo:
+  {
+    flag: 60016
+    other_flags: []
+    display: true
+    name: Unlock Apothecary Altar
+    description: Spawns the Apothecary Altar
+    item_key: ITM_TRE_END_2B_0010_60016
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60016
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60016
+  }
+  unlock_altar_mer:
+  {
+    flag: 60017
+    other_flags: []
+    display: true
+    name: Unlock Merchant Altar
+    description: Spawns the Merchant Altar
+    item_key: ITM_TRE_END_2B_0010_60017
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60017
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60017
+  }
+  unlock_altar_cle:
+  {
+    flag: 60018
+    other_flags: []
+    display: true
+    name: Unlock Cleric Altar
+    description: Spawns the Cleric Altar
+    item_key: ITM_TRE_END_2B_0010_60018
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60018
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60018
+  }
+  unlock_altar_sch:
+  {
+    flag: 60019
+    other_flags: []
+    display: true
+    name: Unlock Scholar Altar
+    description: Spawns the Scholar Altar
+    item_key: ITM_TRE_END_2B_0010_60019
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60019
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60019
+  }
+  unlock_altar_thi:
+  {
+    flag: 60020
+    other_flags: []
+    display: true
+    name: Unlock Thief Altar
+    description: Spawns the Thief Altar
+    item_key: ITM_TRE_END_2B_0010_60020
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60020
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60020
+  }
+  unlock_altar_dan:
+  {
+    flag: 60021
+    other_flags: []
+    display: true
+    name: Unlock Dancer Altar
+    description: Spawns the Dancer Altar
+    item_key: ITM_TRE_END_2B_0010_60021
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60021
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60021
+  }
+  unlock_hikari_2:
+  {
+    flag: 60023
+    other_flags: []
+    display: true
+    name: Unlock Hikari Chapter 2
+    description: Grants access to Hikari Chapter 2
+    item_key: ITM_TRE_END_2B_0010_60023
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60023
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60023
+  }
+  unlock_hikari_3:
+  {
+    flag: 60024
+    other_flags: []
+    display: true
+    name: Unlock Hikari Chapter 3
+    description: Grants access to Hikari Chapter 3
+    item_key: ITM_TRE_END_2B_0010_60024
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60024
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60024
+  }
+  unlock_hikari_4:
+  {
+    flag: 60025
+    other_flags: []
+    display: true
+    name: Unlock Hikari Chapter 4
+    description: Grants access to Hikari Chapter 4
+    item_key: ITM_TRE_END_2B_0010_60025
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60025
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60025
+  }
+  unlock_hikari_5:
+  {
+    flag: 60026
+    other_flags:
+    [
+      34066
+    ]
+    display: true
+    name: Unlock Hikari Chapter 5
+    description: Grants access to Hikari Chapter 5
+    item_key: ITM_TRE_END_2B_0010_60026
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60026
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60026
+  }
+  unlock_ochette_2a:
+  {
+    flag: 60028
+    other_flags: []
+    display: true
+    name: Unlock Ochette Chapter 2: Cateracta’s Route
+    description: Grants access to Ochette Chapter 2: Cateracta’s Route
+    item_key: ITM_TRE_END_2B_0010_60028
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60028
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60028
+  }
+  unlock_ochette_2b:
+  {
+    flag: 60029
+    other_flags: []
+    display: true
+    name: Unlock Ochette Chapter 2: Tera’s Route
+    description: Grants access to Chapter 2: Tera’s Route
+    item_key: ITM_TRE_END_2B_0010_60029
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60029
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60029
+  }
+  unlock_ochette_2c:
+  {
+    flag: 60030
+    other_flags: []
+    display: true
+    name: Unlock Ochette Chapter 2: Glacis’s Route
+    description: Grants access to Chapter 2: Glacis’s Route
+    item_key: ITM_TRE_END_2B_0010_60030
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60030
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60030
+  }
+  unlock_ochette_3:
+  {
+    flag: 60031
+    other_flags: []
+    display: true
+    name: Unlock Ochette Chapter 3
+    description: Grants access to Chapter 3
+    item_key: ITM_TRE_END_2B_0010_60031
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60031
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60031
+  }
+  unlock_castti_2a:
+  {
+    flag: 60033
+    other_flags: []
+    display: true
+    name: Unlock Castti Chapter 2: Sai Route
+    description: Grants access to Castti Chapter 2: Sai Route
+    item_key: ITM_TRE_END_2B_0010_60033
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60033
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60033
+  }
+  unlock_castti_2b:
+  {
+    flag: 60034
+    other_flags: []
+    display: true
+    name: Unlock Castti Chapter 2: Winterbloom Route
+    description: Grants access to Castti Chapter 2: Winterbloom Route
+    item_key: ITM_TRE_END_2B_0010_60034
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60034
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60034
+  }
+  unlock_castti_3:
+  {
+    flag: 60035
+    other_flags: []
+    display: true
+    name: Unlock Castti Chapter 3
+    description: Grants access to Castti Chapter 3
+    item_key: ITM_TRE_END_2B_0010_60035
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60035
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60035
+  }
+  unlock_castti_4:
+  {
+    flag: 60036
+    other_flags: []
+    display: true
+    name: Unlock Castti Chapter 4
+    description: Grants access to Castti Chapter 4
+    item_key: ITM_TRE_END_2B_0010_60036
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60036
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60036
+  }
+  unlock_partitio_2:
+  {
+    flag: 60038
+    other_flags: []
+    display: true
+    name: Unlock Partitio Chapter 2
+    description: Grants access to Partitio Chapter 2
+    item_key: ITM_TRE_END_2B_0010_60038
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60038
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60038
+  }
+  unlock_partitio_3:
+  {
+    flag: 60039
+    other_flags: []
+    display: true
+    name: Unlock Partitio Chapter 3
+    description: Grants access to Partitio Chapter 3
+    item_key: ITM_TRE_END_2B_0010_60039
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60039
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60039
+  }
+  unlock_partitio_4:
+  {
+    flag: 60040
+    other_flags: []
+    display: true
+    name: Unlock Partitio Chapter 4
+    description: Grants access to Partitio Chapter 4
+    item_key: ITM_TRE_END_2B_0010_60040
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60040
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60040
+  }
+  unlock_soc_grand_terry:
+  {
+    flag: 60041
+    other_flags: []
+    display: true
+    name: Unlock Partitio Scent of Commerce: Tropu'hopu
+    description: Grants access to Partitio’s Sidequest Scent of Commerce 1
+    item_key: ITM_TRE_END_2B_0010_60041
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60041
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60041
+  }
+  unlock_soc_gramophone:
+  {
+    flag: 60042
+    other_flags: []
+    display: true
+    name: Unlock Partitio Scent of Commerce: Winterbloom
+    description: Grants access to Partitio’s Sidequest Scent of Commerce 2
+    item_key: ITM_TRE_END_2B_0010_60042
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60042
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60042
+  }
+  unlock_soc_manuscript:
+  {
+    flag: 60043
+    other_flags: []
+    display: true
+    name: Unlock Partitio Scent of Commerce: Sai
+    description: Grants access to Partitio’s Sidequest Scent of Commerce 3
+    item_key: ITM_TRE_END_2B_0010_60043
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60043
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60043
+  }
+  unlock_temenos_2:
+  {
+    flag: 60045
+    other_flags: []
+    display: true
+    name: Unlock Temenos Chapter 2
+    description: Grants access to Chapter 2
+    item_key: ITM_TRE_END_2B_0010_60045
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60045
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60045
+  }
+  unlock_temenos_3a:
+  {
+    flag: 60046
+    other_flags: []
+    display: true
+    name: Unlock Temenos Chapter 3: Stormhail Route
+    description: Grants access to Temenos Chapter 3: Stormhail Route
+    item_key: ITM_TRE_END_2B_0010_60046
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60046
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60046
+  }
+  unlock_temenos_3b:
+  {
+    flag: 60047
+    other_flags: []
+    display: true
+    name: Unlock Temenos Chapter 3: Crackridge Route
+    description: Grants access to Temenos Chapter 3: Crackridge Route
+    item_key: ITM_TRE_END_2B_0010_60047
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60047
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60047
+  }
+  unlock_temenos_4:
+  {
+    flag: 60048
+    other_flags: []
+    display: true
+    name: Unlock Temenos Chapter 4
+    description: Grants access to Chapter 4
+    item_key: ITM_TRE_END_2B_0010_60048
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60048
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60048
+  }
+  unlock_osvald_3:
+  {
+    flag: 60051
+    other_flags: []
+    display: true
+    name: Unlock Osvald Chapter 3
+    description: Grants access to Chapter 3
+    item_key: ITM_TRE_END_2B_0010_60051
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60051
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60051
+  }
+  unlock_osvald_4:
+  {
+    flag: 60052
+    other_flags: []
+    display: true
+    name: Unlock Osvald Chapter 4
+    description: Grants access to Chapter 4
+    item_key: ITM_TRE_END_2B_0010_60052
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60052
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60052
+  }
+  unlock_osvald_5:
+  {
+    flag: 60053
+    other_flags: []
+    display: true
+    name: Unlock Osvald Chapter 5
+    description: Grants access to Chapter 5
+    item_key: ITM_TRE_END_2B_0010_60053
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60053
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60053
+  }
+  unlock_throne_2a:
+  {
+    flag: 60055
+    other_flags: []
+    display: true
+    name: Unlock Throne Chapter 2: Mother’s Route
+    description: Grants access to Throne Chapter 2: Mother’s Route
+    item_key: ITM_TRE_END_2B_0010_60055
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60055
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60055
+  }
+  unlock_throne_2b:
+  {
+    flag: 60056
+    other_flags: []
+    display: true
+    name: Unlock Throne Chapter 2: Father’s Route
+    description: Grants access to Throne Chapter 2: Father’s Route
+    item_key: ITM_TRE_END_2B_0010_60056
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60056
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60056
+  }
+  unlock_throne_3a:
+  {
+    flag: 60057
+    other_flags: []
+    display: true
+    name: Unlock Throne Chapter 3: Mother’s Route
+    description: Grants access to Throne Chapter 3: Mother’s Route
+    item_key: ITM_TRE_END_2B_0010_60057
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60057
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60057
+  }
+  unlock_throne_3b:
+  {
+    flag: 60058
+    other_flags: []
+    display: true
+    name: Unlock Throne Chapter 3: Father’s Route
+    description: Grants access to Throne Chapter 3: Father’s Route
+    item_key: ITM_TRE_END_2B_0010_60058
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60058
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60058
+  }
+  unlock_throne_4:
+  {
+    flag: 60059
+    other_flags: []
+    display: true
+    name: Unlock Throne Chapter 4
+    description: Grants access to Chapter 4
+    item_key: ITM_TRE_END_2B_0010_60059
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60059
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60059
+  }
+  unlock_agnea_2:
+  {
+    flag: 60061
+    other_flags: []
+    display: true
+    name: Unlock Agnea Chapter 2
+    description: Grants access to Chapter 2
+    item_key: ITM_TRE_END_2B_0010_60061
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60061
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60061
+  }
+  unlock_agnea_3:
+  {
+    flag: 60062
+    other_flags: []
+    display: true
+    name: Unlock Agnea Chapter 3
+    description: Grants access to Chapter 3
+    item_key: ITM_TRE_END_2B_0010_60062
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60062
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60062
+  }
+  unlock_agnea_4:
+  {
+    flag: 60063
+    other_flags: []
+    display: true
+    name: Unlock Agnea Chapter 4
+    description: Grants access to Chapter 4
+    item_key: ITM_TRE_END_2B_0010_60063
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60063
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60063
+  }
+  unlock_agnea_5:
+  {
+    flag: 60064
+    other_flags: []
+    display: true
+    name: Unlock Agnea Chapter 5
+    description: Grants access to Chapter 5
+    item_key: ITM_TRE_END_2B_0010_60064
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60064
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60064
+  }
+  unlock_cop_op_1:
+  {
+    flag: 60065
+    other_flags: []
+    display: true
+    name: Unlock Crossed Path Scholar & Merchant 1
+    description: Grants access to The Crossed Path: The Scholar & Merchant Part 1
+    item_key: ITM_TRE_END_2B_0010_60065
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60065
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60065
+  }
+  unlock_cop_op_2:
+  {
+    flag: 60066
+    other_flags: []
+    display: true
+    name: Unlock Crossed Path Scholar & Merchant 2
+    description: Grants access to The Crossed Path: The Scholar & Merchant Part 2
+    item_key: ITM_TRE_END_2B_0010_60066
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60066
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60066
+  }
+  unlock_cop_oc_1:
+  {
+    flag: 60067
+    other_flags: []
+    display: true
+    name: Unlock Crossed Path Apothecary & Hunter 1
+    description: Grants access to The Crossed Path: The Apothecary & Hunter Part 1
+    item_key: ITM_TRE_END_2B_0010_60067
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60067
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60067
+  }
+  unlock_cop_oc_2:
+  {
+    flag: 60068
+    other_flags: []
+    display: true
+    name: Unlock Crossed Path Apothecary & Hunter 2
+    description: Grants access to The Crossed Path: The Apothecary & Hunter Part 2
+    item_key: ITM_TRE_END_2B_0010_60068
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60068
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60068
+  }
+  unlock_cop_ah_1:
+  {
+    flag: 60069
+    other_flags: []
+    display: true
+    name: Unlock Crossed Path Dancer & Warrior 1
+    description: Grants access to The Crossed Path: The Dancer & Warrior Part 1
+    item_key: ITM_TRE_END_2B_0010_60069
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60069
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60069
+  }
+  unlock_cop_ah_2:
+  {
+    flag: 60070
+    other_flags: []
+    display: true
+    name: Unlock Crossed Path Dancer & Warrior 2
+    description: Grants access to The Crossed Path: The Dancer & Warrior Part 2
+    item_key: ITM_TRE_END_2B_0010_60070
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60070
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60070
+  }
+  unlock_cop_tt_1:
+  {
+    flag: 60071
+    other_flags: []
+    display: true
+    name: Unlock Crossed Path Cleric & Thief 1
+    description: Grants access to The Crossed Path: The Cleric & Thief Part 1
+    item_key: ITM_TRE_END_2B_0010_60071
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60071
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60071
+  }
+  unlock_cop_tt_2:
+  {
+    flag: 60072
+    other_flags: []
+    display: true
+    name: Unlock Crossed Path Cleric & Thief 2
+    description: Grants access to The Crossed Path: The Cleric & Thief Part 2
+    item_key: ITM_TRE_END_2B_0010_60072
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60072
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60072
+  }
+  unlock_gramophone:
+  {
+    flag: 201
+    other_flags:
+    [
+      203
+    ]
+    display: true
+    name: Unlock Gramophone
+    description: Gramophone received for the Scent of Commerce sidequest
+    item_key: ITM_TRE_END_2B_0010_60073
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60073
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60073
+  }
+  unlock_snow_guard:
+  {
+    flag: 34184
+    other_flags: []
+    display: true
+    name: Unlock Northern Montwise Pass
+    description: Guard grants access to Northern Montwise Pass
+    item_key: ITM_TRE_END_2B_0010_60075
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60075
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60075
+  }
+  unlock_shiny_mirror:
+  {
+    flag: 60076
+    other_flags: []
+    display: false
+    name: Shiny Mirror
+    description: A brightly shining mirror. A blue flame is reflected within.
+    item_key: ITM_TRE_COP_ST2_0030
+    name_key: TX_NA_ITM_TRE_COP_ST2_0030
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60075
+  }
+  unlock_flame_grotto:
+  {
+    flag: 60077
+    other_flags:
+    [
+      223
+      2008
+      9504
+      9357
+    ]
+    display: true
+    name: Sacred Flame Extinguished: Tranquil Grotto
+    description: Sacred Flame Extinguished: Tranquil Grotto
+    item_key: ITM_TRE_END_2B_0010_60077
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60077
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60077
+  }
+  unlock_flame_tomb:
+  {
+    flag: 60078
+    other_flags:
+    [
+      222
+      2008
+      9504
+      34040
+    ]
+    display: true
+    name: Sacred Flame Extinguished: Wardenbeasts’ Tomb
+    description: Sacred Flame Extinguished: Tomb of the Wardenbeasts
+    item_key: ITM_TRE_END_2B_0010_60078
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60078
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60078
+  }
+  unlock_flame_church:
+  {
+    flag: 60079
+    other_flags:
+    [
+      220
+      2008
+      9504
+    ]
+    display: true
+    name: Sacred Flame Extinguished: Flamechurch
+    description: Sacred Flame Extinguished: Flamechurch
+    item_key: ITM_TRE_END_2B_0010_60079
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60079
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60079
+  }
+  unlock_flame_ruins:
+  {
+    flag: 60080
+    other_flags:
+    [
+      221
+      2008
+      9504
+      5656
+      34058
+      34038
+    ]
+    display: true
+    name: Sacred Flame Extinguished: Fellsun Ruins
+    description: Sacred Flame Extinguished: Fellsun Ruins
+    item_key: ITM_TRE_END_2B_0010_60080
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60080
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60080
+  }
+  unlock_unshiny_mirror:
+  {
+    flag: 60081
+    other_flags: []
+    display: true
+    name: Unshiny Mirror
+    description: A brightly shining mirror. A blue flame is reflected within.
+    item_key: ITM_TRE_COP_ST2_0020
+    name_key: TX_NA_ITM_TRE_COP_ST2_0020
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60080
+  }
+  unlock_als_bag:
+  {
+    flag: 60082
+    other_flags: []
+    display: true
+    name: Als Bag
+    description: Bag belonging to Al
+    item_key: ITM_TRE_SS_TD11_0100_0010
+    name_key: TX_NA_ITM_TRE_SS_TD11_0100_0010
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60080
+  }
+  unlock_guild_inv:
+  {
+    flag: 60083
+    other_flags: []
+    display: true
+    name: Unlock Inventor Guild
+    description: Spawns the Inventor
+    item_key: ITM_TRE_END_2B_0010_60083
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60083
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60083
+  }
+  unlock_guild_arm:
+  {
+    flag: 60084
+    other_flags: []
+    display: true
+    name: Unlock Blacksmith Guild
+    description: Spawns the blacksmith
+    item_key: ITM_TRE_END_2B_0010_60084
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60084
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60084
+  }
+  unlock_guild_arc:
+  {
+    flag: 60085
+    other_flags: []
+    display: true
+    name: Unlock Arcanist Descendant
+    description: Spawns the Arcanist Descendant
+    item_key: ITM_TRE_END_2B_0010_60085
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60085
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60085
+  }
+  unlock_foreign_assassin:
+  {
+    flag: 60086
+    other_flags: []
+    display: true
+    name: Unlock Foreign Assassin Battle
+    description: Spawns the Foreign Assassins
+    item_key: ITM_TRE_END_2B_0010_60086
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60086
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60086
+  }
+  end_foreign_assassin_battle:
+  {
+    flag: 60087
+    other_flags: []
+    display: false
+    name: End Foreign Assassin Battle
+    description: END EVENT NEW FLAG -- NEVER GIVE
+    item_key: ITM_TRE_END_2B_0010_60087
+    name_key: TX_NA_ITM_TRE_END_2B_0010_60087
+    desc_key: TX_CO_ITM_TRE_END_2B_0010_60087
+  }
+}

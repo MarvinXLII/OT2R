@@ -3,6 +3,7 @@ import sys
 from copy import deepcopy
 from Shuffler import Shuffler, Slot, no_weights
 from Manager import Manager
+import EventsAndItems as EAI
 
 
 def separate_by_ring(w, s, c):
@@ -260,20 +261,12 @@ class Bosses(Shuffler):
             se2.patch_uint32(skill_job, addr=0x2d)
 
         if job != 'SCH': # If boss isn't in it's vanilla storyline
-            pc_sch, skill_sch = abil['SCH']
+            if not EAI.EventsAndItems.include_ex_abil:
+                osv_json = Manager.get_json('MS_GAK_50_1300') # Osvald's end event
+                patch = EAI.Candidate.load_script('scripts/unlock_osvald_ex_abil_2')
+                osv_json.insert_script(patch, -1)
 
-            # Story end event
-            json_ref = Manager.get_json('MS_KAR_30_2500') # Ochette's end event
-            osv_json = Manager.get_json('MS_GAK_50_1300') # Osvald's end event
-
-            ref = deepcopy(json_ref.json_list[-3:-1])
-            ref[0].target = pc_sch
-            ref[0].opt[0] = str(skill_sch)
-            ref[1].text = "ED_GAK_ADVANCEABILITY_0020"
-            osv_json.insert_command(ref[0], 161)
-            osv_json.insert_command(ref[1], 162)
-
-            # Text
+            # Always set the skill name to the current, possibly random skill
             es2, _ = get_names(pc_db.osvald)
             game_text_db.ED_GAK_ADVANCEABILITY_0020._data['Text'].string_1 = 'GameTextEN'
             game_text_db.ED_GAK_ADVANCEABILITY_0020._data['Text'].string_2 = 'ED_GAK_ADVANCEABILITY_0020'
@@ -302,20 +295,12 @@ class Bosses(Shuffler):
             se2.patch_uint32(skill_job, addr=0x2d)
 
         if job != 'DAN': # If boss isn't in it's vanilla storyline
-            pc_dan, skill_dan = abil['DAN']
+            if not EAI.EventsAndItems.include_ex_abil:
+                agn_json = Manager.get_json('MS_ODO_50_2000') # Agnea's end event
+                patch = EAI.Candidate.load_script('scripts/unlock_agnea_ex_abil_2')
+                agn_json.insert_script(patch, -1)
 
-            # Story end event
-            json_ref = Manager.get_json('MS_KAR_30_2500') # Ochette's end event
-            agn_json = Manager.get_json('MS_ODO_50_2000') # Agnea's end event
-
-            ref = deepcopy(json_ref.json_list[-3:-1])
-            ref[0].target = pc_dan
-            ref[0].opt[0] = str(skill_dan)
-            ref[1].text = "ED_ODO_ADVANCEABILITY_0020"
-            agn_json.insert_command(ref[0], 139)
-            agn_json.insert_command(ref[1], 139)
-
-            # Text
+            # Always set the skill name to the current, possibly random skill
             es2, _ = get_names(pc_db.agnea)
             game_text_db.ED_ODO_ADVANCEABILITY_0020._data['Text'].string_1 = 'GameTextEN'
             game_text_db.ED_ODO_ADVANCEABILITY_0020._data['Text'].string_2 = 'ED_ODO_ADVANCEABILITY_0020'

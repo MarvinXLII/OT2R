@@ -31,6 +31,7 @@ from Support import separate_advanced_support, evasive_maneuvers_first
 from Treasures import separate_chapter
 from Events import InitialEvents, formation_menu_on, protagonist_unlocked
 from SkipTutorials import SkipTutorials
+from EventsAndItems import EventsAndItems
 
 
 # Set all builder stuff using the settings dictionary
