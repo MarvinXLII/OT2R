@@ -5,6 +5,7 @@ import sys
 import zlib
 import crcmod
 # from Decrypt import *
+from copy import deepcopy
 
 MAGIC = 0x0b5a6f12e1
 
@@ -648,13 +649,15 @@ class Pak(File):
     # Map basenames to full filenames
     # Done for convenience when picking files to extract
     def setup_basenames(self):
-        basename_dict = {}
+        self.basename_dict = {}
         for filename in self.entry_dict:
-            basename = filename.split('/')[-1]
-            if basename not in basename_dict:
-                basename_dict[basename] = []
-            basename_dict[basename].append(filename)
-        self.basename_dict = basename_dict
+            self.add_basename(filename)
+
+    def add_basename(self, filename):
+        basename = filename.split('/')[-1]
+        if basename not in self.basename_dict:
+            self.basename_dict[basename] = []
+        self.basename_dict[basename].append(filename)
 
     def parse_pak_entries(self, index_data):
         assert self.index_data.tell() == self.offset_pak_entries
@@ -709,6 +712,14 @@ class Pak(File):
         self.entry_dict[filename].data = data
         if self.entry_dict[filename].is_modded or force:
             self._mod.add_entry(filename, self.entry_dict[filename])
+
+    def duplicate_file(self, filename, new_filename):
+        full_filename = self.get_full_file_path(filename)
+        new_full_filename = full_filename.replace(filename, new_filename)
+        self.add_basename(new_full_filename)
+        data = self.extract_file(filename)
+        self.entry_dict[new_full_filename] = deepcopy(self.entry_dict[full_filename])
+        self.update_data(new_full_filename, deepcopy(data), force=True)
 
     def build_pak(self, pakname):
         pak = self._mod.build_pak(pakname, self.encrypted_indexing)

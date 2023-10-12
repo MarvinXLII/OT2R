@@ -708,8 +708,6 @@ class DataTableStruct(Byte):
             for k, v in value.items():
                 uexp += self.get_uint64(self.uasset.get_index(k))
                 uexp += self.get_uint64(self.uasset.get_index(v.data_type))
-                if (key == 'ITM_TRE_END_2B_0010_100') and (k == 'DetailTextID'):
-                    print('here')
                 uexp += v.build(self.uasset)
             uexp += none
         return uexp
@@ -940,7 +938,7 @@ class UnparsedExport(Byte):
 
     def toggle_bool_off(self, addr):
         vanilla = self.read_uint8(addr)
-        assert vanilla in [0x27, 0x28], list(map(hex, vanilla))
+        assert vanilla in [0x27, 0x28]
         self.patch_uint8(0x28, addr)
 
     def patch_int_const(self, addr, orig, value):
@@ -1242,7 +1240,7 @@ class UAsset(File):
             v = n.pop()
             basename = '_'.join(n)
             assert v.isnumeric()
-            assert v[0] != '0'
+            assert v[0] != '0', name
             if basename not in UAsset.index_id:
                 sys.exit(f"{name} is not in UAsset.index_id yet!")
             # Use the basename instead of the full name

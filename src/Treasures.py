@@ -329,9 +329,10 @@ class Treasures(Shuffler):
             slots.append(ItemArmsmaster())
             candidates.append(ItemArmsmaster())
 
-        # Might be cleaner to turn these items on if necessary
-        # i.e. skips are True by default and set to False if needed
-        if not self.include_rusty_weapons or EventsAndItems.include_guilds or EventsAndItems.include_guild_spawn:
+        #####
+        # Always shuffle rusty weapons and inventor parts separately
+        # TODO: Cleanup stuff here to remove any need for this
+        if True:
             counter = 0
             for s, c in zip(slots, candidates):
                 if s.is_rusty and not s.skip:
@@ -340,7 +341,7 @@ class Treasures(Shuffler):
                     counter += 1
             assert counter == 6
 
-        if not self.include_inventor_parts or EventsAndItems.include_guilds or EventsAndItems.include_guild_spawn:
+        if True:
             counter = 0
             for s, c in zip(slots, candidates):
                 if s.is_inventor_item and not s.skip:

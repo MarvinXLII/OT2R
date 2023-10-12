@@ -10,7 +10,7 @@ import sys
 from builder import builder_setup
 
 sys.path.append('src')
-from Utility import get_filename
+from Utility import get_filename, time_func
 from Randomizer import Steam
 
 from Pak import Pak
@@ -195,7 +195,7 @@ class Patches:
 class GuiApplication:
     def __init__(self, settings=None, pakfile=None, patches=None):
         self.master = tk.Tk()
-        self.master.geometry('750x650') # width x height
+        self.master.geometry('750x680') # width x height
         self.master.title(MAIN_TITLE)
         self.initialize_gui(patches)
         self.initialize_settings(settings)
@@ -340,6 +340,7 @@ Octopath_Traveler2-WindowsNoEditor.pak
         box.grid(row=row, column=1, sticky='w')
         assert key not in self.settings
         self.settings[key] = variable
+        self.build_tool_tip(box, stuff)
 
     def add_options(self, frame, row, key, stuff, offset=0):
         text = stuff['label']
@@ -353,6 +354,7 @@ Octopath_Traveler2-WindowsNoEditor.pak
         box.grid(row=row, column=1, sticky='e')
         assert key not in self.settings
         self.settings[key] = variable
+        self.build_tool_tip(box, stuff)
 
     def get_button_data(self, variable=None, button=None, command=None):
         for v, b, c, d in self.button_data:
@@ -483,6 +485,8 @@ Octopath_Traveler2-WindowsNoEditor.pak
             self.bottom_label('Randomizing failed.', 'red', 0)
 
 
+
+#@time_func
 def randomize(mod, settings):
     try:
         builder_setup(settings)

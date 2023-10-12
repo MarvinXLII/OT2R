@@ -207,3 +207,14 @@ class File(Byte):
         sha = self.read_bytes(0x20).decode()
         assert self.read_uint8() == 0
         return sha
+
+
+from time import time
+def time_func(func):
+    def f(*args, **kwargs):
+        tic = time()
+        r = func(*args, **kwargs)
+        toc = time()
+        print("TIMER", func.__name__, toc-tic)
+        return r
+    return f

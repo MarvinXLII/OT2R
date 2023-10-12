@@ -506,3 +506,32 @@ class Command(Shuffler):
         inventor_quest_db.INVENTION_ITEM_06.LearnAbilitylabel = inventor_abilities[5]['AbilityName'].value
         inventor_quest_db.INVENTION_ITEM_07.LearnAbilitylabel = inventor_abilities[6]['AbilityName'].value
         # inventor_quest_db.INVENTION_ITEM_08.LearnAbilityLabel = .... ### Always kept last; maybe later shuffle within the inventor class
+
+        # Make sure Changeable Catapult is always in the first spot (helps with menuing)
+        # Find job with the Changeable Catapult
+        catapult = 'ABI_SET_INV_010'
+        target = None
+        key = None
+        for job in self.job_db:
+            for index, ability in enumerate(job.JobCommandAbility):
+                if ability['AbilityName'].value == catapult:
+                    a0 = job.JobCommandAbility[0]
+                    ai = job.JobCommandAbility[index]
+                    a0['AbilityName'].value, ai['AbilityName'].value = ai['AbilityName'].value, a0['AbilityName'].value
+                    break
+            else:
+                continue
+            break
+        else:
+            for pc in self.pc_db:
+                for index, ability in enumerate(pc.AdvancedAbility):
+                    if ability['AbilityID'].value == catapult:
+                        an = pc.AdvancedAbility[-1]
+                        ai = pc.AdvancedAbility[index]
+                        an['AbilityID'].value, ai['AbilityID'].value = ai['AbilityID'].value, an['AbilityID'].value
+                        break
+                else:
+                    continue
+                break
+            else:
+                sys.exit('Changeable Catapult not found!?')

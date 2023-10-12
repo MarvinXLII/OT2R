@@ -1,4 +1,5 @@
 import random
+import sys
 
 
 # Default function for weight calculations
@@ -102,3 +103,55 @@ class Randomizer(Shuffler):
             if bw not in weight_dict:
                 weight_dict[bw] = bw
             self.weights.append(weight_dict[bw])
+
+
+# Should make it impossible for a candidate to remain in the same slot
+class ShufflerNeverSameSlot(Shuffler):
+    def sampler(self):
+        assert len(self.slots) == len(self.candidates)
+
+        # Sort candidates by number of allowed slots
+        # Ensure most restrictive candidates get used first
+        swc = list(zip(self.weights, self.candidates, range(len(self.candidates))))
+        random.shuffle(swc) # Ensure ties are randomly broken
+        swc.sort(key=lambda x: sum(x[0]))
+
+        fails = 0
+        retry = False
+        filled = []
+        idx = list(range(len(self.slots)))
+        while swc:
+            slot_weights, candidate, c_idx = swc.pop(0)
+
+            swv = [s * v for s, v in zip(slot_weights, self.vacant)]
+            swv[c_idx] = 0 # Candidate cannot stay put
+            if sum(swv) >= 1:
+                # Fill as normal
+                s_idx = random.choices(idx, swv, k=1)[0]
+                self.slots[s_idx].copy(candidate)
+                self.vacant[s_idx] = False
+                # Store in case it needs to be undone
+                filled.append((slot_weights, candidate, c_idx, s_idx))
+            elif len(filled) == 0:
+                # Here just in case. Should never happen.
+                retry = True
+                break
+            else:
+                # Here just in case. Should never happen.
+                fails += 1
+                if fails == 10:
+                    retry = True
+                    break
+                # Undo most recent fill
+                prev_sw, prev_cand, prev_c_idx, prev_s_idx = filled.pop()
+                swc.insert(0, (prev_sw, prev_cand, prev_c_idx))
+                assert self.vacant[prev_s_idx] == False
+                self.vacant[prev_s_idx] = True
+                # Give current candidate without any slots priority next
+                swc.insert(0, (slot_weights, candidate, c_idx))
+
+        # Here just in case. Should never be needed.
+        if retry:
+            for i, _ in enumerate(self.vacant):
+                self.vacant[i] = False
+            self.sampler()

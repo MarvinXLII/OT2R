@@ -10,16 +10,17 @@ sys.path.append(f'{FILEDIR}/../src')
 from Manager import Manager
 from Pak import MainPak
 from DataJson import DataJsonFile
-
+from Utility import time_func
 
 def is_pc(x):
-    return x in ['unlock_hikari', 'unlock_ochette', 'unlock_castti', 'unlock_partitio',
-                 'unlock_temenos', 'unlock_osvald', 'unlock_throne', 'unlock_agnea']
+    return x in ['item_hikari', 'item_ochette', 'item_castti', 'item_partitio',
+                 'item_temenos', 'item_osvald', 'item_throne', 'item_agnea']
 
 class Graph:
     def __init__(self):
         self.edges = {}
         self.nodes = set()
+        self.node_dict = {}
         self.slots = set()
         self.visited = set()
         self.ring_dict = {}
@@ -29,12 +30,75 @@ class Graph:
         for node in self.nodes:
             node.reset()
 
+    def traverse(self, start, inventory=None, rank_on=True):
+        self.visited.add(start)
+        completed = set()
+        inventory = set() if inventory is None else set(inventory)
+        rings = [] # for printing logic
+        num_pcs = [0]
+        num_chapters_finished = [0]
+
+        if rank_on:
+            inventory.add('rank_1')
+            inventory.add('rank_2')
+            inventory.add('rank_3')
+
+        def dfs(iteration):
+            # Start from visited nodes with unvisited neighbors
+            queue = sorted(self.visited - completed)
+            new_items = set()
+            ring = []
+            while queue:
+                node = queue.pop()
+                node.set_iteration(iteration)
+                all_neighbors_visited = True
+                for neighbor in node.neighbors:
+                    edge = self.get_edge(node, neighbor)
+                    if edge.is_passable(inventory):
+                        if neighbor not in self.visited:
+                            self.visited.add(neighbor)
+                            queue.append(neighbor)
+                            new_items.update(neighbor.slots)
+                            new_items.add(neighbor.name)
+                            ring.append(neighbor)
+                            num_chapters_finished[0] += neighbor.name.startswith('finish_chapter')
+                    else:
+                        all_neighbors_visited = False
+
+                if all_neighbors_visited:
+                    completed.add(node)
+
+            inventory.update(new_items)
+            rings.append(ring)
+            self._add_rank_1(inventory, num_pcs[0], num_chapters_finished)
+            self._add_rank_2(inventory, num_pcs[0], num_chapters_finished)
+            self._add_rank_3(inventory, num_pcs[0], num_chapters_finished)
+
+        iteration = 1
+        while True:
+            # might only need to check for changes to visited size
+            num_visited = len(self.visited)
+            dfs(iteration)
+            if num_visited == len(self.visited):
+                break
+            iteration += 1
+
+        self.ring_dict = {}
+        for i, ring in enumerate(rings):
+            for node in ring:
+                assert node not in self.ring_dict
+                self.ring_dict[node] = i+1
+
+        return rings
+
+
     def get_rings(self, always_have):
         visited = {n:False for n in self.nodes}
         everything = set(always_have)
         # Rank is ignored here
         everything.add('rank_1')
         everything.add('rank_2')
+        everything.add('rank_3')
         inventory = set()
         rings = []
         current_ring = []
@@ -46,7 +110,7 @@ class Graph:
                     if cost.issubset(everything):
                         visited[node] = True
                         new_node_visited = True
-                        if node.is_slot:
+                        if node.is_slot or node.name.startswith('finish_chapter_') or node.name.startswith('get_') or node.name.startswith('access_'):
                             current_ring.append(node)
                         else:
                             inventory.update(node.slots)
@@ -75,19 +139,37 @@ class Graph:
 
         return rings
 
+    #@time_func
     def shuffle(self, start, inventory, always_have=None):
         if always_have is None:
             always_have = []
-        inventory = sorted(inventory.difference(always_have))
-
-        num_slots = 0
         for node in self.nodes:
             node.clear_slot()
-            num_slots += node.is_slot
-        # n = len(inventory) // num_slots
-        # n += len(inventory) % num_slots > 0
-        # for node in self.nodes:
-        #     node.max_num = n
+
+        # Give priority to slots other than finish_chapter_1
+        assert self.node_dict['finish_chapter_1'].is_slot
+        self.node_dict['finish_chapter_1'].is_slot = False
+
+        self._shuffle(start, inventory, always_have)
+
+        # Ensure finish_chapter_1 slot is on as it is used elsewhere
+        # (e.g. number of starting PCs)
+        self.node_dict['finish_chapter_1'].is_slot = True
+
+        # Ensure all key items slots have 1 item
+        # If any are empty, the shuffle must be redone
+        # (shouldn't ever repeat, but done as a precaution)
+        for node in self.nodes:
+            if node.one_only:
+                if not node.is_filled:
+                    print(node.name, 'not filled')
+                    return False
+        return True
+
+    def _shuffle(self, start, inventory, always_have=None):
+        if always_have is None:
+            always_have = []
+        inventory = sorted(set(inventory).difference(always_have))
 
         while len(inventory) > 0:
             # Track which slots are accessible when removing each item.
@@ -115,6 +197,10 @@ class Graph:
             else:
                 for node in self.nodes:
                     node.increment_max_num()
+                # Turn on finish_chapter_1 (won't always be on for key item shuffles only)
+                # Possible there are more items than slots
+                if not self.node_dict['finish_chapter_1'].is_slot:
+                    self.node_dict['finish_chapter_1'].is_slot = True
 
     # Traverse the graph with an inventory and return all accessible treasure nodes
     def get_accessible(self, inventory):
@@ -122,7 +208,7 @@ class Graph:
         for x in inventory:
             if is_pc(x):
                 pcs.add(x)
-        
+
         inv_set = set(inventory)
         visited = set()
         vacant_events = set()
@@ -145,17 +231,31 @@ class Graph:
                             num_chapters_finished += node.name.startswith('finish_chapter')
                             break
 
-            if len(pcs) > 2 and num_chapters_finished > 6:
-                inv_set.add('rank_1')
-
-            if len(pcs) > 5 and num_chapters_finished > 12:
-                inv_set.add('rank_2')
+            self._add_rank_1(inv_set, len(pcs), num_chapters_finished)
+            self._add_rank_2(inv_set, len(pcs), num_chapters_finished)
+            self._add_rank_3(inv_set, len(pcs), num_chapters_finished)
 
             # If no new items were added, then it is impossible to access any unvisited nodes
             if len(inv_set) == inv_size:
                 break
 
         return vacant_events
+
+    @staticmethod
+    def _add_rank_1(inventory, num_pcs, num_chap_fin):
+        if num_pcs > 3:
+            inventory.add('rank_1')
+        
+    @staticmethod
+    def _add_rank_2(inventory, num_pcs, num_chap_fin):
+        if num_pcs > 5 and num_chap_fin > 8:
+            inventory.add('rank_2')
+        
+    @staticmethod
+    def _add_rank_3(inventory, num_pcs, num_chap_fin):
+        if num_pcs == 8 and num_chap_fin > 16:
+            inventory.add('rank_3')
+
 
     def store_node_costs(self, start):
         visited = {n:False for n in self.nodes}
@@ -185,9 +285,13 @@ class Graph:
                         visited[neighbor] = False
             
         dfs()
-        
+
     def add_node(self, node):
-        self.nodes.add(node)
+        if node in self.nodes:
+            assert self.node_dict[node.name] == node
+        else:
+            self.nodes.add(node)
+            self.node_dict[node.name] = node
 
     def add_edge(self, start, end, cost=None):
         self.add_node(start)
@@ -215,17 +319,28 @@ class Graph:
                     ni.set_shape('diamond')
                 x = '\n'.join(node.slots)
                 label = f"{node.name}\n{x}"
+
             if node in self.ring_dict:
-                ni.set_label(f'{label}\n{self.ring_dict[node]}')
-                ni.set_style('filled')
-                if label == 'START' or label == 'Virdania':
+                v = self.ring_dict[node]
+                label = f'{label}\n{v}'
+
+            ni.set_label(label)
+            ni.set_style('filled')
+
+            if node in self.ring_dict:
+                if node.name == 'START':
                     ni.set_fillcolor('lightgreen')
+                elif node.name == 'Virdania':
+                    ni.set_fillcolor('lightgreen')
+                elif 'finished_flame' in node.name:
+                    ni.set_fillcolor('lightpurple')
                 elif node.slots or node.is_slot:
                     ni.set_fillcolor('red')
-                else:
+                elif node in self.ring_dict:
                     ni.set_fillcolor('lightblue')
-            if 'finished_flame' in label:
-                ni.set_fillcolor('lightpurple')
+            else:
+                print('NOT VISITED', node.name)
+
             G.add_node(ni)
 
         for (start, end), edge in self.edges.items():
@@ -270,9 +385,9 @@ class Node:
         # NEW STUFF
         self._max_num = 0
         self._is_slot = False
+        self._one_only = self.name.startswith('get_') or self.name.startswith('finish_altar_')
         self.slots = [] if items is None else deepcopy(items)
         self.vanilla = deepcopy(self.slots)
-
 
     def add_neighbor(self, node):
         self.neighbors.add(node)
@@ -298,6 +413,10 @@ class Node:
         self.costs.add(frozenset(cost))
 
     @property
+    def one_only(self):
+        return self._one_only
+
+    @property
     def is_slot(self):
         return self._is_slot
 
@@ -312,7 +431,10 @@ class Node:
 
     @max_num.setter
     def max_num(self, value):
-        self._max_num = value if self.max_num else 0
+        if self._one_only:
+            self._max_num = 1 if self.max_num else 0
+        else:
+            self._max_num = value if self.is_slot else 0
 
     @property
     def is_vacant(self):
@@ -342,6 +464,7 @@ class Node:
         # Non-events must keep any items
         if self.is_slot:
             self.slots = []
+            self.max_num = 1
 
     def is_accessible(self, inventory):
         for cost in self.costs:

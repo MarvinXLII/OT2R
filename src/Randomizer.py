@@ -6,7 +6,7 @@ import sys
 sys.path.append('src')
 from Manager import Manager
 from Pak import Pak, MainPak
-from DataTable import Row
+from DataTable import Row, RowSplit
 # from Text import GameText, TalkData
 from Nothing import Nothing
 from Image import TitleSteam
@@ -22,7 +22,6 @@ from Softlocks import *
 from Bosses import *
 # from Testing import Testing
 from Databases import *
-from SkipTutorials import *
 from Events import InitialEvents
 from EventsAndItems import EventsAndItems
 
@@ -105,6 +104,7 @@ class Rando:
         Manager.get_table('LinerShipRoute')
         Manager.get_table('DiseaseData')
         Manager.get_table('ShopList', table=ShopListTable, row=ShopListRow)
+        Manager.get_table('BGMTable', row=RowSplit)
 
         # Spoiler logs
         self.spoiler_jobs = SpoilerJobs(self.out_path)
@@ -123,6 +123,9 @@ class Rando:
         self._run(obj, *args)
 
     def randomize(self):
+        # Do treasures BEFORE key items in EAI
+        # Currently treasures skips slots based on current contents, NOT vanilla contents
+        self._randomize(Rando.treasures)
         if EventsAndItems.any_on():
             self._randomize(EventsAndItems, self.out_path)
 
@@ -140,7 +143,7 @@ class Rando:
         self._randomize(Rando.ability_power)
         self._randomize(Rando.support)
         self._randomize(Rando.job_stats)
-        self._randomize(Rando.treasures)
+        # self._randomize(Rando.treasures)
         self._randomize(Rando.process_species)
         self._randomize(Rando.enemy_groups)
         self._randomize(Rando.battles) # Keep enemy stat scaling after groups!
@@ -153,7 +156,6 @@ class Rando:
         self._seed.set_seed() # SpurningRibbon QOL might still need RNG
         self._run(Rando.spurning_ribbon) # Make sure this is done AFTER support shuffling
         self._run(Rando.path_actions)
-        self._run(Rando.skip_tutorials)
         self._run(Rando.initial_events)
         Battles().scale_stats()
 

@@ -9,6 +9,8 @@ class Shields:
         self.enemy_db = Manager.get_instance('EnemyDB')
 
     def run(self):
+        gameText = Manager.get_instance('GameTextEN')
+
         for enemy in self.enemy_db.table:
 
             # Skip all bosses for now
@@ -169,7 +171,44 @@ class Shields:
                     print('Skipping', enemy.key, 'due to shield locks')
                     continue
                 else:
-                    print('Boss', enemy.key, 'not tested')
+                    try:
+                        name = getattr(gameText.table, enemy.DisplayNameID).Text
+                    except:
+                        name = enemy.DisplayNameID
+                    print('Boss', enemy.key, f'({name})', 'not tested')
+                    continue
+
+            elif enemy.is_opt_boss:
+                if enemy.key in [
+                        'ENE_NML_FLD_DST_280', # Lord of the Sands
+                        'ENE_EVE_SUB_EXT_013', # Ichchadhari the Snake Charmer
+                        'ENE_NML_FLD_WLD_260', # Heavenwing
+                        'ENE_NML_FLD_SNW_270', # Dreadwolf
+                        'ENE_NML_FLD_SEA_290', # Tyrannodrake (not shield locks, but still hardcoded)
+                        'ENE_NML_FLD_CTY_260', # Gigantes
+                ]:
+                    print('Skipping', enemy.key, 'due to shield locks')
+                    continue
+                elif enemy.key in [
+                        'ENE_NML_FLD_ISD_250', # Manymaws
+                        'ENE_NML_OCN_200', # Scourge of the Sea
+                        'ENE_NML_OCN_190', # Battle-Worn Shark
+                        'ENE_EVE_SUB_SNW_010', # Ruffian Leader
+                        'ENE_EVE_SUB_EXT_011', # Auðnvarg
+                        'ENE_EVE_SUB_EXT_012', # Tyran the Seeker
+                        'ENE_NML_FLD_MNT_200', # Devourer of Dreams
+                        'ENE_EVE_SUB_EXT_016', # Delsta Devil
+                        'ENE_NML_FLD_FST_230', # Carnivorous Plant
+                        'ENE_NML_FLD_SNW_280', # Behemoth
+                        'ENE_NML_FLD_ISD_240', # Monarch
+                ]:
+                    print('shuffling opt boss shields', enemy.key)
+                else:
+                    try:
+                        name = getattr(gameText.table, enemy.DisplayNameID).Text
+                    except:
+                        name = enemy.DisplayNameID
+                    print('Optional boss', enemy.key, f'({name})', 'not tested')
                     continue
             
             shields = enemy.shields

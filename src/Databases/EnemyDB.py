@@ -28,6 +28,47 @@ class EnemyRow(RowSplit):
         return '_BOS_' in self.key
 
     @property
+    def is_opt_boss(self):
+        return self.key in [
+            ### MID BOSSES
+            'ENE_EVE_SUB_EXT_011', # Audnvarg
+            'ENE_NML_OCN_190', # Battle-Worn Shark
+            # 'ENE_NML_ENC_SUB_12', # Battle-Worn Shark
+            'ENE_NML_FLD_FST_230', # Carnivorous Plant
+            # 'ENE_NML_ENC_SUB_10', # Carnivorous Plant
+            'ENE_EVE_SUB_EXT_016', # Delsta Devil
+            'ENE_NML_FLD_MNT_200', # Devourer of Dreams
+            # 'ENE_NML_ENC_SUB_04', # Devourer of Dreams
+            'ENE_NML_FLD_CTY_260', # Gigantes
+            # 'ENE_NML_ENC_SUB_05', # Gigantes
+            'ENE_NPC_SS_TD31_0400_0200', # Gken
+            'ENE_EVE_SUB_EXT_013', # Ichchadhari the Snake Charmer
+            'ENE_NML_FLD_DST_280', # Lord of the Sands
+            # 'ENE_NML_ENC_SUB_01', # Lord of the Sands
+            'ENE_NML_FLD_ISD_250', # Manymaws
+            # 'ENE_NML_ENC_SUB_07', # Manymaws
+            'ENE_NML_FLD_ISD_240', # Monarch
+            # 'ENE_NML_ENC_SUB_06', # Monarch
+            'ENE_EVE_SUB_SNW_010', # Ruffian Leader
+            'ENE_NML_OCN_200', # Scourge of the Sea
+            # 'ENE_NML_ENC_SUB_13', # Scourge of the Sea
+            'ENE_EVE_SUB_EXT_012', # Tyran the Seeker
+
+            ### LATE BOSSES
+            'ENE_NML_FLD_SNW_280', # Behemoth
+            # 'ENE_NML_ENC_SUB_03', # Behemoth
+            'ENE_NML_FLD_SEA_280', # Deep One
+            # 'ENE_NML_ENC_SUB_08', # Deep One
+            'ENE_NML_FLD_SNW_270', # Dreadwolf
+            # 'ENE_NML_ENC_SUB_02', # Dreadwolf
+            'ENE_NML_FLD_WLD_260', # Heavenwing
+            # 'ENE_NML_ENC_SUB_11', # Heavenwing
+            'ENE_EVE_SUB_EXT_010', # Priestess Hinoekagura
+            'ENE_NML_FLD_SEA_290', # Tyrannodrake
+            # 'ENE_NML_ENC_SUB_09', # Tyrannodrake
+        ]
+
+    @property
     def shields(self):
         return self.weapon_shields + self.magic_shields
 

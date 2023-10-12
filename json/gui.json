@@ -1,7 +1,7 @@
 {
     "Randomizer Settings": {
 	Jobs: {
-	    commandSkills: {
+	    command_skills: {
 		label: "Shuffle job skills"
 		class: Rando
 		attribute: command
@@ -33,7 +33,7 @@
 		    //   default: no_weights
 		    //   help: "This ensures each job will get two Ex Abilities, and they will remain in the Ex Ability slots."
 		    // }
-		    commandWeaponAttacks: {
+		    command_weapon_attacks: {
 			label: "Shuffle weapons used by physical attack skills"
 			class: Rando
 			attribute: ability_weapons
@@ -41,13 +41,13 @@
 			default: Nothing
 			help: "Change weapons used by physical attacks, e.g. HP Thief could become a Staff attack rather than a Dagger attack."
 		    }
-		    commandBasicAttackWeapons: {
+		    command_basic_attack_weapons: {
 			label: "Shuffle weapons PCs/jobs can equip"
 			class: Rando
 			attribute: weapons
 			builder: Weapons
 			default: Nothing
-			help: "Change weapons used by PCs and jobs, e.g. Clerics could equip a Sword and Dagger rather than a Staff. Minor changes are made to some early game enemy shields to ensure they can still be broken.\n\nNB: Jobs don't have animations for all weapons, so expect these to be messed up. Optimizing weapons in settings is often wrong, selecting makeshift weapons."
+			help: "Change weapons used by PCs and jobs, e.g. Clerics could equip a Sword and Dagger rather than a Staff. Minor changes are made to some early game enemy shields to ensure they can still be broken.\n\nNB: Jobs don't have animations for all weapons, so expect these to be messed up. Optimizing weapons in settings is typically wrong for Staff weapons on PCs that can't normally equip them."
 		    }
 		}
 	    }
@@ -82,7 +82,7 @@
 		default: Nothing
 		help: "Randomly adjusts power of all skills by up to 30%."
 	    }
-	    supportSkills: {
+	    support_skills: {
 		label: "Shuffle support skills"
 		class: Rando
 		attribute: support
@@ -90,7 +90,7 @@
 		default: Nothing
 		help: "Shuffles support skills among jobs."
 		indent: {
-		    supportem_firstSlot: {
+		    support_first_slot: {
 			label: "Keep Evasive Maneuvers in first slot"
 			class: Support
 			attribute: em_first
@@ -98,7 +98,7 @@
 			default: Nothing
 			help: "This ensures that Evasive Maneuvers will end up on a base job and in the first slot. It can be learned after earning just 1 JP."
 		    }
-		    // supportAdvancedSeparate: {
+		    // support_advanced_separate: {
 		    //   label: "Separately shuffle base and advanced jobs"
 		    //   class: Support
 		    //   attribute: check_advanced
@@ -118,7 +118,7 @@
 	    }
 	}
 	Battles: {
-	    battlesStealMoney: {
+	    battles_steal_money: {
 		label: "Shuffle leaves from Collect"
 		class: Battles
 		attribute: shuffle_steal_money
@@ -126,7 +126,7 @@
 		default: Nothing
 		help: "Shuffles leaves taken from enemies using the \"Collect\" command. Boss leaves are shuffled separately."
 	    }
-	    battlesStealItems: {
+	    battles_steal_items: {
 		label: "Shuffle stealable items"
 		class: Battles
 		attribute: shuffle_steal_item
@@ -134,7 +134,7 @@
 		default: Nothing
 		help: "Shuffles stealable items from enemies. Boss items are shuffled separately."
 	    }
-	    battlesDropItems: {
+	    battles_drop_items: {
 		label: "Shuffle dropped items"
 		class: Battles
 		attribute: shuffle_drop_item
@@ -142,7 +142,7 @@
 		default: Nothing
 		help: "Shuffles items dropped by enemies. Boss items are shuffled separately."
 	    }
-	    enemyShields: {
+	    enemy_shields: {
 		label: "Randomize enemy shields"
 		class: Rando
 		attribute: shields
@@ -158,7 +158,7 @@
 		default: Nothing
 		help: "Shuffles enemy groupings in random encounters. Bosses, (most) events, and NPCs are omitted."
 	    }
-	    battlesBosses: {
+	    battles_bosses: {
 		label: "Shuffle bosses"
 		class: Rando
 		attribute: bosses
@@ -166,7 +166,7 @@
 		default: Nothing
 		help: "Bosses are shuffled separately in groups of early game, mid game, and late game bosses:\n\nEarly game: first chapter bosses\n\nMid game: bosses between first and final chapters\n\nLate game: final chapter bosses plus Creeping Shadow, Arcanette, and the Grotesque Monster"
 		indent: {
-		    battlesBossesSkipEarly: {
+		    battles_bosses_skip_early: {
 			label: "Omit early bosses"
 			class: Bosses
 			attribute: skip_early_bos
@@ -174,7 +174,7 @@
 			default: False
 			help: "Don't shuffle early bosses."
 		    }
-		    battlesBossesMidAndLate: {
+		    battles_bosses_mid_and_late: {
 			label: "Shuffle mid & late game bosses together"
 			class: Bosses
 			attribute: shuffle_by_rings
@@ -182,7 +182,7 @@
 			default: separate_by_ring
 			help: "Shuffles mid game and late game bosses together, rather than separately."
 		    }
-		    battlesBossesOptionalMidGame: {
+		    battles_bosses_optional_mid_game: {
 			label: "Include mid game optional bosses"
 			class: Bosses
 			attribute: include_mid_game_opt_bos
@@ -190,7 +190,7 @@
 			default: False
 			help: "Includes the following optional bosses as mid game bosses: Audnvarg, Battle-Worn Shark, Carnivorous Plant, Delsta Devil, Devourer of Dreams, Gigantes, Gken, Ichchadhari the Snake Charmer, Lord of the Sands, Manymaws, Monarch, Ruffian Leader, Scourge of the Sea, and Tyran the Seeker."
 		    }
-		    battlesBossesOptionalLateGame: {
+		    battles_bosses_optional_late_game: {
 			label: "Include late game optional bosses"
 			class: Bosses
 			attribute: include_late_game_opt_bos
@@ -198,15 +198,15 @@
 			default: False
 			help: "Includes the following optional bosses as late game bosses: Behemoth, Deep One, Dreadwolf, Heavenwing, Priestess Hinoekagura, and Tyrannodrake."
 		    }
-		    battlesBossesVide: {
+		    battles_bosses_vide: {
 			label: "Include Vide the Wicked"
 			class: Bosses
 			attribute: include_vide
 			builder: True
 			default: False
-			help: "Includes Vide the Wicked as a late game boss.\n\nVide causes softlocks and is omitted."
+			help: "Includes Vide the Wicked as a late game boss. Note that he is generally a bit too big for battle screens of other bosses.\n\nVide causes softlocks and is omitted."
 		    }
-		    battlesBossesGaldera: {
+		    battles_bosses_galdera: {
 			label: "Include Galdera"
 			class: Bosses
 			attribute: include_galdera
@@ -233,25 +233,25 @@
 		attribute: treasures
 		builder: Treasures
 		default: Nothing
-		help: "Shuffle chest items, hidden items, and items from NPCs. By default, all Knowledge and Valuable items are kept in their original spots."
+		help: "Shuffle chest items, hidden items, and items from NPCs. By default, all Knowledge and Valuable items are kept in their original spots.\n\nThis item pool is shuffled separately from the item pool in the Events & Key Items tab."
 		indent: {
-		    itemsinclude_rusty_weapons: {
-			label: "Include rusty weapons"
-			class: Treasures
-			attribute: include_rusty_weapons
-			builder: True
-			default: False
-			help: "Include rusty weapons in the item shuffle, including the Rusty Sword reward from the sidequest.\n\nThis option will be ignored if the Events & Key Items options Guilds and/or Spawn Guilds are on as they affect the logic."
-		    }
-		    itemsIncludeInventor: {
-			label: "Include parts for the Inventor"
-			class: Treasures
-			attribute: include_inventor_parts
-			builder: True
-			default: False
-			help: "Include valuable items needed by the inventor: Rainbow Glass Bottle, Mythical Horn, Tin Toy, Scrap Metal, Ancient Cog, and Natural Magnetite.\n\nThis option will be ignored if the Events & Key Items options Guilds and/or Spawn Guilds are on as they affect the logic."
-		    }
-		    itemsLicenses: {
+		    // items_rusty_weapons: {
+		    // 	label: "Include rusty weapons"
+		    // 	class: Treasures
+		    // 	attribute: include_rusty_weapons
+		    // 	builder: True
+		    // 	default: False
+		    // 	help: "Include rusty weapons in the item shuffle, including the Rusty Sword reward from the sidequest.\n\nThis option will be ignored if the Events & Key Items options Guilds and/or Spawn Guilds are on as they affect the logic."
+		    // }
+		    // items_include_inventor: {
+		    // 	label: "Include parts for the Inventor"
+		    // 	class: Treasures
+		    // 	attribute: include_inventor_parts
+		    // 	builder: True
+		    // 	default: False
+		    // 	help: "Include valuable items needed by the inventor: Rainbow Glass Bottle, Mythical Horn, Tin Toy, Scrap Metal, Ancient Cog, and Natural Magnetite.\n\nThis option will be ignored if the Events & Key Items options Guilds and/or Spawn Guilds are on as they affect the logic."
+		    // }
+		    items_licenses: {
 			label: "Include job licenses"
 			class: Treasures
 			attribute: include_licenses
@@ -271,7 +271,7 @@
 	    }
 	}
 	Guilds: {
-	    licenseRequirements: {
+	    license_requirements: {
 		label: "Shuffle license requirements"
 		class: Guilds
 		attribute: Requirements
@@ -280,16 +280,26 @@
 		help: "Shuffle requirements for gaining a second or third license, e.g. Hunter licenses could have the Merchant's 100,000 and 300,000 leaves requirements."
 	    }
 	}
+	// Music: {
+	//     music: {
+	// 	label: "Shuffle music"
+	// 	class: Rando
+	// 	attribute: music
+	// 	builder: Music
+	// 	default: Nothing
+	// 	help: "Shuffles most of the background music."
+	//     }
+	// }
     }
     "Events & Key Items": {
-	"Events & Key Items": {
+	"Events": {
 	    events_story: {
-		label: "Main story chapters"
+		label: "Main Story Chapters"
 		class: EventsAndItems
 		attribute: include_main_story
 		builder: True
 		default: False
-		help: "Unlocking main story chapters, the Scent of Commerce, Crossed Paths, and extinguished Sacred Flames will be included in your item pool. Finishing each of these may give you new items from your item pool."
+		help: "Events unlocking main story chapters, the Scent of Commerce, Crossed Paths, and extinguished Sacred Flames will be included in the item pool. Finishing each of these may give you random items from the item pool.\n\nCompleting the first chapter of PCs other than your main protagonist will not give any items."
 	    }
 	    events_galdera: {
 		label: "Galdera Sidequests"
@@ -297,17 +307,8 @@
 		attribute: include_galdera
 		builder: True
 		default: False
-		depend: events_story
-		help: "Completing sidequests The Traveler's Bag, Producuring Peculiar Tomes, From the Far Reaches of Hell, and A Gate Between Worlds may give you new items from your item pool."
-	    }
-	    events_pcs: {
-		label: "PCs"
-		class: EventsAndItems
-		attribute: include_pcs
-		builder: True
-		default: False
-		depend: events_story
-		help: "PCs will be included in the item pool. They will no longer be recruitable in their original locations."
+		//: events_story
+		help: "Completing sidequests The Traveler's Bag, Procuring Peculiar Tomes, From the Far Reaches of Hell, and A Gate Between Worlds may give you new items from the item pool."
 	    }
 	    events_guilds: {
 		label: "Guilds"
@@ -315,17 +316,44 @@
 		attribute: include_guilds
 		builder: True
 		default: False
-		depend: events_story
-		help: "Guild masters may give you an item from your item pool in addition to the license."
+		//: events_story
+		help: "Guild masters may give you random items from the item pool in addition to the license.\n\nThe Arcanist Descendent, the Five Tiered Tower, the Inventor, and the Blacksmith are included as if they are guilds. The Inventor will give you the items after bringing the first set of parts to the him. The Blacksmith will give you the items after bringing the first rusty item him."
 	    }
-	    events_ex_abil: {
-		label: "EX Skills"
+	    events_guilds_spawn: {
+		label: "Spawn Guild Masters"
 		class: EventsAndItems
-		attribute: include_ex_abil
+		attribute: include_guild_spawn
 		builder: True
 		default: False
-		depend: events_story
-		help: "Include EX Skills from altars and finishing final chapters in your item pool. You can also find shuffled items at altars and by finishing final chapters. (Osvald and Agnea will still learn their second skills in their final battles, but you may still stumble upon them elsewhere.)"
+		//: events_story
+		help: "New events that spawn guild masters will be included in the item pool. The Arcanist Descendant, Inventor, and Blacksmith are included. Priestess Hinoekagura from the Five-Tiered Tower is omitted."
+	    }
+	    events_altars_spawn: {
+		label: "Spawn Altars"
+		class: EventsAndItems
+		attribute: include_altar_spawn
+		builder: True
+		default: False
+		//: events_story
+		help: "New events that spawn altars will be included in the item pool. (Altars will still be visible, they just won't do anything until you unlock them with the appropriate new item.)"
+	    }
+	    events_ships: {
+		label: "Spawn Ships"
+		class: EventsAndItems
+		attribute: include_ships_spawn
+		builder: True
+		default: False
+		//: events_story
+		help: "New events spawning boat NPCs at the anchorages will be included in the item pool. (The Grand Terry is included in the key items option.)"
+	    }
+	    events_assassins_spawn: {
+		label: "Spawn Foreign Assassins"
+		class: EventsAndItems
+		attribute: include_assassins_spawn
+		builder: True
+		default: False
+		//: events_story
+		help: "A new event that spawns the foreign assassins will be included in the item pool."
 	    }
 	    events_guard: {
 		label: "Montwise Pass Guard"
@@ -333,8 +361,55 @@
 		attribute: include_guard
 		builder: True
 		default: False
-		depend: events_story
-		help: "Passing the guard will be included in your item pool. The guard will be made unbeatable."
+		//: events_story
+		help: "A new event letting you pass the guard will be included in the item pool. The guard will be made unbeatable."
+	    }
+	}
+	"Key Items": {
+	    events_key_items: {
+		label: "Main Story Key Items"
+		class: EventsAndItems
+		attribute: include_key_items
+		builder: True
+		default: False
+		// depend: events_story
+		help: "Various key items after Chapter 1 will be included in your item pool. Their vanilla slots will contain random items from your item pool.\n\nSee the README file for a full list of items."
+	    }
+	    events_galdera_items: {
+		label: "Galdera Sidequests Key Items"
+		class: EventsAndItems
+		attribute: include_galdera_items
+		builder: True
+		default: False
+		// depend: events_story
+		help: "Al's Bag, Dispatches from Beastling Island, The Curious Legend of the Great Wall, From the Far Reaches of Hell, and How to Decipher Unknown Languages will be included in your item pool. Their vanilla slots will include random items from your item pool."
+	    }
+	    events_inventor_parts: {
+		label: "Inventor Parts"
+		class: EventsAndItems
+		attribute: include_inventor_parts
+		builder: True
+		default: False
+		// depend: events_story
+		help: "Include Valuable Items used as Inventor Parts in the item pool: Rainbow Glass Bottle, Mythical Horn, Tin Toy, Scrap Metal, Ancient Cog, and Natural Magnetite. Their vanilla slots will include random items from your item pool."
+	    }
+	    events_rusty_weapons: {
+		label: "Rusty Weapons"
+		class: EventsAndItems
+		attribute: include_rusty_weapons
+		builder: True
+		default: False
+		// depend: events_story
+		help: "Include Rusty Weapons in the item pool. Opening these chests and completing The Sword in the Stone will give a random item from your item pool."
+	    }
+	    events_ex_abil: {
+		label: "EX Skills"
+		class: EventsAndItems
+		attribute: include_ex_abil
+		builder: True
+		default: False
+		// depend: events_story
+		help: "Include EX Skills from altars and finishing final chapters in the item pool. You can also find shuffled items at altars and by finishing final chapters. (Osvald's and Agnea's final bosses will still teach EX Skills in their final battles, but you may still stumble upon them elsewhere.)"
 	    }
 	    events_assassins: {
 		label: "Hire Assassins"
@@ -342,70 +417,41 @@
 		attribute: include_assassins
 		builder: True
 		default: False
-		depend: events_story
-		help: "Foreign Assassins in Hired Help will be included in your item pool. Beating the assassins will unlock a random item from your item pool."
+		// depend: events_story
+		help: "Foreign Assassins in Hired Help will be included in the item pool. Beating the assassins may unlock a random item from the item pool."
 	    }
-	}
-	"Spawns": {
-	    events_ships: {
-		label: "Ships"
+	    events_pcs: {
+		label: "Recruit PCs"
 		class: EventsAndItems
-		attribute: include_ships_spawn
+		attribute: include_pcs
 		builder: True
 		default: False
-		depend: events_story
-		help: "New events spawning boat NPCs at the anchorages will be included in your item pool. (The Grand Terry is omitted in this option. It is included in the main story option.)"
-	    }
-	    events_guilds_spawn: {
-		label: "Guilds"
-		class: EventsAndItems
-		attribute: include_guild_spawn
-		builder: True
-		default: False
-		depend: events_story
-		help: "New events that spawn guild masters will be included in your item pool."
-	    }
-	    events_altars_spawn: {
-		label: "Altars"
-		class: EventsAndItems
-		attribute: include_altar_spawn
-		builder: True
-		default: False
-		depend: events_story
-		help: "New events that spawn altars will be included in your item pool. (Altars will still be visible, they just won't do anything until you unlock them with the appropriate new item.)"
-	    }
-	    events_assassins_spawn: {
-		label: "Assassins"
-		class: EventsAndItems
-		attribute: include_assassins_spawn
-		builder: True
-		default: False
-		depend: events_story
-		help: "A new event that spawns the assassins will be included in your item pool."
+		// depend: events_story
+		help: "PCs will be included in the item pool. Recruiting events may give you random items from your item pool."
 	    }
 	}
 	"PCs": {
-	    // events_start_pc: {
-	    // 	label: "Starting PC"
-	    // 	class: EventsAndItems
-	    // 	attribute: start_pc
-	    // 	// builder: EventsAndItems
-	    // 	// default: 'Random'
-	    // 	help: "Pick a PC to start with. Only one PC will be guaranteed to be beatable."
-	    // 	type: OptionMenu
-	    // 	optionsAttr: start_PC
-	    // 	options: [
-	    // 	    'Random',
-	    // 	    'Agnea',
-	    // 	    'Castti',
-	    // 	    'Hikari',
-	    // 	    'Ochette',
-	    // 	    'Osvald',
-	    // 	    'Partitio',
-	    // 	    'Temenos',
-	    // 	    'Throne',
-	    // 	]
-	    // }
+	    events_start_pc: {
+		label: "Protagonist"
+		class: EventsAndItems
+		attribute: picked_start_pc
+		builder: EventsAndItems
+		default: Nothing
+		help: "Pick a main protagonist. Given the logic used, only one PC will be guaranteed to be beatable. Check the STARTING_CHARACTER.txt file before starting a playthrough to see your protagonist."
+		type: OptionMenu
+		optionsAttr: picked_start_pc
+		options: [
+		    'Random',
+		    'Agnea',
+		    'Castti',
+		    'Hikari',
+		    'Ochette',
+		    'Osvald',
+		    'Partitio',
+		    'Temenos',
+		    'Throne',
+		]
+	    }
 	    events_number_pcs: {
 		label: "Starting number of PCs"
 		class: EventsAndItems
@@ -415,13 +461,13 @@
 		min: 1
 		max: 8
 		increment: 1
-		help: "Pick the number of PCs to start with. Any PC other than the first will be recruited right after completing Chapter 1 of your main protagonist."
+		help: "Pick the number of PCs to start with. Any PC other than the first will be recruited right after completing Chapter 1 of your main protagonist.\n\nNB: This option won't do anything without any selected options from Events and/or Key Items."
 	    }
 	}
     }
     "Other Settings": {
 	"Path Actions": {
-	    path_actionsAllure: {
+	    path_actions_allure: {
 		label: "Allure 100% success rate"
 		class: PathActions
 		attribute: allure
@@ -429,7 +475,7 @@
 		default: Nothing
 		help: "Agnea can Allure NPCs with a 100% success rate."
 	    }
-	    path_actionsAmbush: {
+	    path_actions_ambush: {
 		label:  "Ambush at level 1"
 		class: PathActions
 		attribute: ambush
@@ -437,7 +483,7 @@
 		default: Nothing
 		help: "Throne can ambush NPCs at any level."
 	    }
-	    path_actionsBefriend: {
+	    path_actions_befriend: {
 		label: "Befriend with a Healing Grape"
 		class: PathActions
 		attribute: befriend
@@ -445,7 +491,7 @@
 		default: Nothing
 		help: "Ochette can befriend NPCs with just a Healing Grape."
 	    }
-	    path_actionsBribe: {
+	    path_actions_bribe: {
 		label: "Bribe for 1 leaf"
 		class: PathActions
 		attribute: bribe
@@ -453,7 +499,7 @@
 		default: Nothing
 		help: "Hikari can Bribe information for just 1 leaf."
 	    }
-	    path_actionsChallenge: {
+	    path_actions_challenge: {
 		label: "Challenge at level 1"
 		class: PathActions
 		attribute: challenge
@@ -461,7 +507,7 @@
 		default: Nothing
 		help: "Hikari can Challenge NPCs at any level."
 	    }
-	    path_actionsEntreat: {
+	    path_actions_entreat: {
 		label: "Entreat at level 1"
 		class: PathActions
 		attribute: entreat
@@ -469,7 +515,7 @@
 		default: Nothing
 		help: "Agnea can perform Entreat at any level."
 	    }
-	    path_actionsGuide: {
+	    path_actions_guide: {
 		label: "Guide at level 1"
 		class: PathActions
 		attribute: guide
@@ -477,7 +523,7 @@
 		default: Nothing
 		help: "Temenos can guide NPCs at any level."
 	    }
-	    path_actionsHire: {
+	    path_actions_hire: {
 		label: "Hire for 1 leaf"
 		class: PathActions
 		attribute: hire
@@ -485,7 +531,7 @@
 		default: Nothing
 		help: "Partitio can hire NPCs for just 1 leaf."
 	    }
-	    path_actionsInquire: {
+	    path_actions_inquire: {
 		label: "Inquire at level 1"
 		class: PathActions
 		attribute: inquire
@@ -493,7 +539,7 @@
 		default: Nothing
 		help: "Castti can Inquire information at any level."
 	    }
-	    path_actionsPurchase: {
+	    path_actions_purchase: {
 		label: "Purchase for 1 leaf"
 		class: PathActions
 		attribute: purchase
@@ -501,7 +547,7 @@
 		default: Nothing
 		help: "Partitio can purchase items from NPCs for 1 leaf."
 	    }
-	    path_actionsScrutinize: {
+	    path_actions_scrutinize: {
 		label: "Scrutinize 100% success rate"
 		class: PathActions
 		attribute: scrutinize
@@ -509,7 +555,7 @@
 		default: Nothing
 		help: "Osvald can Scrutinize with a 100% success rate."
 	    }
-	    path_actionsSoothe: {
+	    path_actions_soothe: {
 		label: "Soothe with a Healing Grape"
 		class: PathActions
 		attribute: soothe
@@ -517,7 +563,7 @@
 		default: Nothing
 		help: "Castti can soothe NPCs with just a Healing Grape."
 	    }
-	    path_actionsSteal: {
+	    path_actions_steal: {
 		label: "Steal 100% success rate"
 		class: PathActions
 		attribute: steal
@@ -527,7 +573,7 @@
 	    }
 	}
 	Battles: {
-	    battlesScaleExp: {
+	    battles_scale_exp: {
 		label: "Scale experience"
 		class: Battles
 		attribute: scale_exp
@@ -538,7 +584,7 @@
 		increment: 1
 		help: "Scales experience gained from each enemy in battle."
 	    }
-	    battlesScaleJP: {
+	    battles_scale_JP: {
 		label: "Scale JP"
 		class: Battles
 		attribute: scale_jp
@@ -549,7 +595,7 @@
 		increment: 1
 		help: "Scales JP gained from each enemy in battle."
 	    }
-	    battlesScaleLeaves: {
+	    battles_scale_leaves: {
 		label: "Scale leaves"
 		class: Battles
 		attribute: scale_leaves
@@ -560,7 +606,7 @@
 		increment: 1
 		help: "Scales leaves gained from each enemy in battle."
 	    }
-	    battlesScaleEnemyHP: {
+	    battles_scale_enemy_HP: {
 		label: "Scale enemy HP"
 		class: Battles
 		attribute: scale_enemy_hp
@@ -572,7 +618,7 @@
 		increment: 0.1
 		help: "Scales HP of enemies"
 	    }
-	    battlesScaleEnemyATK: {
+	    battles_scale_enemy_ATK: {
 		label: "Scale enemy ATK"
 		class: Battles
 		attribute: scale_enemy_atk
@@ -584,7 +630,7 @@
 		increment: 0.1
 		help: "Scales physical attack of enemies"
 	    }
-	    battlesScaleEnemyMATK: {
+	    battles_scale_enemy_MATK: {
 		label: "Scale enemy MATK"
 		class: Battles
 		attribute: scale_enemy_matk
@@ -596,7 +642,7 @@
 		increment: 0.1
 		help: "Scales magic attack of enemies"
 	    }
-	    battlesScaleEnemyDEF: {
+	    battles_scale_enemy_DEF: {
 		label: "Scale enemy DEF"
 		class: Battles
 		attribute: scale_enemy_def
@@ -608,7 +654,7 @@
 		increment: 0.1
 		help: "Scales physical defense of enemies"
 	    }
-	    battlesScaleEnemyMDEF: {
+	    battles_scale_enemy_MDEF: {
 		label: "Scale enemy MDEF"
 		class: Battles
 		attribute: scale_enemy_mdef
@@ -620,7 +666,7 @@
 		increment: 0.1
 		help: "Scales magice defense of enemies"
 	    }
-	    battlesScaleEnemyACC: {
+	    battles_scale_enemy_ACC: {
 		label: "Scale enemy ACC"
 		class: Battles
 		attribute: scale_enemy_acc
@@ -632,7 +678,7 @@
 		increment: 0.1
 		help: "Scales accuracy of enemies"
 	    }
-	    battlesScaleEnemyEVA: {
+	    battles_scale_enemy_EVA: {
 		label: "Scale enemy EVA"
 		class: Battles
 		attribute: scale_enemy_eva
@@ -644,7 +690,7 @@
 		increment: 0.1
 		help: "Scales evasion of enemies"
 	    }
-	    battlesScaleEnemyAGI: {
+	    battles_scale_enemy_AGI: {
 		label: "Scale enemy AGI"
 		class: Battles
 		attribute: scale_enemy_agi
@@ -656,7 +702,7 @@
 		increment: 0.1
 		help: "Scales speed of enemies"
 	    }
-	    battlesScaleEnemySP: {
+	    battles_scale_enemy_SP: {
 		label: "Scale Shield Points"
 		class: Battles
 		attribute: scale_enemy_sp
@@ -701,14 +747,14 @@
 		    'Throne',
 		]
 	    }
-	    // skip_tutorials: {
-	    // 	label: "Skip tutorial popups"
-	    // 	class: Rando
-	    // 	attribute: skip_tutorials
-	    // 	builder: SkipTutorials
-	    // 	default: Nothing
-	    // 	help: "Skip tutorial popups."
-	    // }
+	    skip_tutorials: {
+		label: "Skip most tutorials"
+		class: InitialEvents
+		attribute: skip_tutorials
+		builder: skip_tutorials
+		default: Nothing
+		help: "Skips most tutorials. A few are hard coded into cutscenes and hence are harder to skip."
+	    }
 	    formation_menu: {
 		label: "Formation menu always available"
 		class: InitialEvents

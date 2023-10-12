@@ -1,4 +1,208 @@
 {
+  get_hikari:
+  [
+    {
+      filename: MS_KEN_00_0300
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Recruit Hikari
+      item: item_hikari
+    }
+    {
+      filename: MS_KEN_00_0310
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Recruit Hikari
+      item: item_hikari
+    }
+  ]
+  get_ochette:
+  [
+    {
+      filename: MS_KAR_00_0100
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Recruit Ochette
+      item: item_ochette
+    }
+    {
+      filename: MS_KAR_00_0200
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Recruit Ochette
+      item: item_ochette
+    }
+  ]
+  get_castti:
+  [
+    {
+      filename: MS_KUS_00_0100
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Recruit Castti
+      item: item_castti
+    }
+    {
+      filename: MS_KUS_00_0200
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Recruit Castti
+      item: item_castti
+    }
+    {
+      filename: MS_KUS_00_0210
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Recruit Castti
+      item: item_castti
+    }
+  ]
+  get_partitio:
+  [
+    {
+      filename: MS_SHO_00_0100
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Recruit Partitio
+      item: item_partitio
+    }
+    {
+      filename: MS_SHO_00_0200
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Recruit Partitio
+      item: item_partitio
+    }
+  ]
+  get_temenos:
+  [
+    {
+      filename: MS_SIN_00_0300
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Recruit Temenos
+      item: item_temenos
+    }
+    {
+      filename: MS_SIN_00_0310
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Recruit Temenos
+      item: item_temenos
+    }
+  ]
+  get_osvald:
+  [
+    {
+      filename: MS_GAK_00_0100
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Recruit Osvald
+      item: item_osvald
+    }
+    {
+      filename: MS_GAK_00_0200
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Recruit Osvald
+      item: item_osvald
+    }
+    {
+      filename: MS_GAK_00_0210
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Recruit Osvald
+      item: item_osvald
+    }
+  ]
+  get_throne:
+  [
+    {
+      filename: MS_TOU_00_0310
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Recruit Throne
+      item: item_throne
+    }
+    {
+      filename: MS_TOU_00_0300
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Recruit Throne
+      item: item_throne
+    }
+  ]
+  get_agnea:
+  [
+    {
+      filename: MS_ODO_00_0200
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Recruit Agnea
+      item: item_agnea
+    }
+    {
+      filename: MS_ODO_00_0210
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Recruit Agnea
+      item: item_agnea
+    }
+  ]
   finish_soc_grand_terry:
   [
     {
@@ -9,6 +213,7 @@
       ]
       remove: []
       description: Finish Scent of Commerce: Tropu'hopu Route
+      item: item_grand_terry
     }
   ]
   finish_soc_manuscript:
@@ -27,6 +232,7 @@
         17
       ]
       description: Finish Scent of Commerce: Sai Route
+      item: item_manuscript
     }
   ]
   finish_soc_gramophone:
@@ -47,6 +253,7 @@
         29
       ]
       description: Finish Scent of Commerce: Winterbloom Route
+      item: item_gramophone
     }
   ]
   finish_altar_war:
@@ -64,6 +271,7 @@
         18
       ]
       description: Warrior Altar
+      item: unlock_hikari_ex_abil_1
     }
   ]
   finish_altar_hun:
@@ -81,6 +289,7 @@
         18
       ]
       description: Hunter Altar
+      item: unlock_ochette_ex_abil_1
     }
   ]
   finish_altar_apo:
@@ -98,6 +307,7 @@
         18
       ]
       description: Apothecary Altar
+      item: unlock_castti_ex_abil_1
     }
   ]
   finish_altar_mer:
@@ -115,6 +325,7 @@
         18
       ]
       description: Merchant Altar
+      item: unlock_partitio_ex_abil_1
     }
   ]
   finish_altar_cle:
@@ -132,6 +343,7 @@
         18
       ]
       description: Cleric Altar
+      item: unlock_temenos_ex_abil_1
     }
   ]
   finish_altar_sch:
@@ -149,6 +361,7 @@
         18
       ]
       description: Scholar Altar
+      item: unlock_osvald_ex_abil_1
     }
   ]
   finish_altar_thi:
@@ -166,6 +379,7 @@
         18
       ]
       description: Thief Altar
+      item: unlock_throne_ex_abil_1
     }
   ]
   finish_altar_dan:
@@ -183,6 +397,7 @@
         18
       ]
       description: Dancer Altar
+      item: unlock_agnea_ex_abil_1
     }
   ]
   finish_guild_war:
@@ -195,6 +410,7 @@
       ]
       remove: []
       description: Warrior Guild
+      item: ""
     }
   ]
   finish_guild_hun:
@@ -207,6 +423,7 @@
       ]
       remove: []
       description: Hunter Guild
+      item: ""
     }
   ]
   finish_guild_apo:
@@ -219,6 +436,7 @@
       ]
       remove: []
       description: Apothecary Guild
+      item: ""
     }
   ]
   finish_guild_mer:
@@ -231,6 +449,7 @@
       ]
       remove: []
       description: Merchant Guild
+      item: ""
     }
   ]
   finish_guild_cle:
@@ -243,6 +462,7 @@
       ]
       remove: []
       description: Cleric Guild
+      item: ""
     }
   ]
   finish_guild_sch:
@@ -255,6 +475,7 @@
       ]
       remove: []
       description: Scholar Guild
+      item: ""
     }
   ]
   finish_guild_thi:
@@ -267,6 +488,7 @@
       ]
       remove: []
       description: Thief Guild
+      item: ""
     }
   ]
   finish_guild_dan:
@@ -279,6 +501,7 @@
       ]
       remove: []
       description: Dancer Guild
+      item: ""
     }
   ]
   finish_guild_arc:
@@ -291,6 +514,7 @@
       ]
       remove: []
       description: Arcanist Guild
+      item: ""
     }
   ]
   finish_chapter_1:
@@ -303,6 +527,7 @@
       ]
       remove: []
       description: Finish Chapter 1
+      item: ""
     }
     {
       filename: MS_KEN_00_0400
@@ -314,6 +539,7 @@
       ]
       remove: []
       description: Finish Chapter 1
+      item: ""
     }
     {
       filename: MS_KAR_10_2000
@@ -323,6 +549,7 @@
       ]
       remove: []
       description: Finish Chapter 1
+      item: ""
     }
     {
       filename: MS_KAR_00_0300
@@ -334,6 +561,7 @@
       ]
       remove: []
       description: Finish Chapter 1
+      item: ""
     }
     {
       filename: MS_KUS_10_1700
@@ -343,6 +571,7 @@
       ]
       remove: []
       description: Finish Chapter 1
+      item: ""
     }
     {
       filename: MS_KUS_00_0300
@@ -354,6 +583,7 @@
       ]
       remove: []
       description: Finish Chapter 1
+      item: ""
     }
     {
       filename: MS_SHO_10_1800
@@ -363,6 +593,7 @@
       ]
       remove: []
       description: Finish Chapter 1
+      item: ""
     }
     {
       filename: MS_SHO_00_0300
@@ -374,6 +605,7 @@
       ]
       remove: []
       description: Finish Chapter 1
+      item: ""
     }
     {
       filename: MS_SIN_10_1500
@@ -383,6 +615,7 @@
       ]
       remove: []
       description: Finish Chapter 1
+      item: ""
     }
     {
       filename: MS_SIN_00_0400
@@ -394,6 +627,7 @@
       ]
       remove: []
       description: Finish Chapter 1
+      item: ""
     }
     {
       filename: MS_GAK_20_0800
@@ -403,6 +637,7 @@
       ]
       remove: []
       description: Finish Chapter 1
+      item: ""
     }
     {
       filename: MS_GAK_00_0300
@@ -414,6 +649,7 @@
       ]
       remove: []
       description: Finish Chapter 1
+      item: ""
     }
     {
       filename: MS_TOU_10_2000
@@ -423,6 +659,7 @@
       ]
       remove: []
       description: Finish Chapter 1
+      item: ""
     }
     {
       filename: MS_TOU_00_0400
@@ -434,6 +671,7 @@
       ]
       remove: []
       description: Finish Chapter 1
+      item: ""
     }
     {
       filename: MS_ODO_10_1900
@@ -443,6 +681,7 @@
       ]
       remove: []
       description: Finish Chapter 1
+      item: ""
     }
     {
       filename: MS_ODO_00_0300
@@ -454,6 +693,7 @@
       ]
       remove: []
       description: Finish Chapter 1
+      item: ""
     }
   ]
   finish_chapter_hikari_2:
@@ -466,6 +706,7 @@
       ]
       remove: []
       description: Finish Hikari Chapter 2
+      item: ""
     }
   ]
   finish_chapter_hikari_3:
@@ -478,6 +719,7 @@
       ]
       remove: []
       description: Finish Hikari Chapter 3
+      item: ""
     }
   ]
   finish_chapter_hikari_4:
@@ -490,6 +732,7 @@
       ]
       remove: []
       description: Finish Hikari Chapter 4
+      item: ""
     }
   ]
   finish_chapter_hikari_5:
@@ -507,6 +750,7 @@
         154
       ]
       description: Finish Hikari Chapter 5
+      item: unlock_hikari_ex_abil_2
     }
   ]
   finish_chapter_ochette_2a:
@@ -522,6 +766,7 @@
         107
       ]
       description: Finish Ochette Chapter 2: Cateracta's Route
+      item: item_beast_acta
     }
     {
       filename: MS_KAR_2M_01A0
@@ -531,6 +776,7 @@
       ]
       remove: []
       description: Finish Ochette Chapter 2: Cateracta's Route
+      item: ""
     }
   ]
   finish_chapter_ochette_2b:
@@ -543,6 +789,7 @@
       ]
       remove: []
       description: Finish Ochette Chapter 2: Tera's Route
+      item: ""
     }
     {
       filename: MS_KAR_2M_01B0
@@ -552,6 +799,7 @@
       ]
       remove: []
       description: Finish Ochette Chapter 2: Tera's Route
+      item: ""
     }
   ]
   finish_chapter_ochette_2c:
@@ -564,6 +812,7 @@
       ]
       remove: []
       description: Finish Ochette Chapter 2: Glacis's Route
+      item: ""
     }
     {
       filename: MS_KAR_2M_01C0
@@ -573,6 +822,7 @@
       ]
       remove: []
       description: Finish Ochette Chapter 2: Glacis's Route
+      item: ""
     }
   ]
   finish_chapter_ochette_3:
@@ -590,6 +840,7 @@
         140
       ]
       description: Finish Ochette Chapter 3
+      item: unlock_ochette_ex_abil_2
     }
   ]
   finish_chapter_castti_2a:
@@ -602,6 +853,7 @@
       ]
       remove: []
       description: Finish Castti Chapter 2: Sai
+      item: ""
     }
     {
       filename: MS_KUS_2M_01A0
@@ -611,6 +863,7 @@
       ]
       remove: []
       description: Finish Castti Chapter 2: Sai
+      item: ""
     }
   ]
   finish_chapter_castti_2b:
@@ -623,6 +876,7 @@
       ]
       remove: []
       description: Finish Castti Chapter 2: Winterbloom Route
+      item: ""
     }
     {
       filename: MS_KUS_2M_01B0
@@ -632,6 +886,7 @@
       ]
       remove: []
       description: Finish Castti Chapter 2: Winterbloom Route
+      item: ""
     }
   ]
   finish_chapter_castti_3:
@@ -644,6 +899,7 @@
       ]
       remove: []
       description: Finish Castti Chapter 3
+      item: ""
     }
   ]
   finish_chapter_castti_4:
@@ -661,6 +917,7 @@
         137
       ]
       description: Finish Castti Chapter 4
+      item: unlock_castti_ex_abil_2
     }
   ]
   finish_chapter_partitio_2:
@@ -673,6 +930,7 @@
       ]
       remove: []
       description: Finish Partitio Chapter 2
+      item: ""
     }
   ]
   finish_chapter_partitio_3:
@@ -685,6 +943,7 @@
       ]
       remove: []
       description: Finish Partitio Chapter 3
+      item: ""
     }
   ]
   finish_chapter_partitio_4:
@@ -702,6 +961,7 @@
         134
       ]
       description: Finish Partitio Chapter 4
+      item: unlock_partitio_ex_abil_2
     }
   ]
   finish_chapter_temenos_2:
@@ -714,6 +974,7 @@
       ]
       remove: []
       description: Finish Temenos Chapter 2
+      item: ""
     }
   ]
   finish_chapter_temenos_3a:
@@ -726,6 +987,7 @@
       ]
       remove: []
       description: Finish Temenos Chapter 3: Stormhail Route
+      item: ""
     }
     {
       filename: MS_SIN_3M_01A0
@@ -733,8 +995,12 @@
       [
         -1
       ]
-      remove: []
+      remove:
+      [
+        2
+      ]
       description: Finish Temenos Chapter 3: Stormhail Route
+      item: item_kaldenas_notebook
     }
   ]
   finish_chapter_temenos_3b:
@@ -747,6 +1013,7 @@
       ]
       remove: []
       description: Finish Temenos Chapter 3: Crackridge Route
+      item: ""
     }
     {
       filename: MS_SIN_3M_01B0
@@ -754,8 +1021,41 @@
       [
         -1
       ]
-      remove: []
+      remove:
+      [
+        2
+      ]
       description: Finish Temenos Chapter 3: Crackridge Route
+      item: item_kaldenas_notebook
+    }
+  ]
+  finish_chapter_temenos_3:
+  [
+    {
+      filename: MS_SIN_3M_01A0
+      insert:
+      [
+        -1
+      ]
+      remove:
+      [
+        2
+      ]
+      description: Finish Temenos Chapter 3: Both Routes
+      item: item_kaldenas_notebook
+    }
+    {
+      filename: MS_SIN_3M_01B0
+      insert:
+      [
+        -1
+      ]
+      remove:
+      [
+        2
+      ]
+      description: Finish Temenos Chapter 3: Both Routes
+      item: item_kaldenas_notebook
     }
   ]
   finish_chapter_temenos_4:
@@ -773,6 +1073,7 @@
         151
       ]
       description: Finish Temenos Chapter 4
+      item: unlock_temenos_ex_abil_2
     }
   ]
   finish_chapter_osvald_3:
@@ -785,6 +1086,7 @@
       ]
       remove: []
       description: Finish Osvald Chapter 3
+      item: ""
     }
   ]
   finish_chapter_osvald_4:
@@ -797,6 +1099,7 @@
       ]
       remove: []
       description: Finish Osvald Chapter 4
+      item: ""
     }
   ]
   finish_chapter_osvald_5:
@@ -812,6 +1115,7 @@
         28
       ]
       description: Finish Osvald Chapter 5
+      item: unlock_osvald_ex_abil_2
     }
   ]
   finish_chapter_throne_2a:
@@ -824,6 +1128,7 @@
       ]
       remove: []
       description: Finish Throne Chapter 2: Mother's Route
+      item: ""
     }
   ]
   finish_chapter_throne_2b:
@@ -836,6 +1141,7 @@
       ]
       remove: []
       description: Finish Throne Chapter 2: Father's Route
+      item: ""
     }
   ]
   finish_chapter_throne_3a:
@@ -848,6 +1154,7 @@
       ]
       remove: []
       description: Finish Throne Chapter 3: Mother's Route
+      item: ""
     }
     {
       filename: MS_TOU_3M_01A0
@@ -857,6 +1164,7 @@
       ]
       remove: []
       description: Finish Throne Chapter 3: Mother's Route
+      item: ""
     }
   ]
   finish_chapter_throne_3b:
@@ -869,6 +1177,7 @@
       ]
       remove: []
       description: Finish Throne Chapter 3: Father's Route
+      item: ""
     }
     {
       filename: MS_TOU_3M_01B0
@@ -878,6 +1187,7 @@
       ]
       remove: []
       description: Finish Throne Chapter 3: Father's Route
+      item: ""
     }
   ]
   finish_chapter_throne_4:
@@ -894,6 +1204,7 @@
         131
       ]
       description: Finish Throne Chapter 4
+      item: unlock_throne_ex_abil_2
     }
   ]
   finish_chapter_agnea_2:
@@ -906,6 +1217,7 @@
       ]
       remove: []
       description: Finish Agnea Chapter 2
+      item: ""
     }
   ]
   finish_chapter_agnea_3:
@@ -918,6 +1230,7 @@
       ]
       remove: []
       description: Finish Agnea Chapter 3
+      item: ""
     }
   ]
   finish_chapter_agnea_4:
@@ -930,6 +1243,7 @@
       ]
       remove: []
       description: Finish Agnea Chapter 4
+      item: ""
     }
   ]
   finish_chapter_agnea_5:
@@ -942,6 +1256,7 @@
       ]
       remove: []
       description: Finish Agnea Chapter 5
+      item: unlock_agnea_ex_abil_2
     }
   ]
   finish_cop_oc_1:
@@ -954,6 +1269,7 @@
       ]
       remove: []
       description: Finish Crossed Path Apothecary & Hunter 1
+      item: ""
     }
   ]
   finish_cop_oc_2:
@@ -966,6 +1282,7 @@
       ]
       remove: []
       description: Finish Crossed Path Apothecary & Hunter 2
+      item: ""
     }
   ]
   finish_cop_tt_1:
@@ -976,8 +1293,12 @@
       [
         -1
       ]
-      remove: []
+      remove:
+      [
+        9
+      ]
       description: Finish Crossed Path Cleric & Thief 1
+      item: item_cloudy_mirror_fragment
     }
   ]
   finish_cop_tt_2:
@@ -995,6 +1316,7 @@
         15
       ]
       description: Finish Crossed Path Cleric & Thief 2
+      item: item_cloudy_mirror
     }
   ]
   finish_cop_ah_1:
@@ -1007,6 +1329,7 @@
       ]
       remove: []
       description: Finish Crossed Path Dancer & Warrior 1
+      item: ""
     }
   ]
   finish_cop_ah_2:
@@ -1022,6 +1345,7 @@
         14
       ]
       description: Finish Crossed Path Dancer & Warrior 2
+      item: ""
     }
   ]
   finish_cop_op_1:
@@ -1034,6 +1358,7 @@
       ]
       remove: []
       description: Finish Crossed Path Scholar & Merchant 1
+      item: ""
     }
   ]
   finish_cop_op_2:
@@ -1046,6 +1371,7 @@
       ]
       remove: []
       description: Finish Crossed Path Scholar & Merchant 2
+      item: ""
     }
   ]
   finish_flame_grotto:
@@ -1061,6 +1387,7 @@
       ]
       remove: []
       description: Reignite Sacred Flame: Tranquil Grotto
+      item: ""
     }
   ]
   finish_flame_tomb:
@@ -1076,6 +1403,7 @@
       ]
       remove: []
       description: Reignite Sacred Flame: Tomb of the Wardenbeasts
+      item: ""
     }
   ]
   finish_flame_church:
@@ -1091,6 +1419,7 @@
       ]
       remove: []
       description: Reignite Sacred Flame: Flamechurch
+      item: ""
     }
   ]
   finish_flame_ruins:
@@ -1106,9 +1435,10 @@
       ]
       remove: []
       description: Reignite Sacred Flame: Fellsun Ruins
+      item: ""
     }
   ]
-  finish_bag_thief:
+  get_als_bag:
   [
     {
       filename: SC_FD11_Tutorial_0310
@@ -1122,6 +1452,7 @@
         -3
       ]
       description: Fight Al's Bag's Thief
+      item: item_als_bag
     }
     {
       filename: SC_FI12_Tutorial_0310
@@ -1135,6 +1466,7 @@
         -3
       ]
       description: Fight Al's Bag's Thief
+      item: item_als_bag
     }
     {
       filename: SC_FSe13_Tutorial_0310
@@ -1148,6 +1480,7 @@
         -3
       ]
       description: Fight Al's Bag's Thief
+      item: item_als_bag
     }
     {
       filename: SC_FI13_Tutorial_0310
@@ -1161,6 +1494,7 @@
         -3
       ]
       description: Fight Al's Bag's Thief
+      item: item_als_bag
     }
     {
       filename: SC_FW13_Tutorial_0310
@@ -1174,6 +1508,7 @@
         -3
       ]
       description: Fight Al's Bag's Thief
+      item: item_als_bag
     }
     {
       filename: SC_FM12_Tutorial_0310
@@ -1187,6 +1522,7 @@
         -3
       ]
       description: Fight Al's Bag's Thief
+      item: item_als_bag
     }
     {
       filename: SC_FSn12_Tutorial_0310
@@ -1200,6 +1536,7 @@
         -3
       ]
       description: Fight Al's Bag's Thief
+      item: item_als_bag
     }
     {
       filename: SC_FC13_Tutorial_0310
@@ -1213,6 +1550,7 @@
         -3
       ]
       description: Fight Al's Bag's Thief
+      item: item_als_bag
     }
     {
       filename: SC_FF13_Tutorial_0310
@@ -1226,6 +1564,7 @@
         -3
       ]
       description: Fight Al's Bag's Thief
+      item: item_als_bag
     }
   ]
   finish_the_travelers_bag:
@@ -1239,6 +1578,7 @@
       ]
       remove: []
       description: Finish Sidequest: The Traveler's Bag
+      item: ""
     }
     {
       filename: SC_FI12_Tutorial_0400
@@ -1249,6 +1589,7 @@
       ]
       remove: []
       description: Finish Sidequest: The Traveler's Bag
+      item: ""
     }
     {
       filename: SC_FSe13_Tutorial_0400
@@ -1259,6 +1600,7 @@
       ]
       remove: []
       description: Finish Sidequest: The Traveler's Bag
+      item: ""
     }
     {
       filename: SC_FI13_Tutorial_0400
@@ -1269,6 +1611,7 @@
       ]
       remove: []
       description: Finish Sidequest: The Traveler's Bag
+      item: ""
     }
     {
       filename: SC_FW13_Tutorial_0400
@@ -1279,6 +1622,7 @@
       ]
       remove: []
       description: Finish Sidequest: The Traveler's Bag
+      item: ""
     }
     {
       filename: SC_FM12_Tutorial_0400
@@ -1289,6 +1633,7 @@
       ]
       remove: []
       description: Finish Sidequest: The Traveler's Bag
+      item: ""
     }
     {
       filename: SC_FSn12_Tutorial_0400
@@ -1299,6 +1644,7 @@
       ]
       remove: []
       description: Finish Sidequest: The Traveler's Bag
+      item: ""
     }
     {
       filename: SC_FC13_Tutorial_0400
@@ -1309,6 +1655,7 @@
       ]
       remove: []
       description: Finish Sidequest: The Traveler's Bag
+      item: ""
     }
     {
       filename: SC_FF13_Tutorial_0400
@@ -1319,6 +1666,7 @@
       ]
       remove: []
       description: Finish Sidequest: The Traveler's Bag
+      item: ""
     }
   ]
   finish_procuring_peculiar_tomes:
@@ -1332,6 +1680,7 @@
       ]
       remove: []
       description: Finish Sidequest: Procuring Pecurliar Tomes
+      item: ""
     }
   ]
   finish_from_the_far_reaches_of_hell:
@@ -1345,6 +1694,7 @@
       ]
       remove: []
       description: Finish Sidequest: From the Far Reaches of Hell
+      item: ""
     }
   ]
   finish_a_gate_between_worlds:
@@ -1357,6 +1707,7 @@
       ]
       remove: []
       description: Finish Sidequest: A Gate Between Worlds
+      item: ""
     }
   ]
   finish_guild_con:
@@ -1374,6 +1725,7 @@
         36
       ]
       description: Beat Priestess Hinoekagura
+      item: ""
     }
   ]
   finish_guild_arm:
@@ -1386,6 +1738,7 @@
       ]
       remove: []
       description: Bring 1 rusty weapon to the Blacksmith
+      item: ""
     }
     {
       filename: SYS_WPM_GUILD_0010
@@ -1395,6 +1748,7 @@
       ]
       remove: []
       description: Bring 1 rusty weapon to the Blacksmith
+      item: ""
     }
   ]
   finish_guild_inv:
@@ -1407,6 +1761,7 @@
       ]
       remove: []
       description: Bring 1 set of items to the Inventor
+      item: ""
     }
     {
       filename: SYS_INV_GUILD_0D10
@@ -1416,6 +1771,7 @@
       ]
       remove: []
       description: Bring 1 set of items to the Inventor
+      item: ""
     }
     {
       filename: SYS_INV_GUILD_0E10
@@ -1425,6 +1781,7 @@
       ]
       remove: []
       description: Bring 1 set of items to the Inventor
+      item: ""
     }
     {
       filename: SYS_INV_GUILD_0F10
@@ -1434,6 +1791,7 @@
       ]
       remove: []
       description: Bring 1 set of items to the Inventor
+      item: ""
     }
     {
       filename: SYS_INV_GUILD_0G10
@@ -1443,9 +1801,10 @@
       ]
       remove: []
       description: Bring 1 set of items to the Inventor
+      item: ""
     }
   ]
-  finish_foreign_assassin:
+  get_hire_foreign_assassins:
   [
     {
       filename: FEV_Fld_Mnt_3_2_0100_0200
@@ -1458,6 +1817,82 @@
         19
       ]
       description: Beat the Foreign Assassins
+      item: item_hire_foreign_assassins
+    }
+  ]
+  get_rosas_medicine:
+  [
+    {
+      filename: MS_KUS_2B_05A0
+      insert:
+      [
+        5
+      ]
+      remove:
+      [
+        10
+        5
+      ]
+      description: Concoct Rosa's Medicine
+      item: item_rosas_medicine
+    }
+    {
+      filename: MS_KUS_2B_05B0
+      insert:
+      [
+        5
+      ]
+      remove:
+      [
+        10
+        5
+      ]
+      description: Concoct Rosa's Medicine
+      item: item_rosas_medicine
+    }
+    {
+      filename: MS_KUS_2B_05C0
+      insert:
+      [
+        5
+      ]
+      remove:
+      [
+        10
+        5
+      ]
+      description: Concoct Rosa's Medicine
+      item: item_rosas_medicine
+    }
+  ]
+  get_clockite:
+  [
+    {
+      filename: MS_SHO_20_0610
+      insert:
+      [
+        -1
+      ]
+      remove:
+      [
+        14
+        11
+      ]
+      description: Clockite from Clockbank's Armory
+      item: item_clockite
+    }
+  ]
+  get_mysterious_notebook:
+  [
+    {
+      filename: MS_SIN_3B_0900
+      insert:
+      [
+        -1
+      ]
+      remove: []
+      description: Find Mysterious Notebook
+      item: item_mysterious_notebook
     }
   ]
 }

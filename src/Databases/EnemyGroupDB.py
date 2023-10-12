@@ -13,11 +13,17 @@ class EnemyGroupRow(RowSplit):
         self.vanilla = self.enemies
         self.vanilla_boss = self.boss_from_json()
         self.rando_boss = self.boss_from_json()
+        self.vide_wicked_cand = self.vtw_from_json()
 
     def boss_from_json(self):
         if self.key in EnemyGroupRow.boss_json:
             return EnemyGroupRow.boss_json[self.key]['boss']
         return ''
+
+    def vtw_from_json(self):
+        if self.key in EnemyGroupRow.boss_json:
+            return EnemyGroupRow.boss_json[self.key]['vtwcand']
+        return False
 
     @property
     def pc_region(self):

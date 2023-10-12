@@ -78,12 +78,16 @@ class DataJson:
         self.initialize(json_dict)
 
     def initialize(self, json_dict):
-        self.json_list = []
-        self.flags = {}
+        self.reset()
         for command in json_dict.values():
             jc = JsonCommand(command)
             self.add_command(jc)
         self.set_branches()
+
+    def reset(self):
+        self.json_list = []
+        self.flags = {}
+        self.flag_checks = {}
 
     def set_branches(self):
         for command in self.json_list:
@@ -107,10 +111,14 @@ class DataJson:
         self.insert_command(command, index)
 
     def add_flag(self, command):
-        if command.cmd == 70:
+        if command.cmd == 70 or command.cmd == 71:
             if command.target not in self.flags:
                 self.flags[command.target]  = []
             self.flags[command.target].append(command)
+        if command.cmd == 4000:
+            if command.target not in self.flag_checks:
+                self.flag_checks[command.target]  = []
+            self.flag_checks[command.target].append(command)
 
     def toggle_flag_off(self, flag):
         for command in self.flags[flag]:
@@ -128,6 +136,34 @@ class DataJson:
         if old in self.flags:
             for command in self.flags[old]:
                 command.target = new
+        if old in self.flag_checks:
+            for command in self.flag_checks[old]:
+                command.target = new
+
+    def filter_out_command(self, cmd):
+        self.json_list = list(filter(lambda x: x.cmd != cmd, self.json_list))
+
+    def remove_script_call(self):
+        self.filter_out_command(1000)
+
+    def remove_fadeout(self):
+        self.filter_out_command(62)
+
+    def remove_give_item(self, item_key):
+        new_list = []
+        for x in self.json_list:
+            if x.opt[0] == item_key and x.cmd == 2000:
+                continue
+            new_list.append(x)
+        self.json_list = new_list
+
+    def remove_display_item(self, item_key):
+        new_list = []
+        for x in self.json_list:
+            if x.opt[0] == item_key and x.cmd == 5005:
+                continue
+            new_list.append(x)
+        self.json_list = new_list
 
     def insert_script(self, script, index):
         if index < 0:
@@ -165,12 +201,3 @@ class DataJsonFile(DataJson):
     def update(self, *args):
         pass
 
-    # def __init__(self, pak, filename, data):
-    #     self.filename = filename
-    #     pak.extract_file(filename)
-    #     json_dict = eval(data)
-    #     self.json_list = []
-    #     self.flags = {}
-    #     for command in json_dict.values():
-    #         jc = JsonCommand(command)
-    #         self.add_command(jc)

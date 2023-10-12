@@ -1,11 +1,13 @@
 import random
 import sys
 from copy import deepcopy
-from Shuffler import Shuffler, Slot, no_weights
+from Shuffler import Shuffler, Slot, no_weights, ShufflerNeverSameSlot
 from Manager import Manager
+from Scripts import Script
 import EventsAndItems as EAI
 
 
+# Keep all rings separate
 def separate_by_ring(w, s, c):
     for i, si in enumerate(s):
         w[i] *= si.ring == c.ring
@@ -21,32 +23,74 @@ def separate_ring_one(w, s, c):
             w[i] *= si.ring > 1
 
 
+def separate_by_vtwcand(w, s, c):
+    for i, si in enumerate(s):
+        if si.enemy_group.vanilla_boss == 'Vide the Wicked':
+            w[i] *= c.ring
+            break
+
+
 class Group(Slot):
+    boss_music = [
+        'm54_bossbattle1',
+        'm55_bossbattle2',
+        'm58_subbossbattle1',
+    ]
+
     def __init__(self, enemy_group):
         self.enemy_group = enemy_group
+        self.boss_type = enemy_group.boss_type
+        self.ring = enemy_group.ring
+        self.vtw_cand = enemy_group.vide_wicked_cand
 
         # Data to be copied/patched
         for key in self.enemy_group.keys:
+            assert not hasattr(self, key)
             assert hasattr(self.enemy_group, key)
             v = getattr(self.enemy_group, key)
             setattr(self, key, v)
 
-        self.boss_type = enemy_group.boss_type
-        self.ring = enemy_group.ring
 
     def copy(self, other):
         for key in self.enemy_group.keys:
-            v = getattr(other, key)
-            setattr(self, key, v)
-        self.enemy_group.rando_boss = other.enemy_group.vanilla_boss
+            # All are None except Vide the Wicked, which must be kept in place
+            # to ensure all PCs spawn and music starts properly
+            # Works for most, but not all, boss battles (accounted for by weights)
+            if key == 'BattleStartEvent': continue
+            if key == 'UseVictoryAction': continue
+            if key == 'UseVictoryBGM': continue
+            if key == 'ResumeBGM': continue
+            if key == 'BGMID':
+                # Some bosses require this to be filled, otherwise no music will play
+                if self.BGMID == 'None':
+                    self.BGMID = other.BGMID
+                elif other.BGMID == 'None':
+                    self.BGMID = random.sample(self.boss_music, 1)[0]
+                else:
+                    self.BGMID = other.BGMID
+            else:
+                # Copy all the other keys
+                v = getattr(other, key)
+                setattr(self, key, v)
+
+        self.enemy_group.rando_boss = deepcopy(other.enemy_group.vanilla_boss)
 
     def patch(self):
         for key in self.enemy_group.keys:
             v = getattr(self, key)
             setattr(self.enemy_group, key, v)
 
+    def __eq__(self, other):
+        for key in self.enemy_group.keys:
+            v1 = getattr(self, key)
+            v2 = getattr(other, key)
+            if v1 != v2:
+                return False
+        return True
 
-class Bosses(Shuffler):
+
+# class Bosses(Shuffler):
+class Bosses(ShufflerNeverSameSlot):
     shuffle_by_rings = separate_by_ring
     skip_early_bos = False
     include_mid_game_opt_bos = False
@@ -97,7 +141,7 @@ class Bosses(Shuffler):
         self.weights = None
 
     def generate_weights(self):
-        super().generate_weights(Bosses.shuffle_by_rings)
+        super().generate_weights(Bosses.shuffle_by_rings, separate_by_vtwcand)
 
     def finalize(self):
 
@@ -139,17 +183,6 @@ class Bosses(Shuffler):
 
         enemy_db = Manager.get_instance('EnemyDB').table
 
-        #### Turn off Tera
-        tera = enemy_db.ENE_BOS_HUN_C02_010
-        tera.TameEnable = False
-        tera.LegendTameMonster = False
-
-        #### Turn off Glacis
-        glacis = enemy_db.ENE_BOS_HUN_C02_020
-        glacis.TameEnable = False
-        glacis.LegendTameMonster = False
-
-
         ### Update rando bosses
         def get_enemy_with_max_hp(slot):
             # Make sure to get the enemy with the most HP
@@ -170,21 +203,39 @@ class Bosses(Shuffler):
                     return s
             else:
                 sys.exit(f'group {group_name} not found!')
-        
+
+        # Swap tamable status for consistency with Key Item/Story shuffle
+        # rather than hardcode setting to True/False
+        tera = enemy_db.ENE_BOS_HUN_C02_010
         tera_group = get_group('ENG_BOS_HUN_C02_010')
-        boss = get_enemy_with_max_hp(tera_group)
-        boss.TameEnable = True
-        boss.LegendTameMonster = True
-        boss.InvadeMonsterID = tera.InvadeMonsterID
-        boss.DefaultTameRate = tera.DefaultTameRate
-
+        boss_t = get_enemy_with_max_hp(tera_group)
+        glacis = enemy_db.ENE_BOS_HUN_C02_020
         glacis_group = get_group('ENG_BOS_HUN_C02_020')
-        boss = get_enemy_with_max_hp(glacis_group)
-        boss.TameEnable = True
-        boss.LegendTameMonster = True
-        boss.InvadeMonsterID = glacis.InvadeMonsterID
-        boss.DefaultTameRate = glacis.DefaultTameRate
+        boss_g = get_enemy_with_max_hp(glacis_group)
+        # Can cause issues if tera and/or glacis swap with each other
+        # Store all data first, then set
+        def get_data(boss):
+            te = getattr(boss, 'TameEnable')
+            ltm = getattr(boss, 'LegendTameMonster')
+            imid = getattr(boss, 'InvadeMonsterID')
+            dtr = getattr(boss, 'DefaultTameRate')
+            return (te, ltm, imid, dtr)
 
+        def set_data(boss, te, ltm, imid, dtr):
+            setattr(boss, 'TameEnable', te)
+            setattr(boss, 'LegendTameMonster', ltm)
+            setattr(boss, 'InvadeMonsterID', imid)
+            setattr(boss, 'DefaultTameRate', dtr)
+
+        data_t = get_data(tera)
+        data_g = get_data(glacis)
+        data_bt = get_data(boss_t)
+        data_bg = get_data(boss_g)
+        set_data(tera, *data_bt)
+        set_data(boss_t, *data_t)
+        set_data(glacis, *data_bg)
+        set_data(boss_g, *data_g)
+            
         ############################################
         #### Prevent Ochette w/o Acta Softlocks ####
         ############################################
@@ -192,13 +243,11 @@ class Bosses(Shuffler):
         # Seems to work for both bosses
         hun_bos_A = Manager.get_asset('ENG_BOS_HUN_C03_010_A')
         export = hun_bos_A.get_uexp_obj_2(16)
-        export.assert_bool_on(0x2a)
         export.toggle_bool_off(0x2a)
 
         # Included just in case
         hun_bos_B = Manager.get_asset('ENG_BOS_HUN_C03_010_B')
         export = hun_bos_B.get_uexp_obj_2(14)
-        export.assert_bool_on(0x2a)
         export.toggle_bool_off(0x2a)
 
         ############################
@@ -263,7 +312,7 @@ class Bosses(Shuffler):
         if job != 'SCH': # If boss isn't in it's vanilla storyline
             if not EAI.EventsAndItems.include_ex_abil:
                 osv_json = Manager.get_json('MS_GAK_50_1300') # Osvald's end event
-                patch = EAI.Candidate.load_script('scripts/unlock_osvald_ex_abil_2')
+                patch = Script.load('scripts/unlock_osvald_ex_abil_2')
                 osv_json.insert_script(patch, -1)
 
             # Always set the skill name to the current, possibly random skill
@@ -297,7 +346,7 @@ class Bosses(Shuffler):
         if job != 'DAN': # If boss isn't in it's vanilla storyline
             if not EAI.EventsAndItems.include_ex_abil:
                 agn_json = Manager.get_json('MS_ODO_50_2000') # Agnea's end event
-                patch = EAI.Candidate.load_script('scripts/unlock_agnea_ex_abil_2')
+                patch = Script.load('scripts/unlock_agnea_ex_abil_2')
                 agn_json.insert_script(patch, -1)
 
             # Always set the skill name to the current, possibly random skill

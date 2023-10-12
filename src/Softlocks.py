@@ -81,8 +81,10 @@ def prevent_weapon_softlocks():
     # Temenos Coerce battles
     enemy_db.ENE_NPC_SIN_10_0400.add_weapon_weakness_to_pc(job_db.temenos)
     # SHOULD have job_db/lychees at this point
-    enemy_db.ENE_NPC_SIN_20_100.add_weakness_to_pc(job_db.temenos)
-    enemy_db.ENE_NPC_COP_ST1_040.add_weakness_to_pc(job_db.temenos)
+    # Stick with weapon weakness given key item/story shuffle could force these battles
+    # to be early and mandatory before unlocking other stuff
+    enemy_db.ENE_NPC_SIN_20_100.add_weapon_weakness_to_pc(job_db.temenos)
+    enemy_db.ENE_NPC_COP_ST1_040.add_weapon_weakness_to_pc(job_db.temenos)
 
     # Ochette's Ch 1 battle with the Iguana
     enemy_db.ENE_EVE_HUN_ISD_010.add_weapon_weakness_to_pc(job_db.ochette)
@@ -108,6 +110,7 @@ def prevent_weapon_softlocks():
     enemy_db.ENE_EVE_SCH_SNW_010.add_weapon_weakness_to_pc(job_db.osvald, job_db.emerald)
 
     # Other mandatory battles
+    enemy_db.ENE_NPC_KEN_30_020.add_weapon_weakness_to_pc(job_db.hikari) # General Rou (I think breaking is mandatory)
     enemy_db.ENE_NPC_KEN_40_010.add_weapon_weakness_to_pc(job_db.hikari_flashback) # Jin Mei, Hikari's Ch 4 flashback
 
     # Other mandatory groups

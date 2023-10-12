@@ -4,389 +4,454 @@
     ring: 2
     boss: Devourer of Dreams
     type: optional
+    vtwcand: true
   }
   ENG_DNG_DST_2_2_L_110:
   {
     ring: 2
     boss: Lord of the Sands
     type: optional
+    vtwcand: true
   }
   ENG_DNG_CTY_1_3_L_110:
   {
     ring: 2
     boss: Carnivorous Plant
     type: optional
+    vtwcand: true
   }
   ENG_DNG_CTY_1_4_L_110:
   {
     ring: 2
     boss: Delsta Devil
     type: optional
+    vtwcand: true
   }
   ENG_DNG_CTY_2_3_L_110:
   {
     ring: 3
     boss: Heavenwing
     type: optional
+    vtwcand: true
   }
   ENG_DNG_ISD_2_1_L_110:
   {
     ring: 3
     boss: Behemoth
     type: optional
+    vtwcand: true
   }
   ENG_DNG_WLD_1_2_L_110:
   {
     ring: 2
     boss: Manymaws
     type: optional
+    vtwcand: true
   }
   ENG_DNG_WLD_3_2_L_110:
   {
     ring: 3
     boss: Deep One
     type: optional
+    vtwcand: true
   }
   ENG_DNG_FST_1_2_L_110:
   {
     ring: 2
     boss: Monarch
     type: optional
+    vtwcand: true
   }
   ENG_DNG_SNW_3_4_B_L_110:
   {
     ring: 3
     boss: Dreadwolf
     type: optional
+    vtwcand: true
   }
   ENG_DNG_OCN_1_2_L_110:
   {
     ring: 3
     boss: Tyrannodrake
     type: optional
+    vtwcand: true
   }
   ENG_DNG_OCN_1_3_L_110:
   {
     ring: 2
     boss: Gigantes
     type: optional
+    vtwcand: true
   }
   ENG_FLD_OCN_1_1_SEA_2_L_110:
   {
     ring: 2
     boss: Scourge of the Sea
     type: optional
+    vtwcand: true
   }
   ENG_FLD_OCN_1_1_SEA_3_L_110:
   {
     ring: 2
     boss: Battle-Worn Shark
     type: optional
+    vtwcand: true
   }
   ENG_BOS_WAR_C01_010:
   {
     ring: 1
     boss: Ritsu Mishuyo
     type: main
+    vtwcand: false
   }
   ENG_BOS_WAR_C02_010:
   {
     ring: 2
     boss: Bandelam the Reaper
     type: main
+    vtwcand: true
   }
   ENG_BOS_WAR_C04_010:
   {
     ring: 2
     boss: Rai Mei
     type: main
+    vtwcand: false
   }
   ENG_BOS_WAR_C05_010:
   {
     ring: 3
     boss: General Ritsu
     type: main
+    vtwcand: false
   }
   ENG_BOS_WAR_C05_020:
   {
     ring: 3
     boss: King Mugen
     type: main
+    vtwcand: false
   }
   ENG_BOS_WAR_C05_030:
   {
     ring: 3
     boss: Enshrouded King
     type: main
+    vtwcand: false
   }
   ENG_BOS_MER_C01_010:
   {
     ring: 1
     boss: Giff
     type: main
+    vtwcand: false
   }
   ENG_BOS_MER_C02_010:
   {
     ring: 2
     boss: Garnet
     type: main
+    vtwcand: true
   }
   ENG_BOS_MER_C03_010:
   {
     ring: 2
     boss: Enemy in the Mist
     type: main
+    vtwcand: true
   }
   ENG_BOS_MER_C05_010:
   {
     ring: 3
     boss: Steam Tank Obsidian
     type: main
+    vtwcand: true
   }
   ENG_BOS_CLE_C01_010:
   {
     ring: 1
     boss: Felvarg
     type: main
+    vtwcand: false
   }
   ENG_BOS_CLE_C02_010:
   {
     ring: 2
     boss: Vados the Architect
     type: main
+    vtwcand: true
   }
   ENG_BOS_CLE_C03_010:
   {
     ring: 2
     boss: Deputy Cubaryi
     type: main
+    vtwcand: true
   }
   ENG_BOS_CLE_C05_010:
   {
     ring: 3
     boss: Captain Kaldena
     type: main
+    vtwcand: false
   }
   ENG_BOS_DAN_C01_010:
   {
     ring: 1
     boss: Duorduor
     type: main
+    vtwcand: false
   }
   ENG_BOS_DAN_C02_010:
   {
     ring: 2
     boss: Lamani
     type: main
+    vtwcand: true
   }
   ENG_BOS_DAN_C04_010:
   {
     ring: 2
     boss: Veronica
     type: main
+    vtwcand: false
   }
   ENG_BOS_DAN_C05_010:
   {
     ring: 3
     boss: Dolcinaea
     type: main
+    vtwcand: true
   }
   ENG_BOS_DAN_C05_020:
   {
     ring: 3
     boss: Dolcinaea the Star
     type: main
+    vtwcand: false
   }
   ENG_BOS_SCH_C01_010:
   {
     ring: 1
     boss: Warden Davids
     type: main
+    vtwcand: false
   }
   ENG_BOS_SCH_C03_010:
   {
     ring: 2
     boss: Captain Stenvar
     type: main
+    vtwcand: true
   }
   ENG_BOS_SCH_C04_010:
   {
     ring: 2
     boss: Grieving Golem
     type: main
+    vtwcand: true
   }
   ENG_BOS_SCH_C05_010:
   {
     ring: 3
     boss: Professor Harvey
     type: main
+    vtwcand: false
   }
   ENG_BOS_APO_C01_010:
   {
     ring: 1
     boss: Veron & Doron
     type: main
+    vtwcand: true
   }
   ENG_BOS_APO_C02_010:
   {
     ring: 2
     boss: Sand Lion
     type: main
+    vtwcand: true
   }
   ENG_BOS_APO_C02_020:
   {
     ring: 2
     boss: Plukk, Mikk & Makk
     type: main
+    vtwcand: true
   }
   ENG_BOS_APO_C05_010:
   {
     ring: 3
     boss: Trousseau
     type: main
+    vtwcand: true
   }
   ENG_BOS_HUN_C01_010:
   {
     ring: 1
     boss: Dark Entity
     type: main
+    vtwcand: false
   }
   ENG_BOS_HUN_C02_010:
   {
     ring: 2
     boss: Tera
     type: main
+    vtwcand: true
   }
   ENG_BOS_HUN_C02_020:
   {
     ring: 2
     boss: Glacis
     type: main
+    vtwcand: true
   }
   ENG_BOS_HUN_C05_010:
   {
     ring: 3
     boss: Lājackal of the Sorrowful Moon
     type: main
+    vtwcand: true
   }
   ENG_BOS_HUN_C05_020:
   {
     ring: 3
     boss: Malamaowl of the Sorrowful Moon
     type: main
+    vtwcand: true
   }
   ENG_BOS_THI_C01_010:
   {
     ring: 1
     boss: Pirro
     type: main
+    vtwcand: false
   }
   ENG_BOS_THI_C02_010:
   {
     ring: 2
     boss: Bergomi
     type: main
+    vtwcand: true
   }
   ENG_BOS_THI_C03_010:
   {
     ring: 2
     boss: Mother
     type: main
+    vtwcand: true
   }
   ENG_BOS_THI_C03_020:
   {
     ring: 2
     boss: Father
     type: main
+    vtwcand: false
   }
   ENG_BOS_THI_C05_010:
   {
     ring: 3
     boss: Claude
     type: main
+    vtwcand: true
   }
   ENG_BOS_LST_C02_020:
   {
     ring: 3
     boss: Arcanette
     type: main
+    vtwcand: true
   }
   ENG_BOS_LST_C03_060:
   {
     ring: 3
     boss: Vide
     type: vide
+    vtwcand: false
   }
   ENG_BOS_LST_C03_070:
   {
     ring: 3
     boss: Vide the Wicked
     type: videwicked
+    vtwcand: false
   }
   ENE_BOS_EXT_LOW_010:
   {
     ring: 3
     boss: Omniscient Eye
     type: galdera
+    vtwcand: true
   }
   ENE_BOS_EXT_UPP_010:
   {
     ring: 3
     boss: Galdera the Fallen
     type: galdera
+    vtwcand: true
   }
   ENG_EVE_APO_THI_010:
   {
     ring: 2
     boss: Dire Duorduor
     type: main
+    vtwcand: false
   }
   ENG_EVE_APO_THI_020:
   {
     ring: 3
     boss: Creeping Shadow
     type: main
+    vtwcand: true
   }
   ENG_EVE_SUB_EXT_010:
   {
     ring: 3
     boss: Priestess Hinoekagura
     type: optional
+    vtwcand: true
   }
   ENG_EVE_SUB_EXT_011:
   {
     ring: 2
     boss: Auðnvarg
     type: optional
+    vtwcand: false
   }
   ENG_EVE_SUB_EXT_012:
   {
     ring: 2
     boss: Tyran the Seeker
     type: optional
+    vtwcand: false
   }
   ENG_EVE_SUB_EXT_013:
   {
     ring: 2
     boss: Ichchadhari the Snake Charmer
     type: optional
+    vtwcand: false
   }
   ENG_EVE_SUB_EXT_014:
   {
     ring: 2
     boss: Gken
     type: optional
+    vtwcand: false
   }
   ENG_EVE_SUB_SNW_010:
   {
     ring: 2
     boss: Ruffian Leader
     type: optional
+    vtwcand: false
   }
   ENG_EVE_LST_EXT_010:
   {
     ring: 3
     boss: Grotesque Monster
     type: main
+    vtwcand: true
   }
 }
