@@ -73,7 +73,7 @@ Key Items included are:
 
 Some items were already mandatory in the vanilla game for progression.
 while others weren't and are now made mandatory. For reference, here's
-a list of new requirements:
+a list of new requirements enforced when the Main Story Key Items option is selected:
 
 * Hikary Ch. 3: Weapon Deal Details must be in your possession to trigger cutscenes in the forest.
 * Ochette Ch. 3: All 3 beasts are needed to start the first cutscene with Juvah.

@@ -38,6 +38,7 @@ def nerf_guide(lead):
 
 def nerf_befriend(lead):
     for npc in lead.table:
+        if npc.key == 'FC_L_NPC_KAR_10_0500': continue # Lost Girl in Ch 1
         assert len(npc.PlacateNeedItems) == 1
         if npc.PlacateNeedItems[0]['ItemNum'].value > 0:
             if npc.PlacateNeedItems[0]['ItemLabel'].value == 'ITM_TRE_KAR_10_0010': # Skip friendship jerkey

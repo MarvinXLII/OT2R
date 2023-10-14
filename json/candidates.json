@@ -5,6 +5,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Beasting Bay Ship
     description: Spawns boat NPC at Beasting Bay: Anchorage
     item_key: ITM_TRE_END_2B_0010_60001
@@ -18,6 +19,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock New Delsta Ship
     description: Spawns boat NPC at New Delsta Harbor: Anchorage
     item_key: ITM_TRE_END_2B_0010_60002
@@ -31,6 +33,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Crackridge Ship
     description: Spawns boat NPC at Crackridge Harbor: Anchorage
     item_key: ITM_TRE_END_2B_0010_60003
@@ -44,6 +47,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Canalbrine Ship
     description: Spawns boat NPC at Canalbrine: Anchorage
     item_key: ITM_TRE_END_2B_0010_60004
@@ -57,6 +61,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Warrior Guild
     description: Spawns the Warrior Guild leader
     item_key: ITM_TRE_END_2B_0010_60006
@@ -70,6 +75,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Hunter Guild
     description: Spawns the Hunter Guild leader
     item_key: ITM_TRE_END_2B_0010_60007
@@ -83,6 +89,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Apothecary Guild
     description: Spawns the Apothecary Guild leader
     item_key: ITM_TRE_END_2B_0010_60008
@@ -96,6 +103,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Merchant Guild
     description: Spawns the Merchant Guild leader
     item_key: ITM_TRE_END_2B_0010_60009
@@ -109,6 +117,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Cleric Guild
     description: Spawns the Cleric Guild leader
     item_key: ITM_TRE_END_2B_0010_60010
@@ -122,6 +131,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Scholar Guild
     description: Spawns the Scholar Guild leader
     item_key: ITM_TRE_END_2B_0010_60011
@@ -135,6 +145,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Thief Guild
     description: Spawns the Thief Guild leader
     item_key: ITM_TRE_END_2B_0010_60012
@@ -148,6 +159,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Dancer Guild
     description: Spawns the Dancer Guild leader
     item_key: ITM_TRE_END_2B_0010_60013
@@ -161,6 +173,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Warrior Altar
     description: Spawns the Warrior Altar
     item_key: ITM_TRE_END_2B_0010_60014
@@ -174,6 +187,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Hunter Altar
     description: Spawns the Hunter Altar
     item_key: ITM_TRE_END_2B_0010_60015
@@ -187,6 +201,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Apothecary Altar
     description: Spawns the Apothecary Altar
     item_key: ITM_TRE_END_2B_0010_60016
@@ -200,6 +215,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Merchant Altar
     description: Spawns the Merchant Altar
     item_key: ITM_TRE_END_2B_0010_60017
@@ -213,6 +229,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Cleric Altar
     description: Spawns the Cleric Altar
     item_key: ITM_TRE_END_2B_0010_60018
@@ -226,6 +243,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Scholar Altar
     description: Spawns the Scholar Altar
     item_key: ITM_TRE_END_2B_0010_60019
@@ -239,6 +257,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Thief Altar
     description: Spawns the Thief Altar
     item_key: ITM_TRE_END_2B_0010_60020
@@ -252,6 +271,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Dancer Altar
     description: Spawns the Dancer Altar
     item_key: ITM_TRE_END_2B_0010_60021
@@ -265,6 +285,7 @@
     other_flags: []
     give: false
     display: false
+    unique: true
     name: Recruit Hikari
     description: Hikari joins the party
     item_key: ITM_TRE_END_2B_0010_60022
@@ -278,6 +299,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Hikari Chapter 2
     description: Grants access to Hikari Chapter 2
     item_key: ITM_TRE_END_2B_0010_60023
@@ -291,6 +313,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Hikari Chapter 3
     description: Grants access to Hikari Chapter 3
     item_key: ITM_TRE_END_2B_0010_60024
@@ -304,6 +327,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Hikari Chapter 4
     description: Grants access to Hikari Chapter 4
     item_key: ITM_TRE_END_2B_0010_60025
@@ -320,6 +344,7 @@
     ]
     give: false
     display: true
+    unique: true
     name: Unlock Hikari Chapter 5
     description: Grants access to Hikari Chapter 5
     item_key: ITM_TRE_END_2B_0010_60026
@@ -333,6 +358,7 @@
     other_flags: []
     give: false
     display: false
+    unique: true
     name: Recruit Ochette
     description: Ochette joins the party
     item_key: ITM_TRE_END_2B_0010_60027
@@ -346,6 +372,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Ochette Chapter 2: Cateracta’s Route
     description: Grants access to Ochette Chapter 2: Cateracta’s Route
     item_key: ITM_TRE_END_2B_0010_60028
@@ -359,6 +386,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Ochette Chapter 2: Tera’s Route
     description: Grants access to Ochette Chapter 2: Tera’s Route
     item_key: ITM_TRE_END_2B_0010_60029
@@ -372,6 +400,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Ochette Chapter 2: Glacis’s Route
     description: Grants access to Ochette Chapter 2: Glacis’s Route
     item_key: ITM_TRE_END_2B_0010_60030
@@ -385,8 +414,9 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Ochette Chapter 3
-    description: '''"Grants access to Ochetted Chapter 3; requires Acta'''
+    description: Grants access to Ochetted Chapter 3
     item_key: ITM_TRE_END_2B_0010_60031
     name_key: TX_NA_ITM_TRE_END_2B_0010_60031
     desc_key: TX_CO_ITM_TRE_END_2B_0010_60031
@@ -398,6 +428,7 @@
     other_flags: []
     give: false
     display: false
+    unique: true
     name: Recruit Castti
     description: Castti joins the party
     item_key: ITM_TRE_END_2B_0010_60032
@@ -411,6 +442,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Castti Chapter 2: Sai Route
     description: Grants access to Castti Chapter 2: Sai Route
     item_key: ITM_TRE_END_2B_0010_60033
@@ -424,6 +456,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Castti Chapter 2: Winterbloom Route
     description: Grants access to Castti Chapter 2: Winterbloom Route
     item_key: ITM_TRE_END_2B_0010_60034
@@ -437,6 +470,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Castti Chapter 3
     description: Grants access to Castti Chapter 3
     item_key: ITM_TRE_END_2B_0010_60035
@@ -450,6 +484,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Castti Chapter 4
     description: Grants access to Castti Chapter 4
     item_key: ITM_TRE_END_2B_0010_60036
@@ -463,6 +498,7 @@
     other_flags: []
     give: false
     display: false
+    unique: true
     name: Recruit Partitio
     description: Partitio joins the party
     item_key: ITM_TRE_END_2B_0010_60037
@@ -476,6 +512,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Partitio Chapter 2
     description: Grants access to Partitio Chapter 2
     item_key: ITM_TRE_END_2B_0010_60038
@@ -489,6 +526,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Partitio Chapter 3
     description: Grants access to Partitio Chapter 3
     item_key: ITM_TRE_END_2B_0010_60039
@@ -502,6 +540,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Partitio Chapter 4
     description: Grants access to Partitio Chapter 4
     item_key: ITM_TRE_END_2B_0010_60040
@@ -515,6 +554,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Partitio Scent of Commerce: Tropu'hopu
     description: Grants access to Partitio’s Sidequest Scent of Commerce: Tropu’hopu
     item_key: ITM_TRE_END_2B_0010_60041
@@ -528,6 +568,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Partitio Scent of Commerce: Winterbloom
     description: Grants access to Partitio’s Sidequest Scent of Commerce: Winterbloom
     item_key: ITM_TRE_END_2B_0010_60042
@@ -541,6 +582,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Partitio Scent of Commerce: Sai
     description: Grants access to Partitio’s Sidequest Scent of Commerce: Sai
     item_key: ITM_TRE_END_2B_0010_60043
@@ -554,6 +596,7 @@
     other_flags: []
     give: false
     display: false
+    unique: true
     name: Recruit Temenos
     description: Temenos joins the party
     item_key: ITM_TRE_END_2B_0010_60044
@@ -567,6 +610,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Temenos Chapter 2
     description: Grants access to Temenos Chapter 2
     item_key: ITM_TRE_END_2B_0010_60045
@@ -580,6 +624,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Temenos Chapter 3: Stormhail Route
     description: Grants access to Temenos Chapter 3: Stormhail Route
     item_key: ITM_TRE_END_2B_0010_60046
@@ -593,6 +638,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Temenos Chapter 3: Crackridge Route
     description: Grants access to Temenos Chapter 3: Crackridge Route
     item_key: ITM_TRE_END_2B_0010_60047
@@ -606,6 +652,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Temenos Chapter 4
     description: Grants access to Temenos Chapter 4
     item_key: ITM_TRE_END_2B_0010_60048
@@ -619,6 +666,7 @@
     other_flags: []
     give: false
     display: false
+    unique: true
     name: Recruit Osvald
     description: Osvald joins the party
     item_key: ITM_TRE_END_2B_0010_60050
@@ -632,6 +680,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Osvald Chapter 3
     description: Grants access to Osvald Chapter 3
     item_key: ITM_TRE_END_2B_0010_60051
@@ -645,8 +694,9 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Osvald Chapter 4
-    description: '''"Grants access to Osvald Chapter 4; requires the Library Rumor'''
+    description: Grants access to Osvald Chapter 4
     item_key: ITM_TRE_END_2B_0010_60052
     name_key: TX_NA_ITM_TRE_END_2B_0010_60052
     desc_key: TX_CO_ITM_TRE_END_2B_0010_60052
@@ -658,6 +708,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Osvald Chapter 5
     description: Grants access to Osvald Chapter 5
     item_key: ITM_TRE_END_2B_0010_60053
@@ -671,6 +722,7 @@
     other_flags: []
     give: false
     display: false
+    unique: true
     name: Recruit Throne
     description: Throne joins the party
     item_key: ITM_TRE_END_2B_0010_60054
@@ -684,6 +736,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Throne Chapter 2: Mother’s Route
     description: Grants access to Throne Chapter 2: Mother’s Route
     item_key: ITM_TRE_END_2B_0010_60055
@@ -697,6 +750,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Throne Chapter 2: Father’s Route
     description: Grants access to Throne Chapter 2: Father’s Route
     item_key: ITM_TRE_END_2B_0010_60056
@@ -710,6 +764,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Throne Chapter 3: Mother’s Route
     description: Grants access to Throne Chapter 3: Mother’s Route
     item_key: ITM_TRE_END_2B_0010_60057
@@ -723,6 +778,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Throne Chapter 3: Father’s Route
     description: Grants access to Throne Chapter 3: Father’s Route
     item_key: ITM_TRE_END_2B_0010_60058
@@ -736,6 +792,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Throne Chapter 4
     description: Grants access to Throne Chapter 4
     item_key: ITM_TRE_END_2B_0010_60059
@@ -749,6 +806,7 @@
     other_flags: []
     give: false
     display: false
+    unique: true
     name: Recruit Agnea
     description: Agnea joins the party
     item_key: ITM_TRE_END_2B_0010_60060
@@ -762,6 +820,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Agnea Chapter 2
     description: Grants access to Agnea Chapter 2
     item_key: ITM_TRE_END_2B_0010_60061
@@ -775,6 +834,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Agnea Chapter 3
     description: Grants access to Agnea Chapter 3
     item_key: ITM_TRE_END_2B_0010_60062
@@ -788,6 +848,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Agnea Chapter 4
     description: Grants access to Agnea Chapter 4
     item_key: ITM_TRE_END_2B_0010_60063
@@ -801,6 +862,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Agnea Chapter 5
     description: Grants access to Agnea Chapter 5
     item_key: ITM_TRE_END_2B_0010_60064
@@ -814,8 +876,9 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Crossed Path Scholar & Merchant 1
-    description: '''"Grants access to The Crossed Path: The Scholar & Merchant Part 1; requires the Metalworking Tool'''
+    description: Grants access to The Crossed Path: The Scholar & Merchant Part 1
     item_key: ITM_TRE_END_2B_0010_60065
     name_key: TX_NA_ITM_TRE_END_2B_0010_60065
     desc_key: TX_CO_ITM_TRE_END_2B_0010_60065
@@ -827,6 +890,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Crossed Path Scholar & Merchant 2
     description: Grants access to The Crossed Path: The Scholar & Merchant Part 2
     item_key: ITM_TRE_END_2B_0010_60066
@@ -840,6 +904,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Crossed Path Apothecary & Hunter 1
     description: Grants access to The Crossed Path: The Apothecary & Hunter Part 1
     item_key: ITM_TRE_END_2B_0010_60067
@@ -853,6 +918,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Crossed Path Apothecary & Hunter 2
     description: Grants access to The Crossed Path: The Apothecary & Hunter Part 2
     item_key: ITM_TRE_END_2B_0010_60068
@@ -866,6 +932,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Crossed Path Dancer & Warrior 1
     description: Grants access to The Crossed Path: The Dancer & Warrior Part 1
     item_key: ITM_TRE_END_2B_0010_60069
@@ -879,6 +946,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Crossed Path Dancer & Warrior 2
     description: Grants access to The Crossed Path: The Dancer & Warrior Part 2
     item_key: ITM_TRE_END_2B_0010_60070
@@ -892,6 +960,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Crossed Path Cleric & Thief 1
     description: Grants access to The Crossed Path: The Cleric & Thief Part 1
     item_key: ITM_TRE_END_2B_0010_60071
@@ -905,6 +974,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Crossed Path Cleric & Thief 2
     description: Grants access to The Crossed Path: The Cleric & Thief Part 2
     item_key: ITM_TRE_END_2B_0010_60072
@@ -921,6 +991,7 @@
     ]
     give: false
     display: true
+    unique: true
     name: Gramophone
     description: Gramophone received for the Scent of Commerce sidequest
     item_key: ITM_TRE_END_2B_0010_60073
@@ -934,6 +1005,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Northern Montwise Pass
     description: Guard grants access to Northern Montwise Pass
     item_key: ITM_TRE_END_2B_0010_60075
@@ -947,6 +1019,7 @@
     other_flags: []
     give: false
     display: false
+    unique: true
     name: Shiny Mirror
     description: A brightly shining mirror. A blue flame is reflected within.
     item_key: ITM_TRE_COP_ST2_0030
@@ -966,6 +1039,7 @@
     ]
     give: false
     display: true
+    unique: true
     name: Sacred Flame Extinguished: Tranquil Grotto
     description: Sacred Flame Extinguished: Tranquil Grotto
     item_key: ITM_TRE_END_2B_0010_60077
@@ -985,6 +1059,7 @@
     ]
     give: false
     display: true
+    unique: true
     name: Sacred Flame Extinguished: Wardenbeasts’ Tomb
     description: Sacred Flame Extinguished: Tomb of the Wardenbeasts
     item_key: ITM_TRE_END_2B_0010_60078
@@ -1003,6 +1078,7 @@
     ]
     give: false
     display: true
+    unique: true
     name: Sacred Flame Extinguished: Flamechurch
     description: Sacred Flame Extinguished: Flamechurch
     item_key: ITM_TRE_END_2B_0010_60079
@@ -1024,6 +1100,7 @@
     ]
     give: false
     display: true
+    unique: true
     name: Sacred Flame Extinguished: Fellsun Ruins
     description: Sacred Flame Extinguished: Fellsun Ruins
     item_key: ITM_TRE_END_2B_0010_60080
@@ -1037,6 +1114,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Cloudy Mirror
     description: A brightly shining mirror. A blue flame is reflected within.
     item_key: ITM_TRE_COP_ST2_0020
@@ -1050,6 +1128,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Al's Bag
     description: Bag belonging to Al
     item_key: ITM_TRE_SS_TD11_0100_0010
@@ -1063,6 +1142,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Inventor Guild
     description: Spawns the Inventor
     item_key: ITM_TRE_END_2B_0010_60083
@@ -1076,6 +1156,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Blacksmith Guild
     description: Spawns the blacksmith
     item_key: ITM_TRE_END_2B_0010_60084
@@ -1089,6 +1170,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Arcanist Descendant
     description: Spawns the Arcanist Descendant
     item_key: ITM_TRE_END_2B_0010_60085
@@ -1102,6 +1184,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Unlock Foreign Assassins Battle
     description: Spawns the Foreign Assassins
     item_key: ITM_TRE_END_2B_0010_60086
@@ -1115,6 +1198,7 @@
     other_flags: []
     give: false
     display: false
+    unique: true
     name: End Foreign Assassins Battle
     description: END EVENT NEW FLAG -- NEVER GIVE
     item_key: ITM_TRE_END_2B_0010_60087
@@ -1128,6 +1212,7 @@
     other_flags: []
     give: false
     display: false
+    unique: true
     name: Hikari EX Skill
     description: Hikari learns an EX Skill
     item_key: ITM_TRE_END_2B_0010_60088
@@ -1141,6 +1226,7 @@
     other_flags: []
     give: false
     display: false
+    unique: true
     name: Hikari EX Skill
     description: Hikari learns an EX Skill
     item_key: ITM_TRE_END_2B_0010_60089
@@ -1154,6 +1240,7 @@
     other_flags: []
     give: false
     display: false
+    unique: true
     name: Ochette EX Skill
     description: Ochette learns an EX Skill
     item_key: ITM_TRE_END_2B_0010_60090
@@ -1167,6 +1254,7 @@
     other_flags: []
     give: false
     display: false
+    unique: true
     name: Ochette EX Skill
     description: Ochette learns an EX Skill
     item_key: ITM_TRE_END_2B_0010_60091
@@ -1180,6 +1268,7 @@
     other_flags: []
     give: false
     display: false
+    unique: true
     name: Castti EX Skill
     description: Castti learns an EX Skill
     item_key: ITM_TRE_END_2B_0010_60092
@@ -1193,6 +1282,7 @@
     other_flags: []
     give: false
     display: false
+    unique: true
     name: Castti EX Skill
     description: Castti learns an EX Skill
     item_key: ITM_TRE_END_2B_0010_60093
@@ -1206,6 +1296,7 @@
     other_flags: []
     give: false
     display: false
+    unique: true
     name: Partitio EX Skill
     description: Partitio learns an EX Skill
     item_key: ITM_TRE_END_2B_0010_60094
@@ -1219,6 +1310,7 @@
     other_flags: []
     give: false
     display: false
+    unique: true
     name: Partitio EX Skill
     description: Partitio learns an EX Skill
     item_key: ITM_TRE_END_2B_0010_60095
@@ -1232,6 +1324,7 @@
     other_flags: []
     give: false
     display: false
+    unique: true
     name: Temenos EX Skill
     description: Temenos learns an EX Skill
     item_key: ITM_TRE_END_2B_0010_60096
@@ -1245,6 +1338,7 @@
     other_flags: []
     give: false
     display: false
+    unique: true
     name: Temenos EX Skill
     description: Temenos learns an EX Skill
     item_key: ITM_TRE_END_2B_0010_60097
@@ -1258,6 +1352,7 @@
     other_flags: []
     give: false
     display: false
+    unique: true
     name: Osvald EX Skill
     description: Osvald learns an EX Skill
     item_key: ITM_TRE_END_2B_0010_60098
@@ -1271,6 +1366,7 @@
     other_flags: []
     give: false
     display: false
+    unique: true
     name: Osvald EX Skill
     description: Osvald learns an EX Skill
     item_key: ITM_TRE_END_2B_0010_60099
@@ -1284,6 +1380,7 @@
     other_flags: []
     give: false
     display: false
+    unique: true
     name: Throne EX Skill
     description: Throne learns an EX Skill
     item_key: ITM_TRE_END_2B_0010_60100
@@ -1297,6 +1394,7 @@
     other_flags: []
     give: false
     display: false
+    unique: true
     name: Throne EX Skill
     description: Throne learns an EX Skill
     item_key: ITM_TRE_END_2B_0010_60101
@@ -1310,6 +1408,7 @@
     other_flags: []
     give: false
     display: false
+    unique: true
     name: Agnea EX Skill
     description: Agnea learns an EX Skill
     item_key: ITM_TRE_END_2B_0010_60102
@@ -1323,6 +1422,7 @@
     other_flags: []
     give: false
     display: false
+    unique: true
     name: Agnea EX Skill
     description: Agnea learns an EX Skill
     item_key: ITM_TRE_END_2B_0010_60103
@@ -1336,6 +1436,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: The Grand Terry
     description: The Grand Terry
     item_key: ITM_TRE_SHO_EX1_0010
@@ -1349,6 +1450,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Mercantile Manuscript Archive Key
     description: Mercantile Manuscript Archive Key
     item_key: ITM_TRE_SHO_EX3_0010
@@ -1362,6 +1464,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Hire Foreign Assassins
     description: Unlocks Foreign Assassins in Hired Help
     item_key: ITM_TRE_END_2B_0010_60106
@@ -1375,6 +1478,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: DEFAULT
     description: DEFAULT
     item_key: ITM_INF_SIN_20_0400
@@ -1388,6 +1492,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: DEFAULT
     description: DEFAULT
     item_key: ITM_TRE_TOU_3A_0030
@@ -1401,6 +1506,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: DEFAULT
     description: DEFAULT
     item_key: ITM_TRE_TOU_3B_0010
@@ -1414,6 +1520,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Recruit Acta
     description: Recruited Acta
     item_key: ITM_TRE_END_2B_0010_60110
@@ -1427,6 +1534,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Recruit Tera
     description: Recruited Tera
     item_key: ITM_TRE_END_2B_0010_60111
@@ -1440,6 +1548,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Recruit Glacis
     description: Recruited Glacis
     item_key: ITM_TRE_END_2B_0010_60112
@@ -1453,6 +1562,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Theater Ticket (Agnea Ch. 2)
     description: DEFAULT
     item_key: ITM_TRE_ODO_20_0010
@@ -1466,6 +1576,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Wooden Sword (Agnea Ch. 3)
     description: DEFAULT
     item_key: ITM_TRE_ODO_30_0010
@@ -1479,6 +1590,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Cute Shoes (Agnea Ch. 4)
     description: DEFAULT
     item_key: ITM_TRE_ODO_40_0010
@@ -1492,6 +1604,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Rosa’s Medicine (Castti Ch. 2: Winterbloom Route)
     description: DEFAULT
     item_key: ITM_TRE_KUS_2B_0040
@@ -1505,6 +1618,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Weapons Deal Details (Hikari Ch. 3)
     description: DEFAULT
     item_key: ITM_INF_KEN_30_0100
@@ -1518,6 +1632,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: The Culprit’s True Identity (Temenos Ch. 2)
     description: DEFAULT
     item_key: ITM_INF_SIN_20_0400
@@ -1531,6 +1646,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Mysterious Notebook (Temenos Ch. 3: Crackridge Route)
     description: DEFAULT
     item_key: ITM_TRE_SIN_3B_0020
@@ -1544,6 +1660,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Kaldena’s Notebook (Temenos Ch. 4)
     description: DEFAULT
     item_key: ITM_TRE_SIN_3B_0030
@@ -1557,6 +1674,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Mask (Throne Ch. 2: Mother’s Route)
     description: DEFAULT
     item_key: ITM_TRE_TOU_2A_0020
@@ -1570,6 +1688,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Horse Coin (Throne Ch. 2: Mother’s Route)
     description: DEFAULT
     item_key: ITM_TRE_TOU_2A_0010
@@ -1583,6 +1702,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: "Habit (Throne Ch. 3: Mother’s Route) "
     description: DEFAULT
     item_key: ITM_TRE_TOU_3A_0010
@@ -1596,6 +1716,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Mother’s Key (Throne Ch. 4)
     description: DEFAULT
     item_key: ITM_TRE_TOU_3A_0030
@@ -1609,6 +1730,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Father’s Key (Throne Ch. 4)
     description: DEFAULT
     item_key: ITM_TRE_TOU_3B_0010
@@ -1620,66 +1742,71 @@
   {
     flag: 60126
     other_flags: []
-    give: true
+    give: false
     display: true
+    unique: false
     name: Black Crystal (Osvald Ch. 5)
     description: DEFAULT
     item_key: ITM_TRE_GAK_50_0010
     name_key: TX_NA_ITM_TRE_GAK_50_0010
     desc_key: TX_CO_ITM_TRE_GAK_50_0010
-    has_script: true
+    has_script: false
   }
   item_black_crystal_2:
   {
     flag: 60127
     other_flags: []
-    give: true
+    give: false
     display: true
+    unique: false
     name: Black Crystal (Osvald Ch. 5)
     description: DEFAULT
     item_key: ITM_TRE_GAK_50_0010
     name_key: TX_NA_ITM_TRE_GAK_50_0010
     desc_key: TX_CO_ITM_TRE_GAK_50_0010
-    has_script: true
+    has_script: false
   }
   item_black_crystal_3:
   {
     flag: 60128
     other_flags: []
-    give: true
+    give: false
     display: true
+    unique: false
     name: Black Crystal (Osvald Ch. 5)
     description: DEFAULT
     item_key: ITM_TRE_GAK_50_0010
     name_key: TX_NA_ITM_TRE_GAK_50_0010
     desc_key: TX_CO_ITM_TRE_GAK_50_0010
-    has_script: true
+    has_script: false
   }
   item_black_crystal_4:
   {
     flag: 60129
     other_flags: []
-    give: true
+    give: false
     display: true
+    unique: false
     name: Black Crystal (Osvald Ch. 5)
     description: DEFAULT
     item_key: ITM_TRE_GAK_50_0010
     name_key: TX_NA_ITM_TRE_GAK_50_0010
     desc_key: TX_CO_ITM_TRE_GAK_50_0010
-    has_script: true
+    has_script: false
   }
   item_black_crystal_5:
   {
     flag: 60130
     other_flags: []
-    give: true
+    give: false
     display: true
+    unique: false
     name: Black Crystal (Osvald Ch. 5)
     description: DEFAULT
     item_key: ITM_TRE_GAK_50_0010
     name_key: TX_NA_ITM_TRE_GAK_50_0010
     desc_key: TX_CO_ITM_TRE_GAK_50_0010
-    has_script: true
+    has_script: false
   }
   item_clockite:
   {
@@ -1687,6 +1814,7 @@
     other_flags: []
     give: true
     display: true
+    unique: true
     name: Clockite (Partitio Ch. 2)
     description: DEFAULT
     item_key: ITM_TRE_SHO_20_0010
@@ -1700,6 +1828,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Rusty Sword
     description: DEFAULT
     item_key: ITM_TRE_WPM_01
@@ -1713,6 +1842,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Rusty Polearm
     description: DEFAULT
     item_key: ITM_TRE_WPM_02
@@ -1726,6 +1856,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Rusty Dagger
     description: DEFAULT
     item_key: ITM_TRE_WPM_03
@@ -1739,6 +1870,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Rusty Axe
     description: DEFAULT
     item_key: ITM_TRE_WPM_04
@@ -1752,6 +1884,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Rusty Bow
     description: DEFAULT
     item_key: ITM_TRE_WPM_05
@@ -1765,6 +1898,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Rusty Staff
     description: DEFAULT
     item_key: ITM_TRE_WPM_06
@@ -1778,6 +1912,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Rainbow Glass Bottle
     description: DEFAULT
     item_key: ITM_TRE_INV_PARTS_01
@@ -1791,6 +1926,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Mythical Horn
     description: DEFAULT
     item_key: ITM_TRE_INV_PARTS_02
@@ -1804,6 +1940,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Tin Toy
     description: DEFAULT
     item_key: ITM_TRE_INV_PARTS_03
@@ -1817,6 +1954,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Scrap Metal
     description: DEFAULT
     item_key: ITM_TRE_INV_PARTS_04
@@ -1830,6 +1968,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Ancient Cog
     description: DEFAULT
     item_key: ITM_TRE_INV_PARTS_05
@@ -1843,6 +1982,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Natural Magnetite
     description: DEFAULT
     item_key: ITM_TRE_INV_PARTS_06
@@ -1856,6 +1996,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Horse Tail Hair (Crosspath Dancer & Warrior 1)
     description: DEFAULT
     item_key: ITM_TRE_COP_OK1_0010
@@ -1869,6 +2010,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Wine Offering (Crosspath Dancer & Warrior 2)
     description: DEFAULT
     item_key: ITM_TRE_COP_OK2_0010
@@ -1882,6 +2024,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Sacred Wood (Crosspath Dancer & Warrior 2)
     description: DEFAULT
     item_key: ITM_TRE_COP_OK2_0020
@@ -1895,6 +2038,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Dancer’s Mask (Crosspath Dancer & Warrior 2)
     description: DEFAULT
     item_key: ITM_TRE_COP_OK2_0030
@@ -1908,6 +2052,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Metalworking Tool (Crosspath Merchant & Scholar 1)
     description: DEFAULT
     item_key: ITM_TRE_COP_GS1_0010
@@ -1921,6 +2066,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Mirror (Crosspath Merchant & Scholar 1)
     description: DEFAULT
     item_key: ITM_TRE_COP_GS1_0020
@@ -1934,6 +2080,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Precision Lens (Crosspath Merchant & Scholar 1)
     description: DEFAULT
     item_key: ITM_TRE_COP_GS1_0030
@@ -1947,6 +2094,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Cloudy Mirror Fragment (Crosspath Cleric & Thief 2)
     description: DEFAULT
     item_key: ITM_TRE_COP_ST1_0010
@@ -1960,6 +2108,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Contract (Partitio Ch. 4)
     description: DEFAULT
     item_key: ITM_TRE_SHO_40_0010
@@ -1973,6 +2122,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Folded Paper (Crosspath Cleric & Thief 2)
     description: DEFAULT
     item_key: ITM_TRE_COP_ST2_0010
@@ -1986,6 +2136,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Dispatches from Beastling Island
     description: DEFAULT
     item_key: ITM_TRE_SS_TM21_0200_0010
@@ -1999,6 +2150,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: The Curious Legend of the Great Wall
     description: DEFAULT
     item_key: ITM_TRE_SS_TM21_0200_0020
@@ -2012,6 +2164,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: How to Decipher Unknown Languages
     description: DEFAULT
     item_key: ITM_INF_SS_TM21_0400_0100
@@ -2025,6 +2178,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: From the Far Reaches of Hell
     description: DEFAULT
     item_key: ITM_TRE_SS_TM21_0200_0030
@@ -2038,6 +2192,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: An Eyewitness to Harvey (Osvald Ch. 4)
     description: DEFAULT
     item_key: ITM_INF_GAK_40_05A0
@@ -2051,6 +2206,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Harvey’s Whereabouts (Osvald Ch. 4)
     description: DEFAULT
     item_key: ITM_INF_GAK_40_05C0
@@ -2064,6 +2220,7 @@
     other_flags: []
     give: false
     display: true
+    unique: true
     name: Library Rumor (Osvald Ch. 4)
     description: DEFAULT
     item_key: ITM_INF_GAK_40_05B0

@@ -10,7 +10,7 @@ sys.path.append(f'{FILEDIR}/../src')
 from Manager import Manager
 from Pak import MainPak
 from DataJson import DataJsonFile
-from Utility import time_func
+from Utility import time_func, get_filename
 
 def is_pc(x):
     return x in ['item_hikari', 'item_ochette', 'item_castti', 'item_partitio',
@@ -24,6 +24,14 @@ class Graph:
         self.slots = set()
         self.visited = set()
         self.ring_dict = {}
+        
+        # Shuffler will need to know which key items are unique
+        self.is_unique = {}
+        with open(get_filename('json/candidates.json'), 'r', encoding='utf-8') as file:
+            candidates_data = hjson.load(file)
+        for key, values in candidates_data.items():
+            assert key not in self.is_unique
+            self.is_unique[key] = values['unique']
 
     def reset(self):
         self.visited = set()
@@ -92,16 +100,24 @@ class Graph:
         return rings
 
 
-    def get_rings(self, always_have):
+    def get_rings(self, always_have, rank_on=False):
         visited = {n:False for n in self.nodes}
         everything = set(always_have)
         # Rank is ignored here
-        everything.add('rank_1')
-        everything.add('rank_2')
-        everything.add('rank_3')
+        if rank_on:
+            everything.add('rank_1')
+            everything.add('rank_2')
+            everything.add('rank_3')
+
+        pcs = set()
+        for x in always_have:
+            if is_pc(x):
+                pcs.add(x)
+
         inventory = set()
         rings = []
         current_ring = []
+        num_chapters_finished = 0
         while True:
             new_node_visited = False
             for node in self.nodes:
@@ -110,12 +126,21 @@ class Graph:
                     if cost.issubset(everything):
                         visited[node] = True
                         new_node_visited = True
-                        if node.is_slot or node.name.startswith('finish_chapter_') or node.name.startswith('get_') or node.name.startswith('access_'):
+                        num_chapters_finished += node.name.startswith('finish_chapter')
+                        if node.is_slot or node.name.startswith('finish_chapter_') or node.name.startswith('get_') or node.name.startswith('hear_') or node.name.startswith('access_'):
                             current_ring.append(node)
                         else:
                             inventory.update(node.slots)
                             inventory.add(node.name)
                         break
+
+            for x in inventory:
+                if is_pc(x):
+                    pcs.add(x)
+
+            self._add_rank_1(everything, len(pcs), num_chapters_finished)
+            self._add_rank_2(everything, len(pcs), num_chapters_finished)
+            self._add_rank_3(everything, len(pcs), num_chapters_finished)
 
             everything.update(inventory)
             if not new_node_visited:
@@ -177,7 +202,7 @@ class Graph:
             accessible = {item:set() for item in inventory}
             for i, item in enumerate(inventory):
                 inventory.pop(i)
-                accessible[item] = self.get_accessible(inventory + always_have)
+                accessible[item] = self.get_valid_slots(item, inventory + always_have)
                 inventory.insert(i, item)
 
             # Give priority to items with the fewest accessible slots
@@ -202,8 +227,8 @@ class Graph:
                 if not self.node_dict['finish_chapter_1'].is_slot:
                     self.node_dict['finish_chapter_1'].is_slot = True
 
-    # Traverse the graph with an inventory and return all accessible treasure nodes
-    def get_accessible(self, inventory):
+    # Traverse the graph with an inventory and return all accessible slots
+    def get_valid_slots(self, item, inventory):
         pcs = set()
         for x in inventory:
             if is_pc(x):
@@ -211,7 +236,7 @@ class Graph:
 
         inv_set = set(inventory)
         visited = set()
-        vacant_events = set()
+        vacant_slots = set()
         num_chapters_finished = 0
         while True:
             inv_size = len(inv_set)
@@ -223,7 +248,13 @@ class Graph:
                             inv_set.update(node.slots)
                             inv_set.add(node.name)
                             if node.is_vacant and node.is_slot:
-                                vacant_events.add(node)
+                                if node.is_hear:
+                                    if self.is_unique[item]:
+                                        # only unique items can go in hear slots
+                                        vacant_slots.add(node)
+                                else:
+                                    # Any item can go in a non-hear slot
+                                    vacant_slots.add(node)
                             for s in node.slots:
                                 if is_pc(s):
                                     pcs.add(s)
@@ -239,7 +270,7 @@ class Graph:
             if len(inv_set) == inv_size:
                 break
 
-        return vacant_events
+        return vacant_slots
 
     @staticmethod
     def _add_rank_1(inventory, num_pcs, num_chap_fin):
@@ -385,7 +416,8 @@ class Node:
         # NEW STUFF
         self._max_num = 0
         self._is_slot = False
-        self._one_only = self.name.startswith('get_') or self.name.startswith('finish_altar_')
+        self._one_only = self.name.startswith('get_') or self.name.startswith('hear_') or self.name.startswith('finish_altar_')
+        self.is_hear = self.name.startswith('hear_')
         self.slots = [] if items is None else deepcopy(items)
         self.vanilla = deepcopy(self.slots)
 

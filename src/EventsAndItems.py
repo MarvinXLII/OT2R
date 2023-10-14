@@ -277,7 +277,7 @@ class EventsAndItems:
         # (shouldn't ever repeat, but done as a precaution)
         while not self.graph.shuffle(start, self.rando_cand, self.always_have):
             print('not all key item slots were filled; retrying')
-        self.rings = self.graph.get_rings(self.always_have)
+        self.rings = self.graph.get_rings(self.always_have, rank_on=False)
 
         self.rando_map = {}
         self.rando_map_inv = {}
@@ -429,6 +429,7 @@ class SlotManager:
         self.add_slot(slot.filename, slotname, slot)
 
     def create_slot_hear(self, slotname, placement_key, hear_key, index, new_script=True, case='A'):
+        assert slotname.startswith('hear_'), slotname
         slot = SlotHear(slotname, placement_key, hear_key, index, new_script, case)
         self.add_slot(slot.filename, slotname, slot)
 
@@ -479,6 +480,7 @@ class Slot:
         self.filename = filename
         self.slotname = slotname
         self.indices = indices
+        self.unique_item_only = False
         if remove:
             remove = sorted([self._positive_index(i) for i in remove], reverse=True)
             for ri in remove:
@@ -540,6 +542,7 @@ class SlotShop(Slot):
         self.purchase_key = purchase_key
         self.case = case
         self.subscripts = {}
+        self.unique_item_only = False
 
         placement_data = Manager.get_table('PlacementData')
         purchase = Manager.get_table('PurchaseItemTable')
@@ -599,6 +602,7 @@ class SlotHear(SlotShop):
         self.hear_key = hear_key
         self.case = case
         self.subscripts = {}
+        self.unique_item_only = True
 
         placement_data = Manager.get_table('PlacementData')
         hear_info = Manager.get_table('NPCHearInfoData')
@@ -636,6 +640,7 @@ class SlotChest(SlotShop):
         self.placement_key = treasure_key
         self.case = 'A'
         self.subscripts = {}
+        self.unique_item_only = False
 
         placement_data = Manager.get_table('PlacementData')
         treasures = Manager.get_table('ObjectData')
@@ -1472,23 +1477,26 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
         # MUSIC IS ON FOR BATTLES #
         ###########################
 
-        # Recruit Temenos battle is fine as is
+        # Recruit Temenos battle is fine as is; no need to mod.
+        # Hikari & Throne have bugs if playing without
+        # including PCs in the item pool.
+        # Just ignore their lack of music.
+        
+        # # Recruit Throne battle
+        # start_battle = Manager.get_json('MS_TOU_00_0100')
+        # start_battle.insert_script(patch_end_off, 49)
+        # start_battle = Manager.get_json('MS_TOU_00_0200')
+        # start_battle.insert_script(patch_end_off, 24)
+        # end_battle = Manager.get_json('MS_TOU_00_0300')
+        # end_battle.insert_script(patch_end_on, 0)
 
-        # Recruit Throne battle
-        start_battle = Manager.get_json('MS_TOU_00_0100')
-        start_battle.insert_script(patch_end_off, 49)
-        start_battle = Manager.get_json('MS_TOU_00_0200')
-        start_battle.insert_script(patch_end_off, 24)
-        end_battle = Manager.get_json('MS_TOU_00_0300')
-        end_battle.insert_script(patch_end_on, 0)
-
-        # Recruit Hikari battle
-        start_battle = Manager.get_json('MS_KEN_00_0100')
-        start_battle.insert_script(patch_end_off, 66)
-        start_battle = Manager.get_json('MS_KEN_00_0200')
-        start_battle.insert_script(patch_end_off, 46)
-        end_battle = Manager.get_json('MS_KEN_00_0300')
-        end_battle.insert_script(patch_end_on, 0)
+        # # Recruit Hikari battle
+        # start_battle = Manager.get_json('MS_KEN_00_0100')
+        # start_battle.insert_script(patch_end_off, 66)
+        # start_battle = Manager.get_json('MS_KEN_00_0200')
+        # start_battle.insert_script(patch_end_off, 46)
+        # end_battle = Manager.get_json('MS_KEN_00_0300')
+        # end_battle.insert_script(patch_end_on, 0)
 
         #### These work for typical battles.
         #### Key Item battles can finish with different scripts,
@@ -1556,12 +1564,12 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
 
         vol1d['ProgressBorder'].value = 0
         vol1n['ProgressBorder'].value = 0
-        vol2d['ProgressBorder'].value = 10
-        vol2n['ProgressBorder'].value = 10
-        vol3d['ProgressBorder'].value = 20
-        vol3n['ProgressBorder'].value = 20
-        vol4d['ProgressBorder'].value = 30
-        vol4n['ProgressBorder'].value = 30
+        vol2d['ProgressBorder'].value = 8
+        vol2n['ProgressBorder'].value = 8
+        vol3d['ProgressBorder'].value = 24
+        vol3n['ProgressBorder'].value = 24
+        vol4d['ProgressBorder'].value = 40
+        vol4n['ProgressBorder'].value = 40
 
         enc_vol.EVM_FLD_OCN_1_1_SEA_1_DAY.EncounterList[0] = vol1d
         enc_vol.EVM_FLD_OCN_1_1_SEA_1_NGT.EncounterList[0] = vol1n
@@ -1678,7 +1686,7 @@ def load_slots(rando_map, rando_map_inv):
         assert slot_manager.has_slot('get_rosas_medicine')
 
         # Hikari 3: Weapons Deal Details
-        slot_manager.create_slot_hear('get_weapons_deal_details', 'NPC_KEN_30_0100_0000', 'FC_INFOLINK_NPC_KEN_30_0100', -1, new_script=False)
+        slot_manager.create_slot_hear('hear_weapons_deal_details', 'NPC_KEN_30_0100_0000', 'FC_INFOLINK_NPC_KEN_30_0100', -1, new_script=False)
         add_delivery('EV_TRIGGER_MS_KEN_30_0400', 'ITM_INF_KEN_30_0100', '1')
 
         # Ochette 2: Beasts
@@ -1694,8 +1702,8 @@ def load_slots(rando_map, rando_map_inv):
         enemies.ENE_BOS_HUN_C02_020.InvadeMonsterID = 'None'
 
         # Temenos 2: The Cuplrit's True Identity
-        slot_manager.create_slot_hear('get_vados_info', 'NPC_SIN_20_1000_0000', 'FC_INFOLINK_NPC_SIN_20_1000', 0)
-        slot_manager.create_slot_hear('get_vados_info', 'NPC_SIN_20_1010_0000', 'FC_INFOLINK_NPC_SIN_20_1010', 0, new_script=False)
+        slot_manager.create_slot_hear('hear_vados_info', 'NPC_SIN_20_1000_0000', 'FC_INFOLINK_NPC_SIN_20_1000', 0)
+        slot_manager.create_slot_hear('hear_vados_info', 'NPC_SIN_20_1010_0000', 'FC_INFOLINK_NPC_SIN_20_1010', 0, new_script=False)
 
         # Temenos 3 (Crackridge Route): Mysterious Notebook
         assert slot_manager.has_slot('get_mysterious_notebook')
@@ -1722,9 +1730,9 @@ def load_slots(rando_map, rando_map_inv):
         add_delivery('EV_TRIGGER_MS_TOU_40_0410', 'ITM_TRE_TOU_3A_0030', '1', 'ITM_TRE_TOU_3B_0010', '1')
 
         # Osvald 4: Harvey Info
-        slot_manager.create_slot_hear('get_harveys_whereabouts', 'NPC_GAK_40_0100_0000', 'FC_INFOLINK_NPC_GAK_40_0100', 0, new_script=False)
-        slot_manager.create_slot_hear('get_harveys_eyewitness', 'NPC_GAK_40_0200_0000', 'FC_INFOLINK_NPC_GAK_40_0200', 0, new_script=False)
-        slot_manager.create_slot_hear('get_library_rumor', 'NPC_GAK_40_0300_0000', 'FC_INFOLINK_NPC_GAK_40_0300', 0, new_script=False)
+        slot_manager.create_slot_hear('hear_harveys_whereabouts', 'NPC_GAK_40_0100_0000', 'FC_INFOLINK_NPC_GAK_40_0100', 0, new_script=False)
+        slot_manager.create_slot_hear('hear_harveys_eyewitness', 'NPC_GAK_40_0200_0000', 'FC_INFOLINK_NPC_GAK_40_0200', 0, new_script=False)
+        slot_manager.create_slot_hear('hear_library_rumor', 'NPC_GAK_40_0300_0000', 'FC_INFOLINK_NPC_GAK_40_0300', 0, new_script=False)
 
         # Osvald 5: Black Crystals
         slot_manager.create_slot_shop('get_black_crystal_1', 'NPC_GAK_50_0100_0000', 'NPC_GAK_50_0100_NPCBUY_01', -1, new_script=False)
@@ -1765,7 +1773,7 @@ def load_slots(rando_map, rando_map_inv):
         slot_manager.create_slot_shop('get_tome_dispatches', 'NPC_SS_TMount21_0200_0200', 'NPC_SS_TM21_0200_0200_NPCBUY_01', -1, new_script=True)
         slot_manager.create_slot_shop('get_tome_great_wall', 'NPC_Fld_Snw_3_1_TALK_0600_D000', 'NPC_Fld_Snw_3_1_TALK_0600_NPCBUY_01', -1, new_script=True)
         slot_manager.create_slot_chest('get_tome_hell', 'Treasure_SS_TMnt21_0200_010')
-        slot_manager.create_slot_hear('get_decipher_unknown_languages', 'NPC_SS_TMount21_0400_0200', 'FC_INFOLINK_NPC_SS_TM21_0400_0200', -1, new_script=True)
+        slot_manager.create_slot_hear('hear_decipher_unknown_languages', 'NPC_SS_TMount21_0400_0200', 'FC_INFOLINK_NPC_SS_TM21_0400_0200', -1, new_script=True)
 
     if EventsAndItems.include_rusty_weapons:
         slot_manager.create_slot_chest('get_rusty_polearm', 'Treasure_Twn_Fst_3_1_B_05')
