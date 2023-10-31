@@ -75,13 +75,13 @@ Some items were already mandatory in the vanilla game for progression.
 while others weren't and are now made mandatory. For reference, here's
 a list of new requirements enforced when the Main Story Key Items option is selected:
 
-* Hikary Ch. 3: Weapon Deal Details must be in your possession to trigger cutscenes in the forest.
+* Hikary Ch. 3: Weapon Deal Details is needed to trigger cutscenes in the forest.
 * Ochette Ch. 3: All 3 beasts are needed to start the first cutscene with Juvah.
 * Throne Ch. 2 (Mother's Route): The Horse Coin must be given to the man in the saddelry.
 * Throne Ch. 2 (Mother's Route): The Mask is needed to play the game at Death's Table.
-* Throne Ch. 3 (Mother's Route): The Habit is needed to get into the Garden Orphanage.
+* Throne Ch. 3 (Mother's Route): The Habit is needed to enter the Garden Orphanage.
 * Temenos Ch. 2: Guards won't disappear until you know the Culprit's True Identity.
-* Temenos Ch. 3 (Crackridge Route): The Mysterious Notebook is necessary to trigger final cutscenes in the Fellsun Ruins.
+* Temenos Ch. 3 (Crackridge Route): The Mysterious Notebook is needed to trigger final cutscenes in the Fellsun Ruins.
 * Temenos Ch. 4: Kaldena's Notebook is needed to trigger cutscenes in the Wandering Wood.
 * Osvald Ch. 4: All 3 pieces of info on Harvey are needed to unlock the dungeon in the Montwise Library.
 * Osvald Ch. 5: All 5 Black Crystals are needed to trigger the battle with Harvey.

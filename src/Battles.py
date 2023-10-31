@@ -41,13 +41,26 @@ def drop_item(enemies):
     shuffler(enemies, 'HaveItemID', 'DropProbability')
 
 def steal_item(enemies):
-    shuffler(enemies, 'StealGuard', 'StealItemID')
+    # Fix steal guards
+    e = []
+    for enemy in enemies:
+        enemy.StealGuard = enemy.StealItemID == 'None'
+        if not enemy.StealGuard:
+            e.append(enemy)
+    shuffler(e, 'StealGuard', 'StealItemID')
 
 def steal_money(enemies):
-    shuffler(enemies, 'StealMoneyGuard', 'StealMoney')
+    # Fix money guards
+    e = []
+    for enemy in enemies:
+        enemy.StealMoneyGuard = enemy.StealMoney == 0
+        if not enemy.StealMoneyGuard:
+            e.append(enemy)
+    shuffler(e, 'StealMoneyGuard', 'StealMoney')
         
 def bribe_money(enemies):
-    shuffler(enemies, 'BribeGuard', 'BribeMoney')
+    e = [en for en in enemies if en.BribeMoney > 0]
+    shuffler(e, 'BribeGuard', 'BribeMoney')
 
 def drop_item_rate(enemies):
     for enemy in enemies:
@@ -75,6 +88,14 @@ class Battles:
     
     def __init__(self):
         self.enemy_db = Manager.get_instance('EnemyDB').table
+        # Only use enemies with names
+        # i.e. skip enemies like second boss phases, NPC battles
+        self.enemies = []
+        gametext = Manager.get_table('GameTextEN')
+        for enemy in self.enemy_db:
+            name = gametext.get_text(enemy.DisplayNameID)
+            if name:
+                self.enemies.append(enemy)
 
     def scale_stats(self):
         # Non-random stuff
@@ -84,10 +105,28 @@ class Battles:
 
     def run(self):
         # Randomized stuff
-        Battles.shuffle_drop_item(self.enemy_db)
-        Battles.shuffle_steal_item(self.enemy_db)
-        Battles.shuffle_steal_money(self.enemy_db)
-        Battles.shuffle_bribe_money(self.enemy_db)
+        Battles.shuffle_drop_item(self.enemies)
+        Battles.shuffle_steal_item(self.enemies)
+        Battles.shuffle_steal_money(self.enemies)
+        Battles.shuffle_bribe_money(self.enemies)
+
+    # Only for testing purposes
+    def print_steals(self, filename):
+        gametext = Manager.get_table('GameTextEN')
+        item_db = Manager.get_table('ItemDB')
+        with open(filename, 'w') as file:
+            for enemy in self.enemy_db:
+                line = '' #enemy.DisplayNameID
+                name = gametext.get_text(enemy.DisplayNameID)
+                if name:
+                    line += ' ' + name
+                steal = item_db.get_name(enemy.StealItemID)
+                if steal:
+                    line += '\n     Steal: ' + steal + ' ' + str(enemy.StealGuard)
+                if not enemy.StealMoneyGuard:
+                    line += '\n     Collect Money: ' + str(enemy.StealMoney)
+                file.write(line)
+                file.write('\n')
 
     def _scale(self):
         for enemy in self.enemy_db:
@@ -246,4 +285,3 @@ class Battles:
         patch_bp('subB_Dng_Snw_3_4', 3, 0x9bc, 2) # Dreadwolf
         patch_bp('subB_Dng_Wld_1_2', 3, 0xc8a, 2) # Manymaws
         patch_bp('subB_Dng_Wld_3_2', 3, 0x16ae, 3) # Deep One
-        

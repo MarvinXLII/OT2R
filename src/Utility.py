@@ -151,8 +151,8 @@ class File(Byte):
     def tell(self):
         return self.data.tell()
 
-    def seek(self, addr):
-        self.data.seek(addr)
+    def seek(self, offset, x=0):
+        self.data.seek(offset, x)
         
     def read_bytes(self, size=None):
         if size is None:

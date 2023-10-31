@@ -58,6 +58,7 @@ class EventsAndItems:
 
     # Slots only
     include_guilds = False
+    omit_guild_conjuror = False
 
     # Spawns
     include_ships_spawn = False
@@ -213,6 +214,9 @@ class EventsAndItems:
             assert slot in self.node_dict, slot
             self.node_dict[slot].is_slot = True
 
+        if EventsAndItems.omit_guild_conjuror:
+            self.node_dict['finish_guild_con'].is_slot = False
+
 
     #@time_func
     def _add_pcs(self):
@@ -291,7 +295,7 @@ class EventsAndItems:
     #@time_func
     def _finalize(self):
         fill_everything(self.rando_map, self.rando_map_inv, self.start_pc, self.other_pcs)
-        self._print_shuffler()
+        # self._print_shuffler()
         self._print_rings()
         self._print_main_character()
         # self.graph.plot(f'{self.outpath}/graph.png')
@@ -350,13 +354,18 @@ class EventsAndItems:
                 for c in cand:
                     print('     ', c)
                 print('')
-            
+
+        # if missing:
+        #     print('')
+        #     print('')
+        #     print('')
+        #     print('MISSING')
+        #     for mi in missing:
+        #         print('  ', missing)
+
         sys.stdout = sys.__stdout__
 
     def _print_shuffler(self):
-        outfile = os.path.join(self.outpath, 'spoiler_events_and_items.txt')
-        sys.stdout = open(outfile, 'w', encoding='utf-8')
-
         with open(get_filename('json/candidates.json'), 'r', encoding='utf-8') as file:
             candidates_data = hjson.load(file)
         with open(get_filename('json/slots.json'), 'r', encoding='utf-8') as file:
@@ -377,9 +386,10 @@ class EventsAndItems:
                 cand_to_slot[key] = slot
             max_size = max(max_size, len(key))
 
+        outfile = os.path.join(self.outpath, 'spoiler_events_and_items.txt')
+        sys.stdout = open(outfile, 'w', encoding='utf-8')
         for cand, slot in cand_to_slot.items():
             print('  ', cand.ljust(max_size, ' '), ' <-- ', slot)
-
         sys.stdout = sys.__stdout__
 
 
@@ -1079,13 +1089,6 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
         main_story.COP_GS_00.ReleaseNoticeFlag = False
         main_story.COP_GS_01.ReleaseNoticeFlag = False
 
-        # Ensure Temenos Recruitment can be done before Arcanette battle
-        placement_data.NPC_PRIEST_0000_0000.SpawnEndFlag = 9000
-        placement_data.NPC_PRIEST_0000_0000.EventEndFlag_A = 9000
-        placement_data.NPC_PRIEST_0000_0100.SpawnStartFlag = 9000
-        placement_data.NPC_PRIEST_0000_0100.EventStartFlag_A = 9000
-        placement_data.NPC_PRIEST_0000_0100.SpawnPosX -= 1600
-
     elif EventsAndItems.include_pcs:
         # Default story but shuffled PCs
         # Unlock stories with new PC flags
@@ -1356,6 +1359,24 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
     set_recruit_flags('osvald', 'NPC_PROFESSOR_0000_0000')
     set_recruit_flags('throne', 'NPC_THIEF_0000_0000', 'NPC_THIEF_0000_0100', 'NPC_THIEF_0000_0300', 'NPC_THIEF_0000_0400')
     set_recruit_flags('agnea', 'NPC_DANCER_0000_0000', 'NPC_DANCER_0000_0100', 'NPC_DANCER_0000_0000_0010')
+
+    if EventsAndItems.include_main_story:
+        # Always a possibility of flame extinguishing before recruiting temenos
+        # Move him so he can always be accessed
+        placement_data.NPC_PRIEST_0000_0000.SpawnEndFlag = 9000
+        placement_data.NPC_PRIEST_0000_0100.SpawnStartFlag = 9000
+        placement_data.NPC_PRIEST_0000_0100.EventStartFlag_A = 9000
+        placement_data.NPC_PRIEST_0000_0100.SpawnPosX -= 1600
+        if start_pc == 'Temenos':
+            # Don't let Temenos spawn if he is the protagonist
+            placement_data.NPC_PRIEST_0000_0100.SpawnEndFlag = 9000
+        elif 'get_temenos' in rando_map: # e.g. include_pcs = True
+            # Let Temenos spawn until his swapped item has been received
+            item = candidates[rando_map['get_temenos'][0]]
+            placement_data.NPC_PRIEST_0000_0100.EventEndFlag_A = item.flag
+            placement_data.NPC_PRIEST_0000_0100.SpawnEndFlag = item.flag
+        else:
+            print('Temenos recruitment is moved but will still spawn normally until collected')
 
     ####################
     # FOREIN ASSASSINS #

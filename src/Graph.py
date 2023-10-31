@@ -150,6 +150,9 @@ class Graph:
                 for node in current_ring:
                     everything.add(node.name)
                     everything.update(node.slots)
+                    for x in node.slots:
+                        if is_pc(x):
+                            pcs.add(x)
                 current_ring = []
                 inventory = set()
 

@@ -307,7 +307,7 @@
 		attribute: include_galdera
 		builder: True
 		default: False
-		//: events_story
+		depend: events_story
 		help: "Completing sidequests The Traveler's Bag, Procuring Peculiar Tomes, From the Far Reaches of Hell, and A Gate Between Worlds may give you new items from the item pool."
 	    }
 	    events_guilds: {
@@ -316,8 +316,18 @@
 		attribute: include_guilds
 		builder: True
 		default: False
-		//: events_story
-		help: "Guild masters may give you random items from the item pool in addition to the license.\n\nThe Arcanist Descendent, the Five Tiered Tower, the Inventor, and the Blacksmith are included as if they are guilds. The Inventor will give you the items after bringing the first set of parts to the him. The Blacksmith will give you the items after bringing the first rusty item him."
+		depend: events_story
+		help: "Guild masters may give you random items from the item pool in addition to the license.\n\nThe Arcanist Descendent, the Five-Tiered Tower, the Inventor, and the Blacksmith are included as if they are guilds. The Inventor will give you the items after bringing the first set of parts to him. The Blacksmith will give you the items after bringing the first rusty item to him."
+		indent: {
+		    events_guilds_omit_conjuror: {
+			label: "Omit Conjuror Guild"
+			class: EventsAndItems
+			attribute: omit_guild_conjuror
+			builder: True
+			default: False
+			help: "Omit the Conjuror Guild at the Five-Tiered Tower in Ku."
+		    }
+		}
 	    }
 	    events_guilds_spawn: {
 		label: "Spawn Guild Masters"
@@ -325,7 +335,7 @@
 		attribute: include_guild_spawn
 		builder: True
 		default: False
-		//: events_story
+		// depend: events_story
 		help: "New events that spawn guild masters will be included in the item pool. The Arcanist Descendant, Inventor, and Blacksmith are included. Priestess Hinoekagura from the Five-Tiered Tower is omitted."
 	    }
 	    events_altars_spawn: {
@@ -334,7 +344,7 @@
 		attribute: include_altar_spawn
 		builder: True
 		default: False
-		//: events_story
+		// depend: events_story
 		help: "New events that spawn altars will be included in the item pool. (Altars will still be visible, they just won't do anything until you unlock them with the appropriate new item.)"
 	    }
 	    events_ships: {
@@ -343,7 +353,7 @@
 		attribute: include_ships_spawn
 		builder: True
 		default: False
-		//: events_story
+		// depend: events_story
 		help: "New events spawning boat NPCs at the anchorages will be included in the item pool. (The Grand Terry is included in the key items option.)"
 	    }
 	    events_assassins_spawn: {
@@ -352,7 +362,7 @@
 		attribute: include_assassins_spawn
 		builder: True
 		default: False
-		//: events_story
+		// depend: events_story
 		help: "A new event that spawns the foreign assassins will be included in the item pool."
 	    }
 	    events_guard: {
@@ -361,7 +371,7 @@
 		attribute: include_guard
 		builder: True
 		default: False
-		//: events_story
+		// depend: events_story
 		help: "A new event letting you pass the guard will be included in the item pool. The guard will be made unbeatable."
 	    }
 	}
