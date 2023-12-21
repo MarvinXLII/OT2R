@@ -32,15 +32,15 @@ class Shuffler:
 
     def generate_weights(self, *func):
         self.weights = []
-        weightDict = {} # Significantly less memory intensive
+        weight_dict = {} # Significantly less memory intensive
         for ci, candidate in enumerate(self.candidates):
             w = [True] * len(self.slots)
             for f in func:
                 f(w, self.slots, candidate)
             bw = bytes(w)
-            if bw not in weightDict:
-                weightDict[bw] = bw
-            self.weights.append(weightDict[bw])
+            if bw not in weight_dict:
+                weight_dict[bw] = bw
+            self.weights.append(weight_dict[bw])
 
     def check_done(self):
         assert sum(self.vacant) == 0

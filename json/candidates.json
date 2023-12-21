@@ -1027,7 +1027,7 @@
     desc_key: TX_CO_ITM_TRE_COP_ST2_0030
     has_script: true
   }
-  unlock_flame_grotto:
+  unlock_extinguish_flame_grotto:
   {
     flag: 60077
     other_flags:
@@ -1047,7 +1047,7 @@
     desc_key: TX_CO_ITM_TRE_END_2B_0010_60077
     has_script: false
   }
-  unlock_flame_tomb:
+  unlock_extinguish_flame_tomb:
   {
     flag: 60078
     other_flags:
@@ -1067,7 +1067,7 @@
     desc_key: TX_CO_ITM_TRE_END_2B_0010_60078
     has_script: false
   }
-  unlock_flame_church:
+  unlock_extinguish_flame_church:
   {
     flag: 60079
     other_flags:
@@ -1086,7 +1086,7 @@
     desc_key: TX_CO_ITM_TRE_END_2B_0010_60079
     has_script: false
   }
-  unlock_flame_ruins:
+  unlock_extinguish_flame_ruins:
   {
     flag: 60080
     other_flags:
@@ -2226,6 +2226,1042 @@
     item_key: ITM_INF_GAK_40_05B0
     name_key: TX_NA_ITM_INF_GAK_40_05B0
     desc_key: TX_CO_ITM_INF_GAK_40_05B0
+    has_script: false
+  }
+  item_license_war_1:
+  {
+    flag: 60165
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: Warrior License
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0002
+    name_key: TX_NA_ITM_EQP_JOB_0002
+    desc_key: TX_CO_ITM_EQP_JOB_0002
+    has_script: false
+  }
+  item_license_war_2:
+  {
+    flag: 60166
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: Warrior License
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0002
+    name_key: TX_NA_ITM_EQP_JOB_0002
+    desc_key: TX_CO_ITM_EQP_JOB_0002
+    has_script: false
+  }
+  item_license_war_3:
+  {
+    flag: 60167
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: Warrior License
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0002
+    name_key: TX_NA_ITM_EQP_JOB_0002
+    desc_key: TX_CO_ITM_EQP_JOB_0002
+    has_script: false
+  }
+  item_license_hun_1:
+  {
+    flag: 60168
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: Hunter License
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0003
+    name_key: TX_NA_ITM_EQP_JOB_0003
+    desc_key: TX_CO_ITM_EQP_JOB_0003
+    has_script: false
+  }
+  item_license_hun_2:
+  {
+    flag: 60169
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: Hunter License
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0003
+    name_key: TX_NA_ITM_EQP_JOB_0003
+    desc_key: TX_CO_ITM_EQP_JOB_0003
+    has_script: false
+  }
+  item_license_hun_3:
+  {
+    flag: 60170
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: Hunter License
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0003
+    name_key: TX_NA_ITM_EQP_JOB_0003
+    desc_key: TX_CO_ITM_EQP_JOB_0003
+    has_script: false
+  }
+  item_license_apo_1:
+  {
+    flag: 60171
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: Apothecary License
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0007
+    name_key: TX_NA_ITM_EQP_JOB_0007
+    desc_key: TX_CO_ITM_EQP_JOB_0007
+    has_script: false
+  }
+  item_license_apo_2:
+  {
+    flag: 60172
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: Apothecary License
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0007
+    name_key: TX_NA_ITM_EQP_JOB_0007
+    desc_key: TX_CO_ITM_EQP_JOB_0007
+    has_script: false
+  }
+  item_license_apo_3:
+  {
+    flag: 60173
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: Apothecary License
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0007
+    name_key: TX_NA_ITM_EQP_JOB_0007
+    desc_key: TX_CO_ITM_EQP_JOB_0007
+    has_script: false
+  }
+  item_license_mer_1:
+  {
+    flag: 60174
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: Merchant License
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0000
+    name_key: TX_NA_ITM_EQP_JOB_0000
+    desc_key: TX_CO_ITM_EQP_JOB_0000
+    has_script: false
+  }
+  item_license_mer_2:
+  {
+    flag: 60175
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: Merchant License
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0000
+    name_key: TX_NA_ITM_EQP_JOB_0000
+    desc_key: TX_CO_ITM_EQP_JOB_0000
+    has_script: false
+  }
+  item_license_mer_3:
+  {
+    flag: 60176
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: Merchant License
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0000
+    name_key: TX_NA_ITM_EQP_JOB_0000
+    desc_key: TX_CO_ITM_EQP_JOB_0000
+    has_script: false
+  }
+  item_license_cle_1:
+  {
+    flag: 60177
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: Cleric License
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0004
+    name_key: TX_NA_ITM_EQP_JOB_0004
+    desc_key: TX_CO_ITM_EQP_JOB_0004
+    has_script: false
+  }
+  item_license_cle_2:
+  {
+    flag: 60178
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: Cleric License
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0004
+    name_key: TX_NA_ITM_EQP_JOB_0004
+    desc_key: TX_CO_ITM_EQP_JOB_0004
+    has_script: false
+  }
+  item_license_cle_3:
+  {
+    flag: 60179
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: Cleric License
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0004
+    name_key: TX_NA_ITM_EQP_JOB_0004
+    desc_key: TX_CO_ITM_EQP_JOB_0004
+    has_script: false
+  }
+  item_license_sch_1:
+  {
+    flag: 60180
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: Scholar License
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0006
+    name_key: TX_NA_ITM_EQP_JOB_0006
+    desc_key: TX_CO_ITM_EQP_JOB_0006
+    has_script: false
+  }
+  item_license_sch_2:
+  {
+    flag: 60181
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: Scholar License
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0006
+    name_key: TX_NA_ITM_EQP_JOB_0006
+    desc_key: TX_CO_ITM_EQP_JOB_0006
+    has_script: false
+  }
+  item_license_sch_3:
+  {
+    flag: 60182
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: Scholar License
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0006
+    name_key: TX_NA_ITM_EQP_JOB_0006
+    desc_key: TX_CO_ITM_EQP_JOB_0006
+    has_script: false
+  }
+  item_license_thi_1:
+  {
+    flag: 60183
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: Thief License
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0001
+    name_key: TX_NA_ITM_EQP_JOB_0001
+    desc_key: TX_CO_ITM_EQP_JOB_0001
+    has_script: false
+  }
+  item_license_thi_2:
+  {
+    flag: 60184
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: Thief License
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0001
+    name_key: TX_NA_ITM_EQP_JOB_0001
+    desc_key: TX_CO_ITM_EQP_JOB_0001
+    has_script: false
+  }
+  item_license_thi_3:
+  {
+    flag: 60185
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: Thief License
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0001
+    name_key: TX_NA_ITM_EQP_JOB_0001
+    desc_key: TX_CO_ITM_EQP_JOB_0001
+    has_script: false
+  }
+  item_license_dan_1:
+  {
+    flag: 60186
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: Dancer License
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0005
+    name_key: TX_NA_ITM_EQP_JOB_0005
+    desc_key: TX_CO_ITM_EQP_JOB_0005
+    has_script: false
+  }
+  item_license_dan_2:
+  {
+    flag: 60187
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: Dancer License
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0005
+    name_key: TX_NA_ITM_EQP_JOB_0005
+    desc_key: TX_CO_ITM_EQP_JOB_0005
+    has_script: false
+  }
+  item_license_dan_3:
+  {
+    flag: 60188
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: Dancer License
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0005
+    name_key: TX_NA_ITM_EQP_JOB_0005
+    desc_key: TX_CO_ITM_EQP_JOB_0005
+    has_script: false
+  }
+  item_license_arm:
+  {
+    flag: 60189
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: Proof of the Armsmaster
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0008
+    name_key: TX_NA_ITM_EQP_JOB_0008
+    desc_key: TX_CO_ITM_EQP_JOB_0008
+    has_script: false
+  }
+  item_license_arc:
+  {
+    flag: 60190
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: Proof of the Arcanist
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0009
+    name_key: TX_NA_ITM_EQP_JOB_0009
+    desc_key: TX_CO_ITM_EQP_JOB_0009
+    has_script: false
+  }
+  item_license_con:
+  {
+    flag: 60191
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: Proof of the Conjurer
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0010
+    name_key: TX_NA_ITM_EQP_JOB_0010
+    desc_key: TX_CO_ITM_EQP_JOB_0010
+    has_script: false
+  }
+  item_license_inv:
+  {
+    flag: 60192
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: Proof of the Inventor
+    description: DEFAULT
+    item_key: ITM_EQP_JOB_0011
+    name_key: TX_NA_ITM_EQP_JOB_0011
+    desc_key: TX_CO_ITM_EQP_JOB_0011
+    has_script: false
+  }
+  item_sq_silver_quill:
+  {
+    flag: 60194
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: Silver Quill (Sidequest: A Present for My Son)
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TSn21_0100_0010
+    name_key: TX_NA_ITM_TRE_SS_TSn21_0100_0010
+    desc_key: TX_CO_ITM_TRE_SS_TSn21_0100_0010
+    has_script: false
+  }
+  item_sq_sturdy_pickaxe:
+  {
+    flag: 60195
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: Sturdy Pickaxe (Sidequest: The Sword in the Stone)
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TSn21_0200_0010
+    name_key: TX_NA_ITM_TRE_SS_TSn21_0200_0010
+    desc_key: TX_CO_ITM_TRE_SS_TSn21_0200_0010
+    has_script: false
+  }
+  item_sq_treasured_necklace:
+  {
+    flag: 60196
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: Treasured Necklace (Sidequest: Lingering Love)
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TSn31_0200_0010
+    name_key: TX_NA_ITM_TRE_SS_TSn31_0200_0010
+    desc_key: TX_CO_ITM_TRE_SS_TSn31_0200_0010
+    has_script: false
+  }
+  item_sq_letter_from_snowhares:
+  {
+    flag: 60197
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: Letter from the Snowhares (Sidequest: Melia's Next Chapter)
+    description: DEFAULT
+    item_key: ITM_TRE_JNP_MEL_0010
+    name_key: TX_NA_ITM_TRE_JNP_MEL_0010
+    desc_key: TX_CO_ITM_TRE_JNP_MEL_0010
+    has_script: false
+  }
+  item_sq_bottle_white_powder:
+  {
+    flag: 60198
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: Bottle of White Powder (Sidequest: Traveler's Lost and Found)
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TSe11_0200_0010
+    name_key: TX_NA_ITM_TRE_SS_TSe11_0200_0010
+    desc_key: TX_CO_ITM_TRE_SS_TSe11_0200_0010
+    has_script: false
+  }
+  item_sq_aelmorite_reflector:
+  {
+    flag: 60199
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: Aelmorite Reflector (Sidequest: Traveler's Lost and Found)
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TSe11_0300_0010
+    name_key: TX_NA_ITM_TRE_SS_TSe11_0300_0010
+    desc_key: TX_CO_ITM_TRE_SS_TSe11_0300_0010
+    has_script: false
+  }
+  item_sq_adventure_cleric_sequel:
+  {
+    flag: 60200
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: "Adventures of an Apprentice Cleric’s Sequel (Sidequest: A Young Girl's Wish) "
+    description: DEFAULT
+    item_key: ITM_INF_SS_TSe21_0300_0100
+    name_key: TX_NA_ITM_INF_SS_TSe21_0300_0100
+    desc_key: TX_CO_ITM_INF_SS_TSe21_0300_0100
+    has_script: false
+  }
+  item_sq_deluxe_crepe:
+  {
+    flag: 60201
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: "Deluxe Crepe (Sidequest: A Young Girl's Wish) "
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TSe21_0300_0010
+    name_key: TX_NA_ITM_TRE_SS_TSe21_0300_0010
+    desc_key: TX_CO_ITM_TRE_SS_TSe21_0300_0010
+    has_script: false
+  }
+  item_sq_tricks_to_grow_grapes:
+  {
+    flag: 60202
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: "Tricks to Growing Grapes (Sidequest: Goading the Grapes) "
+    description: DEFAULT
+    item_key: ITM_INF_SS_TSe21_0100_0100
+    name_key: TX_NA_ITM_INF_SS_TSe21_0100_0100
+    desc_key: TX_CO_ITM_INF_SS_TSe21_0100_0100
+    has_script: false
+  }
+  item_sq_special_bait:
+  {
+    flag: 60203
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: "Special Bait (Sidequest: A Devilishly Delicious Dish) "
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TC11_0500_0010
+    name_key: TX_NA_ITM_TRE_SS_TC11_0500_0010
+    desc_key: TX_CO_ITM_TRE_SS_TC11_0500_0010
+    has_script: false
+  }
+  item_sq_delsta_devil:
+  {
+    flag: 60204
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: "Delsta Devil (Sidequest: A Devilishly Delicious Dish) "
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TC11_0500_0020
+    name_key: TX_NA_ITM_TRE_SS_TC11_0500_0020
+    desc_key: TX_CO_ITM_TRE_SS_TC11_0500_0020
+    has_script: false
+  }
+  item_sq_nyx_royal_family_tree:
+  {
+    flag: 60205
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: "Nyx Royal Family Tree (Sidequest: Descended from Royalty) "
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TC21_0200_0010
+    name_key: TX_NA_ITM_TRE_SS_TC21_0200_0010
+    desc_key: TX_CO_ITM_TRE_SS_TC21_0200_0010
+    has_script: false
+  }
+  item_sq_nyx_family_history:
+  {
+    flag: 60206
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: "Nyx Family History (Sidequest: Descended from Royalty) "
+    description: DEFAULT
+    item_key: ITM_INF_SS_TC21_0200_0100
+    name_key: TX_NA_ITM_INF_SS_TC21_0200_0100
+    desc_key: TX_CO_ITM_INF_SS_TC21_0200_0100
+    has_script: false
+  }
+  item_sq_dolcinaea_and_gifts:
+  {
+    flag: 60207
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: "Dolcinaea and Gifts (Sidequest: Veronica's Next Chapter) "
+    description: DEFAULT
+    item_key: ITM_INF_JNP_YJB_0100
+    name_key: TX_NA_ITM_INF_JNP_YJB_0100
+    desc_key: TX_CO_ITM_INF_JNP_YJB_0100
+    has_script: false
+  }
+  item_sq_spicy_chicken_recipe:
+  {
+    flag: 60208
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: "Spicy Chicken Recipe (Sidequest: Culinary Cunning) "
+    description: DEFAULT
+    item_key: ITM_INF_SS_TI11_0200_0100
+    name_key: TX_NA_ITM_INF_SS_TI11_0200_0100
+    desc_key: TX_CO_ITM_INF_SS_TI11_0200_0100
+    has_script: false
+  }
+  item_sq_amulet_of_affection:
+  {
+    flag: 60209
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: "Amulet of Affection (Sidequest: Building Bridges) "
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TI11_0100_0010
+    name_key: TX_NA_ITM_TRE_SS_TI11_0100_0010
+    desc_key: TX_CO_ITM_TRE_SS_TI11_0100_0010
+    has_script: false
+  }
+  item_sq_pretty_pearl_1:
+  {
+    flag: 60210
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: "Pretty Pearl (Sidequest: Pearl Hunt) "
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TI21_0200_0010
+    name_key: TX_NA_ITM_TRE_SS_TI21_0200_0010
+    desc_key: TX_CO_ITM_TRE_SS_TI21_0200_0010
+    has_script: false
+  }
+  item_sq_pretty_pearl_2:
+  {
+    flag: 60211
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: "Pretty Pearl (Sidequest: Pearl Hunt) "
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TI21_0200_0010
+    name_key: TX_NA_ITM_TRE_SS_TI21_0200_0010
+    desc_key: TX_CO_ITM_TRE_SS_TI21_0200_0010
+    has_script: false
+  }
+  item_sq_pretty_pearl_3:
+  {
+    flag: 60212
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: "Pretty Pearl (Sidequest: Pearl Hunt) "
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TI21_0200_0010
+    name_key: TX_NA_ITM_TRE_SS_TI21_0200_0010
+    desc_key: TX_CO_ITM_TRE_SS_TI21_0200_0010
+    has_script: false
+  }
+  item_sq_pretty_pearl_4:
+  {
+    flag: 60213
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: "Pretty Pearl (Sidequest: Pearl Hunt) "
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TI21_0200_0010
+    name_key: TX_NA_ITM_TRE_SS_TI21_0200_0010
+    desc_key: TX_CO_ITM_TRE_SS_TI21_0200_0010
+    has_script: false
+  }
+  item_sq_lute:
+  {
+    flag: 60214
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: "Lute (Sidequest: Shirlutto's Next Chapter) "
+    description: DEFAULT
+    item_key: ITM_TRE_JNP_MOR_0010
+    name_key: TX_NA_ITM_TRE_JNP_MOR_0010
+    desc_key: TX_CO_ITM_TRE_JNP_MOR_0010
+    has_script: false
+  }
+  item_sq_paper_play:
+  {
+    flag: 60215
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: "Paper Play (Sidequest: Shirlutto's Next Chapter) "
+    description: DEFAULT
+    item_key: ITM_TRE_JNP_MOR_0020
+    name_key: TX_NA_ITM_TRE_JNP_MOR_0020
+    desc_key: TX_CO_ITM_TRE_JNP_MOR_0020
+    has_script: false
+  }
+  item_sq_history_book:
+  {
+    flag: 60216
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: History Book (Sidequest: Shirlutto's Next Chapter)
+    description: DEFAULT
+    item_key: ITM_TRE_JNP_MOR_0030
+    name_key: TX_NA_ITM_TRE_JNP_MOR_0030
+    desc_key: TX_CO_ITM_TRE_JNP_MOR_0030
+    has_script: false
+  }
+  item_sq_harrys_joke:
+  {
+    flag: 60217
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: "Harry's Self-Deprecating Joke (Sidequest: Wanted: A Good Joke) "
+    description: DEFAULT
+    item_key: ITM_INF_SS_TW11_0200_0200
+    name_key: TX_NA_ITM_INF_SS_TW11_0200_0200
+    desc_key: TX_CO_ITM_INF_SS_TW11_0200_0200
+    has_script: false
+  }
+  item_sq_nikkis_joke:
+  {
+    flag: 60218
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: Nikki's Special Joke (Sidequest: Wanted: A Good Joke)
+    description: DEFAULT
+    item_key: ITM_INF_SS_TW11_0200_0100
+    name_key: TX_NA_ITM_INF_SS_TW11_0200_0100
+    desc_key: TX_CO_ITM_INF_SS_TW11_0200_0100
+    has_script: false
+  }
+  item_sq_neds_joke:
+  {
+    flag: 60219
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: Ned's Romantic Advice (Sidequest: Wanted: A Good Joke)
+    description: DEFAULT
+    item_key: ITM_INF_SS_TW11_0200_0300
+    name_key: TX_NA_ITM_INF_SS_TW11_0200_0300
+    desc_key: TX_CO_ITM_INF_SS_TW11_0200_0300
+    has_script: false
+  }
+  item_sq_stocked_goods:
+  {
+    flag: 60220
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: "Stocked Goods (Sidequest: Stolen Goods) "
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TW11_0100_0010
+    name_key: TX_NA_ITM_TRE_SS_TW11_0100_0010
+    desc_key: TX_CO_ITM_TRE_SS_TW11_0100_0010
+    has_script: false
+  }
+  item_sq_hunting_request:
+  {
+    flag: 60221
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: "Hunting Request (Sidequest: Alpione's Next Chapter) "
+    description: DEFAULT
+    item_key: ITM_INF_JNP_APN_0100
+    name_key: TX_NA_ITM_INF_JNP_APN_0100
+    desc_key: TX_CO_ITM_INF_JNP_APN_0100
+    has_script: false
+  }
+  item_sq_crop_tapestry_pattern:
+  {
+    flag: 60222
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: "Crop Tapestry Pattern (Sidequest: Crop Revival) "
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TF11_0100_0010
+    name_key: TX_NA_ITM_TRE_SS_TF11_0100_0010
+    desc_key: TX_CO_ITM_TRE_SS_TF11_0100_0010
+    has_script: false
+  }
+  item_sq_well_iris_uses:
+  {
+    flag: 60223
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: "Well Iris Uses (Sidequest: Useless Fruit) "
+    description: DEFAULT
+    item_key: ITM_INF_SS_TF21_0100_0100
+    name_key: TX_NA_ITM_INF_SS_TF21_0100_0100
+    desc_key: TX_CO_ITM_INF_SS_TF21_0100_0100
+    has_script: false
+  }
+  item_sq_azure_sun_sword:
+  {
+    flag: 60224
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: "Azure Sun Sword (Sidequest: Proof of Guilt) "
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TF31_0200_0010
+    name_key: TX_NA_ITM_TRE_SS_TF31_0200_0010
+    desc_key: TX_CO_ITM_TRE_SS_TF31_0200_0010
+    has_script: false
+  }
+  item_sq_stolen_sword:
+  {
+    flag: 60225
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: "Stolen Sword (Sidequest: Proof of Justice) "
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TF31_0400_0010
+    name_key: TX_NA_ITM_TRE_SS_TF31_0400_0010
+    desc_key: TX_CO_ITM_TRE_SS_TF31_0400_0010
+    has_script: false
+  }
+  item_sq_killers_motive:
+  {
+    flag: 60226
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: "A Killer's Motive (Sidequest: Proof of Justice) "
+    description: DEFAULT
+    item_key: ITM_INF_SS_TF31_0400_0100
+    name_key: TX_NA_ITM_INF_SS_TF31_0400_0100
+    desc_key: TX_CO_ITM_INF_SS_TF31_0400_0100
+    has_script: false
+  }
+  item_sq_sacred_flame_candle_1:
+  {
+    flag: 60227
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: "Sacred Flame Candle (Sidequest: Pilgrim Protection) "
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TM12_0100_0010
+    name_key: TX_NA_ITM_TRE_SS_TM12_0100_0010
+    desc_key: TX_CO_ITM_TRE_SS_TM12_0100_0010
+    has_script: false
+  }
+  item_sq_sacred_flame_candle_2:
+  {
+    flag: 60228
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: "Sacred Flame Candle (Sidequest: Pilgrim Protection) "
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TM12_0100_0010
+    name_key: TX_NA_ITM_TRE_SS_TM12_0100_0010
+    desc_key: TX_CO_ITM_TRE_SS_TM12_0100_0010
+    has_script: false
+  }
+  item_sq_sacred_flame_candle_3:
+  {
+    flag: 60229
+    other_flags: []
+    give: false
+    display: true
+    unique: false
+    name: Sacred Flame Candle (Sidequest: Pilgrim Protection)
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TM12_0100_0010
+    name_key: TX_NA_ITM_TRE_SS_TM12_0100_0010
+    desc_key: TX_CO_ITM_TRE_SS_TM12_0100_0010
+    has_script: false
+  }
+  item_sq_fort_orochi_plans:
+  {
+    flag: 60230
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: "Fort Orochi Plans (Sidequest: Plans from a Ruined Nation) "
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TD21_0200_0010
+    name_key: TX_NA_ITM_TRE_SS_TD21_0200_0010
+    desc_key: TX_CO_ITM_TRE_SS_TD21_0200_0010
+    has_script: false
+  }
+  item_sq_phoenix_fan:
+  {
+    flag: 60231
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: "Phoenix Fan (Sidequest: The Treasures of Ku) "
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TD31_0200_0020
+    name_key: TX_NA_ITM_TRE_SS_TD31_0200_0020
+    desc_key: TX_CO_ITM_TRE_SS_TD31_0200_0020
+    has_script: false
+  }
+  item_sq_dragon_vase:
+  {
+    flag: 60232
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: Dragon Vase (Sidequest: The Treasures of Ku)
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TD31_0200_0010
+    name_key: TX_NA_ITM_TRE_SS_TD31_0200_0010
+    desc_key: TX_CO_ITM_TRE_SS_TD31_0200_0010
+    has_script: false
+  }
+  item_sq_message_in_bottle:
+  {
+    flag: 60233
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: "Message in a Bottle (Sidequest: The Washed-Up Letter) "
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TSe21_0400_0010
+    name_key: TX_NA_ITM_TRE_SS_TSe21_0400_0010
+    desc_key: TX_CO_ITM_TRE_SS_TSe21_0400_0010
+    has_script: false
+  }
+  item_sq_mysterious_box:
+  {
+    flag: 60234
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: Mysterious Box (Sidequest: A Mysterious Box)
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TW21_0200_0010
+    name_key: TX_NA_ITM_TRE_SS_TW21_0200_0010
+    desc_key: TX_CO_ITM_TRE_SS_TW21_0200_0010
+    has_script: false
+  }
+  item_sq_cloudy_crystal_bracelet:
+  {
+    flag: 60235
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: Cloudy Crystal Bracelet (Sidequest: The Missing Girl)
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TW31_0200_0010
+    name_key: TX_NA_ITM_TRE_SS_TW31_0200_0010
+    desc_key: TX_CO_ITM_TRE_SS_TW31_0200_0010
+    has_script: false
+  }
+  item_sq_mikkas_earrings:
+  {
+    flag: 60236
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: Earrings (Sidequest: Mikka’s Next Chapter)
+    description: DEFAULT
+    item_key: ITM_TRE_JNP_MIK_0010
+    name_key: TX_NA_ITM_TRE_JNP_MIK_0010
+    desc_key: TX_CO_ITM_TRE_JNP_MIK_0010
+    has_script: false
+  }
+  item_sq_brown_coat:
+  {
+    flag: 60237
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: Man in a Brown Coat (Sidequest: Misha’s Next Chapter)
+    description: DEFAULT
+    item_key: ITM_INF_JNP_SHI_0200
+    name_key: TX_NA_ITM_INF_JNP_SHI_0200
+    desc_key: TX_CO_ITM_INF_JNP_SHI_0200
+    has_script: false
+  }
+  item_sq_garbage_collector:
+  {
+    flag: 60238
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: Garbage Collector (Sidequest: Misha’s Next Chapter)
+    description: DEFAULT
+    item_key: ITM_INF_JNP_SHI_0100
+    name_key: TX_NA_ITM_INF_JNP_SHI_0100
+    desc_key: TX_CO_ITM_INF_JNP_SHI_0100
+    has_script: false
+  }
+  item_sq_game_parlor:
+  {
+    flag: 60239
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: Truth of the Game Parlor (Sidequest: A Gambling Man)
+    description: DEFAULT
+    item_key: ITM_INF_SS_TC11_0100_0100
+    name_key: TX_NA_ITM_INF_SS_TC11_0100_0100
+    desc_key: TX_CO_ITM_INF_SS_TC11_0100_0100
     has_script: false
   }
 }

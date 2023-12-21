@@ -21,24 +21,9 @@ def keep_chapter_one_separate(w, s, c):
         for si, slot in enumerate(s):
             w[si] *= si.ring > 1
 
-def rusty_always_accessible(w, s, c):
-    if c.is_rusty:
-        for si, slot in enumerate(s):
-            w[si] *= slot.always_accessible
-
-def inventor_always_accessible(w, s, c):
-    if c.is_inventor_item:
-        for si, slot in enumerate(s):
-            w[si] *= slot.always_accessible
-
-def license_always_accessible(w, s, c):
-    if c.is_license:
-        for si, slot in enumerate(s):
-            w[si] *= slot.always_accessible
-
-
-def license_price():
-    return random.randint(1, 10) * 5000
+def separate_treasure_shuffle(w, s, c):
+    for si, slot in enumerate(s):
+        w[si] *= type(slot) == type(c)
 
 
 class ItemSlot(Slot):
@@ -52,9 +37,7 @@ class ItemSlot(Slot):
 
     @property
     def is_key_item(self):
-        maybe_key_item = self.is_knowledge or self.is_valuable
-        not_key_item = self.is_rusty or self.is_inventor_item
-        return False if not_key_item else maybe_key_item
+        return self.is_knowledge or self.is_valuable or self.is_rusty or self.is_inventor_item or self.is_license
 
     @property
     def item_has_little_value(self):
@@ -94,6 +77,15 @@ class ItemSlot(Slot):
     def is_license(self):
         return '_JOB_' in self.item_label
 
+    def get_item_price(self, item_label):
+        # Other data needed if this slot becomes a NPC item
+        item_db = Manager.get_instance('ItemDB').table
+        row = item_db.get_row(self.item_label)
+        if row:
+            assert row.BuyPrice >= row.SellPrice
+            return self.random_price(row.SellPrice, row.BuyPrice)
+        return 42
+
     def random_price(self, sell_price, buy_price):
         min_price = sell_price * 4 // 5  #  80%
         max_price = buy_price * 5 // 4  # 120%
@@ -132,20 +124,12 @@ class ItemObject(ItemSlot):
         valid_slot = item_db.get_name(self.slot.HaveItemLabel) or self.slot.IsMoney
         self.skip = obj.ObjectType in [0, 5, 8] or not valid_slot
         self.skip |= self.is_event_item # e.g. Angea's purse
-        self.skip |= self.is_key_item # Knowledge/Valuable except rusty weapon or inventor item
+        self.skip |= self.is_key_item
         self.skip |= not obj.is_valid
         self.ring = obj.ring
         self.money_allowed = True
         self.always_accessible = obj.is_always_accessible
-
-        # Other data needed if this slot becomes a NPC item
-        row = item_db.get_row(self.item_label)
-        if row:
-            assert row.BuyPrice >= row.SellPrice
-            if not self.skip:
-                self.price = self.random_price(row.SellPrice, row.BuyPrice)
-        else:
-            self.price = 42
+        self.price = self.get_item_price(self.item_label)
 
     @property
     def is_event_item(self):
@@ -155,6 +139,18 @@ class ItemObject(ItemSlot):
         self.slot.HaveItemLabel = self.item_label
         self.slot.HaveItemCnt = self.count
         self.slot.IsMoney = self.is_money
+
+
+class ItemChest(ItemObject):
+    def __init__(self, obj):
+        assert obj.is_chest
+        super().__init__(obj)
+
+
+class ItemHidden(ItemObject):
+    def __init__(self, obj):
+        assert obj.is_hidden
+        super().__init__(obj)
 
 
 class ItemNPC(ItemSlot):
@@ -187,92 +183,31 @@ class ItemNPC(ItemSlot):
         self.slot.FCPrice = self.price
 
 
-class ItemGuild(ItemSlot):
-    def __init__(self, guild):
-        self.key = guild.key
-        self.slot = guild
-
-        # Must be patches
-        self.item_label = self.slot.LicenseItem
-
-        # Constraints
-        self.skip = False
-        self.ring = 2
-        self.money_allowed = False
-        self.always_accessible = True
-
-        # Other data
-        self.count = 1
-        self.is_money = False
-        self.price = license_price()
-
-    def patch(self):
-        self.slot.LicenseItem = self.item_label
-
-
-class ItemGuildAdv(ItemSlot):
-    def __init__(self, item, json_file):
-        self.guild = Manager.get_json(json_file)
-        self.vanilla = item
-        self.item_label = item
-
-        self.skip = False
-        self.ring = 2
-        self.money_allowed = False
-        self.always_accessible = True
-
-        self.count = 1
-        self.is_money = False
-        self.price = license_price()
-
-    def patch(self):
-        for command in self.guild.json_list:
-            for i, value in enumerate(command.opt):
-                if value == self.vanilla:
-                    command.opt[i] = self.item_label
-
-
-class ItemArmsmaster(ItemSlot):
-    def __init__(self):
-        self.slot = Manager.get_asset_only('BP_WeaponMasterUtil')
-        self.item_label = 'ITM_EQP_JOB_0008'
-
-        # Constraints
-        self.skip = False
-        self.ring = 2
-        self.money_allowed = False
-        self.always_accessible = True
-
-        # Other data
-        self.count = 1
-        self.is_money = False
-        self.price = license_price()
-
-    def patch(self):
-        self.slot.uasset.replace_index('ITM_EQP_JOB_0008', self.item_label)
-        value = self.slot.uasset.get_index(self.item_label)
-        self.slot.patch_int64(0x50b6, value)
-
-
-# Currently ONLY used for the Rusty Sword
-# TODO: Look through sidequests, requirements, and rewards,
-# and consider adding all of them to the randomizer
+# TODO: must ensure "The Traveler's Bag" only gets include once in the candidates/slots!
+# then must update all others to have the same new item!
+# TODO: find way to shuffle number of rewards per sidequest (ensure each has at least 1 always, plus money)
 class ItemSideQuest(ItemSlot):
-    def __init__(self):
-        self.item_label = 'ITM_TRE_WPM_01' # Rusty Sword
+    def __init__(self, sq, index):
+        self.key = sq.key
+        self.slot = sq
+        self.index = index
 
-        self.skip = False
-        self.ring = 2
-        self.money_allowed = False
+        self.item_label = sq.RewardParam[index]
+        self.skip = self.item_label == 'None' or self.is_key_item
+        self.count = 'None' if self.skip else int(sq.RewardParam[index+1])
+
+        assert isinstance(sq.RewardParam[index+1], str)
+        self.money_allowed = False # Money is handled separately in each row
         self.always_accessible = True
-
-        self.count = 1
         self.is_money = False
-        self.price = random.randint(1, 5) * 10000
+        self.price = self.get_item_price(self.item_label)
+
+        # TODO: will need to set rings
+        self.ring = 2
 
     def patch(self):
-        substories = Manager.get_table('SubStoryTask')
-        substories.SS_SNW2_0200.RewardParam[0] = self.item_label
+        self.slot.RewardParam[self.index] = self.item_label
+        self.slot.RewardParam[self.index+1] = str(self.count)
 
 
 # Chests, hidden items, and stealing/bargaining
@@ -281,74 +216,81 @@ class ItemSideQuest(ItemSlot):
 # store all vanilla stuff when instantiating)
 class Treasures(Shuffler):
     check_chapter = no_weights
-    include_licenses = False
-    include_inventor_parts = False
-    include_rusty_weapons = False
+    shuffle_treasures_separately = no_weights
+
+    include_chests = False
+    include_hidden = False
+    include_npc_shops = False
+    include_sidequests = False
 
     def __init__(self):
         self.object_db = Manager.get_instance('ObjectData').table
         self.shop_db = Manager.get_instance('PurchaseItemTable').table
-        self.guild_db = Manager.get_instance('GuildData').table
+        self.sidequest_db = Manager.get_instance('SubStoryTask').table
 
         slots = []
         candidates = []
 
-        # Chests & Hidden Items
-        for obj in self.object_db:
-            slots.append(ItemObject(obj))
-            candidates.append(ItemObject(obj))
+        if self.include_chests:
+            for obj in self.object_db:
+                if obj.is_chest:
+                    slots.append(ItemChest(obj))
+                    candidates.append(ItemChest(obj))
 
-        # NPC shops
-        for shop in self.shop_db:
-            if shop.is_npc:
-                slots.append(ItemNPC(shop))
-                candidates.append(ItemNPC(shop))
+        if self.include_hidden:
+            for obj in self.object_db:
+                if obj.is_hidden:
+                    slots.append(ItemHidden(obj))
+                    candidates.append(ItemHidden(obj))
 
-        # Sidequests -- Rusty Sword only
-        slots.append(ItemSideQuest())
-        candidates.append(ItemSideQuest())
+        if self.include_npc_shops:
+            for shop in self.shop_db:
+                if shop.is_npc:
+                    slots.append(ItemNPC(shop))
+                    candidates.append(ItemNPC(shop))
 
-        # Guild/Licenses
-        self.proof_of_conjurer = None
-        if self.include_licenses:
-            for guild in self.guild_db:
-                if guild.LicenseItem != 'None':
-                    slots.append(ItemGuild(guild))
-                    candidates.append(ItemGuild(guild))
-
-            slots.append(ItemGuildAdv('ITM_EQP_JOB_0009', 'SYS_WIZ_GUILD_0000'))
-            candidates.append(ItemGuildAdv('ITM_EQP_JOB_0009', 'SYS_WIZ_GUILD_0000'))
-
-            slots.append(ItemGuildAdv('ITM_EQP_JOB_0010', 'SYS_SHA_GUILD_0100'))
-            candidates.append(ItemGuildAdv('ITM_EQP_JOB_0010', 'SYS_SHA_GUILD_0100'))
-            self.proof_of_conjurer = slots[-1] # Will need to edit multiple files later
-
-            slots.append(ItemGuildAdv('ITM_EQP_JOB_0011', 'SYS_INV_GUILD_0010'))
-            candidates.append(ItemGuildAdv('ITM_EQP_JOB_0011', 'SYS_INV_GUILD_0010'))
-
-            slots.append(ItemArmsmaster())
-            candidates.append(ItemArmsmaster())
-
-        #####
-        # Always shuffle rusty weapons and inventor parts separately
-        # TODO: Cleanup stuff here to remove any need for this
-        if True:
-            counter = 0
-            for s, c in zip(slots, candidates):
-                if s.is_rusty and not s.skip:
-                    s.skip = True
-                    c.skip = True
-                    counter += 1
-            assert counter == 6
-
-        if True:
-            counter = 0
-            for s, c in zip(slots, candidates):
-                if s.is_inventor_item and not s.skip:
-                    s.skip = True
-                    c.skip = True
-                    counter += 1
-            assert counter == 6
+        # Sidequests
+        self.sq_travelers_bag = []
+        self.sq_travelers_bag_1 = None
+        self.sq_travelers_bag_2 = None
+        self.sq_travelers_bag_3 = None
+        if self.include_sidequests:
+            for sq in self.sidequest_db:
+                if sq.sq_name is not None:
+                    assert len(sq.RewardParam) == 6
+                    s1 = ItemSideQuest(sq, 0)
+                    s2 = ItemSideQuest(sq, 2)
+                    s3 = ItemSideQuest(sq, 4)
+                    c1 = ItemSideQuest(sq, 0)
+                    c2 = ItemSideQuest(sq, 2)
+                    c3 = ItemSideQuest(sq, 4)
+                    if sq.is_travelers_bag:
+                        if self.sq_travelers_bag_1:
+                            # These sidequests will be patched after shuffling
+                            self.sq_travelers_bag.append(s1)
+                            self.sq_travelers_bag.append(s2)
+                            self.sq_travelers_bag.append(s3)
+                        else:
+                            self.sq_travelers_bag_1 = s1
+                            self.sq_travelers_bag_2 = s2
+                            self.sq_travelers_bag_3 = s3
+                            assert self.sq_travelers_bag_1.index == 0
+                            assert self.sq_travelers_bag_2.index == 2
+                            assert self.sq_travelers_bag_3.index == 4
+                            # Only shuffle these rewards for 1 of the 9 sidequests
+                            slots.append(s1)
+                            slots.append(s2)
+                            slots.append(s3)
+                            candidates.append(c1)
+                            candidates.append(c2)
+                            candidates.append(c3)
+                    else:
+                        slots.append(s1)
+                        slots.append(s2)
+                        slots.append(s3)
+                        candidates.append(c1)
+                        candidates.append(c2)
+                        candidates.append(c3)
 
         # Remove key items/events
         self.slots = list(filter(lambda x: not x.skip, slots))
@@ -360,94 +302,34 @@ class Treasures(Shuffler):
 
     def generate_weights(self):
         super().generate_weights(check_money, Treasures.check_chapter,
-                                rusty_always_accessible, inventor_always_accessible,
-                                license_always_accessible)
+                                 Treasures.shuffle_treasures_separately)
 
-    def finalize_licenses(self):
-        # Only consider slots with pointless items as candidates
-        # for second and third licenses of base jobs
-        candidates = []
-        for slot in self.slots:
-            if slot.item_has_little_value and slot.always_accessible:
-                candidates.append(slot)
-
-        #### TODO:
-        # add check to see if a license ended up in a guild
-        # in that case, don't add 2 extra licenses anywhere!
-        #
-        # if the license ended up not at a guild
-        # don't let any of the two additional slots be at a guild!
-        # e.g. filter out guild slots in the loop above!
-
-        slots = random.sample(candidates, 16)
-        slots[0].item_label = 'ITM_EQP_JOB_0000' # Merchant
-        slots[1].item_label = 'ITM_EQP_JOB_0000'
-        slots[2].item_label = 'ITM_EQP_JOB_0001' # Thief
-        slots[3].item_label = 'ITM_EQP_JOB_0001'
-        slots[4].item_label = 'ITM_EQP_JOB_0002' # Warrior
-        slots[5].item_label = 'ITM_EQP_JOB_0002'
-        slots[6].item_label = 'ITM_EQP_JOB_0003' # Hunter
-        slots[7].item_label = 'ITM_EQP_JOB_0003'
-        slots[8].item_label = 'ITM_EQP_JOB_0004' # Cleric
-        slots[9].item_label = 'ITM_EQP_JOB_0004'
-        slots[10].item_label = 'ITM_EQP_JOB_0005' # Dancer
-        slots[11].item_label = 'ITM_EQP_JOB_0005'
-        slots[12].item_label = 'ITM_EQP_JOB_0006' # Scholar
-        slots[13].item_label = 'ITM_EQP_JOB_0006'
-        slots[14].item_label = 'ITM_EQP_JOB_0007' # Apothecary
-        slots[15].item_label = 'ITM_EQP_JOB_0007'
-        for slot in slots:
-            slot.price = license_price()
-
-        # Update flags in first events to ensure subjobs can be equipped before
-        # going to a guild
-        gak = Manager.get_json('MS_GAK_10_0100')
-        kar = Manager.get_json('MS_KAR_10_0200')
-        ken = Manager.get_json('MS_KEN_10_0100')
-        kus = Manager.get_json('MS_KUS_10_0100')
-        odo = Manager.get_json('MS_ODO_10_0100')
-        sho = Manager.get_json('MS_SHO_10_0100')
-        sin = Manager.get_json('MS_SIN_10_0100')
-        tou = Manager.get_json('MS_TOU_10_0100')
-
-        gak.change_flag(406, 411) # 406 stays off, 411 gets turned on
-        kar.change_flag(406, 411)
-        ken.change_flag(406, 411)
-        kus.change_flag(406, 411)
-        odo.change_flag(406, 411)
-        sho.change_flag(406, 411)
-        sin.change_flag(406, 411)
-        tou.change_flag(406, 411)
-
-        # Have all PCs start with first 2 inventor abilities.
-        # This is way simpler than finding the right place in event scripts
-        # to add the apprioriate commands.
-        reminiscence = Manager.get_instance('ReminiscenceSetting').table
-        reminiscence.agnea.add_to_backpack('ITM_TRE_INV_01', 1)
-        reminiscence.agnea.add_to_backpack('ITM_TRE_INV_02', 1)
-        reminiscence.castti.remove_from_backpack('ITM_MRL_REV_0010') # Grape Leaf
-        reminiscence.castti.add_to_backpack('ITM_TRE_INV_01', 1)
-        reminiscence.castti.add_to_backpack('ITM_TRE_INV_02', 1)
-        reminiscence.hikari.add_to_backpack('ITM_TRE_INV_01', 1)
-        reminiscence.hikari.add_to_backpack('ITM_TRE_INV_02', 1)
-        reminiscence.partitio.add_to_backpack('ITM_TRE_INV_01', 1)
-        reminiscence.partitio.add_to_backpack('ITM_TRE_INV_02', 1)
-        reminiscence.ochette.add_to_backpack('ITM_TRE_INV_01', 1)
-        reminiscence.ochette.add_to_backpack('ITM_TRE_INV_02', 1)
-        reminiscence.osvald.add_to_backpack('ITM_TRE_INV_01', 1)
-        reminiscence.osvald.add_to_backpack('ITM_TRE_INV_02', 1)
-        reminiscence.temenos.add_to_backpack('ITM_TRE_INV_01', 1)
-        reminiscence.temenos.add_to_backpack('ITM_TRE_INV_02', 1)
-        reminiscence.throne.add_to_backpack('ITM_TRE_INV_01', 1)
-        reminiscence.throne.add_to_backpack('ITM_TRE_INV_02', 1)
-
-        ##### Update all event files that give the Proof of Conjurer
-        if self.proof_of_conjurer:
-            guild = ItemGuildAdv('ITM_EQP_JOB_0010', 'SC_SS_TDesert31_0400_1000')
-            guild.item_label = self.proof_of_conjurer.item_label
-            guild.patch()
-
+    def finalize_sidequests(self):
+        # Make all Traveler's Bag rewards be the same
+        slots = iter(self.sq_travelers_bag)
+        n = len(self.sq_travelers_bag)
+        assert n % 3 == 0
+        while n:
+            next(slots).copy(self.sq_travelers_bag_1)
+            next(slots).copy(self.sq_travelers_bag_2)
+            next(slots).copy(self.sq_travelers_bag_3)
+            n -= 3
+        # Shuffle money rewards
+        sidequests = sorted(set([s.slot for s in self.slots if isinstance(s, ItemSideQuest)]))
+        for i, si in enumerate(sidequests):
+            sj = random.sample(sidequests[i:], 1)[0]
+            si.RewardMoney, sj.RewardMoney = sj.RewardMoney, si.RewardMoney
+        slot_tb = self.sq_travelers_bag_1.slot
+        slots = sorted(set([s.slot for s in self.sq_travelers_bag]))
+        slots.sort()
+        for si in slots:
+            si.RewardMoney = slot_tb.RewardMoney
 
     def finalize(self):
-        if self.include_licenses:
-            self.finalize_licenses()
+        if self.include_sidequests:
+            self.finalize_sidequests()
+
+    def finish(self):
+        super().finish()
+        for slot in self.sq_travelers_bag:
+            slot.patch()

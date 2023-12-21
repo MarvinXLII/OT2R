@@ -50,6 +50,7 @@ class Graph:
             inventory.add('rank_1')
             inventory.add('rank_2')
             inventory.add('rank_3')
+            inventory.add('rank_4')
 
         def dfs(iteration):
             # Start from visited nodes with unvisited neighbors
@@ -81,6 +82,7 @@ class Graph:
             self._add_rank_1(inventory, num_pcs[0], num_chapters_finished)
             self._add_rank_2(inventory, num_pcs[0], num_chapters_finished)
             self._add_rank_3(inventory, num_pcs[0], num_chapters_finished)
+            self._add_rank_4(inventory, num_pcs[0], num_chapters_finished)
 
         iteration = 1
         while True:
@@ -108,6 +110,7 @@ class Graph:
             everything.add('rank_1')
             everything.add('rank_2')
             everything.add('rank_3')
+            everything.add('rank_4')
 
         pcs = set()
         for x in always_have:
@@ -138,9 +141,9 @@ class Graph:
                 if is_pc(x):
                     pcs.add(x)
 
-            self._add_rank_1(everything, len(pcs), num_chapters_finished)
-            self._add_rank_2(everything, len(pcs), num_chapters_finished)
-            self._add_rank_3(everything, len(pcs), num_chapters_finished)
+            # self._add_rank_1(inventory, len(pcs), num_chapters_finished)
+            # self._add_rank_2(inventory, len(pcs), num_chapters_finished)
+            # self._add_rank_3(inventory, len(pcs), num_chapters_finished)
 
             everything.update(inventory)
             if not new_node_visited:
@@ -153,6 +156,10 @@ class Graph:
                     for x in node.slots:
                         if is_pc(x):
                             pcs.add(x)
+                self._add_rank_1(everything, len(pcs), num_chapters_finished)
+                self._add_rank_2(everything, len(pcs), num_chapters_finished)
+                self._add_rank_3(everything, len(pcs), num_chapters_finished)
+                self._add_rank_4(everything, len(pcs), num_chapters_finished)
                 current_ring = []
                 inventory = set()
 
@@ -268,6 +275,7 @@ class Graph:
             self._add_rank_1(inv_set, len(pcs), num_chapters_finished)
             self._add_rank_2(inv_set, len(pcs), num_chapters_finished)
             self._add_rank_3(inv_set, len(pcs), num_chapters_finished)
+            self._add_rank_4(inv_set, len(pcs), num_chapters_finished)
 
             # If no new items were added, then it is impossible to access any unvisited nodes
             if len(inv_set) == inv_size:
@@ -277,18 +285,23 @@ class Graph:
 
     @staticmethod
     def _add_rank_1(inventory, num_pcs, num_chap_fin):
-        if num_pcs > 3:
+        if num_pcs > 3: # and num_chap_fin > 1:
             inventory.add('rank_1')
         
     @staticmethod
     def _add_rank_2(inventory, num_pcs, num_chap_fin):
-        if num_pcs > 5 and num_chap_fin > 8:
+        if num_pcs > 4 and num_chap_fin > 8:
             inventory.add('rank_2')
         
     @staticmethod
     def _add_rank_3(inventory, num_pcs, num_chap_fin):
-        if num_pcs == 8 and num_chap_fin > 16:
+        if num_pcs > 5 and num_chap_fin > 16:
             inventory.add('rank_3')
+
+    @staticmethod
+    def _add_rank_4(inventory, num_pcs, num_chap_fin):
+        if num_pcs == 8 and num_chap_fin > 24:
+            inventory.add('rank_4')
 
 
     def store_node_costs(self, start):

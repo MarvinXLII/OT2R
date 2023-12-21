@@ -24,6 +24,7 @@ from Bosses import *
 from Databases import *
 from Events import InitialEvents
 from EventsAndItems import EventsAndItems
+from QualityOfLife import *
 
 @dataclass
 class RNGSeed:
@@ -70,7 +71,6 @@ class Rando:
 
     def initialize(self, seed):
         Manager.initialize()
-        Manager.Pak.apply_patches()
 
         self._seed = RNGSeed(seed)
         self.out_path = f"seed_{seed}"
@@ -89,9 +89,11 @@ class Rando:
         Manager.get_table('AbilityData', table=AbilityTable, row=AbilityRow)
         Manager.get_table('EnemyDB', table=EnemyTable, row=EnemyRow)
         Manager.get_table('EnemyGroupData', table=EnemyGroupTable, row=EnemyGroupRow)
-        Manager.get_table('NPCHearData')
+        Manager.get_table('NPCHearInfoData')
+        Manager.get_table('NPCHearData', table=NPCHearTable, row=NPCHearRow)
+        Manager.get_table('NPCBattleData', table=NPCBattleTable, row=NPCBattleRow)
         Manager.get_table('NPCLeadData')
-        Manager.get_table('NPCBattleData')
+        Manager.get_table('ShopList', table=ShopListTable, row=ShopListRow)
         Manager.get_table('PlayableCharacterDB', table=PCTable, row=PCRow)
         Manager.get_table('JobData', table=JobTable, row=JobRow)
         Manager.get_table('SupportAbilityData', row=SupportRow)
@@ -103,8 +105,8 @@ class Rando:
         Manager.get_table('ReminiscenceSetting', table=ReminiscenceTable, row=ReminiscenceRow)
         Manager.get_table('LinerShipRoute')
         Manager.get_table('DiseaseData')
-        Manager.get_table('ShopList', table=ShopListTable, row=ShopListRow)
         Manager.get_table('BGMTable', row=RowSplit)
+        Manager.get_table('SubStoryTask', table=SidequestTable, row=SidequestRow)
 
         # Spoiler logs
         self.spoiler_jobs = SpoilerJobs(self.out_path)
@@ -123,36 +125,45 @@ class Rando:
         self._run(obj, *args)
 
     def randomize(self):
-        # Do treasures BEFORE key items in EAI
-        # Currently treasures skips slots based on current contents, NOT vanilla contents
-        self._randomize(Rando.treasures)
-        if EventsAndItems.any_on():
-            self._randomize(EventsAndItems, self.out_path)
-
-        self._run(Rando.jp_nerf) # Must be done before randomizing JP costs
-        self._randomize(Rando.jp_costs)
-
-        # # Order matters for these PC & command dependent options
+        # Order matters for these PC & command dependent options
         self._randomize(Rando.ability_weapons)
         self._randomize(Rando.weapons)
         self._randomize(Rando.command) # after weapons & ability_weapons!
         self._randomize(Rando.guilds) # after commands!
 
-        self._randomize(Rando.shields)
+        self._randomize(Rando.shields) # must be before anything involving enemy weakness
         self._randomize(Rando.sp_costs)
         self._randomize(Rando.ability_power)
         self._randomize(Rando.support)
         self._randomize(Rando.job_stats)
-        # self._randomize(Rando.treasures)
         self._randomize(Rando.process_species)
+
         self._randomize(Rando.enemy_groups)
         self._randomize(Rando.battles) # Keep enemy stat scaling after groups!
-        self._randomize(Rando.bosses)
+
+        self._run(Rando.jp_nerf) # Must be done before randomizing JP costs
+        self._randomize(Rando.jp_costs)
+
+        # HIGH PRIORITY; do later (see TODO)
+        # Do treasures BEFORE key items in EAI
+        # Currently treasures skips slots based on current contents, NOT vanilla contents
+        self._randomize(Rando.treasures)
+        # TODO: move to AFTER shuffling PC skills & weapons; needed for temenos' coerce
+        # MUST be done AFTER shuffling shields for temenos' coerce (or move that section elsewhere)
+        if EventsAndItems.any_on():
+            self._randomize(EventsAndItems, self.out_path)
+
+        # TODO: move EventsAndItems shuffle here, AFTER pc skills and weapons
+        # important for temenos breaking enemies with coerce
+
+        # HIGH PRIORITY: after EventsAndItems (for future work with boss shuffling)
+        # Keep battle stuff at the end
+        self._randomize(Rando.bosses) # TODO: shuffle bosses based on chapter shuffle from EventsAndItems
 
         # Default stuff
-        self.title_image.updateTitle()
+        self.title_image.patch()
 
-    def qualityOfLife(self):
+    def quality_of_life(self):
         self._seed.set_seed() # SpurningRibbon QOL might still need RNG
         self._run(Rando.spurning_ribbon) # Make sure this is done AFTER support shuffling
         self._run(Rando.path_actions)
@@ -176,6 +187,10 @@ class Rando:
         if Rando.weapons != Nothing:
             prologue_shops_update_weapons()
 
+        # Map Stuff
+        if Rando.more_fast_travel:
+            more_fast_travel()
+
         # Testing stuff -- must be done last
         self._run(Rando.testing)
 
@@ -186,6 +201,7 @@ class Rando:
         self.spoiler_jobs.support()
         self.spoiler_jobs.support_em_job()
         self.spoiler_jobs.skills()
+        self.spoiler_items.sidequests()
         self.spoiler_items.chests()
         self.spoiler_items.hidden()
         self.spoiler_items.npc()

@@ -13,6 +13,41 @@ class SpoilerItems:
         self.outpath = outpath
         self.object_db = Manager.get_instance('ObjectData').table
         self.shop_db = Manager.get_instance('PurchaseItemTable').table
+        self.sidequest_db = Manager.get_instance('SubStoryTask').table
+
+    def sidequests(self):
+        outfile = os.path.join(self.outpath, 'spoiler_sidequest_rewards.txt')
+        sys.stdout = open(outfile, 'w', encoding='utf-8')
+
+        regions = ['Winterlands', 'Brightlands', 'Harbourlands', 'Crestlands',
+                   'Hinoeuma', "Toto'haha", 'Wildlands', 'Leaflands']
+        data = {regions[i]:[] for i in range(8)}
+        max_len = 0
+        for sq in self.sidequest_db:
+            if not sq.is_sidequest: continue
+            data[regions[sq.AreaIndex]].append(sq)
+            max_len = max(max_len, len(sq.vanilla_1))
+            max_len = max(max_len, len(sq.vanilla_2))
+            max_len = max(max_len, len(sq.vanilla_3))
+
+        for reg, d in data.items():
+            print('=' * len(reg))
+            print(reg)
+            print('=' * len(reg))
+            print('')
+            d.sort(key=lambda x: x.sq_name)
+            for di in d:
+                print('   ', di.sq_name)
+                if di.vanilla_1:
+                    print('     ', di.vanilla_1.rjust(max_len, ' '), ' <-- ', di.get_reward_text(1))
+                if di.vanilla_2:
+                    print('     ', di.vanilla_2.rjust(max_len, ' '), ' <-- ', di.get_reward_text(2))
+                if di.vanilla_3:
+                    print('     ', di.vanilla_3.rjust(max_len, ' '), ' <-- ', di.get_reward_text(3))
+                print('     ', di.vanilla_money.rjust(max_len, ' '), ' <-- ', di.get_money_text())
+                print('')
+
+        sys.stdout = sys.__stdout__
 
     def chests(self):
         outfile = os.path.join(self.outpath, 'spoiler_chests.txt')

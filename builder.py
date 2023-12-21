@@ -28,7 +28,7 @@ from SpurningRibbon import SpurningRibbon
 from Guilds import Guilds, shuffle_requirements
 from Command import separate_advanced_commands, separate_divine, separate_ex_abilities
 from Support import separate_advanced_support, evasive_maneuvers_first
-from Treasures import separate_chapter
+from Treasures import separate_chapter, separate_treasure_shuffle
 from Events import InitialEvents, formation_menu_on, protagonist_unlocked, skip_tutorials
 from EventsAndItems import EventsAndItems
 

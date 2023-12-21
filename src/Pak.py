@@ -1,4 +1,4 @@
-from Utility import Byte, File
+from Utility import Byte, File, get_filename
 import os
 import hashlib
 import sys
@@ -6,25 +6,29 @@ import zlib
 import crcmod
 # from Decrypt import *
 from copy import deepcopy
+import bsdiff4
+import pickle
 
 MAGIC = 0x0b5a6f12e1
+PATCHES = pickle.load(open(get_filename('lzma/patches.xz'), 'rb'))
 
 
 class Entry:
+    
     def __init__(self, pak):
-        self.indexer = pak
-        self.offset_entry = self.indexer.tell()
-        self.initialize()
+        self.offset_entry = pak.tell()
+        self.initialize(pak)
 
-    def initialize(self):
+    def initialize(self, pak):
         self._is_modded = False
         self._data = None
         self._sha = None
         self._extracted = False
         self._sha_decomp = None
+        self._is_patched = False
 
-        self.indexer.data.seek(self.offset_entry)
-        self.flags = self.indexer.read_uint32()
+        pak.data.seek(self.offset_entry)
+        self.flags = pak.read_uint32()
         self.is_offset_32bit_safe = self.flags & (1 << 31) > 0
         self.is_uncomp_size_32bit_safe = self.flags & (1 << 30) > 0
         self.is_size_32bit_safe = self.flags & (1 << 29) > 0
@@ -33,47 +37,47 @@ class Entry:
         self.comp_blk_cnt = (self.flags >> 6) & 0xFFFF
         self.calc_max_comp_blk_size = (self.flags & 0x3F) < 0x3F
 
-        self.max_comp_blk_size = self.get_max_comp_blk_size()
-        self.offset = self.read_32_or_64(self.is_offset_32bit_safe)
-        self.uncomp_size = self.read_32_or_64(self.is_uncomp_size_32bit_safe)
-        self.comp_size = self.get_comp_size()
-        self.return_size = self.get_comp_read_size()
+        self.max_comp_blk_size = self.get_max_comp_blk_size(pak)
+        self.offset = self.read_32_or_64(pak, self.is_offset_32bit_safe)
+        self.uncomp_size = self.read_32_or_64(pak, self.is_uncomp_size_32bit_safe)
+        self.comp_size = self.get_comp_size(pak)
+        self.return_size = self.get_comp_read_size(pak)
         assert self.return_size <= self.comp_size
-        self.comp_blk_sizes = self.get_comp_blk_sizes()
+        self.comp_blk_sizes = self.get_comp_blk_sizes(pak)
         self.max_comp_blk_size = min(self.max_comp_blk_size, self.uncomp_size)
     
-    def get_comp_read_size(self):
+    def get_comp_read_size(self, pak):
         if self.is_encrypted and self.comp_method_idx and self.comp_blk_cnt == 1:
-            return self.indexer.read_uint32()
+            return pak.read_uint32()
         return self.comp_size
 
-    def get_max_comp_blk_size(self):
+    def get_max_comp_blk_size(self, pak):
         if self.comp_blk_cnt == 0:
             return 0
         if self.calc_max_comp_blk_size:
             size = (self.flags & 0x3F) << 11
         else:
-            size = self.indexer.read_uint32()
+            size = pak.read_uint32()
         return size
 
-    def get_comp_size(self):
+    def get_comp_size(self, pak):
         if self.comp_method_idx:
-            return self.read_32_or_64(self.is_size_32bit_safe)
+            return self.read_32_or_64(pak, self.is_size_32bit_safe)
         return self.uncomp_size
 
-    def read_32_or_64(self, is_32bit_safe):
+    def read_32_or_64(self, pak, is_32bit_safe):
         if is_32bit_safe:
-            return self.indexer.read_uint32()
-        return self.indexer.read_uint64()
+            return pak.read_uint32()
+        return pak.read_uint64()
 
-    def get_comp_blk_sizes(self):
+    def get_comp_blk_sizes(self, pak):
         if self.comp_blk_cnt == 0:
             return []
         elif self.comp_blk_cnt == 1:
             return [self.return_size]
         sizes = []
         for _ in range(self.comp_blk_cnt):
-            sizes.append(self.indexer.read_uint32())
+            sizes.append(pak.read_uint32())
         return sizes
 
     def extract(self, filename, pak):
@@ -179,6 +183,7 @@ class Entry:
         self._sha_decomp = None
         self._is_modded = False
         self._extracted = False
+        self._is_patched = False
 
     @property
     def is_modded(self):
@@ -187,6 +192,26 @@ class Entry:
     @property
     def extracted(self):
         return self._extracted
+
+    @property
+    def is_patched(self):
+        return self._is_patched
+
+    def patch(self, filename):
+        if filename in PATCHES:
+            if not self.is_patched:
+                self._is_patched = True
+                self._data = bsdiff4.patch(bytes(self._data), bytes(PATCHES[filename]))
+
+    def gen_patch(self, filename, data):
+        assert not self.is_modded
+        patch = bsdiff4.diff(bytes(self._data), bytes(data))
+        outfile = f'patches/Octopath_Traveler2/Content/X/{filename}.bin'
+        dirname = os.path.dirname(outfile)
+        if not os.path.exists(dirname):
+            os.makedirs(dirname)
+        with open(outfile, 'wb') as file:
+            file.write(patch)
 
     def build_entry(self):
         base = 0
@@ -570,7 +595,7 @@ class Pak(File):
 
         # Encoded pak entries
         self.offset_pak_entries = self.index_data.data.tell()
-        self.encoded_pak_entries = self.parse_pak_entries(self.index_data)
+        self.encoded_pak_entries = self.parse_pak_entries()
         assert self.index_data.read_int32() == 0
 
         # Filenames
@@ -606,7 +631,7 @@ class Pak(File):
         self.parse_filenames() # Done here rather than __init__ to help with mods
         self.setup_basenames()
         for entry in self.entry_dict.values():
-            entry.initialize()
+            entry.initialize(self.index_data)
 
     def has_file(self, filename):
         return filename in self.entry_dict
@@ -659,13 +684,13 @@ class Pak(File):
             self.basename_dict[basename] = []
         self.basename_dict[basename].append(filename)
 
-    def parse_pak_entries(self, index_data):
+    def parse_pak_entries(self):
         assert self.index_data.tell() == self.offset_pak_entries
         pak_entries_size = self.index_data.read_uint32()
         offset_end = self.offset_pak_entries + pak_entries_size + 4
         entries = []
         for _ in range(self.num_files):
-            entries.append(Entry(index_data))
+            entries.append(Entry(self.index_data))
         assert self.index_data.data.tell() <= offset_end
         entries.sort(key=lambda x: x.offset)
         return entries
@@ -696,11 +721,17 @@ class Pak(File):
                 filenames.append(filename)
         return filenames
 
-    def extract_file(self, filename):
+    def extract_file(self, filename, include_patches=False):
         filename = self.get_full_file_path(filename)
         if not self.entry_dict[filename].extracted:
             self.entry_dict[filename].extract(filename, self)
+            if include_patches:
+                self.entry_dict[filename].patch(filename)
         return bytearray(self.entry_dict[filename].data)
+
+    def dump_patch(self, filename, data):
+        filename = self.get_full_file_path(filename)
+        self.entry_dict[filename].gen_patch(filename, data)
 
     def delete_file(self, filename):
         del self.entry_dict[filename].data
@@ -716,6 +747,7 @@ class Pak(File):
     def duplicate_file(self, filename, new_filename):
         full_filename = self.get_full_file_path(filename)
         new_full_filename = full_filename.replace(filename, new_filename)
+        assert not self.has_file(new_full_filename), f'{new_full_filename} alread exists!'
         self.add_basename(new_full_filename)
         data = self.extract_file(filename)
         self.entry_dict[new_full_filename] = deepcopy(self.entry_dict[full_filename])
@@ -743,48 +775,48 @@ class MainPak(Pak):
         self.patches = []
         super().__init__(filename)
 
-    # At the very least, filenames must belong in the main pak
-    def get_full_file_path(self, filename):
-        full_file_path = super().get_full_file_path(filename)
-        if full_file_path is None:
-            # All files should be in the main pak. Check for errors.
-            basename = filename.split('/')[-1]
-            if basename not in self.basename_dict:
-                sys.exit(f"Basename {basename} does not exist! Double check {filename}!")
-            names = '\n  '.join(self.basename_dict[basename])
-            sys.exit(f"{filename} is not unique! Be more specific!\n " + names)
-        return full_file_path
+    # # At the very least, filenames must belong in the main pak
+    # def get_full_file_path(self, filename):
+    #     full_file_path = super().get_full_file_path(filename)
+    #     if full_file_path is None:
+    #         # All files should be in the main pak. Check for errors.
+    #         basename = filename.split('/')[-1]
+    #         if basename not in self.basename_dict:
+    #             sys.exit(f"Basename {basename} does not exist! Double check {filename}!")
+    #         names = '\n  '.join(self.basename_dict[basename])
+    #         sys.exit(f"{filename} is not unique! Be more specific!\n " + names)
+    #     return full_file_path
 
-    # Patch from lowest to highest priority
-    def apply_patches(self):
-        for patch in self.patches[::-1]:
-            for filename in patch.entry_dict:
-                data = patch.extract_file(filename)
-                if not self.has_file(filename):
-                    self.add_data(filename, patch)
-                else:
-                    self.update_data(filename, data)
+    # # Patch from lowest to highest priority
+    # def apply_patches(self):
+    #     for patch in self.patches[::-1]:
+    #         for filename in patch.entry_dict:
+    #             data = patch.extract_file(filename)
+    #             if not self.has_file(filename):
+    #                 self.add_data(filename, patch)
+    #             else:
+    #                 self.update_data(filename, data)
 
-    def extract_file(self, filename, include_patches=True):
-        # Returns a patched file if patches have been applied.
-        # Otherwise it will extract a file from the main pak.
-        if include_patches:
-            return super().extract_file(filename)
-        # Force extraction from the main pak (via `self`).
-        # This will overwrite any patches applied.
-        filename = self.get_full_file_path(filename)
-        self.entry_dict[filename].extract(filename, self)
-        return bytearray(self.entry_dict[filename].data)
+    # def extract_file(self, filename, include_patches=False):
+    #     # Returns a patched file if patches have been applied.
+    #     # Otherwise it will extract a file from the main pak.
+    #     if include_patches:
+    #         return super().extract_file(filename)
+    #     # Force extraction from the main pak (via `self`).
+    #     # This will overwrite any patches applied.
+    #     filename = self.get_full_file_path(filename)
+    #     self.entry_dict[filename].extract(filename, self)
+    #     return bytearray(self.entry_dict[filename].data)
 
-    def add_data(self, filename, patch):
-        patch.extract_file(filename)
-        self.entry_dict[filename] = patch.entry_dict[filename]
-        self._mod.add_entry(filename, self.entry_dict[filename])
+    # def add_data(self, filename, patch):
+    #     patch.extract_file(filename)
+    #     self.entry_dict[filename] = patch.entry_dict[filename]
+    #     self._mod.add_entry(filename, self.entry_dict[filename])
 
-    def initialize(self):
-        super().initialize()
-        for patch in self.patches:
-            patch.initialize()
+    # def initialize(self):
+    #     super().initialize()
+    #     for patch in self.patches:
+    #         patch.initialize()
 
 
 class IndexData(File):

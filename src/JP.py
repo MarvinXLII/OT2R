@@ -1,5 +1,6 @@
 import random
 from Manager import Manager
+import sys
 
 class AdvJPNerf:
     def __init__(self):
@@ -22,6 +23,8 @@ class JPCosts:
     def _random_cost(self, value):
         if value == 0:
             return 0
+        if value == 1:
+            return 1
         if value == 30:
             return random.randint(1, 5) * 10
         if value == 100:

@@ -1,5 +1,5 @@
 from DataFile import DataFile
-from DataJson import DataJson, DataJsonFile
+from DataJson import DataJson, DataJsonFile, NewJsonFile
 from Assets import DataAsset, DataAssetOnly, DataMap
 from DataTable import DataTable, Table, Row
 
@@ -7,6 +7,10 @@ from DataTable import DataTable, Table, Row
 class Manager:
     Pak = None
     Instances = {}
+
+    @classmethod
+    def is_loaded(cls, basename):
+        return basename in cls.Instances
 
     @classmethod
     def _get_instance(cls, basename, obj, *args, **kwargs):
@@ -35,15 +39,19 @@ class Manager:
         return cls._get_instance(basename, DataJsonFile, data)
 
     @classmethod
-    def get_asset(cls, basename, include_patches=True):
+    def create_new_json(cls, basename, data=None):
+        return cls._get_instance(basename, NewJsonFile, data)
+
+    @classmethod
+    def get_asset(cls, basename, include_patches=False):
         return cls._get_instance(basename, DataAsset, include_patches=include_patches)
 
     @classmethod
-    def get_asset_only(cls, basename, include_patches=True):
+    def get_asset_only(cls, basename, include_patches=False):
         return cls._get_instance(basename, DataAssetOnly, include_patches=include_patches)
 
     @classmethod
-    def get_map(cls, basename, include_patches=True):
+    def get_map(cls, basename, include_patches=False):
         return cls._get_instance(basename, DataMap, include_patches=include_patches)
 
     @classmethod

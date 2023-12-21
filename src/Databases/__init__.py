@@ -2,6 +2,8 @@ from .TextDB import TextTable, TextRow
 from .ItemDB import ItemTable, ItemRow
 from .EnemyDB import EnemyTable, EnemyRow
 from .NPCShopDB import NPCShopTable
+from .NPCHear import NPCHearTable, NPCHearRow
+from .NPCBattle import NPCBattleTable, NPCBattleRow
 from .PCDB import PCTable, PCRow
 from .JobDB import JobTable, JobRow
 from .SupportDB import SupportRow
@@ -15,3 +17,4 @@ from .InvadeData import InvadeRow
 from .GuildDB import GuildTable, GuildRow
 from .ReminiscenceSettings import ReminiscenceTable, ReminiscenceRow
 from .ShopList import ShopListRow, ShopListTable
+from .SidequestDB import SidequestRow, SidequestTable

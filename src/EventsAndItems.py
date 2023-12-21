@@ -48,6 +48,7 @@ class EventsAndItems:
 
     # Key Items
     include_key_items = False
+    include_sidequest_key_items = False # Specifically key items to complete sidequests; not rewards for completing sidequests
     include_assassins = False
     include_ex_abil = False
     include_pcs = False
@@ -55,10 +56,14 @@ class EventsAndItems:
     include_inventor_parts = False
     include_rusty_weapons = False
     include_galdera_items = False
+    include_licenses = False
+    include_license_1 = False
+    include_license_2 = False
+    include_license_3 = False
 
     # Slots only
-    include_guilds = False
-    omit_guild_conjuror = False
+    # include_guilds = False
+    omit_guild_conjurer = False
 
     # Spawns
     include_ships_spawn = False
@@ -71,7 +76,6 @@ class EventsAndItems:
         return cls.include_main_story \
             or cls.include_galdera \
             or cls.include_pcs \
-            or cls.include_guilds \
             or cls.include_ex_abil \
             or cls.include_guard \
             or cls.include_ships_spawn \
@@ -83,6 +87,13 @@ class EventsAndItems:
             or cls.include_inventor_parts \
             or cls.include_rusty_weapons \
             or cls.include_galdera_items
+            # or cls.include_guilds \
+
+    @classmethod
+    def any_license(cls):
+        return cls.include_license_1 \
+            or cls.include_license_2 \
+            or cls.include_license_3
 
     def __init__(self, outpath):
         self.outpath = outpath
@@ -154,7 +165,9 @@ class EventsAndItems:
         add_to_data('json/logic/altars.json', option=self.include_altar_spawn) # SPAWNING altars, NOT ex abilities from altars
         add_to_data('json/logic/ex_abilities.json', option=self.include_ex_abil) # Ex Abil from BOTH altars and final chapters
         add_to_data('json/logic/assassins_spawn.json', option=self.include_assassins_spawn)
-        add_to_data('json/logic/guilds.json', option=self.include_guilds)
+        add_to_data('json/logic/guilds.json', option=self.include_license_1)
+        add_to_data('json/logic/guilds_2.json', option=self.include_license_2)
+        add_to_data('json/logic/guilds_3.json', option=self.include_license_3)
         add_to_data('json/logic/guilds_spawn.json', option=self.include_guild_spawn)
         add_to_data('json/logic/blocks.json', option=self.include_guard)
         add_to_data('json/logic/ships.json', option=self.include_ships_spawn)
@@ -174,6 +187,9 @@ class EventsAndItems:
         add_to_data('json/logic/crosspath_op.json', option=self.include_main_story)
         add_to_data('json/logic/crosspath_tt.json', option=self.include_main_story)
         add_to_data('json/logic/flames.json', option=self.include_main_story)
+
+        # SIDEQUESTS -- key items
+        add_to_data('json/logic/sidequests.json', option=self.include_sidequest_key_items)
 
         # GALDERA SIDEQUESTS STORIES
         add_to_data('json/logic/sidequest_the_travelers_bag.json', option=self.include_galdera)
@@ -214,8 +230,10 @@ class EventsAndItems:
             assert slot in self.node_dict, slot
             self.node_dict[slot].is_slot = True
 
-        if EventsAndItems.omit_guild_conjuror:
-            self.node_dict['finish_guild_con'].is_slot = False
+        # TODO: make sure slot gets removed with this option
+        # but still include the conjurer license!
+        if EventsAndItems.omit_guild_conjurer:
+            self.node_dict['get_license_con'].is_slot = False
 
 
     #@time_func
@@ -434,6 +452,10 @@ class SlotManager:
             slot = Slot(filename, slotname, indices, remove)
         self.add_slot(filename, slotname, slot)
 
+    def create_slot_asset(self, slotname, asset, filename, indices, remove=None):
+        slot = SlotAsset(asset, filename, slotname, indices, remove)
+        self.add_slot(slot.filename, slotname, slot)
+
     def create_slot_shop(self, slotname, placement_key, purchase_key, index, new_script=True, case='A'):
         slot = SlotShop(slotname, placement_key, purchase_key, index, new_script, case)
         self.add_slot(slot.filename, slotname, slot)
@@ -443,8 +465,10 @@ class SlotManager:
         slot = SlotHear(slotname, placement_key, hear_key, index, new_script, case)
         self.add_slot(slot.filename, slotname, slot)
 
-    def create_slot_chest(self, slotname, treasure_key):
-        slot = SlotChest(slotname, treasure_key)
+    def create_slot_chest(self, slotname, treasure_key, placement_key=None):
+        if placement_key is None:
+            placement_key = treasure_key
+        slot = SlotChest(slotname, treasure_key, placement_key)
         self.add_slot(slot.filename, slotname, slot)
 
     def add_slot(self, filename, slotname, slot):
@@ -486,15 +510,16 @@ class SlotManager:
 
 class Slot:
     def __init__(self, filename, slotname, indices, remove=None):
-        self.script = Manager.get_json(filename)
         self.filename = filename
         self.slotname = slotname
+        self.script = Manager.get_json(filename)
         self.indices = indices
         self.unique_item_only = False
-        if remove:
+        if remove: # Do remove before end
             remove = sorted([self._positive_index(i) for i in remove], reverse=True)
             for ri in remove:
                 self.remove_command(ri)
+                
         self.subscripts = {}
 
     def reset(self):
@@ -506,7 +531,12 @@ class Slot:
 
     @indices.setter
     def indices(self, indices):
-        self._indices = sorted([self._positive_index(i) for i in indices])
+        if type(indices) is int:
+            self._indices = [self._positive_index(indices)]
+        elif type(indices) is list:
+            self._indices = sorted([self._positive_index(i) for i in indices])
+        else:
+            sys.exit('Indices argument must be of type int or list.')
 
     def _positive_index(self, index):
         if index < 0:
@@ -542,7 +572,7 @@ class Slot:
 
     def __hash__(self):
         return hash(f'{self.filename}_{self.slotname}')
-    
+
 
 # NPC shop (purchase, steal, etc.)
 class SlotShop(Slot):
@@ -579,10 +609,11 @@ class SlotShop(Slot):
         new_script.insert_script(patch, 0)
         return new_script_name
 
-    def _duplicate_script(self):
+    def _duplicate_script(self, orig_name=None):
         event_list = Manager.get_table('EventList')
         value = script_index_tracker.value
-        orig_name = 'DELIVERY_DIALOG_TEST'
+        if orig_name is None:
+            orig_name = 'DELIVERY_DIALOG_TEST'
         new_name = f'{orig_name}_{value}'
 
         Manager.Pak.duplicate_file(orig_name, new_name)
@@ -623,10 +654,16 @@ class SlotHear(SlotShop):
         self.new_script = new_script
         if self.new_script:
             self.filename = self._create_script()
+            for c in ['A', 'B', 'C', 'D', 'E']:
+                event_case = getattr(self.placement, f'EventType_{case}')
+                if event_case == 'eFC_SEARCH':
+                    filename = getattr(self.placement, f'EventLabel_{case}')
+                    sys.exit(f'SlotHear {self.placement_key} has eFC_SEARCH in case {case}, calling script {filename}')
         else:
             event_case = getattr(self.placement, f'EventType_{self.case}')
-            assert event_case == 'eFC_SEARCH'
+            assert event_case == 'eFC_SEARCH', f'Case {case} is incorrect for {self.placement_key}'
             self.filename = getattr(self.placement, f'EventLabel_{self.case}')
+
         self.script = Manager.get_json(self.filename)
         self.indices = [self._positive_index(index)]
 
@@ -644,10 +681,10 @@ class SlotHear(SlotShop):
 
 
 class SlotChest(SlotShop):
-    def __init__(self, slotname, treasure_key):
+    def __init__(self, slotname, treasure_key, placement_key):
         self.slotname = slotname
         self.treasure_key = treasure_key
-        self.placement_key = treasure_key
+        self.placement_key = placement_key
         self.case = 'A'
         self.subscripts = {}
         self.unique_item_only = False
@@ -671,6 +708,31 @@ class SlotChest(SlotShop):
         candidate_script.remove_display_item(candidate.item_key)
         super(SlotShop, self).add_candidate(candidate_script)
 
+
+# Case where BP gives the item already.
+class SlotAsset(Slot):
+    def __init__(self, asset, filename, slotname, indices, remove):
+        super().__init__(filename, slotname, indices, remove)
+        self.asset = Manager.get_asset(asset)
+        self._candidate_added = False
+
+    def add_candidate(self, candidate_script, old_item, new_item, replace=None, *args):
+        assert not self._candidate_added, "SlotAsset only designed for adding 1 candidate"
+        self._candidate_added = True
+        assert type(old_item) == str
+        assert type(new_item) == str
+        self.old_item = old_item
+        self.new_item = new_item
+        self.asset.uasset.replace_index(old_item, new_item)
+        if replace is not None:
+            pass
+        candidate_script.remove_display_item(new_item)
+        super().add_candidate(candidate_script, args)
+
+    def replace_value(self, exp_num, addr):
+        value = self.asset.uasset.get_index(self.new_item)
+        exp = self.asset.get_uexp_obj_2(exp_num)
+        exp.patch_uint64(value, addr)
 
 #@time_func
 def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
@@ -697,6 +759,7 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
     add_new_items()
     candidates = load_candidates()
     slot_manager = load_slots(rando_map, rando_map_inv)
+    load_licenses(candidates, slot_manager)
 
     # Functions to simplify stuff
     def add_scripts(candname, slotname):
@@ -712,17 +775,23 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
 
     # Used for moving NPCs that guard a chest out of the way.
     # Prevents having to knock them out again on the off chance they respawn.
-    def npc_copy_shift(old_key, list_key, flag, dx=0, dy=0, dz=0):
+    def npc_copy_shift(old_key, list_key, flag, dx=0, dy=0, dz=0, x=None, y=None, z=None):
         old_npc = getattr(placement_data, old_key)
         new_key = f'{old_key}_2'
+        assert not hasattr(placement_data, new_key)
         placement_data.duplicate_data(old_key, new_key)
 
         new_npc = getattr(placement_data, new_key)
-        new_npc.SpawnPosX += dx
-        new_npc.SpawnPosY += dy
-        new_npc.SpawnPosZ += dz
-        old_npc.SpawnEndFlag = flag
-        new_npc.SpawnStartFlag = flag
+        if x is None: new_npc.SpawnPosX += dx
+        else:         new_npc.SpawnPosX = float(x)
+        if y is None: new_npc.SpawnPosY += dy
+        else:         new_npc.SpawnPosY = float(y)
+        if z is None: new_npc.SpawnPosZ += dz
+        else:         new_npc.SpawnPosZ = float(z)
+
+        if flag >= 0:
+            old_npc.SpawnEndFlag = flag
+            new_npc.SpawnStartFlag = flag
 
         p_list = getattr(placement_list, list_key)
         p_list.LabelList.append(new_key)
@@ -736,6 +805,24 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
         patch = Script.load(f'scripts/scent_of_commerce_boat_truncated')
         slot = slot_manager.get_slot('finish_soc_grand_terry')
         slot.script.insert_script(patch, 0)
+
+    ### Include if reigniting flames ever becomes key items
+    # if EventsAndItems.include_main_story:
+    #     patch = Script.load(f'scripts/patch_reignite_flame_church')
+    #     slot = slot_manager.get_slot('finish_flame_church')
+    #     slot.script.insert_script(patch, 0)
+
+    #     patch = Script.load(f'scripts/patch_reignite_flame_grotto')
+    #     slot = slot_manager.get_slot('finish_flame_grotto')
+    #     slot.script.insert_script(patch, 0)
+
+    #     patch = Script.load(f'scripts/patch_reignite_flame_ruins')
+    #     slot = slot_manager.get_slot('finish_flame_ruins')
+    #     slot.script.insert_script(patch, 0)
+
+    #     patch = Script.load(f'scripts/patch_reignite_flame_tomb')
+    #     slot = slot_manager.get_slot('finish_flame_tomb')
+    #     slot.script.insert_script(patch, 0)
 
     ##################
     # KNOWN SOFTLOCK #
@@ -752,8 +839,11 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
         # through flag 25446 (can't get on boat)
         script = Manager.get_json('MS_SIN_3A_0000')
         script.toggle_flag_off(25446)
+        script.toggle_flag_on(34005)
         script = Manager.get_json('MS_SIN_3B_0100')
         script.toggle_flag_off(25446)
+        script.toggle_flag_on(34005)
+        
 
     if EventsAndItems.include_key_items:
         # Start with Castti and go to Beastling Island with Grand Terry
@@ -775,65 +865,6 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
 
     if EventsAndItems.include_main_story:
         ########## SPAWNING ##########
-
-        # Get Dispatches from Beastling Island (for unlocking galdera)
-        placement_data.NPC_SS_TMount21_0200_0200.NotSpawnFinal = False
-        # Unusual Tome Specialist
-        placement_data.NPC_SS_TMount21_0200_0100.NotSpawnFinal = False
-        # Al from Far Reaches of Hell
-        placement_data.NPC_SS_TMount21_0400_0100.NotSpawnFinal = False
-        # Al at Gates of Hell
-        placement_data.EV_TRIGGER_SS_GAK_10_0100.NotSpawnFinal = False
-        placement_data.EV_TRIGGER_SS_GAL_10_0210.NotSpawnFinal = False
-
-        # Tutorial Als
-        placement_data.NPC_SS_TCity13_Tutorial_0100.NotSpawnFinal = False
-        placement_data.NPC_SS_TDesert11_Tutorial_0100.NotSpawnFinal = False
-        placement_data.NPC_SS_TForest13_Tutorial_0100.NotSpawnFinal = False
-        placement_data.NPC_SS_TIsland12_Tutorial_0100.NotSpawnFinal = False
-        placement_data.NPC_SS_TIsland13_Tutorial_0100.NotSpawnFinal = False
-        placement_data.NPC_SS_TMount12_Tutorial_0100.NotSpawnFinal = False
-        placement_data.NPC_SS_TSea13_Tutorial_0100.NotSpawnFinal = False
-        placement_data.NPC_SS_TSnow12_Tutorial_0100.NotSpawnFinal = False
-        placement_data.NPC_SS_TWilderness13_Tutorial_0100.NotSpawnFinal = False
-
-        placement_data.NPC_SS_TCity13_Tutorial_0200.NotSpawnFinal = False
-        placement_data.NPC_SS_TDesert11_Tutorial_0200.NotSpawnFinal = False
-        placement_data.NPC_SS_TForest13_Tutorial_0200.NotSpawnFinal = False
-        placement_data.NPC_SS_TIsland12_Tutorial_0200.NotSpawnFinal = False
-        placement_data.NPC_SS_TIsland13_Tutorial_0200.NotSpawnFinal = False
-        placement_data.NPC_SS_TMount12_Tutorial_0200.NotSpawnFinal = False
-        placement_data.NPC_SS_TSea13_Tutorial_0200.NotSpawnFinal = False
-        placement_data.NPC_SS_TSnow12_Tutorial_0200.NotSpawnFinal = False
-        placement_data.NPC_SS_TWilderness13_Tutorial_0200.NotSpawnFinal = False
-
-        placement_data.Trigger_SS_TCity13_Tutorial_0100.NotSpawnFinal = False
-        placement_data.Trigger_SS_TCity13_Tutorial_Enable.NotSpawnFinal = False
-        placement_data.Trigger_SS_TCity13_Tutorial_Ongoing.NotSpawnFinal = False
-        placement_data.Trigger_SS_TDesert11_Tutorial_0100.NotSpawnFinal = False
-        placement_data.Trigger_SS_TDesert11_Tutorial_Enable.NotSpawnFinal = False
-        placement_data.Trigger_SS_TDesert11_Tutorial_Ongoing.NotSpawnFinal = False
-        placement_data.Trigger_SS_TForest13_Tutorial_0100.NotSpawnFinal = False
-        placement_data.Trigger_SS_TForest13_Tutorial_Enable.NotSpawnFinal = False
-        placement_data.Trigger_SS_TForest13_Tutorial_Ongoing.NotSpawnFinal = False
-        placement_data.Trigger_SS_TIsland12_Tutorial_0100.NotSpawnFinal = False
-        placement_data.Trigger_SS_TIsland12_Tutorial_Enable.NotSpawnFinal = False
-        placement_data.Trigger_SS_TIsland12_Tutorial_Ongoing.NotSpawnFinal = False
-        # placement_data.Trigger_SS_TIsland13_Tutorial_0100.NotSpawnFinal = False
-        placement_data.Trigger_SS_TIsland13_Tutorial_Enable.NotSpawnFinal = False
-        placement_data.Trigger_SS_TIsland13_Tutorial_Ongoing.NotSpawnFinal = False
-        placement_data.Trigger_SS_TMount12_Tutorial_0100.NotSpawnFinal = False
-        placement_data.Trigger_SS_TMount12_Tutorial_Enable.NotSpawnFinal = False
-        placement_data.Trigger_SS_TMount12_Tutorial_Ongoing.NotSpawnFinal = False
-        placement_data.Trigger_SS_TSea13_Tutorial_0100.NotSpawnFinal = False
-        placement_data.Trigger_SS_TSea13_Tutorial_Enable.NotSpawnFinal = False
-        placement_data.Trigger_SS_TSea13_Tutorial_Ongoing.NotSpawnFinal = False
-        placement_data.Trigger_SS_TSnow12_Tutorial_0100.NotSpawnFinal = False
-        placement_data.Trigger_SS_TSnow12_Tutorial_Enable.NotSpawnFinal = False
-        placement_data.Trigger_SS_TSnow12_Tutorial_Ongoing.NotSpawnFinal = False
-        placement_data.Trigger_SS_TWilderness13_Tutorial_0100.NotSpawnFinal = False
-        placement_data.Trigger_SS_TWilderness13_Tutorial_Enable.NotSpawnFinal = False
-        placement_data.Trigger_SS_TWilderness13_Tutorial_Ongoing.NotSpawnFinal = False
 
         # Scent of Commerce events
         placement_data.EV_TRIGGER_MS_SHO_EX3_0100.NotSpawnFinal = False
@@ -906,25 +937,25 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
 
     if EventsAndItems.include_main_story:
         # Dng_Dst_3_1 -- Hikari & Agnea
-        placement_data.EV_TRIGGER_MS_END_2D_TIPS_0100.SpawnStartFlag = candidates['unlock_flame_grotto'].flag
-        placement_data.EV_TRIGGER_MS_END_2D_TIPS_0300_10.SpawnStartFlag = candidates['unlock_flame_grotto'].flag
-        placement_data.EV_TRIGGER_MS_END_2D_TIPS_0300_20.SpawnStartFlag = candidates['unlock_flame_grotto'].flag
+        placement_data.EV_TRIGGER_MS_END_2D_TIPS_0100.SpawnStartFlag = candidates['unlock_extinguish_flame_grotto'].flag
+        placement_data.EV_TRIGGER_MS_END_2D_TIPS_0300_10.SpawnStartFlag = candidates['unlock_extinguish_flame_grotto'].flag
+        placement_data.EV_TRIGGER_MS_END_2D_TIPS_0300_20.SpawnStartFlag = candidates['unlock_extinguish_flame_grotto'].flag
 
         # Dng_Isd_1_1 -- Ochette & Castti Flame
-        placement_data.EV_TRIGGER_MS_END_2C_TIPS_01A0.SpawnStartFlag = candidates['unlock_flame_tomb'].flag
-        placement_data.EV_TRIGGER_MS_END_2C_TIPS_0300_10.SpawnStartFlag = candidates['unlock_flame_tomb'].flag
-        placement_data.EV_TRIGGER_MS_END_2C_TIPS_0300_20.SpawnStartFlag = candidates['unlock_flame_tomb'].flag
-        placement_data.EV_TRIGGER_MS_END_2C_0010.SpawnStartFlag = candidates['unlock_flame_tomb'].flag
+        placement_data.EV_TRIGGER_MS_END_2C_TIPS_01A0.SpawnStartFlag = candidates['unlock_extinguish_flame_tomb'].flag
+        placement_data.EV_TRIGGER_MS_END_2C_TIPS_0300_10.SpawnStartFlag = candidates['unlock_extinguish_flame_tomb'].flag
+        placement_data.EV_TRIGGER_MS_END_2C_TIPS_0300_20.SpawnStartFlag = candidates['unlock_extinguish_flame_tomb'].flag
+        placement_data.EV_TRIGGER_MS_END_2C_0010.SpawnStartFlag = candidates['unlock_extinguish_flame_tomb'].flag
 
         # Dng_Wld_2_2 -- Osvald & Partitio Flame
-        placement_data.EV_TRIGGER_MS_END_2B_TIPS_01A0.SpawnStartFlag = candidates['unlock_flame_ruins'].flag
-        placement_data.EV_TRIGGER_MS_END_2B_TIPS_0300_10.SpawnStartFlag = candidates['unlock_flame_ruins'].flag
-        placement_data.EV_TRIGGER_MS_END_2B_TIPS_0300_20.SpawnStartFlag = candidates['unlock_flame_ruins'].flag
+        placement_data.EV_TRIGGER_MS_END_2B_TIPS_01A0.SpawnStartFlag = candidates['unlock_extinguish_flame_ruins'].flag
+        placement_data.EV_TRIGGER_MS_END_2B_TIPS_0300_10.SpawnStartFlag = candidates['unlock_extinguish_flame_ruins'].flag
+        placement_data.EV_TRIGGER_MS_END_2B_TIPS_0300_20.SpawnStartFlag = candidates['unlock_extinguish_flame_ruins'].flag
 
         # Twn_Mnt_1_1_A -- Throne & Temenos
-        placement_data.EV_TRIGGER_MS_END_2A_0010.SpawnStartFlag = candidates['unlock_flame_church'].flag
+        placement_data.EV_TRIGGER_MS_END_2A_0010.SpawnStartFlag = candidates['unlock_extinguish_flame_church'].flag
         # Twn_Mnt_1_2_A -- Throne & Temenos
-        placement_data.EV_ITEM_MS_END_2A_0100.SpawnStartFlag = candidates['unlock_flame_church'].flag
+        placement_data.EV_ITEM_MS_END_2A_0100.SpawnStartFlag = candidates['unlock_extinguish_flame_church'].flag
 
         # Scent of commerce
         placement_data.EV_TRIGGER_MS_SHO_EX1_0100.SpawnStartFlag = candidates['unlock_soc_grand_terry'].flag
@@ -1050,22 +1081,22 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
         main_story.MS_END_00.ReleaseFlag[2] = 0
         main_story.MS_END_00.ReleaseFlag[3] = 0
 
-        main_story.MS_END_01.ReleaseFlag[0] = candidates['unlock_flame_grotto'].flag
+        main_story.MS_END_01.ReleaseFlag[0] = candidates['unlock_extinguish_flame_grotto'].flag
         main_story.MS_END_01.ReleaseFlag[1] = 0
         main_story.MS_END_01.ReleaseFlag[2] = 0
         main_story.MS_END_01.ReleaseFlag[3] = 0
 
-        main_story.MS_END_02.ReleaseFlag[0] = candidates['unlock_flame_tomb'].flag
+        main_story.MS_END_02.ReleaseFlag[0] = candidates['unlock_extinguish_flame_tomb'].flag
         main_story.MS_END_02.ReleaseFlag[1] = 0
         main_story.MS_END_02.ReleaseFlag[2] = 0
         main_story.MS_END_02.ReleaseFlag[3] = 0
 
-        main_story.MS_END_03.ReleaseFlag[0] = candidates['unlock_flame_church'].flag
+        main_story.MS_END_03.ReleaseFlag[0] = candidates['unlock_extinguish_flame_church'].flag
         main_story.MS_END_03.ReleaseFlag[1] = 0
         main_story.MS_END_03.ReleaseFlag[2] = 0
         main_story.MS_END_03.ReleaseFlag[3] = 0
 
-        main_story.MS_END_04.ReleaseFlag[0] = candidates['unlock_flame_ruins'].flag
+        main_story.MS_END_04.ReleaseFlag[0] = candidates['unlock_extinguish_flame_ruins'].flag
         main_story.MS_END_04.ReleaseFlag[1] = 0
         main_story.MS_END_04.ReleaseFlag[2] = 0
         main_story.MS_END_04.ReleaseFlag[3] = 0
@@ -1208,16 +1239,22 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
     #################################
 
     for s, c in rando_map.items():
-        if s == 'finish_guild_inv':
+        if s == 'get_license_inv':
             reward = Script.load('scripts/inventor_reward')
             for ci in c:
                 reward.insert_script(candidates[ci].script, 8)
             add_scripts_notcand(reward, s)
-        elif s == 'finish_guild_arm':
+        elif s == 'get_license_arm':
+            assert len(c) == 1
+            ci = c[0]
             reward = Script.load('scripts/armsmaster_reward')
-            for ci in c:
-                reward.insert_script(candidates[ci].script, 1)
-            add_scripts_notcand(reward, s)
+            reward.insert_script(candidates[ci].script, 1)
+            assert len(slot_manager.get_slot_list(s)) == 2
+            for slot in slot_manager.get_slot_list(s):
+                assert isinstance(slot, SlotAsset) # Cannot be Slot, SlotShop, SlotHear, SlotChest
+                slot.add_candidate(deepcopy(reward), 'ITM_EQP_JOB_0008', candidates[ci].item_key)
+            # Only needs to be done once; will apply to all slots since they use the same asset
+            slot.replace_value(14, 0x9d)
         elif slot_manager.has_slot(s):
             for ci in c:
                 add_scripts(ci, s)
@@ -1367,8 +1404,8 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
         placement_data.NPC_PRIEST_0000_0100.SpawnStartFlag = 9000
         placement_data.NPC_PRIEST_0000_0100.EventStartFlag_A = 9000
         placement_data.NPC_PRIEST_0000_0100.SpawnPosX -= 1600
-        if start_pc == 'Temenos':
-            # Don't let Temenos spawn if he is the protagonist
+        if start_pc == 'Temenos' or 'temenos' in other_pcs:
+            # Don't let Temenos spawn if he is the protagonist or in the party initially
             placement_data.NPC_PRIEST_0000_0100.SpawnEndFlag = 9000
         elif 'get_temenos' in rando_map: # e.g. include_pcs = True
             # Let Temenos spawn until his swapped item has been received
@@ -1377,6 +1414,10 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
             placement_data.NPC_PRIEST_0000_0100.SpawnEndFlag = item.flag
         else:
             print('Temenos recruitment is moved but will still spawn normally until collected')
+        # Allow starting COP ST1 in Flamechurch even in dark end
+        # TODO: consider moving fight trigger to be an NPC
+        npc_copy_shift('NPC_Twn_Mnt_1_1_A_0100', 'Twn_Mnt_1_1_A', 220, x=-2841.0, y=-1108.0, z=-134.0)
+        placement_data.NPC_Twn_Mnt_1_1_A_0100_2.IndoorFlag = False
 
     ####################
     # FOREIN ASSASSINS #
@@ -1408,6 +1449,17 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
         patch_end_on = Script.load('scripts/patch_toggle_end_on')
         patch_end_off = Script.load('scripts/patch_toggle_end_off')
 
+        #############################
+        # FIX STORIES GETTING RESET #
+        #############################
+
+        # Seems to happen with end game story chapters with bosses
+        el = Manager.get_table('EventList')
+        el.MS_END_2C_0010.MissionLabel = 'None' # Tomb
+        el.MS_END_2C_0020.MissionLabel = 'None'
+        el.MS_END_2A_0010.MissionLabel = 'None' # Flamechurch
+        el.MS_END_2A_0020.MissionLabel = 'None'
+
         ################################
         # EXTINGUISH FLAMECHURCH FLAME #
         ################################
@@ -1427,7 +1479,15 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
 
         for filename in filenames:
             script = Manager.get_json(filename)
-            script.filter_out_command(8920)
+            # script.filter_out_command(8920)
+            # Must check carefully on the off chance any of these scripts
+            # need to ignite a flame!
+            for i, x in enumerate(script.json_list):
+                if x.cmd == 8920 and len(x.opt) == 2 and x.opt[1] == '1':
+                    break
+            else:
+                continue
+            script.json_list.pop(i)
 
         ############################################
         # EVENTS DURING END BEFORE IGNITING FLAMES #
@@ -1601,6 +1661,119 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
         enc_vol.EVM_FLD_OCN_1_1_SEA_1_DAY.EncounterList[3] = vol4d
         enc_vol.EVM_FLD_OCN_1_1_SEA_1_NGT.EncounterList[3] = vol4n
 
+    ########################
+    # Spawn Sidequest NPCs #
+    ########################
+
+    if EventsAndItems.include_main_story:
+        spawn_sidequests()
+
+    #######################
+    # NPC Item Costs, etc #
+    #######################
+
+    # Make sure all NPC items/info are easy to access
+    if EventsAndItems.include_sidequest_key_items:
+        npc_data = Manager.get_instance('NPCData').table
+        for npc in npc_data:
+            # Skip Terry's Unfinished Vessel
+            if npc.key == 'NPC_SHO_EX1_0120':
+                continue
+            for shop in npc.shops:
+                if shop.is_key_item:
+                    print("SHOP KEY ITEM", npc.key, shop.key, shop.item)
+                    shop.set_default_price()
+                    shop.set_default_steal()
+                    shop.set_default_beg()
+            if npc.hear:
+                if not npc.hear.is_hidden_item:
+                    if npc.hear.is_key_item:
+                        print("HEAR KEY ITEM", npc.key, npc.hear.key, npc.hear.item.name)
+                        npc.hear.set_default_bribe()
+                        npc.hear.set_default_inquire()
+                        npc.hear.set_default_scrutinize()
+
+        # Specific battles
+        npc_data.NPC_SS_TSe21_0100_0200.set_default_enemy(1) # Grape Expert
+        npc_data.NPC_SS_TW11_0200_0300.set_default_enemy() # Harry; Already at rank 1
+        npc_data.NPC_SS_TW11_0200_0200.set_default_enemy() # Nikki; Already at rank 1
+        npc_data.NPC_SS_TW11_0200_0400.set_default_enemy() # Ned; Already at rank 2
+        npc_data.NPC_SS_TF21_0100_0200.set_default_enemy(1) # Knowledgeable Villager; Cropdale; rank 4
+        npc_data.NPC_SS_TD21_0200_0200.set_default_enemy(1) # Former U Carpenter; Canalbrine; rank 6
+        npc_data.NPC_SS_TD31_0200_0300.set_default_enemy(1) # Suspicious Man; Crackridge Harbor: Anchorage
+        npc_data.NPC_Twn_Cty_1_2_A_TALK_0200.set_default_enemy(1) # Villager; Abandoned Village; rank 4
+        npc_data.NPC_SS_TC21_0200_0200.set_default_enemy() # Historian; Montwise; rank 4, keep default rank; just make weak to temenos
+        npc_data.NPC_Twn_Isd_2_1_A_TALK_1600.set_default_enemy(4) # Beastling; Toto'haha; rank 6 (15k HP)
+        npc_data.NPC_Twn_Isd_2_1_B_TALK_0500.set_default_enemy(4) # Street Vendor; Toto'haha; rank 6
+        npc_data.NPC_JNP_YJB_0300.set_default_enemy() # Piatt's Wife; Sai; rank 1 by default
+        npc_data.NPC_SS_TF31_0400_0400.set_default_enemy() # Dour Elderly Woman; New Delsta; rank 2
+        npc_data.NPC_SS_TM21_0400_0200.set_default_enemy() # Georges Lazuli; rank 7
+
+        # Specific knockouts
+        npc_data.NPC_SS_TW11_0100_0200.battle.set_default_knockout() # Oresrush; Boorish Merchant
+        npc_data.NPC_Twn_Isd_2_1_A_TALK_1400.battle.set_default_knockout() # Toto'haha; Islander; for pretty pearl chest
+        npc_data.NPC_Twn_Wld_2_1_A_TALK_1900.battle.set_default_knockout() # Crackridge; Scholar, From the Far Reaches of Hell
+        npc_data.NPC_Fld_Wld_2_2_TALK_0100.battle.set_default_knockout() # Unfinished Tunnel
+        npc_data.NPC_Fld_Wld_2_2_TALK_0110.battle.set_default_knockout() # Unfinished Tunnel
+        npc_data.NPC_Twn_Fst_3_1_B_TALK_0900.battle.set_default_knockout() # Timberain; Elderly Soldier, Rusty Polearm
+        npc_data.NPC_Twn_Isd_3_1_A_TALK_0700.battle.set_default_knockout() # Nameless Village; Beastling, Mythical Horn
+        npc_data.NPC_Twn_Wld_3_1_A_TALK_1600.battle.set_default_knockout() # Debt Collector; Gravell, blacksmith guard
+
+        # Cropdale; Elderly Woman's Son; hidden item
+        npc_data.NPC_SS_TF11_0100_0300.set_default_enemy(1) # rank 3
+        npc_data.NPC_SS_TF11_0100_0300.hear.set_default_path_actions()
+        # Toto'haha; Elderly Man; hidden item
+        npc_data.NPC_SS_TI21_0200_0600.set_default_enemy(3)
+        npc_data.NPC_SS_TI21_0200_0600.hear.set_default_path_actions()
+        # Timberain; Remorseful Old Man; hidden item
+        npc_data.NPC_SS_TF31_0200_0400.set_default_enemy() # rank 1 already
+        npc_data.NPC_SS_TF31_0200_0400.hear.set_default_path_actions()
+        
+
+        for npc in npc_data:
+            npc.print_info()
+
+
+    ################################
+    # Partitio Ch 3 Substory Fixes #
+    ################################
+
+    # Reduces 4 tavern trips to 1
+    if EventsAndItems.include_main_story:
+        def new_partitio_ch_3_item_shop(orig_npc, new_npc, npc_list_key):
+            shop_list = Manager.get_table('ShopList')
+            purchase_item_table = Manager.get_table('PurchaseItemTable')
+            p1 = getattr(placement_data, orig_npc)
+            p2 = getattr(placement_data, new_npc)
+            npc_copy_shift(p2.key, npc_list_key, -1)
+            p3 = getattr(placement_data, f'{p2.key}_2')
+
+            p3.ResourceLabel = p1.ResourceLabel
+            p3.SpawnStartFlag = p1.SpawnStartFlag
+            p3.SpawnEndFlag = p1.SpawnEndFlag
+            p3.EventType_B = p1.EventType_A
+            p3.TimeZoneTriggerType_B = p1.TimeZoneTriggerType_A
+            p3.EventParam_B_1 = p1.EventParam_A_1
+            p3.EventLabel_B = p1.EventLabel_A
+            p3.SpawnDir = p1.SpawnDir
+            p3.SpawnPosX = p1.SpawnPosX
+            p3.SpawnPosY = p1.SpawnPosY
+            p3.SpawnPosZ = p1.SpawnPosZ
+            p3.NotCoexistencePlacementLabel[0] = 'None'
+            p1.NotCoexistencePlacementLabel[0] = p3.key
+            p2.NotCoexistencePlacementLabel[1] = p3.key
+
+        # Toto'haha, Coffee Beans (Grand Terry)
+        new_partitio_ch_3_item_shop('NPC_SHO_30_0600_0000', 'NPC_Twn_Isd_2_1_A_TALK_0900_D000', 'Twn_Isd_2_1_A')
+        # Winterblooom, Special Wheat Flour (Gramophone)
+        new_partitio_ch_3_item_shop('NPC_SHO_30_0700_0000', 'NPC_Twn_Snw_2_1_A_TALK_0300_D000', 'Twn_Snw_2_1_A')
+        # Sai, Quality Paper (Manuscript)
+        new_partitio_ch_3_item_shop('NPC_SHO_30_0800_0000', 'NPC_Twn_Dst_2_1_A_TALK_0100_D000', 'Twn_Dst_2_1_A')
+        # Clockbank, Pocket Watch
+        new_partitio_ch_3_item_shop('NPC_SHO_30_0900_0000', 'NPC_Twn_Cty_2_1_A_TALK_1000_D000', 'Twn_Cty_2_1_A')
+        # Oresrush, Silverwork
+        new_partitio_ch_3_item_shop('NPC_SHO_30_1000_0000', 'NPC_Twn_Wld_1_1_C_TALK_0800_D000', 'Twn_Wld_1_1_C')
+
 
 def add_new_items():
     items = Manager.get_table('ItemDB')
@@ -1678,6 +1851,10 @@ def load_slots(rando_map, rando_map_inv):
     with open(get_filename('json/slots.json'), 'r', encoding='utf-8') as file:
         slot_data = hjson.load(file)
 
+    placement = Manager.get_table('PlacementData')
+    purchase = Manager.get_table('PurchaseItemTable')
+    npc_data = Manager.get_table('NPCData')
+
     slot_manager = SlotManager()
     for slotname, slots in slot_data.items():
         # ONLY load slots that are needed.
@@ -1723,7 +1900,8 @@ def load_slots(rando_map, rando_map_inv):
         enemies.ENE_BOS_HUN_C02_020.InvadeMonsterID = 'None'
 
         # Temenos 2: The Cuplrit's True Identity
-        slot_manager.create_slot_hear('hear_vados_info', 'NPC_SIN_20_1000_0000', 'FC_INFOLINK_NPC_SIN_20_1000', 0)
+        # These both use the same script, so only update one.
+        # slot_manager.create_slot_hear('hear_vados_info', 'NPC_SIN_20_1000_0000', 'FC_INFOLINK_NPC_SIN_20_1000', 0, new_script=False)
         slot_manager.create_slot_hear('hear_vados_info', 'NPC_SIN_20_1010_0000', 'FC_INFOLINK_NPC_SIN_20_1010', 0, new_script=False)
 
         # Temenos 3 (Crackridge Route): Mysterious Notebook
@@ -1812,7 +1990,213 @@ def load_slots(rando_map, rando_map_inv):
         slot_manager.create_slot_shop('get_ancient_cog', 'SHO_40_01_Twn_Sea_3_1_A_TALK_1500_N000', 'NPC_Twn_Sea_3_1_A_TALK_1500_NPCBUY_02', -1, new_script=True)
         slot_manager.create_slot_chest('get_natural_magnetite', 'Treasure_Dng_Wld_1_2_03')
 
+    if EventsAndItems.include_license_1:
+        slot_manager.create_slot_asset('get_license_arm', 'BP_WeaponMasterUtil', 'SYS_WPM_GUILD_0000', -1)
+        slot_manager.create_slot_asset('get_license_arm', 'BP_WeaponMasterUtil', 'SYS_WPM_GUILD_0010', -1)
+        # change BP to give 0 of 1 item (item will be given in the script; done this way for Clockite x5)
+        wpm = Manager.get_asset('BP_WeaponMasterUtil')
+        exp = wpm.get_uexp_obj_2(13)
+        exp.patch_int_const(0x2df, 1, 0)
+
+    if EventsAndItems.include_sidequest_key_items:
+        slot_manager.create_slot_shop('get_sq_silver_quill', 'NPC_Twn_Snw_1_2_A_TALK_0900_D000', 'NPC_Twn_Snw_1_2_A_TALK_0900_NPCBUY_01', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_silver_quill', 'NPC_Twn_Snw_1_2_A_TALK_0900_N000', 'NPC_Twn_Snw_1_2_A_TALK_0900_NPCBUY_01', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_sturdy_pickaxe', 'NPC_SS_TSnow21_0200_0200', 'NPC_SS_TSn21_0200_0200_NPCBUY_01', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_treasured_necklace', 'NPC_SS_TSnow31_0200_0100', 'NPC_SS_TSn31_0200_0100_NPCBUY_02', 51, new_script=False)
+        slot_manager.create_slot_shop('get_sq_treasured_necklace', 'NPC_SS_TSnow31_0200_0110', 'NPC_SS_TSn31_0200_0100_NPCBUY_02', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_treasured_necklace', 'NPC_SS_TSnow31_0200_0120', 'NPC_SS_TSn31_0200_0100_NPCBUY_02', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_letter_from_snowhares', 'JNP_KUS_090_D000', 'JNP_KUS_090_NPCBUY_01', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_letter_from_snowhares', 'JNP_KUS_090_N000', 'JNP_KUS_090_NPCBUY_01', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_letter_from_snowhares', 'NPC_SS_JNP_MEL_0200_0000', 'NPC_JNP_MEL_0400_NPCBUY_01', -1, new_script=True)
+        purchase.JNP_KUS_090_NPCBUY_01.HiddenFlags[0] = 0
+        slot_manager.create_slot_shop('get_sq_bottle_white_powder', 'NPC_SS_TSea11_0200_0200', 'NPC_SS_TSe11_0200_0200_NPCBUY_01', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_aelmorite_reflector', 'NPC_SS_TSea11_0300_0300', 'NPC_SS_TSe11_0300_0300_NPCBUY_01', -1, new_script=True)
+        slot_manager.create_slot_hear('hear_sq_adventure_cleric_sequel', 'NPC_Fld_Mnt_2_2_TALK_0100_D000', 'FC_INFOLINK_NPC_Fld_Mnt_2_2_TALK_0100', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_deluxe_crepe', 'NPC_SS_TSea21_0300_0300', 'NPC_SS_TSe21_0300_0300_NPCBUY_03', -1, new_script=True)
+        slot_manager.create_slot_hear('hear_sq_tricks_to_grow_grapes', 'NPC_SS_TSea21_0100_0200', 'FC_INFOLINK_NPC_SS_TSe21_0100_0200', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_special_bait', 'NPC_SS_TCity11_0500_0200', 'NPC_SS_TC11_0500_0200_NPCBUY_01', -1, new_script=True)
+        assert slot_manager.has_slot('get_sq_delsta_devil')
+        slot_manager.create_slot_shop('get_sq_nyx_royal_family_tree', 'NPC_Twn_Cty_1_2_A_TALK_0200_D000', 'NPC_Twn_Cty_1_2_A_TALK_0200_NPCBUY_03', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_nyx_royal_family_tree', 'NPC_Twn_Cty_1_2_A_TALK_0200_N000', 'NPC_Twn_Cty_1_2_A_TALK_0200_NPCBUY_03', -1, new_script=True)
+        slot_manager.create_slot_hear('hear_sq_nyx_family_history', 'NPC_SS_TCity21_0200_0200', 'FC_INFOLINK_NPC_SS_TC21_0200_0200', -1, new_script=True)
+        slot_manager.create_slot_hear('hear_sq_dolcinaea_and_gifts', 'NPC_SS_JNP_YJB_0300_D000', 'FC_INFOLINK_NPC_JNP_YJB_0300', -1, new_script=False)
+        npc_data.JNP_ODO_130.FCmd_Search_ID = npc_data.NPC_JNP_YJB_0300.FCmd_Search_ID # Ensure Platt will always have the info
+        slot_manager.create_slot_hear('hear_sq_spicy_chicken_recipe', 'NPC_Twn_Isd_2_1_B_TALK_0500_D000', 'FC_INFOLINK_NPC_Twn_Isd_2_1_B_TALK_0500', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_amulet_of_affection', 'NPC_SS_TIsland11_0100_0100', 'NPC_SS_TI11_0100_0100_NPCBUY_03', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_amulet_of_affection', 'NPC_SS_TIsland11_0100_0110', 'NPC_SS_TI11_0100_0100_NPCBUY_03', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_pretty_pearl_1', 'NPC_Twn_Isd_2_1_A_TALK_1600_N000', 'NPC_Twn_Isd_2_1_A_TALK_1600_NPCBUY_03', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_pretty_pearl_2', 'NPC_Twn_Isd_2_1_A_TALK_0200_D000', 'NPC_Twn_Isd_2_1_A_TALK_0200_NPCBUY_02', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_pretty_pearl_2', 'NPC_Twn_Isd_2_1_A_TALK_0200_N000', 'NPC_Twn_Isd_2_1_A_TALK_0200_NPCBUY_02', -1, new_script=True)
+        slot_manager.create_slot_chest('get_sq_pretty_pearl_3', 'Treasure_SS_TIsland21_0200_010') # Guarded Chest
+        slot_manager.create_slot_chest('get_sq_pretty_pearl_4', 'EventItem_SS_TIsland21_0200_0100', 'Treasure_TIsland21_0200_0100') # Hidden Item
+        slot_manager.create_slot_shop('get_sq_lute', 'NPC_SS_JNP_MOR_0120_0000', 'NPC_JNP_MOR_0200_NPCBUY_02', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_paper_play', 'NPC_Twn_Mnt_1_1_A_TALK_0600_D000', 'NPC_Twn_Mnt_1_1_A_TALK_0600_NPCBUY_02', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_paper_play', 'NPC_Twn_Mnt_1_2_A_TALK_1300_N000', 'NPC_Twn_Mnt_1_1_A_TALK_0600_NPCBUY_02', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_paper_play', 'SIN_10_00_NPC_Twn_Mnt_1_1_A_TALK_0600_D000', 'NPC_Twn_Mnt_1_1_A_TALK_0600_NPCBUY_02', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_paper_play', 'NPC_END_10_Twn_Mnt_1_2_A_1300_D000', 'NPC_Twn_Mnt_1_1_A_TALK_0600_NPCBUY_02', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_history_book', 'NPC_Twn_Mnt_2_1_A_TALK_0200_D000', 'NPC_Twn_Mnt_2_1_A_TALK_0200_NPCBUY_01', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_history_book', 'NPC_Twn_Mnt_2_1_A_TALK_0200_N000', 'NPC_Twn_Mnt_2_1_A_TALK_0200_NPCBUY_01', -1, new_script=True)
+        slot_manager.create_slot_hear('hear_sq_harrys_joke', 'NPC_SHO_10_03_Twn_Wld_1_1_C_0300_D000', 'FC_INFOLINK_NPC_SS_TW11_0200_0300', -1, new_script=True)
+        slot_manager.create_slot_hear('hear_sq_harrys_joke', 'NPC_SHO_10_03_Twn_Wld_1_1_C_0300_N000', 'FC_INFOLINK_NPC_SS_TW11_0200_0300', -1, new_script=True)
+        slot_manager.create_slot_hear('hear_sq_harrys_joke', 'NPC_SS_TWilderness11_0200_0300', 'FC_INFOLINK_NPC_SS_TW11_0200_0300', 7, new_script=False, case='B')
+        slot_manager.create_slot_hear('hear_sq_nikkis_joke', 'NPC_SHO_10_03_4000_D000', 'FC_INFOLINK_NPC_SS_TW11_0200_0200', -1, new_script=True)
+        slot_manager.create_slot_hear('hear_sq_nikkis_joke', 'NPC_SHO_10_03_4000_N000', 'FC_INFOLINK_NPC_SS_TW11_0200_0200', -1, new_script=True)
+        slot_manager.create_slot_hear('hear_sq_nikkis_joke', 'NPC_SS_TWilderness11_0200_0200', 'FC_INFOLINK_NPC_SS_TW11_0200_0200', 6, new_script=False, case='B')
+        slot_manager.create_slot_hear('hear_sq_neds_joke', 'NPC_SHO_10_03_4100_D000', 'FC_INFOLINK_NPC_SS_TW11_0200_0400', -1, new_script=True)
+        slot_manager.create_slot_hear('hear_sq_neds_joke', 'NPC_SHO_10_03_4100_N000', 'FC_INFOLINK_NPC_SS_TW11_0200_0400', -1, new_script=True)
+        slot_manager.create_slot_hear('hear_sq_neds_joke', 'NPC_SS_TWilderness11_0200_0400', 'FC_INFOLINK_NPC_SS_TW11_0200_0400', 5, new_script=False, case='B')
+        slot_manager.create_slot_chest('get_sq_stocked_goods', 'Treasure_Twn_Wld_1_2_B_01')
+        assert slot_manager.has_slot('get_sq_cloudy_crystal_bracelet')
+        slot_manager.create_slot_hear('hear_sq_hunting_request', 'NPC_SS_JNP_APN_0200_0000', 'FC_INFOLINK_NPC_JNP_APN_0200', -1, new_script=True)
+        placement.NPC_SS_JNP_APN_0200_0000.SpawnEndFlag = 0 # Will otherwise despawn after completing Alpione's Next Chapter
+        slot_manager.create_slot_chest('get_sq_crop_tapestry_pattern', 'EventItem_SS_TForest11_0100', 'NPC_SS_TForest11_0100_0310')
+        slot_manager.create_slot_hear('hear_sq_well_iris_uses', 'NPC_SS_TForest21_0100_0200', 'FC_INFOLINK_NPC_SS_TF21_0100_0200', -1, new_script=True)
+        slot_manager.create_slot_chest('get_sq_stolen_sword', 'Treasure_SS_TForest31_0400_010', 'Treasure_SS_Forest31_0400_AP_010')
+        slot_manager.create_slot_hear('hear_sq_killers_motive', 'NPC_SS_TForest31_0400_0400', 'FC_INFOLINK_NPC_SS_TF31_0400_0400', -1, new_script=True)
+        placement.NPC_SS_TForest31_0400_0100.EventStartFlag_A = 20373 # Ensures flag gets set, hence hidden item and Dour Elderly Woman will span properly
+        placement.NPC_SS_TForest31_0400_0100.EventStartFlag_B = 20373
+        placement.NPC_SS_TForest31_0400_0100.EventStartFlag_C = 20373
+        slot_manager.create_slot_chest('get_sq_azure_sun_sword', 'Treasure_SS_TForest31_0200_010', 'NPC_SS_TForest31_0200_AP_0010')
+        # npc with paper play in shop slot 2
+        slot_manager.create_slot_shop('get_sq_sacred_flame_candle_1', 'NPC_Twn_Mnt_1_1_A_TALK_0600_D000', 'NPC_Twn_Mnt_1_1_A_TALK_0600_NPCBUY_01', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_sacred_flame_candle_1', 'NPC_Twn_Mnt_1_2_A_TALK_1300_N000', 'NPC_Twn_Mnt_1_1_A_TALK_0600_NPCBUY_01', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_sacred_flame_candle_1', 'SIN_10_00_NPC_Twn_Mnt_1_1_A_TALK_0600_D000', 'NPC_Twn_Mnt_1_1_A_TALK_0600_NPCBUY_01', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_sacred_flame_candle_1', 'NPC_END_10_Twn_Mnt_1_2_A_1300_D000', 'NPC_Twn_Mnt_1_1_A_TALK_0600_NPCBUY_01', -1, new_script=True)
+        # npc with herb of clarity in shop slot 1 (any timezone in 3rd placement despite d000)
+        slot_manager.create_slot_shop('get_sq_sacred_flame_candle_2', 'NPC_Twn_Mnt_1_2_A_TALK_0600_D000', 'NPC_Twn_Mnt_1_1_A_TALK_2200_NPCBUY_02', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_sacred_flame_candle_2', 'NPC_Twn_Mnt_1_1_A_TALK_2200_N000', 'NPC_Twn_Mnt_1_1_A_TALK_2200_NPCBUY_02', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_sacred_flame_candle_2', 'NPC_END_10_Twn_Mnt_1_1_A_2200_D000', 'NPC_Twn_Mnt_1_1_A_TALK_2200_NPCBUY_02', -1, new_script=True)
+        # npc with flame in third slot (any timezone in 4th despite d000)
+        slot_manager.create_slot_shop('get_sq_sacred_flame_candle_3', 'NPC_Twn_Mnt_1_2_A_TALK_0100_D000', 'NPC_Twn_Mnt_1_2_A_TALK_0100_NPCBUY_03', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_sacred_flame_candle_3', 'NPC_Twn_Mnt_1_2_A_TALK_0100_N000', 'NPC_Twn_Mnt_1_2_A_TALK_0100_NPCBUY_03', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_sacred_flame_candle_3', 'NPC_SIN_10_02_Twn_Mnt_1_2_A_0100', 'NPC_Twn_Mnt_1_2_A_TALK_0100_NPCBUY_03', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_sacred_flame_candle_3', 'NPC_END_10_Twn_Mnt_1_2_A_0100_D000', 'NPC_Twn_Mnt_1_2_A_TALK_0100_NPCBUY_03', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_mysterious_box', 'NPC_SS_TWilderness21_0100_0100', 'NPC_SS_TW21_0100_0100_NPCBUY_01', 37, new_script=False)
+        slot_manager.create_slot_shop('get_sq_mysterious_box', 'NPC_SS_TWilderness21_0100_0110', 'NPC_SS_TW21_0100_0100_NPCBUY_01', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_fort_orochi_plans', 'NPC_SS_TDesert21_0200_0200', 'NPC_SS_TD21_0200_0200_NPCBUY_01', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_phoenix_fan', 'NPC_SS_TDesert31_0200_0300', 'NPC_SS_TD31_0200_0300_NPCBUY_03', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_dragon_vase', 'NPC_SS_TDesert31_0200_0200', 'NPC_SS_TD31_0200_0200_NPCBUY_03', -1, new_script=True)
+        slot_manager.create_slot_shop('get_sq_mikkas_earrings', 'NPC_SS_JNP_MIK_0400_0000', 'NPC_JNP_MIK_0400_NPCBUY_01', -1, new_script=True)
+        placement.NPC_SS_JNP_MIK_0400_0000.SpawnEndFlag = 0 # Will otherwise despawn after completing Mikka's Next Chapter
+        assert slot_manager.has_slot('get_sq_message_in_bottle')
+        slot_manager.create_slot_hear('hear_sq_brown_coat', 'NPC_SS_JNP_SHI_0220_0000', 'FC_INFOLINK_NPC_JNP_SHI_0200', -1, new_script=True)
+        placement.NPC_SS_JNP_SHI_0220_0000.SpawnEndFlag = 0 # will otherwise despawn brown coat info man after finishing Misha's Next Chapter
+        slot_manager.create_slot_hear('hear_sq_garbage_collector', 'NPC_SS_JNP_SHI_0210_0000', 'FC_INFOLINK_NPC_JNP_SHI_0300', -1, new_script=True)
+        placement.NPC_SS_JNP_SHI_0210_0000.SpawnEndFlag = 0 # will otherwise despawn garbage collector info man after finishing Misha's Next Chapter
+        # Slight anomaly with Gambling Man sidequest; same script used for both search and just talking
+        # remove script calls for search as a quick fix
+        placement.NPC_SS_TCity11_0100_0300_D.EventLabel_A = 'None'
+        placement.NPC_SS_TCity11_0100_0300_D.EventType_A = ''
+        placement.NPC_SS_TCity11_0100_0300_N.EventLabel_A = 'None'
+        placement.NPC_SS_TCity11_0100_0300_N.EventType_A = ''
+        slot_manager.create_slot_hear('hear_sq_game_parlor', 'NPC_SS_TCity11_0100_0300_D', 'FC_INFOLINK_NPC_SS_TC11_0100_0300', -1, new_script=True)
+        slot_manager.create_slot_hear('hear_sq_game_parlor', 'NPC_SS_TCity11_0100_0300_N', 'FC_INFOLINK_NPC_SS_TC11_0100_0300', -1, new_script=True)
+
     return slot_manager
+
+
+def load_licenses(candidates, slot_manager):
+    if not EventsAndItems.any_license:
+        return
+
+    event_list = Manager.get_table('EventList')
+    gametext = Manager.get_table('GameTextEN')
+    guilds = Manager.get_table('GuildData')
+    default_licenses = {g.key: g.LicenseItem for g in guilds}
+
+    # Load patched BP to ensure licenses are not given normally
+    assert not Manager.is_loaded('GuildMenuWidget')
+    Manager.get_asset('GuildMenuWidget', True)
+
+    # Setup scripts for receiving items
+    empty_data = Script.load('scripts/empty').make_script()
+    def new_guild_script(job_idx, lic_idx):
+        assert lic_idx == 2 or lic_idx == 3
+        g = getattr(guilds, f'GUILD_00{job_idx}')
+        script = g.CompleteEvent[0]
+        new_script = f'{script}_{lic_idx}'
+        Manager.create_new_json(new_script, empty_data)
+        event_list.duplicate_data(script, new_script)
+        event = getattr(event_list, new_script)
+        event.ExecCode = new_script
+        for i, v in enumerate(g.CompleteEvent):
+            if v == 'None':
+                g.CompleteEvent[i] = new_script
+                break
+        else:
+            sys.exit('No empty CompleteEvent element found!')
+
+    # Add/remove licenses based on options
+    def remove_license(idx):
+        # Display 'None' rather than event name, requirements, etc.
+        assert idx == 2 or idx == 3
+        idx -= 1
+        for i in range(8):
+            g = getattr(guilds, f'GUILD_00{i}')
+            g.JobLicenseData[idx]['TaskTitle'].value = 'ED_BUSINESSRECORD_0010'
+            g.JobLicenseData[idx]['TaskDescription'].value = 'ED_BUSINESSRECORD_0010'
+            g.JobLicenseData[idx]['NeedItemLabel'].value = g.LicenseItem
+            g.JobLicenseData[idx]['NeedItemNum'].value = 4
+            g.JobLicenseData[idx]['NeedMoney'].value = 0
+            g.JobLicenseData[idx]['NeedAbility'].value = 'None'
+            g.JobLicenseData[idx]['LearnedCount'].value = 0
+
+    def add_license(lic_idx):
+        # Adds script for each guild for a specific index
+        assert lic_idx == 2 or lic_idx == 3
+        for job_idx, job in enumerate(['WAR', 'HUN', 'APO', 'MER',
+                                 'CLE', 'SCH', 'THI', 'DAN']):
+            # Add new (empty) script to run after completing the event (i.e. script to still receive a license)
+            new_guild_script(job_idx, lic_idx)
+            # Add item to the new script
+            script = Manager.get_json(f'SYS_{job}_GUILD_0030_{lic_idx}')
+            item = candidates[f'item_license_{job.lower()}_{lic_idx}'].script
+            script.insert_script(item, 0)
+
+    def default_license(slot, cand, script_name):
+        # Inject job item into script to account for BP patch
+        assert not slot_manager.has_slot(slot)
+        s = Slot(script_name, slot, -2)
+        c = candidates[cand].script
+        s.add_candidate(c)
+        s.insert()
+
+    if EventsAndItems.include_license_1:
+        assert slot_manager.has_slot('get_license_war_1')
+        assert slot_manager.has_slot('get_license_hun_1')
+        assert slot_manager.has_slot('get_license_apo_1')
+        assert slot_manager.has_slot('get_license_mer_1')
+        assert slot_manager.has_slot('get_license_cle_1')
+        assert slot_manager.has_slot('get_license_sch_1')
+        assert slot_manager.has_slot('get_license_thi_1')
+        assert slot_manager.has_slot('get_license_dan_1')
+        assert slot_manager.has_slot('get_license_arc')
+        assert slot_manager.has_slot('get_license_con') == (not EventsAndItems.omit_guild_conjurer)
+        assert slot_manager.has_slot('get_license_arm')
+        assert slot_manager.has_slot('get_license_inv')
+    else:
+        default_license('get_license_war_1', 'item_license_war_1', 'SYS_WAR_GUILD_0030')
+        default_license('get_license_hun_1', 'item_license_hun_1', 'SYS_HUN_GUILD_0030')
+        default_license('get_license_apo_1', 'item_license_apo_1', 'SYS_APO_GUILD_0030')
+        default_license('get_license_mer_1', 'item_license_mer_1', 'SYS_MER_GUILD_0030')
+        default_license('get_license_cle_1', 'item_license_cle_1', 'SYS_CLE_GUILD_0030')
+        default_license('get_license_sch_1', 'item_license_sch_1', 'SYS_SCH_GUILD_0030')
+        default_license('get_license_thi_1', 'item_license_thi_1', 'SYS_THI_GUILD_0030')
+        default_license('get_license_dan_1', 'item_license_dan_1', 'SYS_DAN_GUILD_0030')
+        assert not slot_manager.has_slot('get_license_arc')
+        assert not slot_manager.has_slot('get_license_con')
+        assert not slot_manager.has_slot('get_license_arm')
+        assert not slot_manager.has_slot('get_license_inv')
+
+    if EventsAndItems.include_license_2:
+        remove_license(2)
+    else:
+        add_license(2)
+
+    if EventsAndItems.include_license_3:
+        remove_license(3)
+    else:
+        add_license(3)
 
 
 def fill_event(key, start_flag, end_flag, script_name, event_type, *args, x=None):
@@ -1820,11 +2204,12 @@ def fill_event(key, start_flag, end_flag, script_name, event_type, *args, x=None
     placement = getattr(placement_data, key)
 
     if x is None:
-        for x in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']:
+        # for x in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']:
+        for x in ['A', 'B', 'C', 'D', 'E']: #, 'F', 'G', 'H', 'I', 'J']:
             if getattr(placement, f'EventType_{x}') == '':
                 break
         else:
-            sys.exit('All events are full!?')
+            sys.exit(f'Events A-E are full for {key}')
 
     if start_flag >= 0: setattr(placement, f'EventStartFlag_{x}', start_flag)
     if end_flag   >= 0: setattr(placement, f'EventEndFlag_{x}', end_flag)
@@ -1837,3 +2222,544 @@ def fill_event(key, start_flag, end_flag, script_name, event_type, *args, x=None
 
 def add_delivery(key, *args, x='A'):
     fill_event(key, -1, -1, '', 'eDELIVERY_ITEM', *args, x=x)
+
+
+def spawn_sidequests():
+    placement = Manager.get_table('PlacementData')
+
+    def turn_on(key):
+        p = getattr(placement, key)
+        assert p.NotSpawnFinal, f'{key} NotSpawnFinal is False!?'
+        p.NotSpawnFinal = False
+
+    #####################
+    #### Winterlands ####
+    #####################
+
+    # The Baby's Coming
+    turn_on('NPC_SS_TSnow12_0200_0200')
+    turn_on('NPC_SS_TSnow12_0200_0100') # Guide with Agnea, Ochette, Temenos, or Partitio
+    turn_on('NPC_SS_TSnow12_0200_0300') # after SQ
+
+    # Ruffians' Hideout (BOSS: Ruffians)
+    turn_on('NPC_SS_TSnow12_0100_0100')
+    turn_on('NPC_SS_TSnow12_0100_0300')
+    turn_on('NPC_SS_TSnow12_0100_0400')
+    turn_on('NPC_SS_TSnow12_0100_0500')
+    turn_on('NPC_SS_TSnow12_0100_0500_TRIGGER')
+    turn_on('NPC_SS_TSnow12_0100_0200_D')
+    turn_on('NPC_SS_TSnow12_0100_0200_D_STUN')
+
+    # A Present for My Son (Partitio, Throne, Agnea, Osvald)
+    turn_on('NPC_SS_TSnow21_0100_0100')
+
+    # The Sword in the Stone
+    # NO CHANGES NEEDED!
+
+    # A Disquieting Shop (Hikari, Ochette, Throne, Castti)
+    turn_on('NPC_SS_TSnow31_0100_0100')
+    turn_on('NPC_SS_TSnow31_0100_0200')
+    turn_on('NPC_SS_TSnow31_0100_0300')
+
+    # Lingering Love (Agnea, Partitio, Osvald, Throne)
+    # Lingering Love (Agnea, Ochette)
+    turn_on('NPC_SS_TSnow31_0200_0100')
+    turn_on('NPC_SS_TSnow31_0200_0110')
+    turn_on('NPC_SS_TSnow31_0200_0120')
+    turn_on('NPC_SS_TSnow31_0200_0200')
+    turn_on('NPC_SS_TSnow31_0200_0400')
+    turn_on('NPC_SS_TSnow31_0200_0410')
+    turn_on('NPC_SS_TSnow31_0200_0420')
+    turn_on('NPC_SS_TSn31_0200_0500')
+    turn_on('NPC_SS_TSn31_0200_0510')
+    turn_on('NPC_SS_TSn31_0200_0600')
+    turn_on('NPC_SS_TSn31_0200_0610')
+
+    # Melia's Next Chapter
+    turn_on('NPC_SS_JNP_MEL_0100_0000')
+    turn_on('NPC_SS_JNP_MEL_0120_0000')
+    turn_on('NPC_SS_JNP_MEL_0130_0000')
+    turn_on('NPC_SS_JNP_MEL_0200_0000')
+    turn_on('NPC_SS_JNP_MEL_0210_0000')
+    turn_on('NPC_SS_JNP_MEL_0210_0010')
+    turn_on('NPC_SS_JNP_MEL_0220_0000')
+    turn_on('NPC_SS_JNP_MEL_0220_0010')
+
+    #####################
+    #### Harborlands ####
+    #####################
+
+    # Waiting All Day And Night -- Canalbrine
+    turn_on('NPC_SS_TSea11_0100_0100')
+    turn_on('NPC_SS_TSea11_0100_0200')
+    turn_on('NPC_SS_TSea11_0100_0300') # After SQ
+    turn_on('NPC_SS_TSea11_0100_0400') # After SQ
+    turn_on('NPC_SS_TSea11_0100_0500') # Uses flag set by SQ; not tested
+
+    # Traveler's Lost and Found -- Canalbrine
+    turn_on('NPC_SS_TSea11_0200_0100')
+    turn_on('NPC_SS_TSea11_0200_0200')
+
+    # Lighthouse Restoration -- Canalbrine
+    turn_on('NPC_SS_TSea11_0300_0300')
+    turn_on('NPC_SS_TSea11_0300_0100')
+    turn_on('NPC_SS_TSea11_0300_0110') # Uses flag set by SQ; not tested
+
+    # The Fish Filcher -- Conning Creek (Throne only)
+    turn_on('NPC_SS_TSea21_0200_0100')
+    turn_on('NPC_SS_TSea21_0200_0200')
+    turn_on('NPC_SS_TSea21_0200_0300')
+    turn_on('NPC_SS_TSea21_0200_0400')
+
+    # A Young Girl's Wish -- Conning Creek: Outskirts
+    # turn_on('') # Cleric Guild / Cleric Novelist (Osvald, Castti)
+    turn_on('NPC_SS_TSea21_0300_0300') # New Delsta / Crep Maker (Throne, Osvald, Agnea, Partitio)
+    turn_on('NPC_SS_TSea21_0300_0200') # Timberain Castle: Town Square / Roland (Agnea, Partitio, Temenos, Ochette)
+    turn_on('NPC_SS_TSea21_0300_0100') # Apathetic Girl
+    turn_on('NPC_SS_TSea21_0300_0100_CLR') # after SQ
+
+    # Goading the Grapes -- outside Conning Creek
+    turn_on('NPC_SS_TSea21_0100_0100')
+    turn_on('NPC_SS_TSea21_0100_0200')
+    turn_on('NPC_SS_TSea21_0100_0300')
+
+    # Lady Clarissa's Next Chapter
+    turn_on('NPC_SS_JNP_CLA_0200_0000')
+    turn_on('NPC_SS_JNP_CLA_0100_0000')
+    turn_on('NPC_SS_JNP_CLA_0100_0010')
+
+    # Floyd and Thurston's Next Chapter
+    turn_on('NPC_SS_JNP_FAS_0100_0000')
+    turn_on('NPC_SS_JNP_FAS_0110_0000')
+    turn_on('NPC_SS_JNP_FAS_0200_0000')
+
+    #####################
+    #### Brightlands ####
+    #####################
+
+    # A Gambling Man (Temenos, Hikari)
+    turn_on('NPC_SS_TCity11_0100_0100_FIRST')
+    turn_on('NPC_SS_TCity11_0100_0100')
+    turn_on('NPC_SS_TCity11_0100_0110')
+    turn_on('NPC_SS_TCity11_0100_0200')
+    turn_on('NPC_SS_TCity11_0100_0200_D')
+    turn_on('NPC_SS_TCity11_0100_0200_STUN')
+    turn_on('NPC_SS_TCity11_0100_0400_N')
+    # turn_on('NPC_SS_TCity11_0100_0200_N')
+    # turn_on('NPC_SS_TCity11_0100_0300_D')
+    # turn_on('NPC_SS_TCity11_0100_0300_N')
+
+    # A Devilishly Delicioush Dish -- BOSS: Delsta Devil (Agnea, Throne, Osvald, Partitio)
+    turn_on('NPC_SS_TCity11_0500_0100')
+    turn_on('NPC_SS_TCity11_0500_0200')
+    turn_on('NPC_SS_TCity11_0500_0300')
+    turn_on('NPC_SS_TCity11_0500_0400')
+
+    # Utterly Exhausted! (Castti, Throne, Ochette)
+    turn_on('NPC_SS_TCity11_0400_0100')
+    turn_on('NPC_SS_TCity11_0400_0200')
+    turn_on('NPC_SS_TCity11_0400_0210')
+    turn_on('NPC_SS_TCity11_0400_0400')
+    turn_on('NPC_SS_TCity11_0400_0500')
+
+    # The Bourgeois Boy (Temenos, Agnea, Partitio, Ochette)
+    turn_on('NPC_SS_TCity11_0200_0100')
+    turn_on('NPC_SS_TCity11_0200_0120')
+    turn_on('NPC_SS_TCity11_0200_0200')
+    turn_on('NPC_SS_TCity11_0200_0300')
+
+    # For Whom the Clock Tower Tolls -- BOSS: Heavenwing (Partitio, Temenos, Agnea, Ochette)
+    turn_on('NPC_SS_TCity21_0200_0100_Trigger')
+    turn_on('NPC_SS_TCity21_0300_0100')
+
+    # My Beloved Catharine (Partitio, Temenos, Agnea, Ochette)
+    turn_on('NPC_SS_TCity21_0100_0100')
+    turn_on('NPC_SS_TCity21_0100_0200')
+    turn_on('NPC_SS_TCity21_0100_0300')
+    turn_on('NPC_SS_TCity21_0100_0400')
+    turn_on('NPC_SS_TCity21_0100_0500')
+
+    # A Genius Inventor: Nothing to do!
+
+    # Descended from Royalty (Partitio, Throne, Osvald, Agnea)
+    # Descended from Royalty (Castti, Hikari, Osvald)
+    turn_on('NPC_SS_TCity21_0200_0100')
+    turn_on('NPC_SS_TCity21_0200_0200')
+    turn_on('NPC_SS_TCity21_0200_0300')
+
+    # Veronica's Next Chapter
+    turn_on('NPC_SS_JNP_YJB_0100_0000')
+    turn_on('NPC_SS_JNP_YJB_0200_D000')
+    turn_on('NPC_SS_JNP_YJB_0200_N000')
+    turn_on('NPC_SS_JNP_YJB_0300_D000')
+    turn_on('NPC_SS_JNP_YJB_0300_N000')
+
+    ###################
+    #### Toto'haha ####
+    ###################
+
+    # Culinary Cunning
+    turn_on('NPC_SS_TIsland11_0200_0100')
+    turn_on('NPC_SS_TIsland11_0200_0200')
+
+    # Building Bridges (Throne, Partitio, Agnea)
+    turn_on('NPC_SS_TIsland11_0100_0100')
+    turn_on('NPC_SS_TIsland11_0100_0110')
+    turn_on('NPC_SS_TIsland11_0100_0200')
+    turn_on('NPC_SS_TIsland11_0100_0210')
+
+    # Stage Actors (Hikari, Ochette)
+    turn_on('NPC_SS_TIsland21_0300_0100')
+
+    # The Late Riser (Hikari, Ochette)
+    turn_on('NPC_SS_TIsland21_0100_0100')
+    turn_on('NPC_SS_TIsland21_0100_0110')
+    turn_on('NPC_SS_TIsland21_0100_0200')
+    turn_on('NPC_SS_TIsland21_0100_0210')
+
+    # Pearl Hunt (Osvald, Agnea)
+    turn_on('NPC_SS_TIsland21_0200_0600')
+    turn_on('NPC_SS_TIsland21_0200_0610')
+    turn_on('NPC_SS_TIsland21_0200_0100')
+    turn_on('NPC_SS_TIsland21_0200_0200')
+    turn_on('NPC_SS_TIsland21_0200_0300')
+
+    # Ghormf! (Agnea, Temenos, Partitio, Ochette)
+    turn_on('NPC_SS_TIsland31_0100_0100')
+    turn_on('NPC_SS_TIsland31_0100_0200')
+
+    # Shirlutto's Next Chapter
+    turn_on('NPC_SS_JNP_MOR_0100_0000')
+    turn_on('NPC_SS_JNP_MOR_0120_0000')
+    turn_on('NPC_SS_JNP_MOR_0200_0000')
+
+    ###################
+    #### Wildlands ####
+    ###################
+
+    # Wanted: A Good Joke (Castti, Temenos, Hikari, Osvald)
+    turn_on('NPC_SS_TWilderness11_0200_0100')
+    turn_on('NPC_SS_TWilderness11_0200_0110')
+    turn_on('NPC_SS_TWilderness11_0200_0200')
+    turn_on('NPC_SS_TWilderness11_0200_0300')
+    turn_on('NPC_SS_TWilderness11_0200_0400')
+    turn_on('NPC_SS_TWilderness11_0200_0500')
+    turn_on('NPC_SS_TWilderness11_0200_0510')
+
+    # Stolen Goods (Hikari, Ochette, Throne, Castti)
+    turn_on('NPC_SS_TWilderness11_0100_0100')
+    turn_on('NPC_SS_TWilderness11_0100_0210')
+
+    ### FAILS IN END GAME!?
+    # # Reaching for the Stars (Throne, Castti)
+    # turn_on('NPC_SS_TWilderness31_0400_0100')
+    # turn_on('NPC_SS_TWilderness31_0400_0110')
+    # turn_on('NPC_SS_TWilderness31_0400_0120')
+
+    # In Search of the Divine Weapons: Already works
+
+    # The Cave Monster (Hikari, Ochette, Throne, Castti)
+    # BOSS
+    # Works in END game automatically!
+
+    # The Missing Girl (Ochette, Agnea, Temenos, Partitio)
+    # BOSS: Deep One
+    turn_on('NPC_SS_TWilderness31_0200_0100')
+    turn_on('NPC_SS_TWilderness31_0200_0300')
+
+    # Alpione's Next Chapter
+    turn_on('NPC_SS_JNP_APN_0100_0000')
+    turn_on('NPC_SS_JNP_APN_0100_0210_D')
+    turn_on('NPC_SS_JNP_APN_0100_0210_N')
+    turn_on('NPC_SS_JNP_APN_0200_0000')
+    turn_on('JNP_KAR_030_D000')
+    turn_on('JNP_KAR_030_N000')
+
+    ###################
+    #### Leaflands ####
+    ###################
+
+    # Crop Revival (Temenos, Hikari, Castti, Osvald)
+    turn_on('NPC_SS_TForest11_0100_0100')
+    turn_on('NPC_SS_TForest11_0100_0200')
+    turn_on('NPC_SS_TForest11_0100_0300')
+    turn_on('NPC_SS_TForest11_0100_0310')
+
+    # The Soused Nobleman (Throne, Castti)
+    turn_on('NPC_SS_TForest11_0200_0100')
+    turn_on('NPC_SS_TForest11_0200_0200')
+    turn_on('NPC_SS_TForest11_0200_0400')
+    turn_on('SS_TForest11_0200_Auto')
+
+    # Through a Child's Eyes (Agnea, Temenos, Partitio, Ochette; need 2 of the 4)
+    turn_on('NPC_SS_TForest21_0200_0100')
+    turn_on('NPC_SS_TForest21_0200_0200')
+    turn_on('NPC_SS_TForest21_0200_0300')
+    turn_on('NPC_SS_TForest21_0200_0110')
+    turn_on('NPC_SS_TForest21_0200_0120')
+    turn_on('NPC_SS_TForest21_0200_0210')
+    turn_on('NPC_SS_TForest21_0200_0220')
+    turn_on('NPC_SS_TForest21_0200_0310')
+    turn_on('NPC_SS_TForest21_0200_0320')
+
+    # Useless Fruit
+    turn_on('NPC_SS_TForest21_0100_0100')
+    turn_on('NPC_SS_TForest21_0100_0200')
+    turn_on('NPC_SS_TForest21_0100_0300')
+
+    # Mira and the Elderly Guard's Next Chapter
+    turn_on('NPC_SS_JNP_RAM_0200_0000_R')
+    turn_on('NPC_SS_JNP_RAM_0200_0000_L')
+    turn_on('NPC_SS_JNP_RAM_0100_0000')
+    turn_on('NPC_SS_JNP_RAM_0110_0000')
+    turn_on('NPC_SS_JNP_RAM_0120_0000')
+
+    # A Forced Hand (Agnea, Temenos, Partitio, Ochette)
+    turn_on('NPC_SS_TForest31_0300_0100')
+    # turn_on('NPC_SS_TForest31_0300_0200')
+    # turn_on('NPC_SS_TForest31_0300_0300')
+
+    # Misha's Next Chapter
+    turn_on('NPC_SS_JNP_SHI_0100_0000') # Misha
+    turn_on('JNP_SHO_090_N000') # Misha (day already true)
+    turn_on('NPC_SS_JNP_SHI_0220_0000')
+    turn_on('NPC_SS_JNP_SHI_0210_0000')
+
+    # Proof of Innocence (Ochettte, Partitio, Agnea, Temenos)
+    turn_on('NPC_SS_TForest31_0100_0100')
+    turn_on('NPC_SS_TForest31_0100_0200')
+    turn_on('NPC_SS_TForest31_0100_0300')
+    turn_on('NPC_SS_TForest31_0100_0400')
+    turn_on('NPC_SS_TForest31_0100_0800')
+    turn_on('TF31_0100_TRIAL')
+    turn_on('NPC_SS_TForest31_0200_0100')
+    turn_on('NPC_SS_TForest31_0400_0900')
+
+    # Proof of Justice (Castti, Hikari, Temenos, Osvald)
+    # turn_on('NPC_SS_TForest31_0100_0200')
+    # turn_on('NPC_SS_TForest31_0100_0300')
+    turn_on('NPC_SS_TForest31_0100_0500')
+    turn_on('NPC_SS_TForest31_0100_0600')
+    turn_on('NPC_SS_TForest31_0100_0610')
+    turn_on('NPC_SS_TForest31_0100_0700')
+    # turn_on('NPC_SS_TForest31_0200_0100')
+    # turn_on('NPC_SS_TForest31_0200_0200')
+    # turn_on('NPC_SS_TForest31_0200_0300')
+    turn_on('NPC_SS_TForest31_0200_0500')
+    turn_on('NPC_SS_TForest31_0200_0600')
+    turn_on('Treasure_SS_Forest31_0400_AP_010')
+    turn_on('NPC_SS_TForest31_0400_0100')
+    turn_on('NPC_SS_TForest31_0400_0110')
+    turn_on('NPC_SS_TForest31_0400_0200')
+    turn_on('NPC_SS_TForest31_0400_0300')
+    turn_on('NPC_SS_TForest31_0400_0400')
+    turn_on('NPC_SS_TForest31_0400_0800')
+    turn_on('NPC_SS_TForest31_0400_0920')
+    turn_on('TF31_0400_TRIAL')
+
+    # Proof of Guilt (Osvald, Temenos, Castti, Hikari)
+    turn_on('NPC_SS_TForest31_0200_0200')
+    turn_on('NPC_SS_TForest31_0200_0300')
+    turn_on('NPC_SS_TForest31_0200_0400')
+    turn_on('NPC_SS_TForest31_0200_0800')
+    turn_on('NPC_SS_TForest31_0400_0910')
+    turn_on('TF31_0200_TRIAL')
+    turn_on('NPC_SS_TForest31_0200_AP_0010')
+
+    ####################
+    #### Crestlands ####
+    ####################
+
+    # Pilgrim Protection (issue with mist, lighting flame in recent mod)
+    # check flags 20101, 20102, 20104, 34079; set in vanilla
+    # npcs with items still exist in end game
+    turn_on('NPC_SS_TMount12_0100_0100')
+
+    # Cathedral Window Repair
+    turn_on('NPC_SS_TMount12_0300_0100')
+    placement.NPC_SS_TMount12_0300_0100.NotCoexistencePlacementLabel[4] = 'None'
+
+    # Will Research for Money (Ochette, Partitio, Temenos, Agnea)
+    turn_on('NPC_SS_TMount21_0100_0100')
+    turn_on('NPC_SS_TMount21_0100_0200_C')
+    turn_on('NPC_SS_TMount21_0100_0200')
+
+    # Tourney Champion
+    turn_on('NPC_SS_TMount21_0300_0100')
+    turn_on('NPC_SS_TMount21_0300_0300')
+    turn_on('NPC_SS_TMount21_0300_0200')
+
+    # Mysterious Box (Throne, Partitio, Osvald, Agnea)
+    turn_on('NPC_SS_TW21_0100_0200')
+    turn_on('NPC_SS_TWilderness21_0100_0100')
+    turn_on('NPC_SS_TWilderness21_0100_0110')
+    turn_on('TRIGGER_SS_TW21_0100_CLEAR')
+    turn_on('TRIGGER_SS_TW21_0100_0100')
+    turn_on('NACT_Dng_Fst_3_3_0100_N000')
+    turn_on('NACT_Dng_Fst_3_3_0200_N000')
+    turn_on('NACT_Dng_Fst_3_3_0300_N000')
+    turn_on('NACT_Fld_Fst_3_2_0100_N000')
+
+    # Ort's Next Chapter
+    turn_on('NPC_SS_JNP_ALT_0100_0000')
+    placement.NPC_SS_JNP_ALT_0100_0000.NotCoexistencePlacementLabel[3] = 'None'
+    placement.NPC_SS_JNP_ALT_0100_0000.NotCoexistencePlacementLabel[4] = 'None'
+    turn_on('NPC_SS_JNP_ALT_0200_0000')
+    placement.NPC_SS_JNP_ALT_0200_0000.NotCoexistencePlacementLabel[3] = 'None'
+    placement.NPC_SS_JNP_ALT_0200_0000.NotCoexistencePlacementLabel[4] = 'None'
+    turn_on('NPC_SS_JNP_ALT_0210_0010')
+    placement.NPC_SS_JNP_ALT_0210_0010.NotCoexistencePlacementLabel[3] = 'None'
+    placement.NPC_SS_JNP_ALT_0210_0010.NotCoexistencePlacementLabel[4] = 'None'
+    turn_on('NPC_SS_JNP_ALT_0300_0000')
+    placement.NPC_SS_JNP_ALT_0300_0000.NotCoexistencePlacementLabel[3] = 'None'
+    placement.NPC_SS_JNP_ALT_0300_0000.NotCoexistencePlacementLabel[4] = 'None'
+    turn_on('NPC_SS_JNP_ALT_0300_0001')
+    placement.NPC_SS_JNP_ALT_0300_0001.NotCoexistencePlacementLabel[3] = 'None'
+    placement.NPC_SS_JNP_ALT_0300_0001.NotCoexistencePlacementLabel[4] = 'None'
+    turn_on('NPC_SS_JNP_ALT_0300_0002')
+    placement.NPC_SS_JNP_ALT_0300_0002.NotCoexistencePlacementLabel[3] = 'None'
+    placement.NPC_SS_JNP_ALT_0300_0002.NotCoexistencePlacementLabel[4] = 'None'
+    turn_on('NPC_SS_JNP_ALT_0310_0000')
+    placement.NPC_SS_JNP_ALT_0310_0000.NotCoexistencePlacementLabel[3] = 'None'
+    placement.NPC_SS_JNP_ALT_0310_0000.NotCoexistencePlacementLabel[4] = 'None'
+    turn_on('NPC_JNP_ALT_0400_0000')
+    turn_on('NPC_SS_JNP_ALT_0400_0000_NACT')
+    turn_on('NPC_SS_JNP_ALT_0500_0000_NACT')
+
+    # Laila's Next Chapter
+    turn_on('NPC_SS_JNP_LYL_0100_0000')
+    turn_on('NPC_SS_JNP_LYL_0100_0100')
+    turn_on('NPC_SS_JNP_LYL_0100_0300')
+    turn_on('NPC_SS_JNP_LYL_0100_0400')
+    turn_on('NPC_SS_JNP_LYL_0300_0000')
+    turn_on('NPC_SS_JNP_LYL_0300_0100')
+    turn_on('NPC_SS_JNP_LYL_0400_0100')
+    turn_on('NPC_SS_JNP_LYL_0500_0000')
+    turn_on('NPC_SS_JNP_LYL_0600_0100')
+    turn_on('JNP_ODO_140_D000')
+    turn_on('JNP_ODO_140_N000')
+    turn_on('JNP_SIN_030_D000')
+    turn_on('JNP_SIN_030_N000')
+
+    ##################
+    #### Hinoeuma ####
+    ##################
+
+    ### Can't enter the Decaying Temple in END GAME
+    # # Sword Hunter in the Decaying Temple
+    # # turn_on('TRIGGER_SS_TDesert21_0100_0100')
+    # turn_on('NPC_SS_TDesert21_0100_0100')
+    # turn_on('NPC_SS_TDesert21_0100_0110')
+    # # turn_on('NPC_SS_TDesert21_0100_0200')
+
+    # Plans from a Ruined Nation (Partitio, Throne, Osvald, Agnea)
+    turn_on('NPC_SS_TDesert21_0200_0100')
+    turn_on('NPC_SS_TDesert21_0200_0200')
+
+    # The Treasures of Kue (Partitio, Throne, Osvald, Agnea)
+    turn_on('NPC_SS_TDesert31_0200_0100')
+    turn_on('NPC_SS_TDesert31_0200_0200')
+    turn_on('NPC_SS_TDesert31_0200_0300')
+
+    # The Strongest (Hikari, Ochette)
+    turn_on('SC_SS_TDesert31_0100_0120_Auto')
+    turn_on('SC_SS_TDesert31_0100_0130_Auto')
+    turn_on('NPC_SS_TDesert31_0100_0100')
+    turn_on('NPC_SS_TDesert31_0100_0110')
+    turn_on('NPC_SS_TDesert31_0100_0200')
+    turn_on('NPC_SS_TDesert31_0100_0210')
+    turn_on('NPC_SS_TDesert31_0100_0400')
+
+    # The Runaways (Agnea, Temenos, Ochette, Partitio)
+    turn_on('NPC_SS_TDesert31_0300_0100')
+    turn_on('NPC_SS_TDesert31_0300_0200')
+    turn_on('NPC_SS_TDesert31_0300_0300')
+    turn_on('NPC_SS_TDesert31_0300_0400')
+    turn_on('NPC_SS_TDesert31_0300_0500')
+    turn_on('NPC_SS_TDesert31_0300_0600_01')
+    turn_on('NPC_SS_TDesert31_0300_0600_02')
+    turn_on('NPC_SS_TDesert31_0300_0600_03')
+    
+    # Mikka's Next Chapter
+    # Need to finish A&H COP 2? (presumably)
+    turn_on('NPC_SS_JNP_MIK_0100_0000')
+    turn_on('NPC_SS_JNP_MIK_0100_0100')
+    turn_on('NPC_SS_JNP_MIK_0200_0000')
+    turn_on('NPC_SS_JNP_MIK_0200_0100')
+    turn_on('NPC_SS_JNP_MIK_0300_0000')
+    turn_on('NPC_SS_JNP_MIK_0400_0000')
+
+    # A Tower of Trials (works automatically)
+
+    ###########################
+    #### Lighthouse Island ####
+    ###########################
+
+    # The Washed-Up Letter
+    turn_on('NPC_SS_TSea21_0400_0100')
+    turn_on('NPC_SS_TSea21_0400_0200')
+
+    ############################
+    #### Galdera Sidequests ####
+    ############################
+
+    # The Traveler's Bag
+    # Tutorial Als
+    turn_on('NPC_SS_TCity13_Tutorial_0100')
+    turn_on('NPC_SS_TDesert11_Tutorial_0100')
+    turn_on('NPC_SS_TForest13_Tutorial_0100')
+    turn_on('NPC_SS_TIsland12_Tutorial_0100')
+    turn_on('NPC_SS_TIsland13_Tutorial_0100')
+    turn_on('NPC_SS_TMount12_Tutorial_0100')
+    turn_on('NPC_SS_TSea13_Tutorial_0100')
+    turn_on('NPC_SS_TSnow12_Tutorial_0100')
+    turn_on('NPC_SS_TWilderness13_Tutorial_0100')
+
+    turn_on('NPC_SS_TCity13_Tutorial_0200')
+    turn_on('NPC_SS_TDesert11_Tutorial_0200')
+    turn_on('NPC_SS_TForest13_Tutorial_0200')
+    turn_on('NPC_SS_TIsland12_Tutorial_0200')
+    turn_on('NPC_SS_TIsland13_Tutorial_0200')
+    turn_on('NPC_SS_TMount12_Tutorial_0200')
+    turn_on('NPC_SS_TSea13_Tutorial_0200')
+    turn_on('NPC_SS_TSnow12_Tutorial_0200')
+    turn_on('NPC_SS_TWilderness13_Tutorial_0200')
+
+    turn_on('Trigger_SS_TCity13_Tutorial_0100')
+    turn_on('Trigger_SS_TCity13_Tutorial_Enable')
+    turn_on('Trigger_SS_TCity13_Tutorial_Ongoing')
+    turn_on('Trigger_SS_TDesert11_Tutorial_0100')
+    turn_on('Trigger_SS_TDesert11_Tutorial_Enable')
+    turn_on('Trigger_SS_TDesert11_Tutorial_Ongoing')
+    turn_on('Trigger_SS_TForest13_Tutorial_0100')
+    turn_on('Trigger_SS_TForest13_Tutorial_Enable')
+    turn_on('Trigger_SS_TForest13_Tutorial_Ongoing')
+    turn_on('Trigger_SS_TIsland12_Tutorial_0100')
+    turn_on('Trigger_SS_TIsland12_Tutorial_Enable')
+    turn_on('Trigger_SS_TIsland12_Tutorial_Ongoing')
+    # turn_on('Trigger_SS_TIsland13_Tutorial_0100')
+    turn_on('Trigger_SS_TIsland13_Tutorial_Enable')
+    turn_on('Trigger_SS_TIsland13_Tutorial_Ongoing')
+    turn_on('Trigger_SS_TMount12_Tutorial_0100')
+    turn_on('Trigger_SS_TMount12_Tutorial_Enable')
+    turn_on('Trigger_SS_TMount12_Tutorial_Ongoing')
+    turn_on('Trigger_SS_TSea13_Tutorial_0100')
+    turn_on('Trigger_SS_TSea13_Tutorial_Enable')
+    turn_on('Trigger_SS_TSea13_Tutorial_Ongoing')
+    turn_on('Trigger_SS_TSnow12_Tutorial_0100')
+    turn_on('Trigger_SS_TSnow12_Tutorial_Enable')
+    turn_on('Trigger_SS_TSnow12_Tutorial_Ongoing')
+    turn_on('Trigger_SS_TWilderness13_Tutorial_0100')
+    turn_on('Trigger_SS_TWilderness13_Tutorial_Enable')
+    turn_on('Trigger_SS_TWilderness13_Tutorial_Ongoing')
+
+    # Procuring Peculiar Tomes
+    turn_on('NPC_SS_TMount21_0200_0100') # Unusual Tome Specialist
+    turn_on('NPC_SS_TMount21_0200_0200') # Get Dispatches from Beastling Island
+
+    # From the Far Reaches of Hell
+    turn_on('NPC_SS_TMount21_0400_0100') # Al
+
+    # A Gate Between Worlds: BOSS Galdera
+    turn_on('EV_TRIGGER_SS_GAK_10_0100')
+    turn_on('EV_TRIGGER_SS_GAL_10_0210')

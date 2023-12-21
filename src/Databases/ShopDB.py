@@ -64,6 +64,71 @@ class ShopRow(Row):
 	    'Twn_Wld_1_1_A_NPCBUY_01_03',
         ]
 
+    @property
+    def is_knowledge(self):
+        return 'ITM_INF' in self.ItemLabel
+        
+    @property
+    def is_valuable(self):
+        return 'ITM_TRE' in self.ItemLabel
+
+    @property
+    def is_rusty(self):
+        return '_WPM_' in self.ItemLabel
+
+    @property
+    def is_inventor_item(self):
+        return '_PARTS_' in self.ItemLabel
+
+    @property
+    def is_license(self):
+        return '_JOB_' in self.ItemLabel
+
+    @property
+    def is_key_item(self):
+        return self.is_knowledge or self.is_valuable \
+            or self.is_rusty or self.is_inventor_item \
+            or self.is_license
+
+    # Partitio
+    def set_default_price(self):
+        if self.FCPrice > 0:
+            self.FCPrice = min(500, self.FCPrice)
+
+    # Throne
+    def set_default_steal(self):
+        if self.ProperSteal != 0:
+            self.ProperSteal = min(1, self.ProperSteal)
+
+    # Agnea
+    def set_default_beg(self):
+        if self.ProperBeg > 0:
+            self.ProperBeg = min(1, self.ProperBeg)
+
+    # Agnea - get item (night)
+    # Osvald - mug (night; get all items)
+    # Partitio - purchase (day)
+    # Throne - steal (day; level)
+
+    ### Hear (not in this table; but necessary)
+    # Castti - hear (day; level)
+    # Hikari - hear bribe (night)
+    # Osvald - hear (day; level random)
+    # Temenos - hear battle (night)
+    
+
+    ### Not related to item; but important nonetheless
+    # Castti - knockout (night)
+    # Hikari - knockout (day, battle)
+    # Ochette - knockout (day)
+    # Throne - knockout (night; level)
+
+    ### WON'T NEED
+    # Agnea - join party (day)
+    # Ochette - join party (night; item)
+    # Partitio - join party (night)
+    # Temenos - join party (day)
+
 
 class ShopTable(Table):
     def __init__(self, data, row_class):

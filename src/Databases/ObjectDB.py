@@ -60,7 +60,7 @@ class ObjectRow(Row):
             return 'None'
 
         if self.HaveItemCnt > 1:
-            name = f"{name} x{self.haveItemCnt}"
+            name = f"{name} x{self.HaveItemCnt}"
 
         return name
         

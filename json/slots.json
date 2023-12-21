@@ -400,7 +400,7 @@
       item: unlock_agnea_ex_abil_1
     }
   ]
-  finish_guild_war:
+  get_license_war_1:
   [
     {
       filename: SYS_WAR_GUILD_0030
@@ -410,10 +410,36 @@
       ]
       remove: []
       description: Warrior Guild
-      item: ""
+      item: item_license_war_1
     }
   ]
-  finish_guild_hun:
+  get_license_war_2:
+  [
+    {
+      filename: SYS_WAR_GUILD_0030_2
+      insert:
+      [
+        0
+      ]
+      remove: []
+      description: Warrior Guild (2)
+      item: item_license_war_2
+    }
+  ]
+  get_license_war_3:
+  [
+    {
+      filename: SYS_WAR_GUILD_0030_3
+      insert:
+      [
+        0
+      ]
+      remove: []
+      description: Warrior Guild (3)
+      item: item_license_war_3
+    }
+  ]
+  get_license_hun_1:
   [
     {
       filename: SYS_HUN_GUILD_0030
@@ -423,10 +449,36 @@
       ]
       remove: []
       description: Hunter Guild
-      item: ""
+      item: item_license_hun_1
     }
   ]
-  finish_guild_apo:
+  get_license_hun_2:
+  [
+    {
+      filename: SYS_HUN_GUILD_0030_2
+      insert:
+      [
+        0
+      ]
+      remove: []
+      description: Hunter Guild (2)
+      item: item_license_hun_2
+    }
+  ]
+  get_license_hun_3:
+  [
+    {
+      filename: SYS_HUN_GUILD_0030_3
+      insert:
+      [
+        0
+      ]
+      remove: []
+      description: Hunter Guild (3)
+      item: item_license_hun_3
+    }
+  ]
+  get_license_apo_1:
   [
     {
       filename: SYS_APO_GUILD_0030
@@ -436,10 +488,36 @@
       ]
       remove: []
       description: Apothecary Guild
-      item: ""
+      item: item_license_apo_1
     }
   ]
-  finish_guild_mer:
+  get_license_apo_2:
+  [
+    {
+      filename: SYS_APO_GUILD_0030_2
+      insert:
+      [
+        0
+      ]
+      remove: []
+      description: Apothecary Guild (2)
+      item: item_license_apo_2
+    }
+  ]
+  get_license_apo_3:
+  [
+    {
+      filename: SYS_APO_GUILD_0030_3
+      insert:
+      [
+        0
+      ]
+      remove: []
+      description: Apothecary Guild (3)
+      item: item_license_apo_3
+    }
+  ]
+  get_license_mer_1:
   [
     {
       filename: SYS_MER_GUILD_0030
@@ -449,10 +527,36 @@
       ]
       remove: []
       description: Merchant Guild
-      item: ""
+      item: item_license_mer_1
     }
   ]
-  finish_guild_cle:
+  get_license_mer_2:
+  [
+    {
+      filename: SYS_MER_GUILD_0030_2
+      insert:
+      [
+        0
+      ]
+      remove: []
+      description: Merchant Guild (2)
+      item: item_license_mer_2
+    }
+  ]
+  get_license_mer_3:
+  [
+    {
+      filename: SYS_MER_GUILD_0030_3
+      insert:
+      [
+        0
+      ]
+      remove: []
+      description: Merchant Guild (3)
+      item: item_license_mer_3
+    }
+  ]
+  get_license_cle_1:
   [
     {
       filename: SYS_CLE_GUILD_0030
@@ -462,10 +566,36 @@
       ]
       remove: []
       description: Cleric Guild
-      item: ""
+      item: item_license_cle_1
     }
   ]
-  finish_guild_sch:
+  get_license_cle_2:
+  [
+    {
+      filename: SYS_CLE_GUILD_0030_2
+      insert:
+      [
+        0
+      ]
+      remove: []
+      description: Cleric Guild (2)
+      item: item_license_cle_2
+    }
+  ]
+  get_license_cle_3:
+  [
+    {
+      filename: SYS_CLE_GUILD_0030_3
+      insert:
+      [
+        0
+      ]
+      remove: []
+      description: Cleric Guild (3)
+      item: item_license_cle_3
+    }
+  ]
+  get_license_sch_1:
   [
     {
       filename: SYS_SCH_GUILD_0030
@@ -475,10 +605,36 @@
       ]
       remove: []
       description: Scholar Guild
-      item: ""
+      item: item_license_sch_1
     }
   ]
-  finish_guild_thi:
+  get_license_sch_2:
+  [
+    {
+      filename: SYS_SCH_GUILD_0030_2
+      insert:
+      [
+        0
+      ]
+      remove: []
+      description: Scholar Guild (2)
+      item: item_license_sch_2
+    }
+  ]
+  get_license_sch_3:
+  [
+    {
+      filename: SYS_SCH_GUILD_0030_3
+      insert:
+      [
+        0
+      ]
+      remove: []
+      description: Scholar Guild (3)
+      item: item_license_sch_3
+    }
+  ]
+  get_license_thi_1:
   [
     {
       filename: SYS_THI_GUILD_0030
@@ -488,10 +644,36 @@
       ]
       remove: []
       description: Thief Guild
-      item: ""
+      item: item_license_thi_1
     }
   ]
-  finish_guild_dan:
+  get_license_thi_2:
+  [
+    {
+      filename: SYS_THI_GUILD_0030_2
+      insert:
+      [
+        0
+      ]
+      remove: []
+      description: Thief Guild (2)
+      item: item_license_thi_2
+    }
+  ]
+  get_license_thi_3:
+  [
+    {
+      filename: SYS_THI_GUILD_0030_3
+      insert:
+      [
+        0
+      ]
+      remove: []
+      description: Thief Guild (3)
+      item: item_license_thi_3
+    }
+  ]
+  get_license_dan_1:
   [
     {
       filename: SYS_DAN_GUILD_0030
@@ -501,10 +683,36 @@
       ]
       remove: []
       description: Dancer Guild
-      item: ""
+      item: item_license_dan_1
     }
   ]
-  finish_guild_arc:
+  get_license_dan_2:
+  [
+    {
+      filename: SYS_DAN_GUILD_0030_2
+      insert:
+      [
+        0
+      ]
+      remove: []
+      description: Dancer Guild (2)
+      item: item_license_dan_2
+    }
+  ]
+  get_license_dan_3:
+  [
+    {
+      filename: SYS_DAN_GUILD_0030_3
+      insert:
+      [
+        0
+      ]
+      remove: []
+      description: Dancer Guild (3)
+      item: item_license_dan_3
+    }
+  ]
+  get_license_arc:
   [
     {
       filename: SYS_WIZ_GUILD_0000
@@ -512,9 +720,13 @@
       [
         -2
       ]
-      remove: []
+      remove:
+      [
+        2
+        5
+      ]
       description: Arcanist Guild
-      item: ""
+      item: item_license_arc
     }
   ]
   finish_chapter_1:
@@ -1710,7 +1922,7 @@
       item: ""
     }
   ]
-  finish_guild_con:
+  get_license_con:
   [
     {
       filename: SC_SS_TDesert31_0400_1000
@@ -1725,33 +1937,27 @@
         36
       ]
       description: Beat Priestess Hinoekagura
-      item: ""
+      item: item_license_con
     }
   ]
-  finish_guild_arm:
+  get_license_inv:
   [
     {
-      filename: SYS_WPM_GUILD_0000
+      filename: SYS_INV_GUILD_0010
       insert:
       [
-        -1
+        -2
       ]
-      remove: []
-      description: Bring 1 rusty weapon to the Blacksmith
-      item: ""
-    }
-    {
-      filename: SYS_WPM_GUILD_0010
-      insert:
+      remove:
       [
-        -1
+        56
+        59
       ]
-      remove: []
-      description: Bring 1 rusty weapon to the Blacksmith
-      item: ""
+      description: Inventor Guild
+      item: item_license_inv
     }
   ]
-  finish_guild_inv:
+  get_inventor_parts:
   [
     {
       filename: SYS_INV_GUILD_0C10
@@ -1893,6 +2099,67 @@
       remove: []
       description: Find Mysterious Notebook
       item: item_mysterious_notebook
+    }
+  ]
+  get_sq_delsta_devil:
+  [
+    {
+      filename: SC_SS_TCity11_0500_0150
+      insert:
+      [
+        9
+      ]
+      remove:
+      [
+        9
+        0
+      ]
+      description: Delsta Devil
+      item: item_sq_delsta_devil
+    }
+  ]
+  get_sq_cloudy_crystal_bracelet:
+  [
+    {
+      filename: EV_Dng_Wld_3_2_0020
+      insert:
+      [
+        7
+      ]
+      remove:
+      [
+        7
+        2
+      ]
+      description: Cloudy Crystal Bracelet
+      item: item_sq_cloudy_crystal_bracelet
+    }
+  ]
+  get_sq_message_in_bottle:
+  [
+    {
+      filename: SC_SS_TSea21_0400_0100
+      insert:
+      [
+        7
+      ]
+      remove:
+      [
+        8
+        7
+      ]
+      description: Message in a Bottle
+      item: item_sq_message_in_bottle
+    }
+    {
+      filename: SC_SS_TSea21_0400_03A1
+      insert:
+      [
+        1
+      ]
+      remove: []
+      description: Message in a Bottle
+      item: item_sq_message_in_bottle
     }
   ]
 }

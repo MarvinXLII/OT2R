@@ -823,9 +823,13 @@ class UnparsedExport(Byte):
         self.addr = 0
         self.data = bytearray(export.uexp2) # Convert from bytes to bytearray for modding
         export.uexp2 = self.data # Won't need to update this array manually
+        self.export = export
 
     def build(self):
         return self.data
+
+    def update(self):
+        self.export.uexp2 = self.data
 
     def __len__(self):
         return len(self.data)
@@ -889,9 +893,12 @@ class UnparsedExport(Byte):
         b = self.get_uint64(value)
         self.patch(b, addr)
 
-    def print_addr(self, v, f):
-        print('Value', v, f'({hex(v)})', 'at:')
-        b = f(v)
+    def print_addr(self, b, print_val=None):
+        if print_val is None:
+            print('Value', b, f'({list(map(hex, b))})', 'at:')
+        else:
+            print('Print Value', print_val, b, f'({list(map(hex, b))})', 'at:')
+        # b = f(v)
         i = 0
         while True:
             try:
@@ -905,25 +912,31 @@ class UnparsedExport(Byte):
         print('Print byte const', value, f'({hex(value)})')
         value <<= 8
         value += 0x24
-        self.print_addr(value, self.get_uint16)
+        self.print_addr(self.get_uint16(value))
 
     def print_addr_uint8(self, value):
-        self.print_addr(value, self.get_uint8)
+        self.print_addr(self.get_uint8(value))
 
     def print_addr_uint16(self, value):
-        self.print_addr(value, self.get_uint16)
+        self.print_addr(self.get_uint16(value))
 
     def print_addr_uint32(self, value):
-        self.print_addr(value, self.get_uint32)
+        self.print_addr(self.get_uint32(value))
 
     def print_addr_uint64(self, value):
-        self.print_addr(value, self.get_uint64)
+        self.print_addr(self.get_uint64(value))
 
     def print_addr_bool_on(self):
         self.print_addr_uint8(0x27)
 
     def print_addr_bool_off(self):
         self.print_addr_uint8(0x28)
+
+    def print_addr_int_const(self, value):
+        vb = value << 8
+        vb += 0x1d
+        vb = vb.to_bytes(5, byteorder='little')
+        self.print_addr(vb, value)
 
     def assert_bool_on(self, addr=None):
         self.assert_uint8(0x27, addr)
@@ -1265,7 +1278,7 @@ class UAsset(File):
 
 
 class DataAsset:
-    def __init__(self, pak, basename, include_patches=True):
+    def __init__(self, pak, basename, include_patches=False):
         print(f'Loading data from {basename}')
         uexp = pak.extract_file(f'{basename}.uexp', include_patches)
         uasset = pak.extract_file(f'{basename}.uasset', include_patches)
@@ -1338,6 +1351,9 @@ class DataAsset:
 
     def get_uexp_obj_2(self, idx):
         return UnparsedExport(self.uasset.exports[idx])
+
+    def get_index(self, name):
+        return self.uasset.get_index(name)
 
     def build(self):
 

@@ -15,6 +15,25 @@ class EnemyGroupRow(RowSplit):
         self.rando_boss = self.boss_from_json()
         self.vide_wicked_cand = self.vtw_from_json()
 
+    def get_display_rank(self):
+        rank = 0
+        enemy_db = Manager.get_instance('EnemyDB').table
+        for enemy in self.EnemyID:
+            if hasattr(enemy_db, enemy):
+                e = getattr(enemy_db, enemy)
+                if rank < e.DisplayRank:
+                    rank = e.DisplayRank
+        return rank
+
+    def get_enemies_objs(self):
+        enemies = []
+        enemy_db = Manager.get_instance('EnemyDB').table
+        for enemy in self.EnemyID:
+            if enemy == 'None': continue
+            if hasattr(enemy_db, enemy):
+                enemies.append(getattr(enemy_db, enemy))
+        return enemies
+
     def boss_from_json(self):
         if self.key in EnemyGroupRow.boss_json:
             return EnemyGroupRow.boss_json[self.key]['boss']

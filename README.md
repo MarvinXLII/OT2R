@@ -12,8 +12,8 @@ See the executable for full descriptions of each option. Options include:
 * Randomize skill power
 * Shuffle support skills
 * Shuffle job stats
-* Shuffle key items and chapters/events
-* Shuffle chests, hidden items, NPCs' items, guild licenses
+* Shuffle key items, guild licenses, and chapters/events
+* Shuffle chests, hidden items, NPCs' items, sidequest rewards
 * Shuffle jerky produced from captures
 * Randomize enemy shields\*\*
 * Shuffle enemies from random encounters
@@ -42,7 +42,7 @@ is recommended that you keep mid/late game bosses separate.
 
 For a full list of options, see the executable on the releases page.
 
-Key Items included are:
+Key Items from the Main Story included are:
 
 * Agnea Ch. 2: Theater Ticket
 * Agnea Ch. 3: Wooden Sword
@@ -65,11 +65,43 @@ Key Items included are:
 * Crossed Path Dancer & Warrior 1: Horse Tail
 * Crossed Path Dancer & Warrior 2: Dancer's Mask, Sacred Wood, Wine Offering
 * Crossed Path Scholar & Merchant 1: Mirror, Precision Lens, Metalworking Lens
-* Sidequest "The Traveler's Bag": Al's Bag
-* Sidequest "Procuring Peculiar Tomes": all 3 tomes
-* Sidequest "From the Far Reaches of Hell": How to Decipher Unknown Languages
 * Rusty Weapons: Rusty Sword, Rusty Polearm, Rusty Dagger, Rusty Axe, Rusty Bow, Rusty Staff
 * Inventor Parts: Rainbow Glass Bottle, Scrap Metal, Natural Magnetite, Ancient Cog, Mythical Horn, Tin Toy
+* Galdera's Sidequest "The Traveler's Bag": Al's Bag
+* Galdera's Sidequest "Procuring Peculiar Tomes": all 3 tomes
+* Galdera's Sidequest "From the Far Reaches of Hell": How to Decipher Unknown Languages
+
+Key Items from Sidequests included are:
+* A Devilishly Delicious Dish: Special Bait, Delsta Devil
+* A Gambling Man: Truth of the Game Parlor
+* A Mysterious Box: Mysterious Box
+* A Present for My Son: Silver Quill
+* A Young Girl's Wish: Deluxe Crepe, Adventures of an Apprentice Cleric’s Sequel
+* Alpione's Next Chapter: Hunting Request
+* Building Bridges: Amulet of Affection
+* Crop Revival: Crop Tapestry Pattern
+* Culinary Cunning: Spicy Chicken Recipe
+* Descended from Royalty: Nyx Royal Family Tree, Nyx Family History
+* Goading the Grapes: Tricks to Growing Grapes
+* Lingering Love: Treasured Necklace
+* Melia's Next Chapter: Letter from the Snowhares
+* Mikka’s Next Chapter: Earrings
+* Misha’s Next Chapter: Man in a Brown Coat, Garbage Collector
+* Pearl Hunt: 4 Pretty Pearls
+* Pilgrim Protection: 3 Sacred Flame Candles
+* Plans from a Ruined Nation: Fort Orochi Plans
+* Proof of Guilt: Azure Sun Sword
+* Proof of Justice: A Killer's Motive, Stolen Sword
+* Shirlutto's Next Chapter: Lute, Paper Play, History Book
+* Stolen Goods: Stocked Goods
+* The Missing Girl: Cloudy Crystal Bracelet
+* The Sword in the Stone: Sturdy Pickaxe
+* The Treasures of Ku: Dragon Vase, Phoenix Fan
+* The Washed-Up Letter: Message in a Bottle
+* Traveler's Lost and Found: Aelmorite Reflector, Bottle of White Powder
+* Useless Fruit: Well Iris Uses
+* Veronica's Next Chapter: Dolcinaea and Gifts
+* Wanted: A Good Joke: 3 jokes
 
 Some items were already mandatory in the vanilla game for progression.
 while others weren't and are now made mandatory. For reference, here's
@@ -99,6 +131,10 @@ a list of new requirements enforced when the Main Story Key Items option is sele
 * For technical reasons, Fast Travel had to be toggled off for Cross
   Path chapters Thief & Cleric 1 and Dancer & Warrior 2 when shuffling
   Main Story Chapters/Events.
+
+* For technical reasons, sidequests "Reaching for the Stars" and
+  "Sword Hunter in the Decaying Temple" can't be completed once a
+  flame extinguishes when shuffling main story events.
 
 ## Usage
 

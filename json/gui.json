@@ -251,13 +251,53 @@
 		    // 	default: False
 		    // 	help: "Include valuable items needed by the inventor: Rainbow Glass Bottle, Mythical Horn, Tin Toy, Scrap Metal, Ancient Cog, and Natural Magnetite.\n\nThis option will be ignored if the Events & Key Items options Guilds and/or Spawn Guilds are on as they affect the logic."
 		    // }
-		    items_licenses: {
-			label: "Include job licenses"
+		    // items_licenses: {
+		    // 	label: "Include job licenses"
+		    // 	class: Treasures
+		    // 	attribute: include_licenses
+		    // 	builder: True
+		    // 	default: False
+		    // 	help: "Include job licenses in the item shuffle."
+		    // }
+		    items_chests: {
+			label: "Include chests"
 			class: Treasures
-			attribute: include_licenses
+			attribute: include_chests
 			builder: True
 			default: False
-			help: "Include job licenses in the item shuffle."
+			help: "Contents of chests are added to the item pool."
+		    }
+		    items_hidden: {
+			label: "Include hidden items"
+			class: Treasures
+			attribute: include_hidden
+			builder: True
+			default: False
+			help: "Add hidden items unlocked through Path Actions Inquire, Scrutinize, etc. to the item pool."
+		    }
+		    items_npc_shops: {
+			label: "Include NPC items"
+			class: Treasures
+			attribute: include_npc_shops
+			builder: True
+			default: False
+			help: "Add NPC items receive through Path Actions Purchase, Steal, etc. to the item pool."
+		    }
+		    items_sidequests: {
+			label: "Include Sidequest Rewards"
+			class: Treasures
+			attribute: include_sidequests
+			builder: True
+			default: False
+			help: "Add rewards from completing sidequests to the item pool. The Rusty Sword is omitted here and instead included as a Rusty Weapons option in the Events & Key Items tab."
+		    }
+		    items_shuffle_separately: {
+			label: "Shuffle separately"
+			class: Treasures
+			attribute: shuffle_treasures_separately
+			builder: separate_treasure_shuffle
+			default: no_weights
+			help: "Shuffle items from different options separately, e.g. if chests and sidequests are selected, the Spurning Ribbon will never end up in a chest and will remain as a sidequest reward."
 		    }
 		}
 	    }
@@ -270,16 +310,16 @@
 		help: "Shuffles jerky, etc. collected when processing captured species."
 	    }
 	}
-	Guilds: {
-	    license_requirements: {
-		label: "Shuffle license requirements"
-		class: Guilds
-		attribute: Requirements
-		builder: shuffle_requirements
-		default: Nothing
-		help: "Shuffle requirements for gaining a second or third license, e.g. Hunter licenses could have the Merchant's 100,000 and 300,000 leaves requirements."
-	    }
-	}
+	// Guilds: {
+	//     license_requirements: {
+	// 	label: "Shuffle license requirements"
+	// 	class: Guilds
+	// 	attribute: Requirements
+	// 	builder: shuffle_requirements
+	// 	default: Nothing
+	// 	help: "Shuffle requirements for gaining a second or third license, e.g. Hunter licenses could have the Merchant's 100,000 and 300,000 leaves requirements."
+	//     }
+	// }
 	// Music: {
 	//     music: {
 	// 	label: "Shuffle music"
@@ -309,25 +349,6 @@
 		default: False
 		depend: events_story
 		help: "Completing sidequests The Traveler's Bag, Procuring Peculiar Tomes, From the Far Reaches of Hell, and A Gate Between Worlds may give you new items from the item pool."
-	    }
-	    events_guilds: {
-		label: "Guilds"
-		class: EventsAndItems
-		attribute: include_guilds
-		builder: True
-		default: False
-		depend: events_story
-		help: "Guild masters may give you random items from the item pool in addition to the license.\n\nThe Arcanist Descendent, the Five-Tiered Tower, the Inventor, and the Blacksmith are included as if they are guilds. The Inventor will give you the items after bringing the first set of parts to him. The Blacksmith will give you the items after bringing the first rusty item to him."
-		indent: {
-		    events_guilds_omit_conjuror: {
-			label: "Omit Conjuror Guild"
-			class: EventsAndItems
-			attribute: omit_guild_conjuror
-			builder: True
-			default: False
-			help: "Omit the Conjuror Guild at the Five-Tiered Tower in Ku."
-		    }
-		}
 	    }
 	    events_guilds_spawn: {
 		label: "Spawn Guild Masters"
@@ -386,13 +407,22 @@
 		help: "Various key items after Chapter 1 will be included in your item pool. Their vanilla slots will contain random items from your item pool.\n\nSee the README file for a full list of items."
 	    }
 	    events_galdera_items: {
-		label: "Galdera Sidequests Key Items"
+		label: "Galdera Sidequest Key Items"
 		class: EventsAndItems
 		attribute: include_galdera_items
 		builder: True
 		default: False
 		// depend: events_story
 		help: "Al's Bag, Dispatches from Beastling Island, The Curious Legend of the Great Wall, From the Far Reaches of Hell, and How to Decipher Unknown Languages will be included in your item pool. Their vanilla slots will include random items from your item pool."
+	    }
+	    events_sidequests_items: {
+		label: "Sidequest Key Items"
+		class: EventsAndItems
+		attribute: include_sidequest_key_items
+		builder: True
+		default: False
+		// depend: events_story
+		help: "Key items from sidequests (aside from Galdera's sidequests) will be included in your item pool. Their vanilla slots will include random items from your item pool."
 	    }
 	    events_inventor_parts: {
 		label: "Inventor Parts"
@@ -401,7 +431,7 @@
 		builder: True
 		default: False
 		// depend: events_story
-		help: "Include Valuable Items used as Inventor Parts in the item pool: Rainbow Glass Bottle, Mythical Horn, Tin Toy, Scrap Metal, Ancient Cog, and Natural Magnetite. Their vanilla slots will include random items from your item pool."
+		help: "Include Valuable Items used as Inventor Parts in the item pool: Rainbow Glass Bottle, Mythical Horn, Tin Toy, Scrap Metal, Ancient Cog, and Natural Magnetite. Their vanilla slots will include random items from your item pool. The Inventor will also give you an item after bringing the first set of parts to him."
 	    }
 	    events_rusty_weapons: {
 		label: "Rusty Weapons"
@@ -411,6 +441,49 @@
 		default: False
 		// depend: events_story
 		help: "Include Rusty Weapons in the item pool. Opening these chests and completing The Sword in the Stone will give a random item from your item pool."
+	    }
+	    events_licenses: {
+		label: "Job Licenses"
+		class: EventsAndItems
+		attribute: include_licenses
+		builder: True
+		default: False
+		// depend: events_story
+		help: "Add job licenses to the item pool, provided you pick at least one of the following options."
+		indent: {
+		    events_licenses_1: {
+			label: "First Licenses"
+			class: EventsAndItems
+			attribute: include_license_1
+			builder: True
+			default: False
+			help: "Include the first licenses obtained from Guilds/NPCs in the item pool. These slots can be filled with other items from the item pool.\n\n Note that this includes jobs received from The Arcanist Descendent, the Five-Tiered Tower, the Inventor, and the Blacksmith."
+		    }
+		    events_licenses_2: {
+			label: "Second Licenses"
+			class: EventsAndItems
+			attribute: include_license_2
+			builder: True
+			default: False
+			help: "Include the second licenses obtained from Guilds in the item pool. This sidequest is removed from the game."
+		    }
+		    events_licenses_3: {
+			label: "Third Licenses"
+			class: EventsAndItems
+			attribute: include_license_3
+			builder: True
+			default: False
+			help: "Include the third licenses obtained from Guilds in the item pool. This sidequest is removed from the game."
+		    }
+		    events_guilds_omit_conjurer: {
+			label: "Omit Conjurer Guild"
+			class: EventsAndItems
+			attribute: omit_guild_conjurer
+			builder: True
+			default: False
+			help: "Omit the Conjurer Guild at the Five-Tiered Tower in Ku."
+		    }
+		}
 	    }
 	    events_ex_abil: {
 		label: "EX Skills"
@@ -780,6 +853,14 @@
 		builder: protagonist_unlocked
 		default: Nothing
 		help: "The protagonist will be unlocked and can be removed from your party before completing their story."
+	    }
+	    fast_travel: {
+		label: "More Fast Travel"
+		class: Rando
+		attribute: more_fast_travel
+		builder: True
+		default: False
+		help: "Allows fast travel to altars, caves, islands, and dungeons."
 	    }
 	}
     }

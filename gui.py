@@ -195,7 +195,7 @@ class Patches:
 class GuiApplication:
     def __init__(self, settings=None, pakfile=None, patches=None):
         self.master = tk.Tk()
-        self.master.geometry('750x680') # width x height
+        self.master.geometry('750x700') # width x height
         self.master.title(MAIN_TITLE)
         self.initialize_gui(patches)
         self.initialize_settings(settings)
@@ -319,7 +319,7 @@ Octopath_Traveler2-WindowsNoEditor.pak
         button.grid(row=row, column=col, padx=offset, sticky='w')
         self.button_data.append((variable, button, command, children))
         self.build_tool_tip(button, stuff)
-        assert key not in self.settings
+        assert key not in self.settings, key
         self.settings[key] = variable
         assert key not in self.leaders
         self.leaders[key] = children
@@ -492,7 +492,7 @@ def randomize(mod, settings):
         builder_setup(settings)
         mod.initialize(settings['seed'])
         mod.randomize()
-        mod.qualityOfLife() # keep this AFTER randomizing
+        mod.quality_of_life() # keep this AFTER randomizing
         mod.dump(settings)
         return True
     except:

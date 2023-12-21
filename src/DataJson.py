@@ -110,6 +110,14 @@ class DataJson:
         self.remove_command(index)
         self.insert_command(command, index)
 
+    def insert_flag(self, flag, value):
+        assert flag not in self.flags
+        assert type(value) is bool
+        command = deepcopy(next(iter(self.flags.values()))[0])
+        command.target = flag
+        command.opt[0] = "1" if value else "0"
+        self.insert_command(command, 0)
+
     def add_flag(self, command):
         if command.cmd == 70 or command.cmd == 71:
             if command.target not in self.flags:
@@ -160,7 +168,7 @@ class DataJson:
     def remove_display_item(self, item_key):
         new_list = []
         for x in self.json_list:
-            if x.opt[0] == item_key and x.cmd == 5005:
+            if x.opt[0] == item_key and (x.cmd == 5005 or x.cmd == 5006):
                 continue
             new_list.append(x)
         self.json_list = new_list
@@ -192,6 +200,9 @@ class DataJson:
         script = self.make_script()
         pak.update_data(self.filename, script, force=force)
 
+    def __len__(self):
+        return len(self.json_list)
+
 
 class DataJsonFile(DataJson):
     def __init__(self, data):
@@ -201,3 +212,14 @@ class DataJsonFile(DataJson):
     def update(self, *args):
         pass
 
+
+class NewJsonFile(DataJson):
+    def __init__(self, pak, filename, data=None):
+        pak.duplicate_file('DELIVERY_DIALOG_TEST', filename)
+        self.filename = filename
+        if data:
+            json_dict = eval(data)
+
+        else:
+            json_dict = {}
+        self.initialize(json_dict)
