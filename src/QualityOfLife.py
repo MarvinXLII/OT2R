@@ -15,3 +15,13 @@ def more_fast_travel():
     wmt.eMAP_Fld_Ocn_1_4.CanFastTravel = True
     # Flamechurch: Cathedral
     wmt.eMAP_Twn_Mnt_1_2.CanFastTravel = True
+
+
+# Roughly equivalent to Evasive Maneuvers
+def reduce_encounter_rate():
+    table = Manager.get_table('LevelTable')
+    p = 2.5
+    for r in table:
+        r.EncountStepMin = int(r.EncountStepMin * p)
+        r.RandomStepA = int(r.RandomStepA * p)
+        r.RandomStepB = int(r.RandomStepB * p)

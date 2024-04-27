@@ -84,6 +84,7 @@ class Rando:
         # TODO: remove Row class attributes, rewrite tables/rows just to use Manager.get_instance as needed
         Manager.get_table('GameTextEN', table=TextTable, row=TextRow)
         Manager.get_table('ItemDB', table=ItemTable, row=ItemRow)
+        Manager.get_table('PlacementData', table=PlacementDataTable, row=PlacementDataRow)
         Manager.get_table('PurchaseItemTable', table=ShopTable, row=ShopRow)
         Manager.get_table('NPCPurchaseData', table=NPCShopTable)
         Manager.get_table('AbilityData', table=AbilityTable, row=AbilityRow)
@@ -190,6 +191,10 @@ class Rando:
         # Map Stuff
         if Rando.more_fast_travel:
             more_fast_travel()
+
+        # Random encounters
+        if Rando.reduce_encounter_rate:
+            reduce_encounter_rate()
 
         # Testing stuff -- must be done last
         self._run(Rando.testing)

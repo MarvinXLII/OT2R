@@ -103,7 +103,7 @@ Key Items from Sidequests included are:
 * Veronica's Next Chapter: Dolcinaea and Gifts
 * Wanted: A Good Joke: 3 jokes
 
-Some items were already mandatory in the vanilla game for progression.
+Some items were already mandatory in the vanilla game for progression,
 while others weren't and are now made mandatory. For reference, here's
 a list of new requirements enforced when the Main Story Key Items option is selected:
 
@@ -130,11 +130,11 @@ a list of new requirements enforced when the Main Story Key Items option is sele
 
 * For technical reasons, Fast Travel had to be toggled off for Cross
   Path chapters Thief & Cleric 1 and Dancer & Warrior 2 when shuffling
-  Main Story Chapters/Events.
+  Main Story Chapters/Events with Sacred Flames.
 
-* For technical reasons, sidequests "Reaching for the Stars" and
-  "Sword Hunter in the Decaying Temple" can't be completed once a
-  flame extinguishes when shuffling main story events.
+* When shuffling key items, some spots can only give 1 Clockite,
+  rather than 5. This was fixed by tweaking Partitio's
+  Chapter 2 to need only 1 Clockite for progression.
 
 ## Usage
 

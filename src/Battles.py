@@ -38,7 +38,11 @@ def shuffler(enemies, *attributes):
 
 
 def drop_item(enemies):
-    shuffler(enemies, 'HaveItemID', 'DropProbability')
+    ene_wo_key_items = []
+    for e in enemies:
+        if not e.HaveItemID.startswith('ITM_TRE'):
+            ene_wo_key_items.append(e)
+    shuffler(ene_wo_key_items, 'HaveItemID', 'DropProbability')
 
 def steal_item(enemies):
     # Fix steal guards
@@ -64,7 +68,10 @@ def bribe_money(enemies):
 
 def drop_item_rate(enemies):
     for enemy in enemies:
-        enemy.DropProbability = 100
+        if enemy.DropProbability > 0:
+            enemy.DropProbability = 100
+        else:
+            assert enemy.HaveItemID == 'None' or enemy.HaveItemID == '0'
 
 
 class Battles:

@@ -6,6 +6,7 @@
     skip: 0
     is_early: 1
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_WAR_020:
   {
@@ -14,6 +15,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_WAR_030:
   {
@@ -22,6 +24,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_WAR_040:
   {
@@ -30,6 +33,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_WAR_050:
   {
@@ -38,6 +42,7 @@
     skip: 0
     is_early: 1
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_WAR_060:
   {
@@ -46,6 +51,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_WAR_070:
   {
@@ -54,6 +60,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_WAR_080:
   {
@@ -62,6 +69,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_WAR_090:
   {
@@ -70,6 +78,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_WAR_100:
   {
@@ -78,6 +87,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_MER_010:
   {
@@ -86,6 +96,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_MER_020:
   {
@@ -94,6 +105,7 @@
     skip: 0
     is_early: 1
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_MER_030:
   {
@@ -102,6 +114,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_MER_040:
   {
@@ -110,6 +123,7 @@
     skip: 0
     is_early: 1
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_MER_050:
   {
@@ -118,6 +132,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_MER_060:
   {
@@ -126,6 +141,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_MER_070:
   {
@@ -134,6 +150,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_MER_080:
   {
@@ -142,6 +159,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_MER_090:
   {
@@ -150,6 +168,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_MER_100:
   {
@@ -158,6 +177,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_SCH_010:
   {
@@ -166,6 +186,7 @@
     skip: 0
     is_early: 1
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_SCH_011:
   {
@@ -174,6 +195,7 @@
     skip: 1
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_SCH_012:
   {
@@ -182,6 +204,7 @@
     skip: 1
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_SCH_020:
   {
@@ -190,6 +213,7 @@
     skip: 0
     is_early: 1
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_SCH_021:
   {
@@ -198,6 +222,7 @@
     skip: 1
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_SCH_022:
   {
@@ -206,6 +231,7 @@
     skip: 1
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_SCH_030:
   {
@@ -214,6 +240,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_SCH_031:
   {
@@ -222,6 +249,7 @@
     skip: 1
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_SCH_032:
   {
@@ -230,6 +258,7 @@
     skip: 1
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_SCH_040:
   {
@@ -238,6 +267,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_SCH_050:
   {
@@ -246,6 +276,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_SCH_060:
   {
@@ -254,6 +285,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_SCH_070:
   {
@@ -262,6 +294,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_SCH_080:
   {
@@ -270,6 +303,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_SCH_090:
   {
@@ -278,6 +312,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_SCH_100:
   {
@@ -286,6 +321,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_SCH_101:
   {
@@ -294,6 +330,7 @@
     skip: 1
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_SCH_102:
   {
@@ -302,6 +339,7 @@
     skip: 1
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_DAN_010:
   {
@@ -310,6 +348,7 @@
     skip: 0
     is_early: 1
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_DAN_020:
   {
@@ -318,6 +357,7 @@
     skip: 0
     is_early: 1
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_DAN_030:
   {
@@ -326,6 +366,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_DAN_040:
   {
@@ -334,6 +375,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_DAN_050:
   {
@@ -342,6 +384,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_DAN_060:
   {
@@ -350,6 +393,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_DAN_070:
   {
@@ -358,6 +402,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_DAN_080:
   {
@@ -366,6 +411,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_DAN_090:
   {
@@ -374,6 +420,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_DAN_100:
   {
@@ -382,6 +429,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_HUN_010:
   {
@@ -390,6 +438,7 @@
     skip: 0
     is_early: 1
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_HUN_020:
   {
@@ -398,6 +447,7 @@
     skip: 0
     is_early: 1
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_HUN_030:
   {
@@ -406,6 +456,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_HUN_040:
   {
@@ -414,6 +465,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_HUN_050:
   {
@@ -422,6 +474,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_HUN_060:
   {
@@ -430,6 +483,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_HUN_070:
   {
@@ -438,6 +492,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_HUN_080:
   {
@@ -446,6 +501,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_HUN_090:
   {
@@ -454,6 +510,7 @@
     skip: 1
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_HUN_100:
   {
@@ -462,6 +519,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_THI_010:
   {
@@ -470,6 +528,7 @@
     skip: 0
     is_early: 1
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_THI_020:
   {
@@ -478,6 +537,7 @@
     skip: 0
     is_early: 1
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_THI_030:
   {
@@ -486,6 +546,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 1
   }
   ABI_SET_THI_040:
   {
@@ -494,6 +555,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 1
   }
   ABI_SET_THI_050:
   {
@@ -502,6 +564,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 1
   }
   ABI_SET_THI_060:
   {
@@ -510,6 +573,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 1
   }
   ABI_SET_THI_070:
   {
@@ -518,6 +582,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 1
   }
   ABI_SET_THI_080:
   {
@@ -526,6 +591,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 1
   }
   ABI_SET_THI_090:
   {
@@ -534,6 +600,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 1
   }
   ABI_SET_THI_100:
   {
@@ -542,6 +609,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 1
   }
   ABI_SET_CLE_010:
   {
@@ -550,6 +618,7 @@
     skip: 0
     is_early: 1
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_CLE_011:
   {
@@ -558,6 +627,7 @@
     skip: 1
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_CLE_012:
   {
@@ -566,6 +636,7 @@
     skip: 1
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_CLE_020:
   {
@@ -574,6 +645,7 @@
     skip: 0
     is_early: 1
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_CLE_030:
   {
@@ -582,6 +654,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_CLE_031:
   {
@@ -590,6 +663,7 @@
     skip: 1
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_CLE_032:
   {
@@ -598,6 +672,7 @@
     skip: 1
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_CLE_040:
   {
@@ -606,6 +681,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_CLE_050:
   {
@@ -614,6 +690,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_CLE_060:
   {
@@ -622,6 +699,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_CLE_061:
   {
@@ -630,6 +708,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_CLE_062:
   {
@@ -638,6 +717,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_CLE_063:
   {
@@ -646,6 +726,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_CLE_070:
   {
@@ -654,6 +735,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_CLE_071:
   {
@@ -662,6 +744,7 @@
     skip: 1
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_CLE_072:
   {
@@ -670,6 +753,7 @@
     skip: 1
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_CLE_080:
   {
@@ -678,6 +762,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_CLE_081:
   {
@@ -686,6 +771,7 @@
     skip: 1
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_CLE_082:
   {
@@ -694,6 +780,7 @@
     skip: 1
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_CLE_090:
   {
@@ -702,6 +789,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_CLE_091:
   {
@@ -710,6 +798,7 @@
     skip: 1
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_CLE_092:
   {
@@ -718,6 +807,7 @@
     skip: 1
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_CLE_100:
   {
@@ -726,6 +816,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_APO_010:
   {
@@ -734,6 +825,7 @@
     skip: 0
     is_early: 1
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_APO_020:
   {
@@ -742,6 +834,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_APO_030:
   {
@@ -750,6 +843,7 @@
     skip: 0
     is_early: 1
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_APO_040:
   {
@@ -758,6 +852,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_APO_050:
   {
@@ -766,6 +861,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_APO_060:
   {
@@ -774,6 +870,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_APO_061:
   {
@@ -782,6 +879,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_APO_070:
   {
@@ -790,6 +888,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_APO_080:
   {
@@ -798,6 +897,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_APO_090:
   {
@@ -806,6 +906,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_APO_100:
   {
@@ -814,6 +915,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_WPM_010:
   {
@@ -822,6 +924,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_WPM_020:
   {
@@ -830,6 +933,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_WPM_030:
   {
@@ -838,6 +942,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_WPM_040:
   {
@@ -846,6 +951,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_WPM_050:
   {
@@ -854,6 +960,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_WPM_060:
   {
@@ -862,6 +969,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_WPM_070:
   {
@@ -870,6 +978,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_WPM_080:
   {
@@ -878,6 +987,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_WIZ_010:
   {
@@ -886,6 +996,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_WIZ_011:
   {
@@ -894,6 +1005,7 @@
     skip: 1
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_WIZ_012:
   {
@@ -902,6 +1014,7 @@
     skip: 1
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_WIZ_020:
   {
@@ -910,6 +1023,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_WIZ_021:
   {
@@ -918,6 +1032,7 @@
     skip: 1
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_WIZ_022:
   {
@@ -926,6 +1041,7 @@
     skip: 1
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_WIZ_030:
   {
@@ -934,6 +1050,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_WIZ_031:
   {
@@ -942,6 +1059,7 @@
     skip: 1
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_WIZ_032:
   {
@@ -950,6 +1068,7 @@
     skip: 1
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_WIZ_040:
   {
@@ -958,6 +1077,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_WIZ_050:
   {
@@ -966,6 +1086,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_WIZ_060:
   {
@@ -974,6 +1095,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_WIZ_070:
   {
@@ -982,6 +1104,7 @@
     skip: 0
     is_early: 0
     allow_early: 1
+    is_throne_valid: 0
   }
   ABI_SET_WIZ_080:
   {
@@ -990,6 +1113,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_SHA_010:
   {
@@ -998,6 +1122,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_SHA_020:
   {
@@ -1006,6 +1131,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_SHA_030:
   {
@@ -1014,6 +1140,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_SHA_040:
   {
@@ -1022,6 +1149,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_SHA_050:
   {
@@ -1030,6 +1158,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_SHA_060:
   {
@@ -1038,6 +1167,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_SHA_070:
   {
@@ -1046,6 +1176,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_SHA_080:
   {
@@ -1054,6 +1185,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_INV_010:
   {
@@ -1062,6 +1194,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_INV_020:
   {
@@ -1070,6 +1203,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_INV_030:
   {
@@ -1078,6 +1212,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_INV_040:
   {
@@ -1086,6 +1221,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_INV_050:
   {
@@ -1094,6 +1230,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_INV_060:
   {
@@ -1102,6 +1239,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_INV_070:
   {
@@ -1110,6 +1248,7 @@
     skip: 0
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
   ABI_SET_INV_080:
   {
@@ -1118,5 +1257,6 @@
     skip: 1
     is_early: 0
     allow_early: 0
+    is_throne_valid: 0
   }
 }

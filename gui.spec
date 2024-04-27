@@ -29,6 +29,7 @@ a = Analysis(
         'src/Databases/NPCShopDB.py',
         'src/Databases/ObjectDB.py',
         'src/Databases/PCDB.py',
+        'src/Databases/PlacementData.py',
         'src/Databases/ReminiscenceSettings.py',
         'src/Databases/ShopDB.py',
         'src/Databases/ShopList.py',

@@ -36,6 +36,12 @@ def skip_slot(w, s, c):
         w[i] *= not si.skip
 
 
+
+def throne_weights(w, s, c):
+    for i, si in enumerate(s):
+        w[i] *= si.is_throne_valid
+
+
 # Single slot
 def inventor_weights(w, c, s):
     for i, ci in enumerate(c):
@@ -98,6 +104,7 @@ class Ability(AbilitySlot):
         self.is_arms_master = '_WPM_' in self.ability_name and ability_set_obj.RestrictWeaponLabel != 'None'
         self.is_inventor = '_INV_' in self.ability_name
         self.is_inventor_valid = self.weights[self.ability_name]['is_inventor_valid']
+        self.is_throne_valid = self.weights[self.ability_name]['is_throne_valid']
         self.has_magic_label = self.weights[self.ability_name]['has_magic_label']
         self.skip = self.weights[self.ability_name]['skip']
         self.initialize()
@@ -170,6 +177,7 @@ class ExAbility(Ability):
         self.is_inventor = False
         self.is_arms_master = False
         self.is_inventor_valid = self.weights[self.ability_name]['is_inventor_valid']
+        self.is_throne_valid = self.weights[self.ability_name]['is_throne_valid']
         self.has_magic_label = self.weights[self.ability_name]['has_magic_label']
         self.skip = self.weights[self.ability_name]['skip']
         self.initialize()
@@ -227,6 +235,9 @@ class Command(Shuffler):
 
         # All specific shuffles MUST use weights to enforce constraints
         self.generate_weights()
+
+        # Keep Disguise on Thief (currently only works when used by Throne)
+        self.random_slot('ABI_SET_THI_090', throne_weights)
 
         # Fill Armsmaster skills
         # Fills a specific slot with a random candidate
@@ -401,6 +412,32 @@ class Command(Shuffler):
         c_idx = random.choices(idx, weights, k=1)[0]
         slot.copy(self.candidates[c_idx])
         self.unused[c_idx] = False
+
+    ### NB: this picks one of all valid, unused slots to fill with a specified canidate
+    def random_slot(self, cand_abil_set_name, *args):
+        for c_idx, c in enumerate(self.candidates):
+            if c.ability_name == cand_abil_set_name:
+                break
+        else:
+            sys.exit(f"{slot_abil_set_name} is not a valid slot name")
+        assert self.unused[c_idx]
+        self.unused[c_idx] = False
+
+        weights = []
+        for w, is_vacant in zip(self.weights, self.vacant):
+            if is_vacant:
+                weights.append(w[c_idx])
+            else:
+                weights.append(0)
+
+        candidate = self.candidates[c_idx]
+        for f in args:
+            f(weights, self.slots, candidate)
+
+        idx = list(range(len(self.slots)))
+        s_idx = random.choices(idx, weights, k=1)[0]
+        self.slots[s_idx].copy(candidate)
+        self.vacant[s_idx] = False
 
     def prepare(self):
         for slot in self.slots:

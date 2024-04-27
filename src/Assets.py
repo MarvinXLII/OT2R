@@ -365,7 +365,7 @@ class StructProperty(Byte):
         self.struct_size = file.read_int32()
         self.struct_num = file.read_int32()
         self.struct_type = uasset.get_name(file.read_int64())
-        file.data.seek(17, 1)
+        self.unknown = file.read_bytes(17)
         # self.struct_data = file.data.read(self.size)
         self.structure_works = True
         self.value = {}
@@ -418,33 +418,33 @@ class StructProperty(Byte):
         tmp += self.get_int32(self.struct_num)
         if self.struct_type == 'Vector':
             tmp += self.get_int64(uasset.get_index(self.struct_type))
-            tmp += bytearray([0]*17)
+            tmp += self.unknown
             tmp += self.get_float(self.value['x'])
             tmp += self.get_float(self.value['y'])
             tmp += self.get_float(self.value['z'])
             return tmp
         elif self.struct_type == 'IntVector':
             tmp += self.get_int64(uasset.get_index(self.struct_type))
-            tmp += bytearray([0]*17)
+            tmp += self.unknown
             tmp += self.get_int32(self.value['x'])
             tmp += self.get_int32(self.value['y'])
             tmp += self.get_int32(self.value['z'])
             return tmp
         elif self.struct_type == 'IntPoint':
             tmp += self.get_int64(uasset.get_index(self.struct_type))
-            tmp += bytearray([0]*17)
+            tmp += self.unknown
             tmp += self.get_int32(self.value['x'])
             tmp += self.get_int32(self.value['y'])
             return tmp
         elif self.struct_type == 'Vector2D':
             tmp += self.get_int64(uasset.get_index(self.struct_type))
-            tmp += bytearray([0]*17)
+            tmp += self.unknown
             tmp += self.get_int32(self.value['x'])
             tmp += self.get_int32(self.value['y'])
             return tmp
         elif self.struct_type == 'LinearColor':
             tmp += self.get_int64(uasset.get_index(self.struct_type))
-            tmp += bytearray([0]*17)
+            tmp += self.unknown
             tmp += self.get_float(self.value['r'])
             tmp += self.get_float(self.value['g'])
             tmp += self.get_float(self.value['b'])
@@ -452,24 +452,24 @@ class StructProperty(Byte):
             return tmp
         elif self.struct_type == 'Guid':
             tmp += self.get_int64(uasset.get_index(self.struct_type))
-            tmp += bytearray([0]*17)
+            tmp += self.unknown
             tmp += self.value['guid']
             return tmp
         elif self.struct_type == 'SoftClassPath':
             tmp += self.get_int64(uasset.get_index(self.struct_type))
-            tmp += bytearray([0]*17)
+            tmp += self.unknown
             tmp += self.value['scp']
             return tmp
         elif self.struct_type == 'Rotator':
             tmp += self.get_int64(uasset.get_index(self.struct_type))
-            tmp += bytearray([0]*17)
+            tmp += self.unknown
             tmp += self.get_float(self.value['rx'])
             tmp += self.get_float(self.value['ry'])
             tmp += self.get_float(self.value['rz'])
             return tmp
         elif not self.structure_works:
             tmp += self.get_int64(uasset.get_index(self.struct_type))
-            tmp += bytearray([0]*17)
+            tmp += self.unknown
             tmp += self.value
             return tmp
 
@@ -481,7 +481,7 @@ class StructProperty(Byte):
         tmp_2 = self.callback_build(self._value)
         tmp = self.get_int64(len(tmp_2))
         tmp += self.get_int64(uasset.get_index(self.struct_type))
-        tmp += bytearray([0]*17)
+        tmp += self.unknown
         return tmp + tmp_2
 
     def __repr__(self):
@@ -550,6 +550,26 @@ class TextProperty(Byte):
     def __repr__(self):
         return ' '.join([self.string_1, self.string_2, self.value])
 
+# No clue what this is for
+class MulticastInlineDelegateProperty(Byte):
+    def __init__(self, file, uasset):
+        self.data_type = 'MulticastInlineDelegateProperty'
+        self.size = file.read_int64()
+        assert file.read_int8() == 0
+        assert self.size == 0x10
+        self.x1 = uasset.get_name(file.read_uint64())
+        self.x2 = uasset.get_name(file.read_uint64())
+
+    def build(self, uasset):
+        tmp = self.get_uint64(uasset.get_index(self.x1))
+        tmp += self.get_uint64(uasset.get_index(self.x2))
+        size = len(tmp)
+        assert self.size == size
+        return self.get_int64(size) + bytearray([0]) + tmp
+
+    def __repr__(self):
+        return '{self.x1}, {self.x2}'
+
 
 class ArrayProperty(Byte):
     def __init__(self, file, uasset, callback_load, callback_build):
@@ -611,6 +631,12 @@ class ArrayProperty(Byte):
                     y = file.read_uint32()
                     z = file.read_uint32()
                     self.value.append((x, y, z))
+            elif self.struct_type == 'Vector':
+                for _ in range(num):
+                    x = file.read_float()
+                    y = file.read_float()
+                    z = file.read_float()
+                    self.value.append((x, y, z))
             elif self.struct_type == 'Guid':
                 for _ in range(num):
                     guid = file.read_bytes(0x10)
@@ -659,6 +685,11 @@ class ArrayProperty(Byte):
                     tmp_2 += self.get_int32(x)
                     tmp_2 += self.get_int32(y)
                     tmp_2 += self.get_int32(z)
+            elif self.struct_type == 'Vector':
+                for x, y, z in self.value:
+                    tmp_2 += self.get_float(x)
+                    tmp_2 += self.get_float(y)
+                    tmp_2 += self.get_float(z)
             elif self.struct_type == 'Guid':
                 for guid in self.value:
                     tmp_2 += guid
@@ -821,7 +852,10 @@ class ChunkImports(File):
 class UnparsedExport(Byte):
     def __init__(self, export):
         self.addr = 0
-        self.data = bytearray(export.uexp2) # Convert from bytes to bytearray for modding
+        if export.uexp2:
+            self.data = bytearray(export.uexp2)
+        else:
+            self.data = bytearray()
         export.uexp2 = self.data # Won't need to update this array manually
         self.export = export
 
@@ -1312,11 +1346,12 @@ class DataAsset:
             'SoftObjectProperty': partial(SoftObjectProperty, self.uexp, self.uasset),
             'ObjectProperty': partial(ObjectProperty, self.uexp, self.uasset),
             'MapProperty': partial(MapProperty, self.uexp, self.uasset, self.load_entry, self.build_entry),
+            'MulticastInlineDelegateProperty': partial(MulticastInlineDelegateProperty, self.uexp, self.uasset),
         }
 
     def parse_uexp(self):
         self.uexp.data.seek(0)
-        for exp in self.uasset.exports.values():
+        for i, exp in enumerate(self.uasset.exports.values()):
             assert self.uexp.tell() == exp.offset
             end = exp.offset + exp.size
 

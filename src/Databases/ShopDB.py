@@ -105,30 +105,6 @@ class ShopRow(Row):
         if self.ProperBeg > 0:
             self.ProperBeg = min(1, self.ProperBeg)
 
-    # Agnea - get item (night)
-    # Osvald - mug (night; get all items)
-    # Partitio - purchase (day)
-    # Throne - steal (day; level)
-
-    ### Hear (not in this table; but necessary)
-    # Castti - hear (day; level)
-    # Hikari - hear bribe (night)
-    # Osvald - hear (day; level random)
-    # Temenos - hear battle (night)
-    
-
-    ### Not related to item; but important nonetheless
-    # Castti - knockout (night)
-    # Hikari - knockout (day, battle)
-    # Ochette - knockout (day)
-    # Throne - knockout (night; level)
-
-    ### WON'T NEED
-    # Agnea - join party (day)
-    # Ochette - join party (night; item)
-    # Partitio - join party (night)
-    # Temenos - join party (day)
-
 
 class ShopTable(Table):
     def __init__(self, data, row_class):

@@ -18,3 +18,4 @@ from .GuildDB import GuildTable, GuildRow
 from .ReminiscenceSettings import ReminiscenceTable, ReminiscenceRow
 from .ShopList import ShopListRow, ShopListTable
 from .SidequestDB import SidequestRow, SidequestTable
+from .PlacementData import PlacementDataRow, PlacementDataTable

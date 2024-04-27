@@ -133,6 +133,10 @@ class EnemyRow(RowSplit):
         # It's possible for an enemy to be only weak to magic!
         if self.weapon_shields.count('EATTRIBUTE_RESIST::eWEAK') == 0:
             self.weapon_shields, self.magic_shields = self.magic_shields, self.weapon_shields
+        if self.weapon_shields.count('EATTRIBUTE_RESIST::eWEAK') == 0:
+            s = self.weapon_shields
+            s[0] = 'EATTRIBUTE_RESIST::eWEAK'
+            self.weapon_shields = s
         self.weapon_shields = self._add_weakness(self.weapon_shields, *pcs)
 
     def update_weakness_to_pcs(self, weapon_only=False):

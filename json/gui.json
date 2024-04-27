@@ -75,7 +75,7 @@
 		help: "Randomly adjusts SP costs of job skills by up to 30%."
 	    }
 	    ability_power: {
-		label: "Random adjust skill power"
+		label: "Randomly adjust skill power"
 		class: Rando
 		attribute: ability_power
 		builder: AbilityPower
@@ -180,7 +180,7 @@
 			attribute: shuffle_by_rings
 			builder: separate_ring_one
 			default: separate_by_ring
-			help: "Shuffles mid game and late game bosses together, rather than separately."
+			help: "Shuffles mid game and late game bosses together, rather than separately.\n\nNB: There's no logic here. Selecting this option along with shuffling Events & Key Items is not recommended."
 		    }
 		    battles_bosses_optional_mid_game: {
 			label: "Include mid game optional bosses"
@@ -340,6 +340,17 @@
 		builder: True
 		default: False
 		help: "Events unlocking main story chapters, the Scent of Commerce, Crossed Paths, and extinguished Sacred Flames will be included in the item pool. Finishing each of these may give you random items from the item pool.\n\nCompleting the first chapter of PCs other than your main protagonist will not give any items."
+		indent: {
+		    events_story_flames: {
+			label: "Include Sacred Flames"
+			class: EventsAndItems
+			attribute: include_flames
+			builder: True
+			default: False
+			depend: events_story
+			help: "Include exinguishing and reigniting Sacred Flames in the item pool.\n\nNB: As soon as a flame extinguishes, the end game mode turns on. This has some side effects, such as turning off battle music in random battles."
+		    }
+		}
 	    }
 	    events_galdera: {
 		label: "Galdera Sidequests"
@@ -457,7 +468,7 @@
 			attribute: include_license_1
 			builder: True
 			default: False
-			help: "Include the first licenses obtained from Guilds/NPCs in the item pool. These slots can be filled with other items from the item pool.\n\n Note that this includes jobs received from The Arcanist Descendent, the Five-Tiered Tower, the Inventor, and the Blacksmith."
+			help: "Include the first licenses obtained from Guilds/NPCs in the item pool. These slots can be filled with other items from the item pool.\n\nNote that this includes jobs received from The Arcanist Descendent, the Five-Tiered Tower, the Inventor, and the Blacksmith."
 		    }
 		    events_licenses_2: {
 			label: "Second Licenses"
@@ -829,6 +840,14 @@
 		    'Temenos',
 		    'Throne',
 		]
+	    }
+	    recude_random_encounters: {
+		label: "Reduce random encounters"
+		class: Rando
+		attribute: reduce_encounter_rate
+		builder: True
+		default: False
+		help: "This reduces the rate of random encounter just like Evasive Maneuvers."
 	    }
 	    skip_tutorials: {
 		label: "Skip most tutorials"

@@ -44,6 +44,7 @@ class EventsAndItems:
 
     # Stories
     include_main_story = False
+    include_flames = False
     include_galdera = False
 
     # Key Items
@@ -74,6 +75,7 @@ class EventsAndItems:
     @classmethod
     def any_on(cls):
         return cls.include_main_story \
+            or cls.include_flames \
             or cls.include_galdera \
             or cls.include_pcs \
             or cls.include_ex_abil \
@@ -186,7 +188,7 @@ class EventsAndItems:
         add_to_data('json/logic/crosspath_oc.json', option=self.include_main_story)
         add_to_data('json/logic/crosspath_op.json', option=self.include_main_story)
         add_to_data('json/logic/crosspath_tt.json', option=self.include_main_story)
-        add_to_data('json/logic/flames.json', option=self.include_main_story)
+        add_to_data('json/logic/flames.json', option=self.include_flames)
 
         # SIDEQUESTS -- key items
         add_to_data('json/logic/sidequests.json', option=self.include_sidequest_key_items)
@@ -859,11 +861,22 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
         p.EventLabel_A = 'SC_FI13_Tutorial_0100'
         placement_list.Fld_Isd_1_3.LabelList.append(new_key)
 
+        # Give clockite
+        # 5 only by default
+        # allow for 1 just in case mistakes happen
+        assert placement_data.NPC_SHO_20_02_0100_0000.EventParam_A_2 == '5'
+        placement_data.NPC_SHO_20_02_0100_0000.EventParam_A_2 = '1'
+
     #####################################
     # FIXES FOR END GAME STARTING EARLY #
     #####################################
 
-    if EventsAndItems.include_main_story:
+    if EventsAndItems.include_flames:
+        ######## Day & Night Display ########
+        radar = Manager.get_asset('BP/RadarMap')
+        initialize = radar.get_uexp_obj_2(16)
+        initialize.patch_uint64(0x0000000200000273, 0x117d)
+
         ########## SPAWNING ##########
 
         # Scent of Commerce events
@@ -879,10 +892,13 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
         placement_data.NPC_SHO_EX1_0120_0000.NotSpawnFinal = False
         placement_data.NPC_SHO_EX2_0100_0000.NotSpawnFinal = False
 
-        ######## Day & Night Display ########
-        radar = Manager.get_asset('BP/RadarMap')
-        initialize = radar.get_uexp_obj_2(16)
-        initialize.patch_uint64(0x0000000200000273, 0x117d)
+        ########################
+        # Spawn Sidequest NPCs #
+        ########################
+
+        if EventsAndItems.include_sidequest_key_items:
+            spawn_sidequests()
+
 
     #######################
     # LINK FLAGS TO ITEMS #
@@ -935,7 +951,7 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
         placement_data.NPC_SYS_LINERSHIP_5003.SpawnStartFlag = candidates['unlock_crackridge_ship'].flag
         placement_data.NPC_SYS_LINERSHIP_0000.SpawnStartFlag = candidates['unlock_canalbrine_ship'].flag
 
-    if EventsAndItems.include_main_story:
+    if EventsAndItems.include_flames:
         # Dng_Dst_3_1 -- Hikari & Agnea
         placement_data.EV_TRIGGER_MS_END_2D_TIPS_0100.SpawnStartFlag = candidates['unlock_extinguish_flame_grotto'].flag
         placement_data.EV_TRIGGER_MS_END_2D_TIPS_0300_10.SpawnStartFlag = candidates['unlock_extinguish_flame_grotto'].flag
@@ -957,6 +973,7 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
         # Twn_Mnt_1_2_A -- Throne & Temenos
         placement_data.EV_ITEM_MS_END_2A_0100.SpawnStartFlag = candidates['unlock_extinguish_flame_church'].flag
 
+    if EventsAndItems.include_main_story:
         # Scent of commerce
         placement_data.EV_TRIGGER_MS_SHO_EX1_0100.SpawnStartFlag = candidates['unlock_soc_grand_terry'].flag
         placement_data.EV_TRIGGER_MS_SHO_EX2_0100.SpawnStartFlag = candidates['unlock_soc_gramophone'].flag
@@ -1075,40 +1092,6 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
         main_story.COP_ST_01.ReleaseFlag[2] = 0
         main_story.COP_ST_01.ReleaseFlag[3] = 0
 
-        # MS_END
-        main_story.MS_END_00.ReleaseFlag[0] = NEVERUSE
-        main_story.MS_END_00.ReleaseFlag[1] = 0
-        main_story.MS_END_00.ReleaseFlag[2] = 0
-        main_story.MS_END_00.ReleaseFlag[3] = 0
-
-        main_story.MS_END_01.ReleaseFlag[0] = candidates['unlock_extinguish_flame_grotto'].flag
-        main_story.MS_END_01.ReleaseFlag[1] = 0
-        main_story.MS_END_01.ReleaseFlag[2] = 0
-        main_story.MS_END_01.ReleaseFlag[3] = 0
-
-        main_story.MS_END_02.ReleaseFlag[0] = candidates['unlock_extinguish_flame_tomb'].flag
-        main_story.MS_END_02.ReleaseFlag[1] = 0
-        main_story.MS_END_02.ReleaseFlag[2] = 0
-        main_story.MS_END_02.ReleaseFlag[3] = 0
-
-        main_story.MS_END_03.ReleaseFlag[0] = candidates['unlock_extinguish_flame_church'].flag
-        main_story.MS_END_03.ReleaseFlag[1] = 0
-        main_story.MS_END_03.ReleaseFlag[2] = 0
-        main_story.MS_END_03.ReleaseFlag[3] = 0
-
-        main_story.MS_END_04.ReleaseFlag[0] = candidates['unlock_extinguish_flame_ruins'].flag
-        main_story.MS_END_04.ReleaseFlag[1] = 0
-        main_story.MS_END_04.ReleaseFlag[2] = 0
-        main_story.MS_END_04.ReleaseFlag[3] = 0
-
-        main_story.MS_END_05.ReleaseFlag[0] = NEVERUSE
-        main_story.MS_END_05.ReleaseFlag[1] = 0
-        main_story.MS_END_05.ReleaseFlag[2] = 0
-        main_story.MS_END_05.ReleaseFlag[3] = 0
-
-        # MS_EPI
-        main_story.MS_EPI_00.ReleaseFlag[0] = NEVERUSE
-
         # Turn off release notice flags
         # Don't always work (probably prohibited in end phase)
         main_story.COP_OK_00.ReleaseNoticeFlag = False
@@ -1119,6 +1102,41 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
         main_story.COP_KK_01.ReleaseNoticeFlag = False
         main_story.COP_GS_00.ReleaseNoticeFlag = False
         main_story.COP_GS_01.ReleaseNoticeFlag = False
+
+        if EventsAndItems.include_flames:
+            # MS_END
+            main_story.MS_END_00.ReleaseFlag[0] = NEVERUSE
+            main_story.MS_END_00.ReleaseFlag[1] = 0
+            main_story.MS_END_00.ReleaseFlag[2] = 0
+            main_story.MS_END_00.ReleaseFlag[3] = 0
+
+            main_story.MS_END_01.ReleaseFlag[0] = candidates['unlock_extinguish_flame_grotto'].flag
+            main_story.MS_END_01.ReleaseFlag[1] = 0
+            main_story.MS_END_01.ReleaseFlag[2] = 0
+            main_story.MS_END_01.ReleaseFlag[3] = 0
+
+            main_story.MS_END_02.ReleaseFlag[0] = candidates['unlock_extinguish_flame_tomb'].flag
+            main_story.MS_END_02.ReleaseFlag[1] = 0
+            main_story.MS_END_02.ReleaseFlag[2] = 0
+            main_story.MS_END_02.ReleaseFlag[3] = 0
+
+            main_story.MS_END_03.ReleaseFlag[0] = candidates['unlock_extinguish_flame_church'].flag
+            main_story.MS_END_03.ReleaseFlag[1] = 0
+            main_story.MS_END_03.ReleaseFlag[2] = 0
+            main_story.MS_END_03.ReleaseFlag[3] = 0
+
+            main_story.MS_END_04.ReleaseFlag[0] = candidates['unlock_extinguish_flame_ruins'].flag
+            main_story.MS_END_04.ReleaseFlag[1] = 0
+            main_story.MS_END_04.ReleaseFlag[2] = 0
+            main_story.MS_END_04.ReleaseFlag[3] = 0
+
+            main_story.MS_END_05.ReleaseFlag[0] = NEVERUSE
+            main_story.MS_END_05.ReleaseFlag[1] = 0
+            main_story.MS_END_05.ReleaseFlag[2] = 0
+            main_story.MS_END_05.ReleaseFlag[3] = 0
+
+            # MS_EPI
+            main_story.MS_EPI_00.ReleaseFlag[0] = NEVERUSE
 
     elif EventsAndItems.include_pcs:
         # Default story but shuffled PCs
@@ -1216,7 +1234,8 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
         gameText = Manager.get_table('GameTextEN')
 
         # Text displayed when recruiting PCs and asking if you want to play their chapter 1
-        gameText.PROLOGUE_FLASHBACK.Text = "The flashback won't work here.\nJust skip it."
+        gameText.PROLOGUE_FLASHBACK.Text += "\n\n(The flashback won't work here. Select \"No.\")"
+        gameText.TITLE_PROFESSOR_CONFIRM_DIALOG.Text += "\n\n(Select \"No.\")"
 
     if EventsAndItems.include_ex_abil:
         gameText = Manager.get_table('GameTextEN')
@@ -1351,15 +1370,12 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
         npc_copy_shift('NPC_Twn_Isd_3_1_A_TALK_0700_D000', 'Twn_Isd_3_1_A', item.flag, dx=-60, dy=120)
         npc_copy_shift('SIN_40_NPC_Twn_Isd_3_1_A_TALK_0700_D000', 'Twn_Isd_3_1_A', item.flag, dx=-60, dy=140)
         
-    # ###### REPLACE ITEM ######
+    ###### REPLACE ITEM ######
     # def replace_slot(candname, slotname):
-    #     # cand = candidates[candname]
-    #     # Only works if one file is modified!
-    #     slot = slot_manager.get_slot(slotname)
-    #     slot.subscripts = {}
+    #     assert slotname in slot_manager.slots
     #     add_scripts(candname, slotname)
 
-    # # replace_slot('item_tin_toy', 'get_tin_toy')
+    # replace_slot('item_tin_toy', 'finish_chapter_1')
 
     ##############################################
     # FINALIZE EVENTS AFFECTED BY SPECIFIC FLAGS #
@@ -1398,7 +1414,13 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
     set_recruit_flags('agnea', 'NPC_DANCER_0000_0000', 'NPC_DANCER_0000_0100', 'NPC_DANCER_0000_0000_0010')
 
     if EventsAndItems.include_main_story:
-        # Always a possibility of flame extinguishing before recruiting temenos
+        # Ensure Hikari Ch 5 shops spawn before completing Ch 4
+        placement_data.NPC_Fld_Dst_3_1_B_SHOP01.SpawnStartFlag = candidates['unlock_hikari_5'].flag
+        placement_data.NPC_Fld_Dst_3_1_B_SHOP02.SpawnStartFlag = candidates['unlock_hikari_5'].flag
+        placement_data.NPC_Fld_Dst_3_1_B_SHOP04.SpawnStartFlag = candidates['unlock_hikari_5'].flag
+        placement_data.NPC_SYS_BARTENDER_Fld_Dst_3_1_B_0000.SpawnStartFlag = candidates['unlock_hikari_5'].flag
+
+    if EventsAndItems.include_flames:
         # Move him so he can always be accessed
         placement_data.NPC_PRIEST_0000_0000.SpawnEndFlag = 9000
         placement_data.NPC_PRIEST_0000_0100.SpawnStartFlag = 9000
@@ -1446,6 +1468,36 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
     ###########
 
     if EventsAndItems.include_main_story:
+        ############################################
+        #### Prevent Ochette w/o Acta Softlocks ####
+        ############################################
+
+        # Seems to work for both bosses
+        hun_bos_A = Manager.get_asset('ENG_BOS_HUN_C03_010_A')
+        export = hun_bos_A.get_uexp_obj_2(16)
+        export.toggle_bool_off(0x2a)
+
+        # Included just in case
+        hun_bos_B = Manager.get_asset('ENG_BOS_HUN_C03_010_B')
+        export = hun_bos_B.get_uexp_obj_2(14)
+        export.toggle_bool_off(0x2a)
+
+        ######################
+        # OCHETTE 2A AFTER 3 #
+        ######################
+
+        # Make sure acta won't get added if it is shuffled as a key
+        # item.  The check for beating ochette ch 3 is included in the
+        # acta item scripts.
+        if not EventsAndItems.include_key_items:
+            # prevent receiving a second acta
+            patch_ochette = Script.load('scripts/patch_ochette_2a')
+            script = Manager.get_json('MS_KAR_2A_0600')
+            script.insert_script(patch_ochette, -1)
+            script = Manager.get_json('MS_KAR_2M_01A0')
+            script.insert_script(patch_ochette, -1)
+
+    if EventsAndItems.include_flames:
         patch_end_on = Script.load('scripts/patch_toggle_end_on')
         patch_end_off = Script.load('scripts/patch_toggle_end_off')
 
@@ -1524,35 +1576,6 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
         main_story_tasks.CPL_OK2_0600.UnavailableFastTravel = True
         main_story_tasks.CPL_OK2_0700.UnavailableFastTravel = True
         main_story_tasks.CPL_OK2_0800.UnavailableFastTravel = True
-
-        ############################################
-        #### Prevent Ochette w/o Acta Softlocks ####
-        ############################################
-
-        # Seems to work for both bosses
-        hun_bos_A = Manager.get_asset('ENG_BOS_HUN_C03_010_A')
-        export = hun_bos_A.get_uexp_obj_2(16)
-        export.toggle_bool_off(0x2a)
-
-        # Included just in case
-        hun_bos_B = Manager.get_asset('ENG_BOS_HUN_C03_010_B')
-        export = hun_bos_B.get_uexp_obj_2(14)
-        export.toggle_bool_off(0x2a)
-
-        ######################
-        # OCHETTE 2A AFTER 3 #
-        ######################
-
-        # Make sure acta won't get added if it is shuffled as a key
-        # item.  The check for beating ochette ch 3 is included in the
-        # acta item scripts.
-        if not EventsAndItems.include_key_items:
-            # prevent receiving a second acta
-            patch_ochette = Script.load('scripts/patch_ochette_2a')
-            script = Manager.get_json('MS_KAR_2A_0600')
-            script.insert_script(patch_ochette, -1)
-            script = Manager.get_json('MS_KAR_2M_01A0')
-            script.insert_script(patch_ochette, -1)
 
         ###########################
         # MUSIC IS ON FOR BATTLES #
@@ -1661,13 +1684,6 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
         enc_vol.EVM_FLD_OCN_1_1_SEA_1_DAY.EncounterList[3] = vol4d
         enc_vol.EVM_FLD_OCN_1_1_SEA_1_NGT.EncounterList[3] = vol4n
 
-    ########################
-    # Spawn Sidequest NPCs #
-    ########################
-
-    if EventsAndItems.include_main_story:
-        spawn_sidequests()
-
     #######################
     # NPC Item Costs, etc #
     #######################
@@ -1693,7 +1709,7 @@ def fill_everything(rando_map, rando_map_inv, start_pc, other_pcs):
                         npc.hear.set_default_inquire()
                         npc.hear.set_default_scrutinize()
 
-        # Specific battles
+        # Specific battles -- always sets weaknesses to Temenos' weapon in case Coerce is required
         npc_data.NPC_SS_TSe21_0100_0200.set_default_enemy(1) # Grape Expert
         npc_data.NPC_SS_TW11_0200_0300.set_default_enemy() # Harry; Already at rank 1
         npc_data.NPC_SS_TW11_0200_0200.set_default_enemy() # Nikki; Already at rank 1
@@ -2204,8 +2220,7 @@ def fill_event(key, start_flag, end_flag, script_name, event_type, *args, x=None
     placement = getattr(placement_data, key)
 
     if x is None:
-        # for x in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']:
-        for x in ['A', 'B', 'C', 'D', 'E']: #, 'F', 'G', 'H', 'I', 'J']:
+        for x in ['A', 'B', 'C', 'D', 'E']:
             if getattr(placement, f'EventType_{x}') == '':
                 break
         else:
