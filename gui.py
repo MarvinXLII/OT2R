@@ -397,7 +397,9 @@ Octopath_Traveler2-WindowsNoEditor.pak
             file.seek(-0xb4, 2)
             sha = int.from_bytes(file.read(20), byteorder='big')
 
-        if sha == 0x224cb63a1cb9b939ab3c0102b113909dcfd05bae:
+        sha_v110 = 0x4fd9da5f6dd62e854bfdedc6717dea1523922b93
+        sha_v100 = 0x224cb63a1cb9b939ab3c0102b113909dcfd05bae
+        if sha in [sha_v100, sha_v110]:
             try:
                 self.mod = Steam(pakfile)
             except:

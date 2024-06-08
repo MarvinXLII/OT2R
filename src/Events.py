@@ -5,7 +5,8 @@ from FLAGS import DUMMY
 
 def formation_menu_on(events):
     for event in events:
-        event.toggle_flag_off(415)
+        # event.toggle_flag_off(415) # turn off HIDE_MAINMENU_CHANGEMEMBER
+        event.change_flag(415, 605) # HIDE_MAINMENU_CHANGEMEMBER to PERMISSION_EIGHT_PARTY
     gametext_db = Manager.get_table('GameTextEN')
     gametext_db.PARTYMENU_LOCK_JOIN_CHARA.replace_substring('local tavern', 'main menu')
     gametext_db.ADD_PARTY_DIALOG.replace_substring('at the tavern', 'in the main menu')

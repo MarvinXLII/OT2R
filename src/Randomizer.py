@@ -187,6 +187,8 @@ class Rando:
         # Ensure at least minor equippable weapons improvements exist in shops
         if Rando.weapons != Nothing:
             prologue_shops_update_weapons()
+        if EventsAndItems.include_inventor_parts == True:
+            remove_inventor_parts()
 
         # Map Stuff
         if Rando.more_fast_travel:

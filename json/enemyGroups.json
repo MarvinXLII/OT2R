@@ -16834,4 +16834,29 @@
     ring: 10
     pc: ""
   }
+  ENG_BOS_DLC_TST_010:
+  {
+    ring: 10
+    pc: ""
+  }
+  ENG_BOS_DLC_KSS_010:
+  {
+    ring: 10
+    pc: ""
+  }
+  ENG_BOS_DLC_KSJ_010:
+  {
+    ring: 10
+    pc: ""
+  }
+  ENG_BOS_DLC_VD1_010:
+  {
+    ring: 10
+    pc: ""
+  }
+  ENG_BOS_DLC_VD2_010:
+  {
+    ring: 10
+    pc: ""
+  }
 }

@@ -280,3 +280,10 @@ def prologue_shops_add_stones():
     add_stones('prologue_partitio')
     add_stones('prologue_temenos')
     add_stones('prologue_throne')
+
+
+def remove_inventor_parts():
+    data = Manager.get_table('InventorInventionQuestDB')
+    # Remove need for empowering lychee
+    x = data.INVENTION_ITEM_05.Materials.pop(0)
+    assert x['Itemlabel'].value == 'ITM_CSM_0220'

@@ -26,7 +26,7 @@ class NPCRow(Row):
         self.join_party = self._get_join_obj()
 
     def print_info(self):
-        print("HERE", self.key, self.name)
+        print(self.key, self.name)
 
     @property
     def name(self):
