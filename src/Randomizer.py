@@ -178,10 +178,10 @@ class Rando:
             prevent_exp_softlocks()
         # Ensures enemies from early battles are breakable, primarily boss and event battles
         if Rando.weapons != Nothing or Rando.shields != Nothing or Rando.bosses != Nothing:
-            prevent_weapon_softlocks()
+            prevent_weapon_softlocks(Rando)
         # Some bosses can be (nearly) unbeatable without some nerfing
         # Others are a joke thanks to an ally
-        if Rando.bosses != Nothing:
+        if Rando.bosses != Nothing and not Bosses.skip_early_bos:
             prevent_overpowered_early_bosses()
             prologue_shops_add_stones()
         # Ensure at least minor equippable weapons improvements exist in shops

@@ -402,6 +402,9 @@ class StructProperty(Byte):
             self.value['rx'] = file.read_float()
             self.value['ry'] = file.read_float()
             self.value['rz'] = file.read_float()
+        elif self.struct_type == 'Timespan':
+            assert self.struct_size == 0x8
+            self.value['t'] = file.read_uint64()
         else:
             start = file.tell()
             try:
@@ -466,6 +469,11 @@ class StructProperty(Byte):
             tmp += self.get_float(self.value['rx'])
             tmp += self.get_float(self.value['ry'])
             tmp += self.get_float(self.value['rz'])
+            return tmp
+        elif self.struct_type == 'Timespan':
+            tmp += self.get_int64(uasset.get_index(self.struct_type))
+            tmp += self.unknown
+            tmp += self.get_uint64(self.value['t'])
             return tmp
         elif not self.structure_works:
             tmp += self.get_int64(uasset.get_index(self.struct_type))
@@ -1227,8 +1235,8 @@ class UAsset(File):
         i = self.get_index(old)
         if new not in UAsset.index_id:
             n = new.split('_')
-            v = n.pop()
-            assert v.isnumeric()
+            if n[-1].isnumeric():
+                v = n.pop()
             new = '_'.join(n)
             assert new in UAsset.index_id
         self.index[i] = Index(i, new, UAsset.index_id[new])
@@ -1297,6 +1305,16 @@ class UAsset(File):
         self.index[i] = Index(i, name, UAsset.index_id[name])
         self.index_name[name] = i
         self.n_indexing += 1
+
+    def add_new_index(self, name, hash_value):
+        assert name not in self.index_name
+        i = len(self.index)
+        hash_bytes = int.to_bytes(hash_value, length=4, byteorder='little')
+        self.index[i] = Index(i, name, hash_bytes)
+        self.index_name[name] = i
+        self.n_indexing += 1
+        UAsset.index_id[name] = hash_bytes
+        
 
     def skip_entry(self, name):
         self.skip.append(name)

@@ -1,1 +1,1 @@
-RELEASE="0.5.2"
+RELEASE="0.5.3"

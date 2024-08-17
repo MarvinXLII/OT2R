@@ -4,6 +4,7 @@ from Manager import Manager
 from DataTable import DataTable
 from Battles import Battles
 from Nothing import Nothing
+from Bosses import Bosses
 
 
 def prevent_money_softlocks():
@@ -73,10 +74,32 @@ def prevent_exp_softlocks():
 
 
 # TODO: change all weakness updates to be done by group rather than enemy
-def prevent_weapon_softlocks():
+def prevent_weapon_softlocks(rando):
     enemy_db = Manager.get_instance('EnemyDB').table
     enemy_group_db = Manager.get_instance('EnemyGroupData').table
     job_db = Manager.get_instance('JobData').table
+
+    update_all = rando.weapons != Nothing or rando.shields != Nothing
+    ch1_bosses_only = rando.bosses != Nothing and not Bosses.skip_early_bos
+
+    if update_all or ch1_bosses_only:
+        # include Ch 1 bosses
+        # - add allies?
+        # - those with allies don't really need the weapon only constraint, but it could be added later
+        #   -- agnea's ally can heal her SP easily
+        # - meh, if a PC has multiple magic spells, players can pick the wrong magic and sort of get stuck...
+        #   make all weapon_only just because...
+        enemy_group_db.ENG_BOS_DAN_C01_010.update_weakness_to_pcs(job_db.agnea, job_db.gus, weapon_only=True)
+        enemy_group_db.ENG_BOS_APO_C01_010.update_weakness_to_pcs(job_db.castti, weapon_only=True)
+        enemy_group_db.ENG_BOS_WAR_C01_010.update_weakness_to_pcs(job_db.hikari, weapon_only=True)
+        enemy_group_db.ENG_BOS_MER_C01_010.update_weakness_to_pcs(job_db.partitio, weapon_only=True)
+        enemy_group_db.ENG_BOS_HUN_C01_010.update_weakness_to_pcs(job_db.ochette, weapon_only=True)
+        enemy_group_db.ENG_BOS_SCH_C01_010.update_weakness_to_pcs(job_db.osvald, job_db.emerald, weapon_only=True)
+        enemy_group_db.ENG_BOS_CLE_C01_010.update_weakness_to_pcs(job_db.temenos, job_db.crick, weapon_only=True)
+        enemy_group_db.ENG_BOS_THI_C01_010.update_weakness_to_pcs(job_db.throne, weapon_only=True)
+
+    if not update_all:
+        return
 
     # Temenos Coerce battles
     enemy_db.ENE_NPC_SIN_10_0400.add_weapon_weakness_to_pc(job_db.temenos)
@@ -89,21 +112,6 @@ def prevent_weapon_softlocks():
     # Ochette's Ch 1 battle with the Iguana
     enemy_db.ENE_EVE_HUN_ISD_010.add_weapon_weakness_to_pc(job_db.ochette)
     enemy_db.ENE_EVE_HUN_ISD_020.add_weakness_to_pc(job_db.ochette)
-
-    # include Ch 1 bosses
-    # - add allies?
-    # - those with allies don't really need the weapon only constraint, but it could be added later
-    #   -- agnea's ally can heal her SP easily
-    # - meh, if a PC has multiple magic spells, players can pick the wrong magic and sort of get stuck...
-    #   make all weapon_only just because...
-    enemy_group_db.ENG_BOS_DAN_C01_010.update_weakness_to_pcs(job_db.agnea, job_db.gus, weapon_only=True)
-    enemy_group_db.ENG_BOS_APO_C01_010.update_weakness_to_pcs(job_db.castti, weapon_only=True)
-    enemy_group_db.ENG_BOS_WAR_C01_010.update_weakness_to_pcs(job_db.hikari, weapon_only=True)
-    enemy_group_db.ENG_BOS_MER_C01_010.update_weakness_to_pcs(job_db.partitio, weapon_only=True)
-    enemy_group_db.ENG_BOS_HUN_C01_010.update_weakness_to_pcs(job_db.ochette, weapon_only=True)
-    enemy_group_db.ENG_BOS_SCH_C01_010.update_weakness_to_pcs(job_db.osvald, job_db.emerald, weapon_only=True)
-    enemy_group_db.ENG_BOS_CLE_C01_010.update_weakness_to_pcs(job_db.temenos, job_db.crick, weapon_only=True)
-    enemy_group_db.ENG_BOS_THI_C01_010.update_weakness_to_pcs(job_db.throne, weapon_only=True)
 
     # Other mandatory battles in Chapter 1 too early for guaranteeing magic weaknesses
     enemy_db.ENE_NPC_GAK_10_020.add_weapon_weakness_to_pc(job_db.osvald)

@@ -961,8 +961,8 @@
     give: false
     display: true
     unique: true
-    name: Unlock Crossed Path Cleric & Thief 1
-    description: Grants access to The Crossed Path: The Cleric & Thief Part 1
+    name: Unlock Crossed Path Thief & Cleric 1
+    description: Grants access to The Crossed Path: The Thief & Cleric Part 1
     item_key: ITM_TRE_END_2B_0010_60071
     name_key: TX_NA_ITM_TRE_END_2B_0010_60071
     desc_key: TX_CO_ITM_TRE_END_2B_0010_60071
@@ -975,8 +975,8 @@
     give: false
     display: true
     unique: true
-    name: Unlock Crossed Path Cleric & Thief 2
-    description: Grants access to The Crossed Path: The Cleric & Thief Part 2
+    name: Unlock Crossed Path Thief & Cleric 2
+    description: Grants access to The Crossed Path: The Thief & Cleric Part 2
     item_key: ITM_TRE_END_2B_0010_60072
     name_key: TX_NA_ITM_TRE_END_2B_0010_60072
     desc_key: TX_CO_ITM_TRE_END_2B_0010_60072
@@ -1563,7 +1563,7 @@
     give: false
     display: true
     unique: true
-    name: Theater Ticket (Agnea Ch. 2)
+    name: Theater Ticket (Agnea Chapter 2)
     description: DEFAULT
     item_key: ITM_TRE_ODO_20_0010
     name_key: TX_NA_ITM_TRE_ODO_20_0010
@@ -1577,7 +1577,7 @@
     give: false
     display: true
     unique: true
-    name: Wooden Sword (Agnea Ch. 3)
+    name: Wooden Sword (Agnea Chapter 3)
     description: DEFAULT
     item_key: ITM_TRE_ODO_30_0010
     name_key: TX_NA_ITM_TRE_ODO_30_0010
@@ -1591,7 +1591,7 @@
     give: false
     display: true
     unique: true
-    name: Cute Shoes (Agnea Ch. 4)
+    name: Cute Shoes (Agnea Chapter 4)
     description: DEFAULT
     item_key: ITM_TRE_ODO_40_0010
     name_key: TX_NA_ITM_TRE_ODO_40_0010
@@ -1605,7 +1605,7 @@
     give: false
     display: true
     unique: true
-    name: Rosa’s Medicine (Castti Ch. 2: Winterbloom Route)
+    name: Rosa’s Medicine (Castti Chapter 2: Winterbloom Route)
     description: DEFAULT
     item_key: ITM_TRE_KUS_2B_0040
     name_key: TX_NA_ITM_TRE_KUS_2B_0040
@@ -1619,7 +1619,7 @@
     give: false
     display: true
     unique: true
-    name: Weapons Deal Details (Hikari Ch. 3)
+    name: Weapons Deal Details (Hikari Chapter 3)
     description: DEFAULT
     item_key: ITM_INF_KEN_30_0100
     name_key: TX_NA_ITM_INF_KEN_30_0100
@@ -1633,7 +1633,7 @@
     give: false
     display: true
     unique: true
-    name: The Culprit’s True Identity (Temenos Ch. 2)
+    name: The Culprit’s True Identity (Temenos Chapter 2)
     description: DEFAULT
     item_key: ITM_INF_SIN_20_0400
     name_key: TX_NA_ITM_INF_SIN_20_0400
@@ -1647,7 +1647,7 @@
     give: false
     display: true
     unique: true
-    name: Mysterious Notebook (Temenos Ch. 3: Crackridge Route)
+    name: Mysterious Notebook (Temenos Chapter 3: Crackridge Route)
     description: DEFAULT
     item_key: ITM_TRE_SIN_3B_0020
     name_key: TX_NA_ITM_TRE_SIN_3B_0020
@@ -1661,7 +1661,7 @@
     give: false
     display: true
     unique: true
-    name: Kaldena’s Notebook (Temenos Ch. 4)
+    name: Kaldena’s Notebook (Temenos Chapter 4)
     description: DEFAULT
     item_key: ITM_TRE_SIN_3B_0030
     name_key: TX_NA_ITM_TRE_SIN_3B_0030
@@ -1675,7 +1675,7 @@
     give: false
     display: true
     unique: true
-    name: Mask (Throne Ch. 2: Mother’s Route)
+    name: Mask (Throne Chapter 2: Mother’s Route)
     description: DEFAULT
     item_key: ITM_TRE_TOU_2A_0020
     name_key: TX_NA_ITM_TRE_TOU_2A_0020
@@ -1689,7 +1689,7 @@
     give: false
     display: true
     unique: true
-    name: Horse Coin (Throne Ch. 2: Mother’s Route)
+    name: Horse Coin (Throne Chapter 2: Mother’s Route)
     description: DEFAULT
     item_key: ITM_TRE_TOU_2A_0010
     name_key: TX_NA_ITM_TRE_TOU_2A_0010
@@ -1703,7 +1703,7 @@
     give: false
     display: true
     unique: true
-    name: "Habit (Throne Ch. 3: Mother’s Route) "
+    name: "Habit (Throne Chapter 3: Mother’s Route) "
     description: DEFAULT
     item_key: ITM_TRE_TOU_3A_0010
     name_key: TX_NA_ITM_TRE_TOU_3A_0010
@@ -1717,7 +1717,7 @@
     give: false
     display: true
     unique: true
-    name: Mother’s Key (Throne Ch. 4)
+    name: Mother’s Key (Throne Chapter 4)
     description: DEFAULT
     item_key: ITM_TRE_TOU_3A_0030
     name_key: TX_NA_ITM_TRE_TOU_3A_0030
@@ -1731,7 +1731,7 @@
     give: false
     display: true
     unique: true
-    name: Father’s Key (Throne Ch. 4)
+    name: Father’s Key (Throne Chapter 4)
     description: DEFAULT
     item_key: ITM_TRE_TOU_3B_0010
     name_key: TX_NA_ITM_TRE_TOU_3B_0010
@@ -1745,7 +1745,7 @@
     give: false
     display: true
     unique: false
-    name: Black Crystal (Osvald Ch. 5)
+    name: Black Crystal (Osvald Chapter 5)
     description: DEFAULT
     item_key: ITM_TRE_GAK_50_0010
     name_key: TX_NA_ITM_TRE_GAK_50_0010
@@ -1759,7 +1759,7 @@
     give: false
     display: true
     unique: false
-    name: Black Crystal (Osvald Ch. 5)
+    name: Black Crystal (Osvald Chapter 5)
     description: DEFAULT
     item_key: ITM_TRE_GAK_50_0010
     name_key: TX_NA_ITM_TRE_GAK_50_0010
@@ -1773,7 +1773,7 @@
     give: false
     display: true
     unique: false
-    name: Black Crystal (Osvald Ch. 5)
+    name: Black Crystal (Osvald Chapter 5)
     description: DEFAULT
     item_key: ITM_TRE_GAK_50_0010
     name_key: TX_NA_ITM_TRE_GAK_50_0010
@@ -1787,7 +1787,7 @@
     give: false
     display: true
     unique: false
-    name: Black Crystal (Osvald Ch. 5)
+    name: Black Crystal (Osvald Chapter 5)
     description: DEFAULT
     item_key: ITM_TRE_GAK_50_0010
     name_key: TX_NA_ITM_TRE_GAK_50_0010
@@ -1801,7 +1801,7 @@
     give: false
     display: true
     unique: false
-    name: Black Crystal (Osvald Ch. 5)
+    name: Black Crystal (Osvald Chapter 5)
     description: DEFAULT
     item_key: ITM_TRE_GAK_50_0010
     name_key: TX_NA_ITM_TRE_GAK_50_0010
@@ -1815,7 +1815,7 @@
     give: true
     display: true
     unique: true
-    name: Clockite (Partitio Ch. 2)
+    name: Clockite (Partitio Chapter 2)
     description: DEFAULT
     item_key: ITM_TRE_SHO_20_0010
     name_key: TX_NA_ITM_TRE_SHO_20_0010
@@ -1997,7 +1997,7 @@
     give: false
     display: true
     unique: true
-    name: Horse Tail Hair (Crosspath Dancer & Warrior 1)
+    name: Horse Tail Hair (Crossed Path Dancer & Warrior 1)
     description: DEFAULT
     item_key: ITM_TRE_COP_OK1_0010
     name_key: TX_NA_ITM_TRE_COP_OK1_0010
@@ -2011,7 +2011,7 @@
     give: false
     display: true
     unique: true
-    name: Wine Offering (Crosspath Dancer & Warrior 2)
+    name: Wine Offering (Crossed Path Dancer & Warrior 2)
     description: DEFAULT
     item_key: ITM_TRE_COP_OK2_0010
     name_key: TX_NA_ITM_TRE_COP_OK2_0010
@@ -2025,7 +2025,7 @@
     give: false
     display: true
     unique: true
-    name: Sacred Wood (Crosspath Dancer & Warrior 2)
+    name: Sacred Wood (Crossed Path Dancer & Warrior 2)
     description: DEFAULT
     item_key: ITM_TRE_COP_OK2_0020
     name_key: TX_NA_ITM_TRE_COP_OK2_0020
@@ -2039,7 +2039,7 @@
     give: false
     display: true
     unique: true
-    name: Dancer’s Mask (Crosspath Dancer & Warrior 2)
+    name: Dancer’s Mask (Crossed Path Dancer & Warrior 2)
     description: DEFAULT
     item_key: ITM_TRE_COP_OK2_0030
     name_key: TX_NA_ITM_TRE_COP_OK2_0030
@@ -2053,7 +2053,7 @@
     give: false
     display: true
     unique: true
-    name: Metalworking Tool (Crosspath Merchant & Scholar 1)
+    name: Metalworking Tool (Crossed Path Merchant & Scholar 1)
     description: DEFAULT
     item_key: ITM_TRE_COP_GS1_0010
     name_key: TX_NA_ITM_TRE_COP_GS1_0010
@@ -2067,7 +2067,7 @@
     give: false
     display: true
     unique: true
-    name: Mirror (Crosspath Merchant & Scholar 1)
+    name: Mirror (Crossed Path Merchant & Scholar 1)
     description: DEFAULT
     item_key: ITM_TRE_COP_GS1_0020
     name_key: TX_NA_ITM_TRE_COP_GS1_0020
@@ -2081,7 +2081,7 @@
     give: false
     display: true
     unique: true
-    name: Precision Lens (Crosspath Merchant & Scholar 1)
+    name: Precision Lens (Crossed Path Merchant & Scholar 1)
     description: DEFAULT
     item_key: ITM_TRE_COP_GS1_0030
     name_key: TX_NA_ITM_TRE_COP_GS1_0030
@@ -2095,7 +2095,7 @@
     give: false
     display: true
     unique: true
-    name: Cloudy Mirror Fragment (Crosspath Cleric & Thief 2)
+    name: Cloudy Mirror Fragment (Crossed Path Thief & Cleric 2)
     description: DEFAULT
     item_key: ITM_TRE_COP_ST1_0010
     name_key: TX_NA_ITM_TRE_COP_ST1_0010
@@ -2109,7 +2109,7 @@
     give: false
     display: true
     unique: true
-    name: Contract (Partitio Ch. 4)
+    name: Contract (Partitio Chapter 4)
     description: DEFAULT
     item_key: ITM_TRE_SHO_40_0010
     name_key: TX_NA_ITM_TRE_SHO_40_0010
@@ -2123,7 +2123,7 @@
     give: false
     display: true
     unique: true
-    name: Folded Paper (Crosspath Cleric & Thief 2)
+    name: Folded Paper (Crossed Path Thief & Cleric 2)
     description: DEFAULT
     item_key: ITM_TRE_COP_ST2_0010
     name_key: TX_NA_ITM_TRE_COP_ST2_0010
@@ -2193,7 +2193,7 @@
     give: false
     display: true
     unique: true
-    name: An Eyewitness to Harvey (Osvald Ch. 4)
+    name: An Eyewitness to Harvey (Osvald Chapter 4)
     description: DEFAULT
     item_key: ITM_INF_GAK_40_05A0
     name_key: TX_NA_ITM_INF_GAK_40_05A0
@@ -2207,7 +2207,7 @@
     give: false
     display: true
     unique: true
-    name: Harvey’s Whereabouts (Osvald Ch. 4)
+    name: Harvey’s Whereabouts (Osvald Chapter 4)
     description: DEFAULT
     item_key: ITM_INF_GAK_40_05C0
     name_key: TX_NA_ITM_INF_GAK_40_05C0
@@ -2221,7 +2221,7 @@
     give: false
     display: true
     unique: true
-    name: Library Rumor (Osvald Ch. 4)
+    name: Library Rumor (Osvald Chapter 4)
     description: DEFAULT
     item_key: ITM_INF_GAK_40_05B0
     name_key: TX_NA_ITM_INF_GAK_40_05B0
@@ -2627,7 +2627,7 @@
     give: false
     display: true
     unique: true
-    name: Silver Quill (Sidequest: A Present for My Son)
+    name: Silver Quill (Sidequest Item: A Present for My Son)
     description: DEFAULT
     item_key: ITM_TRE_SS_TSn21_0100_0010
     name_key: TX_NA_ITM_TRE_SS_TSn21_0100_0010
@@ -2641,7 +2641,7 @@
     give: false
     display: true
     unique: true
-    name: Sturdy Pickaxe (Sidequest: The Sword in the Stone)
+    name: Sturdy Pickaxe (Sidequest Item: The Sword in the Stone)
     description: DEFAULT
     item_key: ITM_TRE_SS_TSn21_0200_0010
     name_key: TX_NA_ITM_TRE_SS_TSn21_0200_0010
@@ -2655,7 +2655,7 @@
     give: false
     display: true
     unique: true
-    name: Treasured Necklace (Sidequest: Lingering Love)
+    name: Treasured Necklace (Sidequest Item: Lingering Love)
     description: DEFAULT
     item_key: ITM_TRE_SS_TSn31_0200_0010
     name_key: TX_NA_ITM_TRE_SS_TSn31_0200_0010
@@ -2669,7 +2669,7 @@
     give: false
     display: true
     unique: true
-    name: Letter from the Snowhares (Sidequest: Melia's Next Chapter)
+    name: Letter from the Snowhares (Sidequest Item: Melia's Next Chapter)
     description: DEFAULT
     item_key: ITM_TRE_JNP_MEL_0010
     name_key: TX_NA_ITM_TRE_JNP_MEL_0010
@@ -2683,7 +2683,7 @@
     give: false
     display: true
     unique: true
-    name: Bottle of White Powder (Sidequest: Traveler's Lost and Found)
+    name: Bottle of White Powder (Sidequest Item: Traveler's Lost and Found)
     description: DEFAULT
     item_key: ITM_TRE_SS_TSe11_0200_0010
     name_key: TX_NA_ITM_TRE_SS_TSe11_0200_0010
@@ -2697,7 +2697,7 @@
     give: false
     display: true
     unique: true
-    name: Aelmorite Reflector (Sidequest: Traveler's Lost and Found)
+    name: Aelmorite Reflector (Sidequest Item: Traveler's Lost and Found)
     description: DEFAULT
     item_key: ITM_TRE_SS_TSe11_0300_0010
     name_key: TX_NA_ITM_TRE_SS_TSe11_0300_0010
@@ -2711,7 +2711,7 @@
     give: false
     display: true
     unique: true
-    name: "Adventures of an Apprentice Cleric’s Sequel (Sidequest: A Young Girl's Wish) "
+    name: "Adventures of an Apprentice Cleric’s Sequel (Sidequest Item: A Young Girl's Wish) "
     description: DEFAULT
     item_key: ITM_INF_SS_TSe21_0300_0100
     name_key: TX_NA_ITM_INF_SS_TSe21_0300_0100
@@ -2725,7 +2725,7 @@
     give: false
     display: true
     unique: true
-    name: "Deluxe Crepe (Sidequest: A Young Girl's Wish) "
+    name: "Deluxe Crepe (Sidequest Item: A Young Girl's Wish) "
     description: DEFAULT
     item_key: ITM_TRE_SS_TSe21_0300_0010
     name_key: TX_NA_ITM_TRE_SS_TSe21_0300_0010
@@ -2739,7 +2739,7 @@
     give: false
     display: true
     unique: true
-    name: "Tricks to Growing Grapes (Sidequest: Goading the Grapes) "
+    name: "Tricks to Growing Grapes (Sidequest Item: Goading the Grapes) "
     description: DEFAULT
     item_key: ITM_INF_SS_TSe21_0100_0100
     name_key: TX_NA_ITM_INF_SS_TSe21_0100_0100
@@ -2753,7 +2753,7 @@
     give: false
     display: true
     unique: true
-    name: "Special Bait (Sidequest: A Devilishly Delicious Dish) "
+    name: "Special Bait (Sidequest Item: A Devilishly Delicious Dish) "
     description: DEFAULT
     item_key: ITM_TRE_SS_TC11_0500_0010
     name_key: TX_NA_ITM_TRE_SS_TC11_0500_0010
@@ -2767,7 +2767,7 @@
     give: false
     display: true
     unique: true
-    name: "Delsta Devil (Sidequest: A Devilishly Delicious Dish) "
+    name: "Delsta Devil (Sidequest Item: A Devilishly Delicious Dish) "
     description: DEFAULT
     item_key: ITM_TRE_SS_TC11_0500_0020
     name_key: TX_NA_ITM_TRE_SS_TC11_0500_0020
@@ -2781,7 +2781,7 @@
     give: false
     display: true
     unique: true
-    name: "Nyx Royal Family Tree (Sidequest: Descended from Royalty) "
+    name: "Nyx Royal Family Tree (Sidequest Item: Descended from Royalty) "
     description: DEFAULT
     item_key: ITM_TRE_SS_TC21_0200_0010
     name_key: TX_NA_ITM_TRE_SS_TC21_0200_0010
@@ -2795,7 +2795,7 @@
     give: false
     display: true
     unique: true
-    name: "Nyx Family History (Sidequest: Descended from Royalty) "
+    name: "Nyx Family History (Sidequest Item: Descended from Royalty) "
     description: DEFAULT
     item_key: ITM_INF_SS_TC21_0200_0100
     name_key: TX_NA_ITM_INF_SS_TC21_0200_0100
@@ -2809,7 +2809,7 @@
     give: false
     display: true
     unique: true
-    name: "Dolcinaea and Gifts (Sidequest: Veronica's Next Chapter) "
+    name: "Dolcinaea and Gifts (Sidequest Item: Veronica's Next Chapter) "
     description: DEFAULT
     item_key: ITM_INF_JNP_YJB_0100
     name_key: TX_NA_ITM_INF_JNP_YJB_0100
@@ -2823,7 +2823,7 @@
     give: false
     display: true
     unique: true
-    name: "Spicy Chicken Recipe (Sidequest: Culinary Cunning) "
+    name: "Spicy Chicken Recipe (Sidequest Item: Culinary Cunning) "
     description: DEFAULT
     item_key: ITM_INF_SS_TI11_0200_0100
     name_key: TX_NA_ITM_INF_SS_TI11_0200_0100
@@ -2837,7 +2837,7 @@
     give: false
     display: true
     unique: true
-    name: "Amulet of Affection (Sidequest: Building Bridges) "
+    name: "Amulet of Affection (Sidequest Item: Building Bridges) "
     description: DEFAULT
     item_key: ITM_TRE_SS_TI11_0100_0010
     name_key: TX_NA_ITM_TRE_SS_TI11_0100_0010
@@ -2851,7 +2851,7 @@
     give: false
     display: true
     unique: false
-    name: "Pretty Pearl (Sidequest: Pearl Hunt) "
+    name: "Pretty Pearl (Sidequest Item: Pearl Hunt) "
     description: DEFAULT
     item_key: ITM_TRE_SS_TI21_0200_0010
     name_key: TX_NA_ITM_TRE_SS_TI21_0200_0010
@@ -2865,7 +2865,7 @@
     give: false
     display: true
     unique: false
-    name: "Pretty Pearl (Sidequest: Pearl Hunt) "
+    name: "Pretty Pearl (Sidequest Item: Pearl Hunt) "
     description: DEFAULT
     item_key: ITM_TRE_SS_TI21_0200_0010
     name_key: TX_NA_ITM_TRE_SS_TI21_0200_0010
@@ -2879,7 +2879,7 @@
     give: false
     display: true
     unique: false
-    name: "Pretty Pearl (Sidequest: Pearl Hunt) "
+    name: "Pretty Pearl (Sidequest Item: Pearl Hunt) "
     description: DEFAULT
     item_key: ITM_TRE_SS_TI21_0200_0010
     name_key: TX_NA_ITM_TRE_SS_TI21_0200_0010
@@ -2893,7 +2893,7 @@
     give: false
     display: true
     unique: false
-    name: "Pretty Pearl (Sidequest: Pearl Hunt) "
+    name: "Pretty Pearl (Sidequest Item: Pearl Hunt) "
     description: DEFAULT
     item_key: ITM_TRE_SS_TI21_0200_0010
     name_key: TX_NA_ITM_TRE_SS_TI21_0200_0010
@@ -2907,7 +2907,7 @@
     give: false
     display: true
     unique: true
-    name: "Lute (Sidequest: Shirlutto's Next Chapter) "
+    name: "Lute (Sidequest Item: Shirlutto's Next Chapter) "
     description: DEFAULT
     item_key: ITM_TRE_JNP_MOR_0010
     name_key: TX_NA_ITM_TRE_JNP_MOR_0010
@@ -2921,7 +2921,7 @@
     give: false
     display: true
     unique: true
-    name: "Paper Play (Sidequest: Shirlutto's Next Chapter) "
+    name: "Paper Play (Sidequest Item: Shirlutto's Next Chapter) "
     description: DEFAULT
     item_key: ITM_TRE_JNP_MOR_0020
     name_key: TX_NA_ITM_TRE_JNP_MOR_0020
@@ -2935,7 +2935,7 @@
     give: false
     display: true
     unique: true
-    name: History Book (Sidequest: Shirlutto's Next Chapter)
+    name: History Book (Sidequest Item: Shirlutto's Next Chapter)
     description: DEFAULT
     item_key: ITM_TRE_JNP_MOR_0030
     name_key: TX_NA_ITM_TRE_JNP_MOR_0030
@@ -2949,7 +2949,7 @@
     give: false
     display: true
     unique: true
-    name: "Harry's Self-Deprecating Joke (Sidequest: Wanted: A Good Joke) "
+    name: "Harry's Self-Deprecating Joke (Sidequest Item: Wanted: A Good Joke) "
     description: DEFAULT
     item_key: ITM_INF_SS_TW11_0200_0200
     name_key: TX_NA_ITM_INF_SS_TW11_0200_0200
@@ -2963,7 +2963,7 @@
     give: false
     display: true
     unique: true
-    name: Nikki's Special Joke (Sidequest: Wanted: A Good Joke)
+    name: Nikki's Special Joke (Sidequest Item: Wanted: A Good Joke)
     description: DEFAULT
     item_key: ITM_INF_SS_TW11_0200_0100
     name_key: TX_NA_ITM_INF_SS_TW11_0200_0100
@@ -2977,7 +2977,7 @@
     give: false
     display: true
     unique: true
-    name: Ned's Romantic Advice (Sidequest: Wanted: A Good Joke)
+    name: Ned's Romantic Advice (Sidequest Item: Wanted: A Good Joke)
     description: DEFAULT
     item_key: ITM_INF_SS_TW11_0200_0300
     name_key: TX_NA_ITM_INF_SS_TW11_0200_0300
@@ -2991,7 +2991,7 @@
     give: false
     display: true
     unique: true
-    name: "Stocked Goods (Sidequest: Stolen Goods) "
+    name: "Stocked Goods (Sidequest Item: Stolen Goods) "
     description: DEFAULT
     item_key: ITM_TRE_SS_TW11_0100_0010
     name_key: TX_NA_ITM_TRE_SS_TW11_0100_0010
@@ -3005,7 +3005,7 @@
     give: false
     display: true
     unique: true
-    name: "Hunting Request (Sidequest: Alpione's Next Chapter) "
+    name: "Hunting Request (Sidequest Item: Alpione's Next Chapter) "
     description: DEFAULT
     item_key: ITM_INF_JNP_APN_0100
     name_key: TX_NA_ITM_INF_JNP_APN_0100
@@ -3019,7 +3019,7 @@
     give: false
     display: true
     unique: true
-    name: "Crop Tapestry Pattern (Sidequest: Crop Revival) "
+    name: "Crop Tapestry Pattern (Sidequest Item: Crop Revival) "
     description: DEFAULT
     item_key: ITM_TRE_SS_TF11_0100_0010
     name_key: TX_NA_ITM_TRE_SS_TF11_0100_0010
@@ -3033,7 +3033,7 @@
     give: false
     display: true
     unique: true
-    name: "Well Iris Uses (Sidequest: Useless Fruit) "
+    name: "Well Iris Uses (Sidequest Item: Useless Fruit) "
     description: DEFAULT
     item_key: ITM_INF_SS_TF21_0100_0100
     name_key: TX_NA_ITM_INF_SS_TF21_0100_0100
@@ -3047,7 +3047,7 @@
     give: false
     display: true
     unique: true
-    name: "Azure Sun Sword (Sidequest: Proof of Guilt) "
+    name: "Azure Sun Sword (Sidequest Item: Proof of Guilt) "
     description: DEFAULT
     item_key: ITM_TRE_SS_TF31_0200_0010
     name_key: TX_NA_ITM_TRE_SS_TF31_0200_0010
@@ -3061,7 +3061,7 @@
     give: false
     display: true
     unique: true
-    name: "Stolen Sword (Sidequest: Proof of Justice) "
+    name: "Stolen Sword (Sidequest Item: Proof of Justice) "
     description: DEFAULT
     item_key: ITM_TRE_SS_TF31_0400_0010
     name_key: TX_NA_ITM_TRE_SS_TF31_0400_0010
@@ -3075,7 +3075,7 @@
     give: false
     display: true
     unique: true
-    name: "A Killer's Motive (Sidequest: Proof of Justice) "
+    name: "A Killer's Motive (Sidequest Item: Proof of Justice) "
     description: DEFAULT
     item_key: ITM_INF_SS_TF31_0400_0100
     name_key: TX_NA_ITM_INF_SS_TF31_0400_0100
@@ -3089,7 +3089,7 @@
     give: false
     display: true
     unique: false
-    name: "Sacred Flame Candle (Sidequest: Pilgrim Protection) "
+    name: "Sacred Flame Candle (Sidequest Item: Pilgrim Protection) "
     description: DEFAULT
     item_key: ITM_TRE_SS_TM12_0100_0010
     name_key: TX_NA_ITM_TRE_SS_TM12_0100_0010
@@ -3103,7 +3103,7 @@
     give: false
     display: true
     unique: false
-    name: "Sacred Flame Candle (Sidequest: Pilgrim Protection) "
+    name: "Sacred Flame Candle (Sidequest Item: Pilgrim Protection) "
     description: DEFAULT
     item_key: ITM_TRE_SS_TM12_0100_0010
     name_key: TX_NA_ITM_TRE_SS_TM12_0100_0010
@@ -3117,7 +3117,7 @@
     give: false
     display: true
     unique: false
-    name: Sacred Flame Candle (Sidequest: Pilgrim Protection)
+    name: Sacred Flame Candle (Sidequest Item: Pilgrim Protection)
     description: DEFAULT
     item_key: ITM_TRE_SS_TM12_0100_0010
     name_key: TX_NA_ITM_TRE_SS_TM12_0100_0010
@@ -3131,7 +3131,7 @@
     give: false
     display: true
     unique: true
-    name: "Fort Orochi Plans (Sidequest: Plans from a Ruined Nation) "
+    name: "Fort Orochi Plans (Sidequest Item: Plans from a Ruined Nation) "
     description: DEFAULT
     item_key: ITM_TRE_SS_TD21_0200_0010
     name_key: TX_NA_ITM_TRE_SS_TD21_0200_0010
@@ -3145,7 +3145,7 @@
     give: false
     display: true
     unique: true
-    name: "Phoenix Fan (Sidequest: The Treasures of Ku) "
+    name: "Phoenix Fan (Sidequest Item: The Treasures of Ku) "
     description: DEFAULT
     item_key: ITM_TRE_SS_TD31_0200_0020
     name_key: TX_NA_ITM_TRE_SS_TD31_0200_0020
@@ -3159,7 +3159,7 @@
     give: false
     display: true
     unique: true
-    name: Dragon Vase (Sidequest: The Treasures of Ku)
+    name: Dragon Vase (Sidequest Item: The Treasures of Ku)
     description: DEFAULT
     item_key: ITM_TRE_SS_TD31_0200_0010
     name_key: TX_NA_ITM_TRE_SS_TD31_0200_0010
@@ -3173,7 +3173,7 @@
     give: false
     display: true
     unique: true
-    name: "Message in a Bottle (Sidequest: The Washed-Up Letter) "
+    name: "Message in a Bottle (Sidequest Item: The Washed-Up Letter) "
     description: DEFAULT
     item_key: ITM_TRE_SS_TSe21_0400_0010
     name_key: TX_NA_ITM_TRE_SS_TSe21_0400_0010
@@ -3187,7 +3187,7 @@
     give: false
     display: true
     unique: true
-    name: Mysterious Box (Sidequest: A Mysterious Box)
+    name: Mysterious Box (Sidequest Item: A Mysterious Box)
     description: DEFAULT
     item_key: ITM_TRE_SS_TW21_0200_0010
     name_key: TX_NA_ITM_TRE_SS_TW21_0200_0010
@@ -3201,7 +3201,7 @@
     give: false
     display: true
     unique: true
-    name: Cloudy Crystal Bracelet (Sidequest: The Missing Girl)
+    name: Cloudy Crystal Bracelet (Sidequest Item: The Missing Girl)
     description: DEFAULT
     item_key: ITM_TRE_SS_TW31_0200_0010
     name_key: TX_NA_ITM_TRE_SS_TW31_0200_0010
@@ -3215,7 +3215,7 @@
     give: false
     display: true
     unique: true
-    name: Earrings (Sidequest: Mikka’s Next Chapter)
+    name: Earrings (Sidequest Item: Mikka’s Next Chapter)
     description: DEFAULT
     item_key: ITM_TRE_JNP_MIK_0010
     name_key: TX_NA_ITM_TRE_JNP_MIK_0010
@@ -3229,7 +3229,7 @@
     give: false
     display: true
     unique: true
-    name: Man in a Brown Coat (Sidequest: Misha’s Next Chapter)
+    name: Man in a Brown Coat (Sidequest Item: Misha’s Next Chapter)
     description: DEFAULT
     item_key: ITM_INF_JNP_SHI_0200
     name_key: TX_NA_ITM_INF_JNP_SHI_0200
@@ -3243,7 +3243,7 @@
     give: false
     display: true
     unique: true
-    name: Garbage Collector (Sidequest: Misha’s Next Chapter)
+    name: Garbage Collector (Sidequest Item: Misha’s Next Chapter)
     description: DEFAULT
     item_key: ITM_INF_JNP_SHI_0100
     name_key: TX_NA_ITM_INF_JNP_SHI_0100
@@ -3257,7 +3257,7 @@
     give: false
     display: true
     unique: true
-    name: Truth of the Game Parlor (Sidequest: A Gambling Man)
+    name: Truth of the Game Parlor (Sidequest Item: A Gambling Man)
     description: DEFAULT
     item_key: ITM_INF_SS_TC11_0100_0100
     name_key: TX_NA_ITM_INF_SS_TC11_0100_0100
