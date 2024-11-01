@@ -73,6 +73,7 @@ Key Items from the Main Story included are:
 
 Key Items from Sidequests included are:
 * A Devilishly Delicious Dish: Special Bait, Delsta Devil
+* A Forced Hand: Margello's Personality
 * A Gambling Man: Truth of the Game Parlor
 * A Mysterious Box: Mysterious Box
 * A Present for My Son: Silver Quill
@@ -100,6 +101,7 @@ Key Items from Sidequests included are:
 * The Washed-Up Letter: Message in a Bottle
 * Traveler's Lost and Found: Aelmorite Reflector, Bottle of White Powder
 * Useless Fruit: Well Iris Uses
+* Utterly Exhausted: Miracle Stone
 * Veronica's Next Chapter: Dolcinaea and Gifts
 * Wanted: A Good Joke: 3 jokes
 

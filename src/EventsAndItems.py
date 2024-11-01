@@ -2015,6 +2015,9 @@ def load_slots(rando_map, rando_map_inv):
         exp.patch_int_const(0x2df, 1, 0)
 
     if EventsAndItems.include_sidequest_key_items:
+        slot_manager.create_slot_shop('get_sq_miracle_stone', 'NPC_SS_TCity11_0400_0300', 'NPC_SS_TC11_0400_0300_NPCBUY_01', -1, new_script=True)
+        slot_manager.create_slot_hear('hear_sq_margellos_personality', 'NPC_SS_TForest31_0300_0300', 'FC_INFOLINK_NPC_SS_TF31_0300_0400', -1, new_script=True)
+
         slot_manager.create_slot_shop('get_sq_silver_quill', 'NPC_Twn_Snw_1_2_A_TALK_0900_D000', 'NPC_Twn_Snw_1_2_A_TALK_0900_NPCBUY_01', -1, new_script=True)
         slot_manager.create_slot_shop('get_sq_silver_quill', 'NPC_Twn_Snw_1_2_A_TALK_0900_N000', 'NPC_Twn_Snw_1_2_A_TALK_0900_NPCBUY_01', -1, new_script=True)
         slot_manager.create_slot_shop('get_sq_sturdy_pickaxe', 'NPC_SS_TSnow21_0200_0200', 'NPC_SS_TSn21_0200_0200_NPCBUY_01', -1, new_script=True)
@@ -2374,6 +2377,7 @@ def spawn_sidequests():
     turn_on('NPC_SS_TCity11_0400_0100')
     turn_on('NPC_SS_TCity11_0400_0200')
     turn_on('NPC_SS_TCity11_0400_0210')
+    turn_on('NPC_SS_TCity11_0400_0300')
     turn_on('NPC_SS_TCity11_0400_0400')
     turn_on('NPC_SS_TCity11_0400_0500')
 

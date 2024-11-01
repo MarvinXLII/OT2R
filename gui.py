@@ -195,7 +195,7 @@ class Patches:
 class GuiApplication:
     def __init__(self, settings=None, pakfile=None, patches=None):
         self.master = tk.Tk()
-        self.master.geometry('750x700') # width x height
+        self.master.geometry('750x760') # width x height
         self.master.title(MAIN_TITLE)
         self.initialize_gui(patches)
         self.initialize_settings(settings)

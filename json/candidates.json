@@ -3264,4 +3264,32 @@
     desc_key: TX_CO_ITM_INF_SS_TC11_0100_0100
     has_script: false
   }
+  item_sq_miracle_stone:
+  {
+    flag: 60240
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: "Miracle Stone (Sidequest Item: Utterly Exhausted) "
+    description: DEFAULT
+    item_key: ITM_TRE_SS_TC11_0400_0010
+    name_key: TX_NA_ITM_TRE_SS_TC11_0400_0010
+    desc_key: TX_CO_ITM_TRE_SS_TC11_0400_0010
+    has_script: false
+  }
+  item_sq_margellos_personality:
+  {
+    flag: 60241
+    other_flags: []
+    give: false
+    display: true
+    unique: true
+    name: Margello’s Personality (Sidequest Item: A Forced Hand)
+    description: DEFAULT
+    item_key: ITM_INF_SS_TF31_0300_0100
+    name_key: TX_NA_ITM_INF_SS_TF31_0300_0100
+    desc_key: TX_CO_ITM_INF_SS_TF31_0300_0100
+    has_script: false
+  }
 }

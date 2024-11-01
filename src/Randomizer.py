@@ -184,6 +184,8 @@ class Rando:
         if Rando.bosses != Nothing and not Bosses.skip_early_bos:
             prevent_overpowered_early_bosses()
             prologue_shops_add_stones()
+        elif Rando.ch1_shop_stones:
+            prologue_shops_add_stones()
         # Ensure at least minor equippable weapons improvements exist in shops
         if Rando.weapons != Nothing:
             prologue_shops_update_weapons()
@@ -193,6 +195,10 @@ class Rando:
         # Map Stuff
         if Rando.more_fast_travel:
             more_fast_travel()
+
+        # Black market NPC spawn
+        if Rando.black_market:
+            black_market()
 
         # Random encounters
         if Rando.reduce_encounter_rate:

@@ -195,7 +195,7 @@
     get_sq_delsta_devil: "Sidequest Item: A Devilishly Delicious Dish (Sunken Maw; fight Delsta Devil)"
     finish_sq_utterly_exhausted: "Finish Sidequest: Utterly Exhausted (New Delsta)"
     finish_sq_borgeois_boy: "Finish Sidequest: The Borgeois Boy (New Delsta)"
-    finish_sq_clock_tower: "Sideuqest: For Whom the Clock Tower Tolls (Clockbank)"
+    finish_sq_clock_tower: "Sidequest: For Whom the Clock Tower Tolls (Clockbank)"
     finish_sq_beloved_catharine: "Finish Sidequest: My Beloved Catharine (Clockbank)"
     finish_sq_descended_from_royalty: "Finish Sidequest: Descended from Royalty (Clockbank)"
     get_sq_nyx_royal_family_tree: "Sidequest Item: Descended from Royalty (Abandoned Village; Villager)"
@@ -204,6 +204,7 @@
     hear_sq_dolcinaea_and_gifts: "Sidequest Item: Veronica's Next Chapter (Sai; Piatt's Wife)"
     hear_sq_game_parlor: "Sidequest Item: A Gambling Man (New Delsta; Dealer)"
     finish_sq_gambling_man: "Finish Sidequest: A Gambling Man (New Delsta)"
+    get_sq_miracle_stone: "Sidequest Item: Utterly Exhausted! (Crackridge; Suspicious Merchant)"
 
     // Toto'haha
     finish_sq_culinary_cunning: "Finish Sidequest: Culinary Cunning (Beastling Village)"
@@ -267,6 +268,7 @@
     finish_sq_lailas_next_chapter: "Finish Sidequest: Laila's Next Chapter (Merry Hills)"
     hear_sq_brown_coat: "Sidequest Item: Misha's next Chapter (Wellgrove; Strolling Townsperson)"
     hear_sq_garbage_collector: "Sidequest Item: Misha's next Chapter (Wellgrove; Eager Townsperson)"
+  hear_sq_margellos_personality: "Sidequest Item: A Forced Hand (Montwise; Margello's Aide)"
 
     // Hinoeuma
     // skipping Sword Hunter in the Decaying Temple for technical reasons

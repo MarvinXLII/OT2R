@@ -881,6 +881,22 @@
 		default: False
 		help: "Allows fast travel to altars, caves, islands, and dungeons."
 	    }
+	    black_market: {
+		label: "Spawn all Black Market NPCs"
+		class: Rando
+		attribute: black_market
+		builder: True
+		default: False
+		help: "Spawns all Black Market NPCs at night."
+	    }
+	    ch1_shop_stones: {
+	        label: "Ch. 1 Merchants sell soulstones"
+		class: Rando
+		attribute: ch1_shop_stones
+		builder: True
+		default: False
+		help: "Merchants right before the bosses in Ch. 1 sell soulstones."
+	    }
 	}
     }
     // "Other Mods": {
